@@ -40,6 +40,12 @@ var app = {
             thePlatform = "ios";
         }
         document.body.className = thePlatform;
+        var myScroll;
+
+
+	myScroll = new IScroll('#wrapper', { mouseWheel: true });
+
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
     },
     // Update DOM on a Received Event
     receivedEvent: function (id) {
