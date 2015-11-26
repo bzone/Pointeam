@@ -16,6 +16,19 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+@import url("//hello.myfonts.net/count/2e0e4f");
+
+  
+@font-face {font-family: 'Hurme Geometric Sans 4 Bold';src: url('webfonts/2E0E4F_0_0.eot');src: url('webfonts/2E0E4F_0_0.eot?#iefix') format('embedded-opentype'),url('webfonts/2E0E4F_0_0.woff2') format('woff2'),url('webfonts/2E0E4F_0_0.woff') format('woff'),url('webfonts/2E0E4F_0_0.ttf') format('truetype'),url('webfonts/2E0E4F_0_0.svg#wf') format('svg');}
+ 
+  
+@font-face {font-family: 'Hurme Geometric Sans 4';src: url('webfonts/2E0E4F_1_0.eot');src: url('webfonts/2E0E4F_1_0.eot?#iefix') format('embedded-opentype'),url('webfonts/2E0E4F_1_0.woff2') format('woff2'),url('webfonts/2E0E4F_1_0.woff') format('woff'),url('webfonts/2E0E4F_1_0.ttf') format('truetype'),url('webfonts/2E0E4F_1_0.svg#wf') format('svg');}
+ 
+  
+@font-face {font-family: 'Hurme Geometric Sans 4 SemiBold';src: url('webfonts/2E0E4F_2_0.eot');src: url('webfonts/2E0E4F_2_0.eot?#iefix') format('embedded-opentype'),url('webfonts/2E0E4F_2_0.woff2') format('woff2'),url('webfonts/2E0E4F_2_0.woff') format('woff'),url('webfonts/2E0E4F_2_0.ttf') format('truetype'),url('webfonts/2E0E4F_2_0.svg#wf') format('svg');}
+ 
+
+
 * {
     -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
 }
@@ -54,6 +67,7 @@ body {
 }
 
 h1 {
+    font-family: 'Hurme Geometric Sans 4 Bold';
     font-size:24px;
     font-weight:normal;
     margin:0px;
