@@ -74,6 +74,11 @@ background: #31198B;
 font-size: 17px;
 color: #FFFFFF;
 padding-top: 10px;
+    position: fixed;
+    width: 100%;
+    top:0px;
+    left: 0px;
+    z-index: 99;
 }
 
 .pageHeader h1 {
