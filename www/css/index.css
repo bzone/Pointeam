@@ -45,7 +45,9 @@ body {
     padding:0px;
     width:100%;
 }
-
+.clear {
+    clear: both;
+}
 /* Portrait layout (default) */
 .app {
     width:100%;                   /* text area width */
@@ -62,19 +64,57 @@ body {
 }
 
 .android #timerHolder {
-    padding-top: 20px;
-    background-color: green;
+    padding-top: 24px;
+    background-color: #231265;
 }
 
-h1 {
-    font-family: 'Hurme Geometric Sans 4 Bold';
-    font-size:24px;
+
+.pageHeader {
+background: #31198B;
+font-size: 17px;
+color: #FFFFFF;
+padding-top: 10px;
+}
+
+.pageHeader h1 {
+    font-family: 'Hurme Geometric Sans 4 SemiBold';
+    font-size:18px;
+    line-height: 28px;
     font-weight:normal;
     margin:0px;
     overflow:visible;
     padding:0px;
     text-align:center;
 }
+
+.headerTabs ul {
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+}
+
+.headerTabs ul li {
+    display: block;
+    float: left;
+    border-top:solid 5px transparent;
+    border-bottom:solid 5px transparent;
+    text-align: center;
+    line-height: 40px;
+    color: rgba(255, 255, 255, 0.6);
+    -webkit-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+
+.headerTabs ul li.active {
+    color: rgba(255, 255, 255, 1.0);
+    border-bottom:solid 5px #FFD100;
+}
+
+.headerTabs ul.twoTabs li {
+    width: 50%;
+}
+
+
 
 .event {
     border-radius:4px;
