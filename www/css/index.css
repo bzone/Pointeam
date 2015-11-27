@@ -53,7 +53,8 @@ body {
 }
 /* Portrait layout (default) */
 .app {
-    width:100%;                   /* text area width */
+    width:100%;
+    overflow: hidden;/* text area width */
 }
 
 .ios #timerHolder {
