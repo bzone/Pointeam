@@ -33,6 +33,7 @@
     -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
 }
 
+
 body {
     -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
     -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
@@ -44,6 +45,8 @@ body {
     margin:0px;
     padding:0px;
     width:100%;
+  overflow: hidden;
+  -ms-content-zooming: none; 
 }
 .clear {
     clear: both;
@@ -121,33 +124,20 @@ padding-top: 10px;
 
 
 /* Scroll test */
-#wrapper {
 
-	z-index: 1;
-	
-	left: 0;
-	width: 100%;
-	background: #ccc;
-	overflow: hidden;
+/* Overthrow CSS:
+   Enable overflow: auto on elements with overthrow class when html element has overthrow class too */
+.overthrow-enabled .overthrow {
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
+
+
+
 #scroller {
-	position: absolute;
-	z-index: 1;
-	-webkit-tap-highlight-color: rgba(0,0,0,0);
-	width: 100%;
-	-webkit-transform: translateZ(0);
-	-ms-transform: translateZ(0);
-	transform: translateZ(0);
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	-webkit-text-size-adjust: none;
-	-ms-text-size-adjust: none;
-	-o-text-size-adjust: none;
-	text-size-adjust: none;
+
+    height: 300px;
 }
 
 #scroller ul {

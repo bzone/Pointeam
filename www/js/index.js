@@ -40,12 +40,16 @@ var app = {
             thePlatform = "ios";
         }
         document.body.className = thePlatform;
-        var myScroll;
-
-
-	myScroll = new IScroll('#wrapper', { mouseWheel: true });
-
-document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+        if (navigator.userAgent.match(/IEMobile/))
+    {
+        var ieBodyHeight = $("body").outerHeight();
+        var ieBodyHeightNew = ieBodyHeight - 55;
+        $("head").append('<meta name="viewport" content="height=' + ieBodyHeightNew + '" />');
+        
+         
+        
+        
+    }
     },
     // Update DOM on a Received Event
     receivedEvent: function (id) {
