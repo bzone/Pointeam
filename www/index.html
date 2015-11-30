@@ -68,11 +68,12 @@
     <script src="scripts/index.js"></script>
     <!-- -->
 
+
     <ons-navigator var="navi">
         <ons-page>
             <ons-toolbar>
                 <div class="left">
-                    <ons-toolbar-button>
+                    <ons-toolbar-button onclick="navi.pushPage('settings.html', { animation : 'lift' } )">
                         <ons-icon icon="ion-gear-a" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
                     </ons-toolbar-button>
                 </div>
@@ -84,7 +85,7 @@
                     <ons-toolbar-button id="goToList" style="display:none;">
                         <ons-icon icon="ion-navicon-round" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
                     </ons-toolbar-button>
-                    <ons-toolbar-button>
+                    <ons-toolbar-button onclick="navi.pushPage('settings.html', { animation : 'slide' } )">
                         <ons-icon icon="ion-plus-round" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
                     </ons-toolbar-button>
                 </div>
@@ -232,6 +233,8 @@
 
         });
     </script>
+   
+
 </body>
 
 </html>

@@ -81,6 +81,19 @@ span.logo {
 .clear {
     clear: both;
 }
+
+.list__header {
+    background-color:#462BA5 !important;
+    color: #FFF !important;
+    text-align: center !important;
+}
+
+.inputWithLabel {
+    text-align: right;
+    line-height: 30px !Important;
+    float: right;
+}
+
 /* Portrait layout (default) */
 .app {
     width:100%;
