@@ -13,21 +13,8 @@
         document.addEventListener( 'resume', onResume.bind( this ), false );
         
         
-             function captureSuccess(mediaFiles) {
-        var i, len;
-        for (i = 0, len = mediaFiles.length; i < len; i += 1) {
-            alert(mediaFiles[i].name);
-            alert(mediaFiles[i].fullPath);
-            var obrazek = document.getElementById('avatar');
-            obrazek.src = mediaFiles[i].fullPath;
-        }
-    }
         
-        
-       function captureImage() {
-        navigator.device.capture.captureImage(captureSuccess, captureError, {limit: 2});
-    }
-        
+            
         
                         
       

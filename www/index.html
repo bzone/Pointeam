@@ -233,15 +233,7 @@
 
 
             // Funkcje dla podstron
-
-            ons.ready(function () {
-                navi.on('postpush', function () {
-                    $('#capturePhoto').click(function () {
-                        alert('capture');
-                        captureImage();
-                    });
-                });
-
+            
                 function captureSuccess(mediaFiles) {
                     var i, len;
                     for (i = 0, len = mediaFiles.length; i < len; i += 1) {
@@ -253,12 +245,23 @@
                 }
 
                 function captureImage() {
-                    navigator.device.capture.captureImage(captureSuccess, captureError, {
+                    navigator.device.capture.captureImage(captureSuccess, alert('dupa'), {
                         limit: 1
                     });
                 }
+        
+            
 
-
+            ons.ready(function () {
+                
+                
+                
+                navi.on('postpush', function () {
+                    $('#capturePhoto').click(function () {
+                        alert('capture');
+                        captureImage();
+                    });
+                });
             });
 
 
