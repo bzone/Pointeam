@@ -28,6 +28,10 @@
         navigator.device.capture.captureImage(captureSuccess, captureError, {limit: 2});
     }
         
+        
+                        
+      
+        
 
         // TODO: Cordova has been loaded. Perform any initialization that requires Cordova here.
     };

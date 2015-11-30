@@ -31,12 +31,12 @@
 
 <body ng-controller="AppController">
     <!-- Cordova reference -->
-        <script src="cordova.js"></script>
+      <script src="cordova.js"></script>
     <script src="js/jquery.js"></script>
     <script src="scripts/index.js"></script>
     <!-- -->
- <style>
-    .item {
+    <style>
+        .item {
             padding: 10px;
             line-height: 1;
         }
@@ -76,9 +76,10 @@
                         <ons-icon icon="ion-gear-a" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
                     </ons-toolbar-button>
                 </div>
-                <div class="center"><span class="logo"></span></div>
+                <div class="center"><span class="logo"></span>
+                </div>
                 <div class="right">
-                    <ons-toolbar-button  id="goToDashboard" >
+                    <ons-toolbar-button id="goToDashboard">
                         <ons-icon icon="ion-speedometer" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
                     </ons-toolbar-button>
                     <ons-toolbar-button id="goToList" style="display:none;">
@@ -92,7 +93,9 @@
 
             <ons-carousel swipeable overscrollable auto-scroll fullscreen var="carousel" ng-controller="MasterController" class="tabDashboard" style="overflow:hidden; height:0px;">
                 <ons-carousel-item style="background-color: #32188f;" class="item" ng-repeat="item in items" ng-click="showDetail($index)">
-                   <div class="relativeBox"><div class="item-label">{{item.title}}</div></div>
+                    <div class="relativeBox">
+                        <div class="item-label">{{item.title}}</div>
+                    </div>
                 </ons-carousel-item>
             </ons-carousel>
 
@@ -200,41 +203,70 @@
             $('#goToMojeZadania').click(function () {
                 $('.tabMojeZadania').css('display', 'block');
                 $('.tabProjekty').css('display', 'none');
-            
+
             });
 
             $('#goToProjekty').click(function () {
                 $('.tabMojeZadania').css('display', 'none');
-                $('.tabProjekty').css('display', 'block'); 
+                $('.tabProjekty').css('display', 'block');
             });
-            
-             $('#goToDashboard').click(function () {
+
+            $('#goToDashboard').click(function () {
                 $('.tabMojeZadania').css('display', 'none');
                 $('.tabProjekty').css('display', 'none');
-                 $('.homeTabs').css('display', 'none');
-                 $(this).css('display', 'none');
-                  $('.tabDashboard').css('overflow', 'initial'); 
-                 $('.tabDashboard').css('height', 'auto'); 
-                 $('#goToList').css('display', 'inline-block');  
-         });
-            
-              $('#goToList').click(function () {
+                $('.homeTabs').css('display', 'none');
+                $(this).css('display', 'none');
+                $('.tabDashboard').css('overflow', 'initial');
+                $('.tabDashboard').css('height', 'auto');
+                $('#goToList').css('display', 'inline-block');
+            });
+
+            $('#goToList').click(function () {
                 $('.tabMojeZadania').css('display', 'none');
                 $('.tabProjekty').css('display', 'block');
-                 $('.homeTabs').css('display', 'block');
-                 $(this).css('display', 'none');
-                  $('.tabDashboard').css('overflow', 'hidden'); 
-                 $('.tabDashboard').css('height', '1px'); 
-                 $('#goToDashboard').css('display', 'inline-block');  
-         });
-            
-            
+                $('.homeTabs').css('display', 'block');
+                $(this).css('display', 'none');
+                $('.tabDashboard').css('overflow', 'hidden');
+                $('.tabDashboard').css('height', '1px');
+                $('#goToDashboard').css('display', 'inline-block');
+            });
 
-   
+
+            // Funkcje dla podstron
+
+            ons.ready(function () {
+                navi.on('postpush', function () {
+                    $('#capturePhoto').click(function () {
+                        alert('capture');
+                        captureImage();
+                    });
+                });
+
+                function captureSuccess(mediaFiles) {
+                    var i, len;
+                    for (i = 0, len = mediaFiles.length; i < len; i += 1) {
+                        alert(mediaFiles[i].name);
+                        alert(mediaFiles[i].fullPath);
+                        var obrazek = document.getElementById('avatar');
+                        obrazek.src = mediaFiles[i].fullPath;
+                    }
+                }
+
+                function captureImage() {
+                    navigator.device.capture.captureImage(captureSuccess, captureError, {
+                        limit: 1
+                    });
+                }
+
+
+            });
+
+
+
 
         });
     </script>
-   
+
 
 </body>
 
