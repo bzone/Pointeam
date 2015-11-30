@@ -49,6 +49,8 @@ var app = {
          
            StatusBar.styleLightContent();
         
+    
+        
     }
     },
     // Update DOM on a Received Event

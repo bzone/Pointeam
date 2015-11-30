@@ -46,11 +46,36 @@ body {
     padding:0px;
     width:100%;
   -ms-content-zooming: none; 
+   
 }
-
+.page__background {
+     background:url(background.png) !important;
+    background-size: cover;
+}
 
 .navigation-bar__title {
     font-family: 'Hurme Geometric Sans 4 SemiBold' !important;
+}
+
+
+span.logo {
+    display: block;
+    margin: auto;
+    background: url(logo.png);
+   width: 116px;
+    height:26px;
+    background-size: 116px 26px;
+    margin-top: 7px;
+}
+
+.relativeBox {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.tabDashboard .item {
+    padding: 0px;
 }
 
 .clear {

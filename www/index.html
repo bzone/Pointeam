@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <!-- CSP support mode (required for Windows Universal apps): https://docs.angularjs.org/api/ng/directive/ngCsp -->
 <html lang="en" ng-app="app" ng-csp>
+
 <head>
     <meta charset="utf-8" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -12,7 +13,7 @@
     <script src="lib/onsen/js/onsenui.js"></script>
 
     <!-- CSS dependencies -->
-     <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="css/index.css" />
     <link rel="stylesheet" href="lib/onsen/css/onsenui.css" />
     <link rel="stylesheet" href="lib/onsen/css/onsen-css-components.css" />
 
@@ -30,19 +31,19 @@
             padding: 10px;
             line-height: 1;
         }
-
+        
         .item-thum {
             background-color: #ccc;
             width: 50px;
             height: 50px;
             border-radius: 4px;
         }
-
+        
         .item-title {
             font-size: 15px;
             font-weight: 500;
         }
-
+        
         .item-desc {
             font-size: 14px;
             color: #666;
@@ -50,7 +51,7 @@
             margin: 4px 0 0 0;
             padding: 0 30px 0 0;
         }
-
+        
         .item-label {
             font-size: 12px;
             color: #999;
@@ -62,51 +63,78 @@
 
 <body ng-controller="AppController">
     <!-- Cordova reference -->
-    <script src="cordova.js"></script>
+    <script src="js/jquery.js"></script>
     <script src="scripts/index.js"></script>
     <!-- -->
 
     <ons-navigator var="navi">
         <ons-page>
             <ons-toolbar>
-                <div class="center">Master Details</div>
-                
-                 
+                <div class="left">
+                    <ons-toolbar-button>
+                        <ons-icon icon="ion-gear-a" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+                <div class="center"><span class="logo"></span></div>
+                <div class="right">
+                    <ons-toolbar-button  id="goToDashboard" >
+                        <ons-icon icon="ion-speedometer" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
+                    </ons-toolbar-button>
+                    <ons-toolbar-button id="goToList" style="display:none;">
+                        <ons-icon icon="ion-navicon-round" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
+                    </ons-toolbar-button>
+                    <ons-toolbar-button>
+                        <ons-icon icon="ion-plus-round" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
             </ons-toolbar>
-            <ons-tapbar position="top">
-              <div class="tab-bar tab-bar--top tab-bar--top-border">
-  <label class="tab-bar__item tab-bar--top-border__item">
-    <input type="radio" name="top-tab-bar-b" checked="checked">
-    <button class="tab-bar__button tab-bar--top-border__button">
-      Home
-    </button>
-  </label>
 
-  <label class="tab-bar__item tab-bar--top-border__item">
-    <input type="radio" name="top-tab-bar-b">
-    <button class="tab-bar__button tab-bar--top-border__button">
-      Comments
-    </button>
-  </label>
+            <ons-carousel swipeable overscrollable auto-scroll fullscreen var="carousel" ng-controller="MasterController" class="tabDashboard" style="overflow:hidden; height:0px;">
+                <ons-carousel-item style="background-color: #32188f;" class="item" ng-repeat="item in items" ng-click="showDetail($index)">
+                   <div class="relativeBox"><div class="item-label">{{item.title}}</div></div>
+                </ons-carousel-item>
+            </ons-carousel>
 
-  <label class="tab-bar__item tab-bar--top-border__item">
-    <input type="radio" name="top-tab-bar-b">
-    <button class="tab-bar__button tab-bar--top-border__button">
-      Activity
-    </button>
-  </label>
-</div>
-           </ons-tapbar>
-            
-            
-     
 
-            <ons-list ng-controller="MasterController">
+            <ons-tapbar position="top" class="homeTabs">
+                <div class="tab-bar tab-bar--top tab-bar--top-border">
+                    <label class="tab-bar__item tab-bar--top-border__item" id="goToProjekty">
+                        <input type="radio" name="top-tab-bar-b" checked="checked">
+                        <button class="tab-bar__button tab-bar--top-border__button">
+                            Projekty
+                        </button>
+                    </label>
+
+                    <label class="tab-bar__item tab-bar--top-border__item" id="goToMojeZadania">
+                        <input type="radio" name="top-tab-bar-b">
+                        <button class="tab-bar__button tab-bar--top-border__button">
+                            Moje zadania
+                        </button>
+                    </label>
+
+                </div>
+            </ons-tapbar>
+
+            <ons-list ng-controller="MasterController" style="display:block;" class="tabProjekty">
                 <ons-list-item modifier="chevron" class="item" ng-repeat="item in items" ng-click="showDetail($index)">
                     <ons-row>
                         <ons-col width="60px">
                             <div class="item-thum"></div>
                         </ons-col>
+                        <ons-col>
+                            <header>
+                                <span class="item-title">{{item.title}}</span>
+                                <span class="item-label">{{item.label}}</span>
+                            </header>
+                            <p class="item-desc">{{item.desc}}</p>
+                        </ons-col>
+                    </ons-row>
+                </ons-list-item>
+            </ons-list>
+            <ons-list ng-controller="MasterController" style="display:none;" class="tabMojeZadania">
+                <ons-list-item modifier="chevron" class="item" ng-repeat="item in items" ng-click="showDetail($index)">
+                    <ons-row>
+
                         <ons-col>
                             <header>
                                 <span class="item-title">{{item.title}}</span>
@@ -124,7 +152,9 @@
         <ons-page ng-controller="DetailController">
 
             <ons-toolbar>
-                <div class="left"><ons-back-button>Back</ons-back-button></div>
+                <div class="left">
+                    <ons-back-button>Back</ons-back-button>
+                </div>
                 <div class="center">Details</div>
             </ons-toolbar>
 
@@ -163,5 +193,44 @@
 
         </ons-page>
     </ons-template>
+    <script>
+        jQuery(document).ready(function ($) {
+
+            $('#goToMojeZadania').click(function () {
+                $('.tabMojeZadania').css('display', 'block');
+                $('.tabProjekty').css('display', 'none');
+            
+            });
+
+            $('#goToProjekty').click(function () {
+                $('.tabMojeZadania').css('display', 'none');
+                $('.tabProjekty').css('display', 'block'); 
+            });
+            
+             $('#goToDashboard').click(function () {
+                $('.tabMojeZadania').css('display', 'none');
+                $('.tabProjekty').css('display', 'none');
+                 $('.homeTabs').css('display', 'none');
+                 $(this).css('display', 'none');
+                  $('.tabDashboard').css('overflow', 'initial'); 
+                 $('.tabDashboard').css('height', 'auto'); 
+                 $('#goToList').css('display', 'inline-block');  
+         });
+            
+              $('#goToList').click(function () {
+                $('.tabMojeZadania').css('display', 'none');
+                $('.tabProjekty').css('display', 'block');
+                 $('.homeTabs').css('display', 'block');
+                 $(this).css('display', 'none');
+                  $('.tabDashboard').css('overflow', 'hidden'); 
+                 $('.tabDashboard').css('height', '1px'); 
+                 $('#goToDashboard').css('display', 'inline-block');  
+         });
+            
+            
+
+        });
+    </script>
 </body>
+
 </html>
