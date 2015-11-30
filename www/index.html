@@ -12,6 +12,7 @@
     <script src="lib/onsen/js/onsenui.js"></script>
 
     <!-- CSS dependencies -->
+     <link rel="stylesheet" href="css/index.css" />
     <link rel="stylesheet" href="lib/onsen/css/onsenui.css" />
     <link rel="stylesheet" href="lib/onsen/css/onsen-css-components.css" />
 
@@ -69,7 +70,36 @@
         <ons-page>
             <ons-toolbar>
                 <div class="center">Master Details</div>
+                
+                 
             </ons-toolbar>
+            <ons-tapbar position="top">
+              <div class="tab-bar tab-bar--top tab-bar--top-border">
+  <label class="tab-bar__item tab-bar--top-border__item">
+    <input type="radio" name="top-tab-bar-b" checked="checked">
+    <button class="tab-bar__button tab-bar--top-border__button">
+      Home
+    </button>
+  </label>
+
+  <label class="tab-bar__item tab-bar--top-border__item">
+    <input type="radio" name="top-tab-bar-b">
+    <button class="tab-bar__button tab-bar--top-border__button">
+      Comments
+    </button>
+  </label>
+
+  <label class="tab-bar__item tab-bar--top-border__item">
+    <input type="radio" name="top-tab-bar-b">
+    <button class="tab-bar__button tab-bar--top-border__button">
+      Activity
+    </button>
+  </label>
+</div>
+           </ons-tapbar>
+            
+            
+     
 
             <ons-list ng-controller="MasterController">
                 <ons-list-item modifier="chevron" class="item" ng-repeat="item in items" ng-click="showDetail($index)">
