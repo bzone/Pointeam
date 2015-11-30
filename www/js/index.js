@@ -47,7 +47,7 @@ var app = {
         $("head").append('<meta name="viewport" content="height=' + ieBodyHeightNew + '" />');
         
          
-        
+           StatusBar.styleLightContent();
         
     }
     },
