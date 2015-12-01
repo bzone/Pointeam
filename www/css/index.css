@@ -74,6 +74,66 @@ span.logo {
     height: 100%;
 }
 
+
+.relativeBox .projectFooter {
+    position: absolute;
+    width: 100%;
+    padding: 15px;
+    background-color: #1E1052;
+    bottom: 0px;
+    color:#FFF;
+    text-align: center;
+        box-sizing: border-box;
+    left: 0px;
+    font-size: 15px;
+}
+
+.colorYellow {
+    color: #FFD100;
+}
+
+h4 {
+    font-size: 12px !important;
+    font-family: 'Hurme Geometric Sans 4 SemiBold';
+    margin-top: 10px;
+}
+
+span.number {
+    font-size: 26px;
+    color: #FFD100;
+    margin-top: -10px;
+    font-weight: 100;
+}
+
+.chart {
+  position: relative;
+  display: block;
+  width: 230px;
+  height: 230px;
+    margin: auto;                                                        
+  text-align: center;
+    color: #FFF;
+}
+.chart canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.percent {
+  display: inline-block;
+  line-height: 72px;
+  z-index: 2;
+font-size: 68px;
+    color: #FFF;
+    font-family: 'Hurme Geometric Sans 4 SemiBold';
+    margin-top: 58px;
+}
+.percent:after {
+  content: '%';
+  margin-left: 0.1em;
+}
+
+
 .tabDashboard .item {
     padding: 0px;
 }
@@ -159,6 +219,91 @@ padding-top: 10px;
     width: 50%;
 }
 
+/* List */
+.basicItem {
+    position: relative;
+    height: 120px;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+.basicItem .dateHolder {
+    background-color: #7ABC32;
+    width: 33px;
+    position: absolute;
+    left:0px;
+    top:0px;
+    height: 99px;
+    text-align: center;
+    color: #FFF;
+    padding-top: 15px;
+}
+.basicItem .dateHolder .day {
+    font-size: 22px;
+    font-weight: bold;
+}
+.basicItem .dateHolder .mounth {
+    font-size: 12px;
+    margin-bottom: 3px;
+}
+.basicItem .dateHolder .hour {
+    padding-top: 3px;
+    font-size: 10px;
+    border-top:solid 2px #FFF;
+    width: 25px;
+    margin: auto;
+}
+
+.basicItem .taskTitle {
+    font-size: 17px;
+    font-family: 'Hurme Geometric Sans 4 SemiBold';   padding-bottom: 8px;
+}
+
+.basicItem .projectTitle {
+    color: #4A4A4A;
+     font-size: 12px;
+}
+
+.infoElements {
+    padding-top: 8px;
+}
+
+.infoElements .icon {
+    height: 13px;
+    background-image: url(time.png);
+    background-size: 13px 13px;
+    padding-left: 16px;
+    line-height: 13px;
+    color: #4A4A4A;
+    font-size: 12px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    padding-right: 10px;
+}
+
+.infoElements .icon.time. {
+    background-image: url(time.png);
+}
+
+.infoElements .icon.promo {
+    background-image: url(promo.png);
+     padding-right: 0px;
+}
+
+.infoElements .icon.cost {
+    background-image: url(cost.png);
+}
+
+
+.infoElements .icon.completionHalf {
+    background-image: url(completionHalf.png);
+}
+
+
+
+
+
 .event {
     border-radius:4px;
     -webkit-border-radius:4px;
@@ -177,6 +322,7 @@ padding-top: 10px;
     background-color:#4B946A;
     display:none;
 }
+
 
 @keyframes fade {
     from { opacity: 1.0; }
