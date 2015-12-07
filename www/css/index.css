@@ -52,6 +52,10 @@ body {
      background:url(background.png) !important;
     background-size: cover;
 }
+.page__background.simpleBG {
+     background:#291B65 !important;
+    background-size: cover;
+}
 
 .navigation-bar__title {
     font-family: 'Hurme Geometric Sans 4 SemiBold' !important;
@@ -72,6 +76,7 @@ span.logo {
     position: relative;
     width: 100%;
     height: 100%;
+    text-align: center;
 }
 
 
@@ -83,9 +88,105 @@ span.logo {
     bottom: 0px;
     color:#FFF;
     text-align: center;
-        box-sizing: border-box;
+    box-sizing: border-box;
     left: 0px;
     font-size: 15px;
+}
+
+
+.relativeBox .projectFooter .infoElements .icon {
+    height: 18px;
+    background-image: url(timeB.png);
+    background-size: 18px 18px;
+    padding-left: 21px;
+    line-height: 18px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    padding-right: 15px;
+      color: #FFD100;
+    font-size: 16px;
+}
+
+.relativeBox .ownerInfo .person {
+     width:42px;
+    height: 42px;
+    border-radius:50%;
+    background-size: cover;
+    position: relative;
+    margin-right: 18px;
+    margin-left: 6px;
+    display: block;
+    float: left;
+}
+
+.relativeBox .ownerInfo {
+    text-align: center;
+    display: inline-block;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.relativeBox .ownerInfo .projectTitleAuthor {
+    display: block;
+    color:#FFF;
+    text-align: left;
+    float: left;
+}
+
+.relativeBox .ownerInfo .projectTitleAuthor .title {
+    font-size: 20px;
+    font-family: 'Hurme Geometric Sans 4 SemiBold';
+    line-height: 22px;
+    display: block;
+}
+
+.relativeBox .ownerInfo .projectTitleAuthor .author {
+    font-size: 15px;
+    display: block;
+}
+
+.relativeBox .projectFooter .infoElements .icon.time. {
+    background-image: url(timeB.png);
+}
+
+.relativeBox .projectFooter .infoElements .icon.promo {
+    background-image: url(promoB.png);
+     padding-right: 0px;
+}
+
+.relativeBox .projectFooter .infoElements .icon.cost {
+    background-image: url(costB.png);
+}
+
+
+.relativeBox .projectFooter .infoElements .icon.completionHalf {
+    background-image: url(completionHalfB.png);
+}
+
+.projectFooter .projectPeople .person {
+    width:42px;
+    height: 42px;
+    border-radius:50%;
+    background-size: cover;
+    position: relative;
+    margin-right: 18px;
+    margin-left: 6px;
+    display: inline-block;
+}
+
+.projectFooter .projectPeople .person .badge {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    border-radius:50%;
+    background-color: #FFD100;
+    top: -2px;
+    right: -12px;
+    line-height: 24px;
+    text-align: center;
+    color: #FFF !important;
+    text-decoration: none;
+    
 }
 
 .colorYellow {
@@ -110,15 +211,34 @@ span.number {
   display: block;
   width: 230px;
   height: 230px;
-    margin: auto;                                                        
+  margin: auto;                                                        
   text-align: center;
-    color: #FFF;
+  color: #FFF;
 }
-.chart canvas {
+
+.chartMini {
+  position: relative;
+  display: block;
+  width: 38px;
+  height: 38px;
+  margin: auto;                                                        
+  text-align: center;
+  color: #000;
+}
+
+.chartHolder {
+    position: absolute;
+    right: 14px;
+    bottom: 28px;
+    z-index: 9;
+}
+
+.chart canvas, .chartMini canvas {
   position: absolute;
   top: 0;
   left: 0;
 }
+
 .percent {
   display: inline-block;
   line-height: 72px;
@@ -128,11 +248,24 @@ font-size: 68px;
     font-family: 'Hurme Geometric Sans 4 SemiBold';
     margin-top: 58px;
 }
+
+.chartMini .percent {
+    display: inline-block;
+    line-height: 48px;
+    z-index: 2;
+    font-size: 11px;
+    color: #000;
+    font-family: 'Hurme Geometric Sans 4 SemiBold';
+    margin-top: 0px;
+    width: 30px;
+    margin: auto;
+    margin-left: 10px;
+}
+
 .percent:after {
   content: '%';
   margin-left: 0.1em;
 }
-
 
 .tabDashboard .item {
     padding: 0px;
@@ -153,10 +286,6 @@ font-size: 68px;
     line-height: 30px !Important;
     float: right;
 }
-
-
- 
-
 /* Portrait layout (default) */
 .app {
     width:100%;
@@ -228,6 +357,17 @@ padding-top: 10px;
     padding-top: 15px;
     padding-bottom: 15px;
 }
+
+
+.basicItem.project {
+    position: relative;
+    height: 120px;
+    padding-left: 70px;
+    padding-right: 50px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
 .basicItem .dateHolder {
     background-color: #7ABC32;
     width: 33px;
@@ -254,6 +394,73 @@ padding-top: 10px;
     width: 25px;
     margin: auto;
 }
+.basicItem .statusHolder { 
+    width: 22px;
+    position: absolute;
+    right:9px;
+    top:15px;
+}
+
+.basicItem .avatarHolder {
+    position: absolute;
+    left:9px;
+    top:15px;
+}
+
+.basicItem .avatarHolder .person {
+    width:42px;
+    height: 42px;
+    border-radius:50%;
+    background-size: cover;
+    position: relative;
+    margin-right: 18px;
+    margin-left: 6px;
+    display: inline-block;
+}
+
+.basicItem .statusHolder .statusItem {
+    width: 22px;
+    height: 22px;
+    margin-bottom: 4px;
+    border-radius: 50%;
+    background-color: #CCC;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+.basicItem .statusHolder .statusItem.notificationsCount {
+    background-color: #FFDA00;
+    text-align: center;
+    line-height: 22px;
+    font-size: 12px;
+    color: #FFF; 
+}
+
+.basicItem .statusHolder .statusItem.location {
+    background-image: url(location.png);
+    background-size: 12px 15px;
+    background-color: #4F3599;
+}
+
+.basicItem .statusHolder .statusItem.done {
+    background-image: url(done.png);
+    background-size: 13px 10px;
+    background-color: #79BC11;
+}
+
+.basicItem .statusHolder .statusItem.noPerson {
+    background-image: url(noPerson.png);
+    background-size: 13px 12px;
+    background-color: #E42730;
+}
+
+.basicItem .normalStats {
+    font-size: 12px;
+    color: 4A4A4A;
+    line-height: 16px;
+    margin-top: 10px;
+}
+
 
 .basicItem .taskTitle {
     font-size: 17px;
@@ -301,7 +508,22 @@ padding-top: 10px;
 }
 
 
-
+/* Settings */
+.text-center {
+    text-align: center;
+}
+#capturePhoto {
+            color:#FFF;
+    font-size: 17px;
+    font-family: 'Hurme Geometric Sans 4 SemiBold'; 
+    padding-left: 45px;
+    line-height: 38px;
+    background-image: url('change.png');
+    background-repeat: no-repeat;
+    display: inline-block;
+    margin-bottom: 30px;
+    background-size: 38px 38px;
+}
 
 
 .event {

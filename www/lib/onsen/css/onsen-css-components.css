@@ -2741,7 +2741,7 @@ h6 {
   font-family: FontAwesome;
   font-style: normal;
   font-weight: normal;
-  content: "\f105";
+ 
 }
 /* topdoc
   name: Inset List
@@ -3980,3 +3980,4 @@ input[type="search"].search-input::-webkit-search-cancel-button {
   color: #fff;
   white-space: normal;
 }
+

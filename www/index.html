@@ -96,6 +96,14 @@
                 <ons-carousel-item style="background-color: #32188f;" class="item" ng-repeat="item in items" ng-click="showDetail($index)">
                     <div class="relativeBox">
                       
+                      
+                      <div class="ownerInfo">
+                          <div class="person" style="background-image:url('http://themina.net/themes/shema/img/demo/team/team_img_3.jpg');"></div>
+                          <div class="projectTitleAuthor">
+                              <span class="title">Nazwa projektu…</span>
+                              <span class="author">Admin: Piotr Kowalski</span>
+                          </div>
+                      </div>
                       <span class="chart" data-percent="86">
 		                    <span class="percent"></span><br/>
 		                    <span class="number">15/34</span>
@@ -110,15 +118,25 @@
                                             <div class='icon cost'>215zł</div>
                                             <div class='icon promo'>5</div>
                                         </div>
-                                        <div class="clear"></div>
+                                        <div class="clear"></div><br/>
                            <div class="yourStats">
                                Zadania przypisane do Ciebie: <span class="colorYellow">2</span><br/>
                                Zadania nieprzypisane: <span class="colorYellow">2</span><br/>
                                Najbliższy termin: <span class="colorYellow">20.12.2015 12:00</span><br/>
-                           </div>
+                           </div><br/>
                             <h4>zadania przypisane do inncyh osób</h4>
                             <div class="projectPeople">
-                                <div class="person">
+                               <meta name="format-detection" content="telephone=no">
+                                <div class="person" style="background-image:url('http://themina.net/themes/shema/img/demo/team/team_img_3.jpg');">
+                                    <div class="badge">15</div>
+                                </div>
+                                <div class="person" style="background-image:url('http://themina.net/themes/shema/img/demo/team/team_img_3.jpg');">
+                                    <div class="badge">15</div>
+                                </div>
+                                <div class="person" style="background-image:url('http://themina.net/themes/shema/img/demo/team/team_img_3.jpg');">
+                                    <div class="badge">15</div>
+                                </div>
+                                <div class="person" style="background-image:url('http://themina.net/themes/shema/img/demo/team/team_img_3.jpg');">
                                     <div class="badge">15</div>
                                 </div>
                             </div>
@@ -151,10 +169,44 @@
                 <ons-list-item modifier="chevron" class="item" ng-repeat="item in items" ng-click="showDetail($index)">
                     <ons-row>
                         <ons-col>
+                           
+                                
+                                    <div class="basicItem project">
+                                        <div class="avatarHolder">
+                                            <div class="person" style="background-image:url('http://themina.net/themes/shema/img/demo/team/team_img_3.jpg');"></div>
+                                        </div>
+                                        <div class="statusHolder">
+                                            <div class="statusItem notificationsCount">12</div>
+                                        </div>
+                                        <div class="chartHolder">
+                                            <span class="chartMini" data-percent="82">
+		                    <span class="percent"></span><br/>
+	                                    </span>
+                                        </div>
+                                        <div class="taskTitle">{{item.title}}</div>
+                                        <div class="infoElements">
+                                            <div class='icon completionHalf'>w trakcie</div>
+                                            <div class='icon time'>12:23</div>
+                                            <div class='icon cost'>215zł</div>
+                                            <div class='icon promo'>5</div>
+                                        </div>
+                                        <div class="normalStats">
+                                            Zadania przypisane do Ciebie: 2<br/>
+                                            Zadania nieprzypisane: 2<br/>
+                                            Najbliższy termin: 20.12.2015 12:00
+                                        </div>
+                                    </div>
+                              
+                        </ons-col>
+                    </ons-row>
+                </ons-list-item>
+            </ons-list>
+            <ons-list ng-controller="MasterController" style="display:none;" class="tabMojeZadania">
+                <ons-list-item modifier="chevron" class="item" ng-repeat="item in items" ng-click="showDetail($index)">
+                   <ons-row>
+                        <ons-col>
                             <ons-carousel style="height: 115px;" initial-index="1" swipeable overscrollable auto-scroll>
-                                <ons-carousel-item style="background-color:red;">
-                                    Carousel Item 1
-                                </ons-carousel-item>
+                             
                                 <ons-carousel-item>
                                     <div class="basicItem">
                                         <div class="dateHolder prioImportant">
@@ -162,7 +214,12 @@
                                             <div class="mounth">MAR</div>
                                             <div class="hour">12:20</div>
                                         </div>
-                                        <div class="statusHolder"></div>
+                                        <div class="statusHolder">
+                                            <div class="statusItem notificationsCount">2</div>
+                                            <div class="statusItem location"></div>
+                                            <div class="statusItem done"></div>
+                                            <div class="statusItem noPerson"></div>
+                                        </div>
                                         <div class="taskTitle">{{item.title}}</div>
                                         <div class="projectTitle">{{item.desc}}</div>
                                         <div class="infoElements">
@@ -174,20 +231,6 @@
                                     </div>
                                 </ons-carousel-item>
                             </ons-carousel>
-                        </ons-col>
-                    </ons-row>
-                </ons-list-item>
-            </ons-list>
-            <ons-list ng-controller="MasterController" style="display:none;" class="tabMojeZadania">
-                <ons-list-item modifier="chevron" class="item" ng-repeat="item in items" ng-click="showDetail($index)">
-                    <ons-row>
-
-                        <ons-col>
-                            <header>
-                                <span class="item-title">{{item.title}}</span>
-                                <span class="item-label">{{item.label}}</span>
-                            </header>
-                            <p class="item-desc">{{item.desc}}</p>
                         </ons-col>
                     </ons-row>
                 </ons-list-item>
@@ -255,6 +298,7 @@
             });
 
             $('#goToDashboard').click(function () {
+                $('.page__background').toggleClass('simpleBG');
                 $('.tabMojeZadania').css('display', 'none');
                 $('.tabProjekty').css('display', 'none');
                 $('.homeTabs').css('display', 'none');
@@ -265,6 +309,7 @@
             });
 
             $('#goToList').click(function () {
+                    $('.page__background').toggleClass('simpleBG');
                 $('.tabMojeZadania').css('display', 'none');
                 $('.tabProjekty').css('display', 'block');
                 $('.homeTabs').css('display', 'block');
@@ -287,6 +332,18 @@
 				$(this.el).find('.percent').text(Math.round(percent));
 			}
 		});
+                $('.chartMini').easyPieChart({
+            size:50,
+            lineWidth:3,
+            barColor:'#25007C',
+            trackColor:'#F7F7F7',
+            scaleColor:'#FAFAFD',
+            lineCap:'square', 
+			easing: 'easeOutBounce',
+			onStep: function(from, to, percent) {
+				$(this.el).find('.percent').text(Math.round(percent));
+			}
+		});
 	});
 
 
@@ -295,15 +352,13 @@
             function captureSuccess(mediaFiles) {
                 var i, len;
                 for (i = 0, len = mediaFiles.length; i < len; i += 1) {
-                    alert(mediaFiles[i].name);
-                    alert(mediaFiles[i].fullPath);
                     var obrazek = document.getElementById('avatar');
-                    obrazek.src = mediaFiles[i].fullPath;
+                    $('#avatar').css('background-image','url('+mediaFiles[i].fullPath+')')
                 }
             }
 
             function captureImage() {
-                navigator.device.capture.captureImage(captureSuccess, alert('dupa'), {
+                navigator.device.capture.captureImage(captureSuccess, console.log("capture"), {
                     limit: 1
                 });
             }
@@ -313,7 +368,6 @@
             ons.ready(function () {
                 navi.on('postpush', function () {
                     $('#capturePhoto').click(function () {
-                        alert('capture');
                         captureImage();
                     });
                 });
