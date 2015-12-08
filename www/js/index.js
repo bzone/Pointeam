@@ -45,7 +45,7 @@ var app = {
         var ieBodyHeight = $("body").outerHeight();
         var ieBodyHeightNew = ieBodyHeight - 55;
         $("head").append('<meta name="viewport" content="height=' + ieBodyHeightNew + '" />');
-        
+      
          
            StatusBar.styleLightContent();
         

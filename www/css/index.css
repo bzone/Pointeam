@@ -117,6 +117,7 @@ span.logo {
     margin-left: 6px;
     display: block;
     float: left;
+      background-color: rgba(0, 0, 0, 0.2);
 }
 
 .relativeBox .ownerInfo {
@@ -172,6 +173,7 @@ span.logo {
     margin-right: 18px;
     margin-left: 6px;
     display: inline-block;
+      background-color: rgba(0, 0, 0, 0.2);
 }
 
 .projectFooter .projectPeople .person .badge {
@@ -416,6 +418,7 @@ padding-top: 10px;
     margin-right: 18px;
     margin-left: 6px;
     display: inline-block;
+      background-color: rgba(0, 0, 0, 0.2);
 }
 
 .basicItem .statusHolder .statusItem {
@@ -513,7 +516,7 @@ padding-top: 10px;
     text-align: center;
 }
 #capturePhoto {
-            color:#FFF;
+    color:#FFF;
     font-size: 17px;
     font-family: 'Hurme Geometric Sans 4 SemiBold'; 
     padding-left: 45px;
@@ -559,7 +562,78 @@ padding-top: 10px;
 }
  
 .blink {
-    animation:fade 3000ms infinite;
-    -webkit-animation:fade 3000ms infinite;
+    animation:fade 1000ms 1;
+    -webkit-animation:fade 1000ms 1;
 }
 
+.blink2 {
+    animation:fade 1000ms 1;
+    -webkit-animation:fade 1000ms 1;
+}
+
+ #avatar {
+            width: 130px;
+            height: 130px;
+            background-size: cover;
+            border-radius:50%;
+            margin: auto;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            background-position: center center;
+     background-color: rgba(0, 0, 0, 0.2);
+        }
+
+
+/* Nowy projekt */
+.switchHolder {
+    text-align: right;
+    margin-top: 7px;
+    margin-bottom: -7px
+}
+
+.inputClear {
+    width:100%;
+    text-align: right;
+    border:0px;
+    height: 20px;
+    display: block;
+      -webkit-appearance: none;
+    font-size: 17px;
+    background-color: transparent;
+    margin-right: 15px;
+}
+
+.pojedynczyTermin {
+    padding-left: 50px !important;
+    border-bottom: solid 1px #462BA5 !important;
+    background-image: url(stripes.png) !important;
+    background-repeat: repeat-y !important;
+    background-size: 33px 90px !important;
+    background-position: top left !important;
+}
+
+.noOverscroll {
+    overflow-x: hidden;
+      -webkit-overflow-scrolling: none;
+}
+.list__item {
+    transition: all 0.5s ease-in-out;
+}
+.inactive {
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+#dodajTermin {
+    color:#000;
+    font-size: 17px;
+    font-family: 'Hurme Geometric Sans 4 SemiBold'; 
+    padding-left: 45px;
+    line-height: 38px;
+    background-image: url('add.png');
+    background-repeat: no-repeat;
+    display: inline-block;
+    margin-bottom: 30px;
+    background-size: 38px 38px;
+    margin-top: 30px;
+}

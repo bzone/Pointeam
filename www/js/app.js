@@ -1,80 +1,129 @@
 (function(){
   'use strict';
- 
-    
-
-    
   var module = angular.module('app', ['onsen']);
 
-  module.controller('AppController', function($scope, $data) {
+  module.controller('AppController', function($scope, $projekty) {
     $scope.doSomething = function() {
       setTimeout(function() {
         ons.notification.alert({ message: 'tapped' });
       }, 100);
     };
-  });
-
-  module.controller('DetailController', function($scope, $data) {
-    $scope.item = $data.selectedItem;
-  });
-
-  module.controller('MasterController', function($scope, $data) {
-    $scope.items = $data.items;
-
-    $scope.showDetail = function(index) {
-      var selectedItem = $data.items[index];
-      $data.selectedItem = selectedItem;
-      $scope.navi.pushPage('detail.html', {title : selectedItem.title});
+      
+      
+    $scope.goToDashboard = function() {
+     
+         $('.page__background').toggleClass('simpleBG');
+                $('.tabMojeZadania').css('display', 'none');
+                $('.tabProjekty').css('display', 'none');
+                $('.homeTabs').css('display', 'none');
+                $(this).css('display', 'none');
+                $('.tabDashboard').css('overflow', 'initial');
+                $('.tabDashboard').css('height', 'auto');
+                $('#goToList').css('display', 'inline-block');
+        
     };
+
+    $scope.addProject = function() {
+        var nazwa=$('#nazwaProjektu').val();
+        $scope.items = $projekty.items;
+        var item = 
+          {
+              tytul: nazwa,
+            krotkitytul: nazwa,
+              avatarAdmina:'http://themina.net/themes/shema/img/demo/team/team_img_3.jpg',
+              statusUzytkownika: 'oczekuje',
+              statusClass: 'completionHalf',
+              czasUzytkownika: '00:00',
+              kasaUzytkownika: '0zł',
+              punktyUzytkownika: '0',
+              procentUkonczeniaProjektu:'0',
+              notyfikacjeDisplay:'none',
+              notyfikacje:'0',
+              przypisaneOsoby: [
+                  {
+                      avatar:'http://themina.net/themes/shema/img/demo/team/team_img_3.jpg',
+                      iloscZadan:3,
+                  },
+                  {
+                      avatar:'http://themina.net/themes/shema/img/demo/team/team_img_3.jpg',
+                      iloscZadan:1,
+                  },
+                  {
+                      avatar:'http://themina.net/themes/shema/img/demo/team/team_img_3.jpg',
+                      iloscZadan:12,
+                  }
+              ]
+          };
+        $scope.items.push(item);
+        var index=$scope.items.length;
+        var selectedItem = $projekty.items[index-1];
+      $projekty.selectedItem = selectedItem;
+      $scope.navi.pushPage('procjectview.html', {title : selectedItem.tytul});
+        }
   });
 
-  module.factory('$data', function() {
-      var data = {};
+  module.controller('DetailController', function($scope, $projekty) {
+    $scope.item = $projekty.selectedItem;
+  });
 
-      data.items = [
+  module.controller('MasterController', function($scope, $projekty) {
+    $scope.items = $projekty.items;
+    $scope.showDetail = function(index) {
+      var selectedItem = $projekty.items[index];
+      $projekty.selectedItem = selectedItem;
+      $scope.navi.pushPage('procjectview.html', {title : selectedItem.tytul});
+    };
+      
+  });
+    
+
+  module.factory('$projekty', function() {
+      var projekty = {};
+      projekty.items = [
           {
-              title: 'Item 1 Title',
-              label: '4h',
-              desc: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-          },
-          {
-              title: 'Another Item Title',
-              label: '6h',
-              desc: 'Ut enim ad minim veniam.'
-          },
-          {
-              title: 'Yet Another Item Title',
-              label: '1day ago',
-              desc: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'
-          },
-          {
-              title: 'Yet Another Item Title',
-              label: '1day ago',
-              desc: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'
-          },
-           {
-              title: 'Item 1 Title',
-              label: '4h',
-              desc: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-          },
-          {
-              title: 'Another Item Title',
-              label: '6h',
-              desc: 'Ut enim ad minim veniam.'
-          },
-          {
-              title: 'Yet Another Item Title',
-              label: '1day ago',
-              desc: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'
-          },
-          {
-              title: 'Yet Another Item Title',
-              label: '1day ago',
-              desc: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'
+              tytul: 'Strona internetowa pointeam',
+              krotkitytul: 'Strona inter...',
+              avatarAdmina:'http://themina.net/themes/shema/img/demo/team/team_img_3.jpg',
+              statusUzytkownika: 'w trakcie',
+              statusClass: 'completionHalf',
+              czasUzytkownika: '12:23',
+              kasaUzytkownika: '215zł',
+              punktyUzytkownika: '5',
+              procentUkonczeniaProjektu:'30',
+              ukonczoneZadania:'3',
+              wszystkieZadania:'10',
+              notyfikacjeDisplay:'block',
+              notyfikacje:'3',
+              zadaniaPrzypisaneDoUzytkownika:'2',
+              zadaniaNieprzypisane:'0',
+              terminy: [
+                  {
+                      data: '12.12.2015 12:00',
+                      nazwa: 'Preztacja projektu'
+                  },
+                  {
+                      data: '22.12.2015 15:00',
+                      nazwa: 'Zakonczenie projektu'
+                  }
+              ],
+              przypisaneOsoby: [
+                  {
+                      avatar:'http://themina.net/themes/shema/img/demo/team/team_img_3.jpg',
+                      iloscZadan:3,
+                  },
+                  {
+                      avatar:'http://themina.net/themes/shema/img/demo/team/team_img_3.jpg',
+                      iloscZadan:1,
+                  },
+                  {
+                      avatar:'http://themina.net/themes/shema/img/demo/team/team_img_3.jpg',
+                      iloscZadan:12,
+                  }
+              ]
           }
       ];
-
-      return data;
+      return projekty;
   });
+    
 })();
 
