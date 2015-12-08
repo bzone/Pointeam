@@ -617,6 +617,7 @@ padding-top: 10px;
       -webkit-overflow-scrolling: none;
 }
 .list__item {
+    -webkit-transition: all 0.5s ease-in-out;
     transition: all 0.5s ease-in-out;
 }
 .inactive {
@@ -636,4 +637,92 @@ padding-top: 10px;
     margin-bottom: 30px;
     background-size: 38px 38px;
     margin-top: 30px;
+}
+
+/* Login */
+.bigLogo {
+    width: 265px;
+    height: 59px;
+    background-image: url('logobig.png');
+    background-size: 265px 59px;
+    margin: auto;
+    margin-top: 60px;
+    margin-bottom: 40px;
+}
+
+.logoMargin {
+    margin-top: 15px;
+}
+
+.loginStyle {
+    width: 80%;
+    margin: auto;
+}
+
+.loginInputStyle {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 25px;
+    border: 0px;
+    background: transparent;
+    border-bottom:solid 2px #FFF;
+    text-align: center;
+    font-size: 18px;
+    color:#FFF;
+    box-sizing: border-box;
+     -webkit-appearance: none;
+    border-radius: 0px !important;
+}
+
+.submitButton {
+     -webkit-appearance: none;
+    display: block;
+    width: 100%;
+    padding: 15px;
+box-sizing: border-box;
+    border: 0px;
+    background: #FFD100;
+    text-align: center;
+    font-size: 18px;
+    color:#402791;
+}
+
+span.lub {
+    width: 100%;
+    display: block;
+    color:#FFF;
+    text-align: center;
+    margin-bottom: 23px;
+}
+
+a.passwordReset {
+    width: 100%;
+    display: block;
+    color:#FFD100;
+    text-align: center;
+    margin-bottom: 23px;
+    margin-top: 20px;
+}
+    
+
+.loginInputStyle::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color:    #CBC5E1;
+}
+.loginInputStyle:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color:    #CBC5E1;
+   opacity:  1;
+}
+.loginInputStyle::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color:    #CBC5E1;
+   opacity:  1;
+}
+.loginInputStyle:-ms-input-placeholder { /* Internet Explorer 10-11 */
+   color:    #CBC5E1;
+}
+
+p.recover {
+    text-align: center;
+    font-size: 0.7em;
+    color: #FFF;
 }

@@ -61,16 +61,66 @@
         }
     </style>
     <ons-navigator var="navi">
-      <ons-page>
-          <ons-toolbar-button onclick="navi.pushPage('home.html', { animation : 'lift' } )">test
-                        <ons-icon icon="ion-gear-a" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
-                    </ons-toolbar-button> 
-      </ons-page>
+        <ons-page style="background:#31198B !Important;">
+
+            <div class="bigLogo"></div>
+            <form class="loginStyle">
+                <input type="email" class="loginInputStyle" placeholder="e-mail" />
+                <input type="password" class="loginInputStyle" placeholder="hasło" />
+                <a class="submitButton" onclick="navi.pushPage('home.html', { animation : 'slide' } )">Zaloguj się</a>
+                <br/>
+                <span class="lub">lub</span>
+                <a class="submitButton" onclick="navi.pushPage('register.html', { animation : 'slide' } )">Utwórz nowe konto</a>
+                <br/>
+                <a class="passwordReset" onclick="navi.pushPage('recovery.html', { animation : 'slide' } )">zapomniałeś hasła?</a>
+            </form>
+        </ons-page>
     </ons-navigator>
 
-   
-   <ons-template id="home.html">
-     <ons-page>
+
+    <ons-template id="register.html">
+        <ons-toolbar>
+                <div class="left">
+                    <ons-toolbar-button onclick="navi.popPage();">
+                        <ons-icon icon="ion-chevron-left" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+            </ons-toolbar>
+        <ons-page style="background:#31198B !Important;">
+            <div class="bigLogo logoMargin"></div>
+            <form class="loginStyle">
+               <input type="text" class="loginInputStyle" placeholder="imię" />
+               <input type="text" class="loginInputStyle" placeholder="nazwisko" />
+                <input type="email" class="loginInputStyle" placeholder="e-mail" />
+                <input type="password" class="loginInputStyle" placeholder="hasło" />
+                <a class="submitButton" onclick="navi.pushPage('home.html', { animation : 'slide' } )">Utwórz konto i zaloguj</a>
+                <br/>
+            </form>
+        </ons-page>
+    </ons-template>
+    
+    
+     <ons-template id="recovery.html">
+       <ons-toolbar>
+                <div class="left">
+                    <ons-toolbar-button onclick="navi.popPage();">
+                        <ons-icon icon="ion-chevron-left" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+            </ons-toolbar>
+        <ons-page style="background:#31198B !Important;">
+            <div class="bigLogo logoMargin"></div>
+            <form class="loginStyle">
+               <p class="recover">Opis zadania Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sit amet nulla lorem. Suspendisse imperdiet tincidunt ligula, non rutrum libero semper vel. Praesent quis molestie odio. Vestibulum nec urna commodo enim laoreet congue sed non risus. Fusce in lectus turpis</p><br/>
+                <input type="email" class="loginInputStyle" placeholder="twój e-mail" />
+                <a class="submitButton" onclick="navi.popPage()">zresetuj hasło</a>
+                <br/>
+            </form>
+        </ons-page>
+    </ons-template>
+
+    <ons-template id="home.html">
+        <ons-page>
             <ons-toolbar>
                 <div class="left">
                     <ons-toolbar-button onclick="navi.pushPage('settings.html', { animation : 'lift' } )">
@@ -94,43 +144,47 @@
             <ons-carousel swipeable overscrollable auto-scroll auto-refresh fullscreen var="carousel" ng-controller="MasterController" class="tabDashboard" style="overflow:hidden; height:0px;">
                 <ons-carousel-item style="background-color: #32188f;" class="item" ng-repeat="item in items" ng-click="showDetail($index)">
                     <div class="relativeBox">
-                      <div class="ownerInfo">
-                          <div class="person avatarUser" style="background-image:url('http://themina.net/themes/shema/img/demo/team/team_img_3.jpg');"></div>
-                          <div class="projectTitleAuthor">
-                              <span class="title">Nazwa projektu…</span>
-                              <span class="author">Admin: Piotr Kowalski</span>
-                          </div>
-                      </div>
-                      <span class="chart" data-percent="{{item.procentUkonczeniaProjektu}}">
-		                    <span class="percent"></span><br/>
-		                    <span class="number">{{item.ukonczoneZadania}}/{{item.wszystkieZadania}}</span>
-		                    <h4>ukończonych<br/>zadań</h4>
-	                    </span>
-                       <div class="projectFooter">
-                          <div class="infoElements">
-                                            <div class='icon {{item.statusClass}}'>{{item.statusUzytkownika}}</div>
-                                            <div class='icon time'>{{item.czasUzytkownika}}</div>
-                                            <div class='icon cost'>{{item.kasaUzytkownika}}</div>
-                                            <div class='icon promo'>{{item.punktyUzytkownika}}</div>
-                                        </div>
-                                        <div class="clear"></div><br/>
-                           <div class="yourStats">
-                               Zadania przypisane do Ciebie: <span class="colorYellow">{{item.zadaniaPrzypisaneDoUzytkownika}}</span><br/>
-                               Zadania nieprzypisane: <span class="colorYellow">{{item.zadaniaNieprzypisane}}</span><br/>
-                               Najbliższy termin: <span class="colorYellow">{{item.terminy[0].data}}</span><br/>
-                           </div><br/>
+                        <div class="ownerInfo">
+                            <div class="person avatarUser" style="background-image:url('http://themina.net/themes/shema/img/demo/team/team_img_3.jpg');"></div>
+                            <div class="projectTitleAuthor">
+                                <span class="title">Nazwa projektu…</span>
+                                <span class="author">Admin: Piotr Kowalski</span>
+                            </div>
+                        </div>
+                        <span class="chart" data-percent="{{item.procentUkonczeniaProjektu}}">
+		                    <span class="percent"></span>
+                        <br/>
+                        <span class="number">{{item.ukonczoneZadania}}/{{item.wszystkieZadania}}</span>
+                        <h4>ukończonych<br/>zadań</h4>
+                        </span>
+                        <div class="projectFooter">
+                            <div class="infoElements">
+                                <div class='icon {{item.statusClass}}'>{{item.statusUzytkownika}}</div>
+                                <div class='icon time'>{{item.czasUzytkownika}}</div>
+                                <div class='icon cost'>{{item.kasaUzytkownika}}</div>
+                                <div class='icon promo'>{{item.punktyUzytkownika}}</div>
+                            </div>
+                            <div class="clear"></div>
+                            <br/>
+                            <div class="yourStats">
+                                Zadania przypisane do Ciebie: <span class="colorYellow">{{item.zadaniaPrzypisaneDoUzytkownika}}</span>
+                                <br/> Zadania nieprzypisane: <span class="colorYellow">{{item.zadaniaNieprzypisane}}</span>
+                                <br/> Najbliższy termin: <span class="colorYellow">{{item.terminy[0].data}}</span>
+                                <br/>
+                            </div>
+                            <br/>
                             <h4>zadania przypisane do inncyh osób</h4>
                             <div class="projectPeople">
-                               <meta name="format-detection" content="telephone=no">
-                               
-                               
-                                 <span ng-repeat="osoba in item.przypisaneOsoby">
+                                <meta name="format-detection" content="telephone=no">
+
+
+                                <span ng-repeat="osoba in item.przypisaneOsoby">
                                 <div class="person" style="background-image:url('{{ osoba.avatar }}');">
                                     <div class="badge">{{ osoba.iloscZadan }}</div>
                                 </div>
                                 </span>
                             </div>
-                       </div>
+                        </div>
                     </div>
                 </ons-carousel-item>
             </ons-carousel>
@@ -155,38 +209,39 @@
                 <ons-list-item modifier="chevron" class="item" ng-repeat="item in items" ng-click="showDetail($index)">
                     <ons-row>
                         <ons-col>
-                                    <div class="basicItem project">
-                                        <div class="avatarHolder">
-                                            <div class="person avatarUser" ></div>
-                                        </div>
-                                        <div class="statusHolder">
-                                            <div class="statusItem notificationsCount" style="display:{{item.notyfikacjeDisplay}};">{{item.notyfikacje}}</div>
-                                        </div>
-                                        <div class="chartHolder">
-                                            <span class="chartMini" data-percent="{{item.procentUkonczeniaProjektu}}">
-		                    <span class="percent"></span><br/>
-	                                    </span>
-                                        </div>
-                                        <div class="taskTitle">{{item.tytul}}</div>
-                                        <div class="infoElements">
-                                            <div class='icon {{item.statusClass}}'>{{item.statusUzytkownika}}</div>
-                                            <div class='icon time'>{{item.czasUzytkownika}}</div>
-                                            <div class='icon cost'>{{item.kasaUzytkownika}}</div>
-                                            <div class='icon promo'>{{item.punktyUzytkownika}}</div>
-                                        </div>
-                                        <div class="normalStats">
-                                            Zadania przypisane do Ciebie: {{item.zadaniaPrzypisaneDoUzytkownika}}<br/>
-                                            Zadania nieprzypisane: {{item.zadaniaNieprzypisane}}<br/>
-                                            Najbliższy termin: {{item.terminy[0].data}}
-                                        </div>
-                                    </div>
+                            <div class="basicItem project">
+                                <div class="avatarHolder">
+                                    <div class="person avatarUser"></div>
+                                </div>
+                                <div class="statusHolder">
+                                    <div class="statusItem notificationsCount" style="display:{{item.notyfikacjeDisplay}};">{{item.notyfikacje}}</div>
+                                </div>
+                                <div class="chartHolder">
+                                    <span class="chartMini" data-percent="{{item.procentUkonczeniaProjektu}}">
+		                    <span class="percent"></span>
+                                    <br/>
+                                    </span>
+                                </div>
+                                <div class="taskTitle">{{item.tytul}}</div>
+                                <div class="infoElements">
+                                    <div class='icon {{item.statusClass}}'>{{item.statusUzytkownika}}</div>
+                                    <div class='icon time'>{{item.czasUzytkownika}}</div>
+                                    <div class='icon cost'>{{item.kasaUzytkownika}}</div>
+                                    <div class='icon promo'>{{item.punktyUzytkownika}}</div>
+                                </div>
+                                <div class="normalStats">
+                                    Zadania przypisane do Ciebie: {{item.zadaniaPrzypisaneDoUzytkownika}}
+                                    <br/> Zadania nieprzypisane: {{item.zadaniaNieprzypisane}}
+                                    <br/> Najbliższy termin: {{item.terminy[0].data}}
+                                </div>
+                            </div>
                         </ons-col>
                     </ons-row>
                 </ons-list-item>
             </ons-list>
             <ons-list ng-controller="MasterController" style="display:none;" class="tabMojeZadania">
                 <ons-list-item modifier="chevron" class="item" ng-repeat="item in items" ng-click="showDetail($index)">
-                   <ons-row>
+                    <ons-row>
                         <ons-col>
                             <ons-carousel style="height: 115px;" initial-index="1" swipeable overscrollable auto-scroll>
                                 <ons-carousel-item>
@@ -219,14 +274,15 @@
             </ons-list>
         </ons-page>
     </ons-template>
-   
+
     <ons-template id="procjectview.html">
         <ons-page ng-controller="DetailController">
             <ons-toolbar>
-             <div class="left">
-              <ons-toolbar-button onclick="if(projectCreated==1){projectCreated=0;navi.getPages()[2].destroy();navi.popPage();} else { navi.popPage(); }">
-                    <ons-icon icon="ion-chevron-left" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
-                </ons-toolbar-button></div>
+                <div class="left">
+                    <ons-toolbar-button onclick="if(projectCreated==1){projectCreated=0;navi.getPages()[3].destroy();navi.popPage();} else { navi.popPage(); }">
+                        <ons-icon icon="ion-chevron-left" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
                 <div class="center">{{item.krotkitytul}}</div>
             </ons-toolbar>
 
@@ -264,168 +320,172 @@
         </ons-page>
     </ons-template>
     <ons-template id="settings.html">
-    <ons-page>
-        <ons-toolbar>
-            <div class="left">
-                <ons-toolbar-button onclick="navi.popPage();">
-                    <ons-icon icon="ion-chevron-left" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
-                </ons-toolbar-button>
+        <ons-page>
+            <ons-toolbar>
+                <div class="left">
+                    <ons-toolbar-button onclick="navi.popPage();">
+                        <ons-icon icon="ion-chevron-left" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+                <div class="center">Ustawienia</div>
+                <div class="right">
+                    <ons-toolbar-button onclick="navi.getPages()[2].destroy();navi.popPage();">
+                        <ons-icon icon="ion-log-out" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+            </ons-toolbar>
+            <div class="text-center" style="background-color:#32188f;">
+                <div id="avatar" class="avatarUser"></div>
+                <a id="capturePhoto">zmień awatar</a>
             </div>
-            <div class="center">Ustawienia</div>
-            <div class="right">
-                <ons-toolbar-button>
-                    <ons-icon icon="ion-log-out" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
-                </ons-toolbar-button>
-            </div>
-        </ons-toolbar>
-        <div class="text-center" style="background-color:#32188f;">
-        <div id="avatar" class="avatarUser"></div>
-<a id="capturePhoto">zmień awatar</a>
-</div>
-        <ul class="list">
-            <li class="list__header">Modyfikuj dane osobowe</li>
-            <li class="list__item">
-                <ons-row align="center" class="row ons-row-inner row-center">
-                    <ons-col class="col ons-col-inner">Imię</ons-col>
-                    <ons-col class="col ons-col-inner">
-                        <input type="text" class="text-input text-input--transparent inputWithLabel" placeholder="Imię" value="Piotr">
-                    </ons-col>
-                </ons-row>
-            </li>
-            <li class="list__item">
-                <ons-row align="center" class="row ons-row-inner row-center">
-                    <ons-col class="col ons-col-inner">Nazwisko</ons-col>
-                    <ons-col class="col ons-col-inner">
-                        <input type="text" class="text-input text-input--transparent inputWithLabel" placeholder="Nazwisko" value="Kowalski">
-                    </ons-col>
-                </ons-row>
-            </li>
-        </ul>
-    </ons-page>
+            <ul class="list">
+                <li class="list__header">Modyfikuj dane osobowe</li>
+                <li class="list__item">
+                    <ons-row align="center" class="row ons-row-inner row-center">
+                        <ons-col class="col ons-col-inner">Imię</ons-col>
+                        <ons-col class="col ons-col-inner">
+                            <input type="text" class="text-input text-input--transparent inputWithLabel" placeholder="Imię" value="Piotr">
+                        </ons-col>
+                    </ons-row>
+                </li>
+                <li class="list__item">
+                    <ons-row align="center" class="row ons-row-inner row-center">
+                        <ons-col class="col ons-col-inner">Nazwisko</ons-col>
+                        <ons-col class="col ons-col-inner">
+                            <input type="text" class="text-input text-input--transparent inputWithLabel" placeholder="Nazwisko" value="Kowalski">
+                        </ons-col>
+                    </ons-row>
+                </li>
+            </ul>
+        </ons-page>
     </ons-template>
     <ons-template id="newproject.html">
-    <ons-page>
-        <ons-toolbar>
-            <div class="left">
-                <ons-toolbar-button onclick="navi.popPage();">
-                    <ons-icon icon="ion-chevron-left" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
-                </ons-toolbar-button>
+        <ons-page>
+            <ons-toolbar>
+                <div class="left">
+                    <ons-toolbar-button onclick="navi.popPage();">
+                        <ons-icon icon="ion-chevron-left" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+                <div class="center">Nowy projekt</div>
+                <div class="right">
+                    <ons-toolbar-button>
+                        <ons-icon icon="ion-checkmark-circled" fixed-width="false" style="font-size: 26px; vertical-align: -4px" data-ng-click="addProject()"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+            </ons-toolbar>
+            <ul class="list">
+                <li class="list__header">Informacje podstawowe</li>
+                <li class="list__item">
+                    <ons-row align="center" class="row ons-row-inner row-center">
+                        <ons-col class="col ons-col-inner">Nazwa*</ons-col>
+                        <ons-col class="col ons-col-inner">
+                            <input type="text" class="text-input text-input--transparent inputWithLabel" id="nazwaProjektu" placeholder="Nowy projekt">
+                        </ons-col>
+                    </ons-row>
+                </li>
+            </ul>
+            <ul class="list noOverscroll" id="terminy">
+                <li class="list__header">Terminy</li>
+            </ul>
+            <div class="text-center">
+                <div id="dodajTermin">dodaj termin</div>
             </div>
-            <div class="center">Nowy projekt</div>
-            <div class="right">
-                <ons-toolbar-button>
-                    <ons-icon icon="ion-checkmark-circled" fixed-width="false" style="font-size: 26px; vertical-align: -4px"  data-ng-click="addProject()"></ons-icon>
-                </ons-toolbar-button>
-            </div>
-        </ons-toolbar>
-        <ul class="list">
-            <li class="list__header">Informacje podstawowe</li>
-            <li class="list__item">
-                <ons-row align="center" class="row ons-row-inner row-center">
-                    <ons-col class="col ons-col-inner">Nazwa*</ons-col>
-                    <ons-col class="col ons-col-inner">
-                          <input type="text" class="text-input text-input--transparent inputWithLabel" id="nazwaProjektu" placeholder="Nowy projekt">
-                    </ons-col>
-                </ons-row>
-            </li>
-        </ul>
-        <ul class="list noOverscroll" id="terminy">
-            <li class="list__header">Terminy</li>
-        </ul>
-        <div class="text-center">
-        <div id="dodajTermin">dodaj termin</div>
-        </div>
-        <ul class="list ">
-            <li class="list__header">Budżet</li>
-            <li class="list__item">
-                <ons-row align="center" class="row ons-row-inner row-center">
-                    <ons-col class="col ons-col-inner">Budżet pieniężny</ons-col>
-                    <ons-col class="col ons-col-inner">
-                      <div class="switchHolder"><ons-switch id="budzetPieniadze"></ons-switch></div>
-                    </ons-col>
-                </ons-row>
-            </li>
-            <li class="list__item inactive" id="wartoscBudzetPieniadze">
-                <ons-row align="center" class="row ons-row-inner row-center">
-                    <ons-col class="col ons-col-inner">Wartość</ons-col>
-                    <ons-col class="col ons-col-inner">
-                       <select class="inputClear">
-                            <option>50zł</option>
-                          <option>100zł</option>
-                          <option>200zł</option>
-                          <option>300zł</option>
-                          <option>400zł</option>
-                          <option>500zł</option>
-                          <option>600zł</option>
-                          <option>700zł</option>
-                          <option>800zł</option>
-                          <option>900zł</option>
-                          <option>1000zł</option>
-                          <option>1500zł</option>
-                          <option>2000zł</option>
-                          <option>2500zł</option>
-                          <option>3000zł</option>
-                          <option>3500zł</option>
-                          <option>4000zł</option>
-                          <option>4500zł</option>
-                          <option>5000zł</option>
-                          <option>6000zł</option>
-                          <option>7000zł</option>
-                          <option>8000zł</option>
-                          <option>9000zł</option>
-                          <option>10000zł</option>
-                          <option>11000zł</option>
-                          <option>12000zł</option>
-                           <option>13000zł</option>
-                        <option>14000zł</option>
-                        <option>15000zł</option>
-                       </select>
-                    </ons-col>
-                </ons-row>
-            </li>
-            <li class="list__item">
-                <ons-row align="center" class="row ons-row-inner row-center">
-                    <ons-col class="col ons-col-inner">Budżet godzinowy</ons-col>
-                    <ons-col class="col ons-col-inner">
-                      <div class="switchHolder"><ons-switch id="budzetGodzinowy"></ons-switch></div>
-                    </ons-col>
-                </ons-row>
-            </li>
-            <li class="list__item inactive" id="wartoscBudzetGodziny">
-                <ons-row align="center" class="row ons-row-inner row-center">
-                    <ons-col class="col ons-col-inner">Wartość</ons-col>
-                    <ons-col class="col ons-col-inner">
-                       <select class="inputClear">
-                            <option>1h</option>
-                          <option>2h</option>
-                          <option>3h</option>
-                          <option>4h</option>
-                          <option>5h</option>
-                          <option>6h</option>
-                       </select>
-                    </ons-col>
-                </ons-row>
-            </li>
-        </ul>
-    </ons-page>
+            <ul class="list ">
+                <li class="list__header">Budżet</li>
+                <li class="list__item">
+                    <ons-row align="center" class="row ons-row-inner row-center">
+                        <ons-col class="col ons-col-inner">Budżet pieniężny</ons-col>
+                        <ons-col class="col ons-col-inner">
+                            <div class="switchHolder">
+                                <ons-switch id="budzetPieniadze"></ons-switch>
+                            </div>
+                        </ons-col>
+                    </ons-row>
+                </li>
+                <li class="list__item inactive" id="wartoscBudzetPieniadze">
+                    <ons-row align="center" class="row ons-row-inner row-center">
+                        <ons-col class="col ons-col-inner">Wartość</ons-col>
+                        <ons-col class="col ons-col-inner">
+                            <select class="inputClear">
+                                <option>50zł</option>
+                                <option>100zł</option>
+                                <option>200zł</option>
+                                <option>300zł</option>
+                                <option>400zł</option>
+                                <option>500zł</option>
+                                <option>600zł</option>
+                                <option>700zł</option>
+                                <option>800zł</option>
+                                <option>900zł</option>
+                                <option>1000zł</option>
+                                <option>1500zł</option>
+                                <option>2000zł</option>
+                                <option>2500zł</option>
+                                <option>3000zł</option>
+                                <option>3500zł</option>
+                                <option>4000zł</option>
+                                <option>4500zł</option>
+                                <option>5000zł</option>
+                                <option>6000zł</option>
+                                <option>7000zł</option>
+                                <option>8000zł</option>
+                                <option>9000zł</option>
+                                <option>10000zł</option>
+                                <option>11000zł</option>
+                                <option>12000zł</option>
+                                <option>13000zł</option>
+                                <option>14000zł</option>
+                                <option>15000zł</option>
+                            </select>
+                        </ons-col>
+                    </ons-row>
+                </li>
+                <li class="list__item">
+                    <ons-row align="center" class="row ons-row-inner row-center">
+                        <ons-col class="col ons-col-inner">Budżet godzinowy</ons-col>
+                        <ons-col class="col ons-col-inner">
+                            <div class="switchHolder">
+                                <ons-switch id="budzetGodzinowy"></ons-switch>
+                            </div>
+                        </ons-col>
+                    </ons-row>
+                </li>
+                <li class="list__item inactive" id="wartoscBudzetGodziny">
+                    <ons-row align="center" class="row ons-row-inner row-center">
+                        <ons-col class="col ons-col-inner">Wartość</ons-col>
+                        <ons-col class="col ons-col-inner">
+                            <select class="inputClear">
+                                <option>1h</option>
+                                <option>2h</option>
+                                <option>3h</option>
+                                <option>4h</option>
+                                <option>5h</option>
+                                <option>6h</option>
+                            </select>
+                        </ons-col>
+                    </ons-row>
+                </li>
+            </ul>
+        </ons-page>
     </ons-template>
     <script>
-        
-        var projectCreated=0;
-        var imieUzytkownika='Piotr';
-        var nazwiskoUzytkownia='Kowalski';
-        var avatrUzytkownika='http://themina.net/themes/shema/img/demo/team/team_img_3.jpg';
+        var projectCreated = 0;
+        var imieUzytkownika = 'Piotr';
+        var nazwiskoUzytkownia = 'Kowalski';
+        var avatrUzytkownika = 'http://themina.net/themes/shema/img/demo/team/team_img_3.jpg';
         jQuery(document).ready(function ($) {
-            
+
             // Funkcje dla podstron
             function captureSuccess(mediaFiles) {
                 var i, len;
                 for (i = 0, len = mediaFiles.length; i < len; i += 1) {
                     var obrazek = document.getElementById('avatar');
-                    avatrUzytkownika=mediaFiles[i].fullPath;
-                    $('.avatarUser').css('background-image','url('+mediaFiles[i].fullPath+')');
+                    avatrUzytkownika = mediaFiles[i].fullPath;
+                    $('.avatarUser').css('background-image', 'url(' + mediaFiles[i].fullPath + ')');
                 }
             }
+
             function captureImage() {
                 navigator.device.capture.captureImage(captureSuccess, console.log("capture"), {
                     limit: 1
@@ -433,129 +493,128 @@
             }
             ons.ready(function () {
                 navi.on('postpush', function () {
-                    
-                    $('.avatarUser').css('background-image','url('+avatrUzytkownika+')');
-                    
-                    
-            $('#goToMojeZadania').click(function () {
-                $('.tabMojeZadania').css('display', 'block');
-                $('.tabProjekty').css('display', 'none');
-                reChart();
 
-            });
-            $('#goToProjekty').click(function () {
-                $('.tabMojeZadania').css('display', 'none');
-                $('.tabProjekty').css('display', 'block');
-                reChart();
-            });
-            $('#goToDashboard').click(function () {
-                $('.page__background').toggleClass('simpleBG');
-                $('.tabMojeZadania').css('display', 'none');
-                $('.tabProjekty').css('display', 'none');
-                $('.homeTabs').css('display', 'none');
-                $(this).css('display', 'none');
-                $('.tabDashboard').css('overflow', 'initial');
-                $('.tabDashboard').css('height', 'auto');
-                $('#goToList').css('display', 'inline-block');
-                reChart();
-            });
-            $('#goToList').click(function () {
-                    $('.page__background').toggleClass('simpleBG');
-                $('.tabMojeZadania').css('display', 'none');
-                $('.tabProjekty').css('display', 'block');
-                $('.homeTabs').css('display', 'block');
-                $(this).css('display', 'none');
-                $('.tabDashboard').css('overflow', 'hidden');
-                $('.tabDashboard').css('height', '1px');
-                $('#goToDashboard').css('display', 'inline-block');
-                reChart();
-            });
-            $(function() {
-		$('.chart').easyPieChart({
-            size:230,
-            lineWidth:6,
-            barColor:'#FFD100',
-            trackColor:'#1E1052',
-            scaleColor:'#32188f',
-            lineCap:'square', 
-			easing: 'easeOutBounce',
-			onStep: function(from, to, percent) {
-				$(this.el).find('.percent').text(Math.round(percent));
-			}
-		});
-                
-                
-                
-          $('.chartMini').easyPieChart({
-            size:50,
-            lineWidth:3,
-            barColor:'#25007C',
-            trackColor:'#F7F7F7',
-            scaleColor:'#FAFAFD',
-            lineCap:'square', 
-			easing: 'easeOutBounce',
-			onStep: function(from, to, percent) {
-				$(this.el).find('.percent').text(Math.round(percent));
-			}
-		});
-	});
-            
-            function reChart() {
-                $('.chart').easyPieChart({
-            size:230,
-            lineWidth:6,
-            barColor:'#FFD100',
-            trackColor:'#1E1052',
-            scaleColor:'#32188f',
-            lineCap:'square', 
-			easing: 'easeOutBounce',
-			onStep: function(from, to, percent) {
-				$(this.el).find('.percent').text(Math.round(percent));
-			}
-		});
-                
-                
-                
-          $('.chartMini').easyPieChart({
-            size:50,
-            lineWidth:3,
-            barColor:'#25007C',
-            trackColor:'#F7F7F7',
-            scaleColor:'#FAFAFD',
-            lineCap:'square', 
-			easing: 'easeOutBounce',
-			onStep: function(from, to, percent) {
-				$(this.el).find('.percent').text(Math.round(percent));
-			}
-		});
-            }
-                    
-                    
-                    
+                    $('.avatarUser').css('background-image', 'url(' + avatrUzytkownika + ')');
+
+
+                    $('#goToMojeZadania').click(function () {
+                        $('.tabMojeZadania').css('display', 'block');
+                        $('.tabProjekty').css('display', 'none');
+                        reChart();
+
+                    });
+                    $('#goToProjekty').click(function () {
+                        $('.tabMojeZadania').css('display', 'none');
+                        $('.tabProjekty').css('display', 'block');
+                        reChart();
+                    });
+                    $('#goToDashboard').click(function () {
+                        $('.page__background').toggleClass('simpleBG');
+                        $('.tabMojeZadania').css('display', 'none');
+                        $('.tabProjekty').css('display', 'none');
+                        $('.homeTabs').css('display', 'none');
+                        $(this).css('display', 'none');
+                        $('.tabDashboard').css('overflow', 'initial');
+                        $('.tabDashboard').css('height', 'auto');
+                        $('#goToList').css('display', 'inline-block');
+                        reChart();
+                    });
+                    $('#goToList').click(function () {
+                        $('.page__background').toggleClass('simpleBG');
+                        $('.tabMojeZadania').css('display', 'none');
+                        $('.tabProjekty').css('display', 'block');
+                        $('.homeTabs').css('display', 'block');
+                        $(this).css('display', 'none');
+                        $('.tabDashboard').css('overflow', 'hidden');
+                        $('.tabDashboard').css('height', '1px');
+                        $('#goToDashboard').css('display', 'inline-block');
+                        reChart();
+                    });
+                    $(function () {
+                        $('.chart').easyPieChart({
+                            size: 230,
+                            lineWidth: 6,
+                            barColor: '#FFD100',
+                            trackColor: '#1E1052',
+                            scaleColor: '#32188f',
+                            lineCap: 'square',
+                            easing: 'easeOutBounce',
+                            onStep: function (from, to, percent) {
+                                $(this.el).find('.percent').text(Math.round(percent));
+                            }
+                        });
+
+
+
+                        $('.chartMini').easyPieChart({
+                            size: 50,
+                            lineWidth: 3,
+                            barColor: '#25007C',
+                            trackColor: '#F7F7F7',
+                            scaleColor: '#FAFAFD',
+                            lineCap: 'square',
+                            easing: 'easeOutBounce',
+                            onStep: function (from, to, percent) {
+                                $(this.el).find('.percent').text(Math.round(percent));
+                            }
+                        });
+                    });
+
+                    function reChart() {
+                        $('.chart').easyPieChart({
+                            size: 230,
+                            lineWidth: 6,
+                            barColor: '#FFD100',
+                            trackColor: '#1E1052',
+                            scaleColor: '#32188f',
+                            lineCap: 'square',
+                            easing: 'easeOutBounce',
+                            onStep: function (from, to, percent) {
+                                $(this.el).find('.percent').text(Math.round(percent));
+                            }
+                        });
+
+
+
+                        $('.chartMini').easyPieChart({
+                            size: 50,
+                            lineWidth: 3,
+                            barColor: '#25007C',
+                            trackColor: '#F7F7F7',
+                            scaleColor: '#FAFAFD',
+                            lineCap: 'square',
+                            easing: 'easeOutBounce',
+                            onStep: function (from, to, percent) {
+                                $(this.el).find('.percent').text(Math.round(percent));
+                            }
+                        });
+                    }
+
+
+
                     // Nowy projekt 
-            $('#budzetGodzinowy').click(function () {
-                $('#wartoscBudzetGodziny').toggleClass('inactive');
-            });
+                    $('#budzetGodzinowy').click(function () {
+                        $('#wartoscBudzetGodziny').toggleClass('inactive');
+                    });
                     $('#budzetPieniadze').click(function () {
-                $('#wartoscBudzetPieniadze').toggleClass('inactive');
-            });
-            var animationCount=0;
-                $('#dodajTermin').click(function() {
-                    if (animationCount==0){
-                    $(this).removeClass('blink');
-                    $(this).addClass('blink2');
-                        animationCount++;
-                    }
-                    else {
-                        $(this).removeClass('blink2');
-                    $(this).addClass('blink');
-                        animationCount=0; 
-                    }
-                    var item=$('<li class="list__item pojedynczyTermin" style="padding-right:8px; display:none;"><ons-row align="center" class="row ons-row-inner row-center" style="padding-right:1px;"><ons-col class="col ons-col-inner">Data*</ons-col><ons-col class="col ons-col-inner" style="padding-right:8px;"><input type="datetime-local"  class="inputClear" value="'+new Date().toJSON().slice(0,19)+'" ></ons-col></ons-row><ons-row align="center" class="row ons-row-inner row-center"><ons-col class="col ons-col-inner">Nazwa*</ons-col><ons-col class="col ons-col-inner"><input type="text" class="text-input text-input--transparent inputWithLabel" placeholder="Nazwa terminu"></ons-col></ons-row></li>');
-                    $('#terminy').append(item);
-                    $(item).fadeIn(2000);
-                });                    
-                    
+                        $('#wartoscBudzetPieniadze').toggleClass('inactive');
+                    });
+                    var animationCount = 0;
+                    $('#dodajTermin').click(function () {
+                        if (animationCount == 0) {
+                            $(this).removeClass('blink');
+                            $(this).addClass('blink2');
+                            animationCount++;
+                        } else {
+                            $(this).removeClass('blink2');
+                            $(this).addClass('blink');
+                            animationCount = 0;
+                        }
+                        var item = $('<li class="list__item pojedynczyTermin" style="padding-right:8px; display:none;"><ons-row align="center" class="row ons-row-inner row-center" style="padding-right:1px;"><ons-col class="col ons-col-inner">Data*</ons-col><ons-col class="col ons-col-inner" style="padding-right:8px;"><input type="datetime-local"  class="inputClear" value="' + new Date().toJSON().slice(0, 19) + '" ></ons-col></ons-row><ons-row align="center" class="row ons-row-inner row-center"><ons-col class="col ons-col-inner">Nazwa*</ons-col><ons-col class="col ons-col-inner"><input type="text" class="text-input text-input--transparent inputWithLabel" placeholder="Nazwa terminu"></ons-col></ons-row></li>');
+                        $('#terminy').append(item);
+                        $(item).fadeIn(2000);
+                    });
+
                     $('#capturePhoto').click(function () {
                         captureImage();
                     });
@@ -564,4 +623,5 @@
         });
     </script>
 </body>
+
 </html>
