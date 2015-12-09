@@ -228,6 +228,30 @@ span.number {
   color: #000;
 }
 
+.chartHours, .chartMoney {
+  position: relative;
+  display: block;
+  width: 148px;
+  height: 148px;
+  margin: auto;                                                        
+  text-align: center;
+  color: #000;
+}
+
+.chartMini2,.chartMini3,.chartMini4 {
+  position: relative;
+  display: block;
+  width: 38px;
+  height: 38px;
+  margin: auto;                                                        
+  text-align: center;
+  color: #000;
+float: left;
+    margin-left: -8px;
+    margin-right: 12px;
+}
+
+
 .chartHolder {
     position: absolute;
     right: 14px;
@@ -235,7 +259,7 @@ span.number {
     z-index: 9;
 }
 
-.chart canvas, .chartMini canvas {
+.chart canvas, .chartMini canvas, .chartMini2 canvas, .chartMini3 canvas, .chartMini4 canvas, .chartHours canvas, .chartMoney canvas {
   position: absolute;
   top: 0;
   left: 0;
@@ -251,9 +275,9 @@ font-size: 68px;
     margin-top: 58px;
 }
 
-.chartMini .percent {
+.chartMini .percent, .chartMini2 .percent, .chartMini3 .percent, .chartMini4 .percent {
     display: inline-block;
-    line-height: 48px;
+    line-height: 50px;
     z-index: 2;
     font-size: 11px;
     color: #000;
@@ -263,6 +287,22 @@ font-size: 68px;
     margin: auto;
     margin-left: 10px;
 }
+
+.chartHours .percent, .chartMoney .percent {
+    display: inline-block;
+    line-height: 50px;
+    z-index: 2;
+    font-size: 44px;
+    color: #000;
+    font-family: 'Hurme Geometric Sans 4 SemiBold';
+    margin-top: 0px;
+    width: 100px;
+    margin: auto;
+    margin-left: 5px;
+    margin-top: 40px;
+}
+
+
 
 .percent:after {
   content: '%';
@@ -370,6 +410,15 @@ padding-top: 10px;
     padding-bottom: 15px;
 }
 
+.basicItem.myTask {
+    position: relative;
+    height: 80px;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
 .basicItem.subtask {
     position: relative;
     height: 85px;
@@ -416,12 +465,14 @@ padding-top: 10px;
     position: absolute;
     left:9px;
     top:15px;
+    text-align: center;
 }
 
 .basicItem.subtask .avatarHolder {
     position: absolute;
     left:39px;
     top:15px;
+     text-align: center;
 }
 
 .basicItem .avatarHolder .person {
@@ -430,7 +481,7 @@ padding-top: 10px;
     border-radius:50%;
     background-size: cover;
     position: relative;
-    margin-right: 18px;
+    margin-right: 6px;
     margin-left: 6px;
     display: inline-block;
       background-color: rgba(0, 0, 0, 0.2);
@@ -740,4 +791,127 @@ p.recover {
     text-align: center;
     font-size: 0.7em;
     color: #FFF;
+}
+
+/* Lista zadań */
+.milestoneElement {
+     background-image: url(stripes.png) !important;
+    background-repeat: repeat-y !important;
+    background-size: 33px 90px !important;
+    background-position: top left !important;
+    padding-left: 46px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.milestoneHeader {
+    font-size: 17px;
+    font-family: 'Hurme Geometric Sans 4 SemiBold';
+    color:#31198B;
+}
+.milerstoneDate  {
+    font-size: 36px;
+    font-family: 'Hurme Geometric Sans 4 SemiBold';
+    color:#000;
+}
+.milerstoneDes {
+    font-size: 12px;
+    color:#4A4A4A;
+}
+
+.charMiniLabel {
+    display: block;
+    font-size: 12px;
+    color: #4A4A4A;
+    float: left;
+    padding-top: 11px;
+    margin-right: 10px;
+}
+
+.prioFinished {
+    background-color:#513897 !important;
+}
+
+.prioImportant {
+    background-color:#E32C35 !important;
+}
+
+.prioNormal {
+    background-color:#FFD100 !important;
+}
+
+.dodatkoweOsoby {
+    margin-top: 4px;
+    padding-left: 12px;
+    height: 12px;
+    display: inline-block;
+    background: url('miniPerson.png');
+    background-repeat: no-repeat;
+    background-size: 12px 12px;
+    line-height: 12px;
+    font-size: 12px;
+    color: #4A4A4A;
+    
+}
+
+.emptyState {
+    background-image: url('emptyState.png');
+    background-size: 251px 254px;
+    background-position: center center;
+    width: 251px;
+    margin: auto;
+    height: 254px;
+    margin-top: 100px;
+}
+
+#newTask {
+    color:#000;
+    font-size: 17px;
+    font-family: 'Hurme Geometric Sans 4 SemiBold'; 
+    padding-left: 45px;
+    line-height: 38px;
+    background-image: url('add.png');
+    background-repeat: no-repeat;
+    display: inline-block;
+    margin-bottom: 30px;
+    background-size: 38px 38px;
+    margin-top: 30px;
+    position: fixed;
+    bottom:20px;
+    margin-left: -83px;
+    left: 50%;
+}
+
+.smallProjectTitle {
+    font-size: 12px;
+    color: #4A4A4A;
+}
+
+.chartsBig {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    background: #FFF;
+}
+.chartsBig .half {
+    width: 50%;
+    float: left;
+    border-right:solid 1px #CCC;
+    box-sizing: border-box;
+}
+
+.chartLabel {
+    font-family: 'Hurme Geometric Sans 4 SemiBold'; 
+    text-align: center;
+    color: #000;
+    font-size: 12px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.chartHours .detail, .chartMoney .detail {
+    font-weight: 100;
+    text-align: center;
+    color: #4A4A4A;
+    font-size: 10px;*
+    
 }
