@@ -276,7 +276,7 @@
     </ons-template>
 
     <ons-template id="procjectview.html">
-        <ons-page ng-controller="DetailController">
+        <ons-page ng-controller="DetailController" >
             <ons-toolbar>
                 <div class="left">
                     <ons-toolbar-button onclick="if(projectCreated==1){projectCreated=0;navi.getPages()[3].destroy();navi.popPage();} else { navi.popPage(); }">
@@ -284,39 +284,69 @@
                     </ons-toolbar-button>
                 </div>
                 <div class="center">{{item.krotkitytul}}</div>
+                 <div class="right">
+                    <ons-toolbar-button id="projectOptions">
+                        <ons-icon icon="ion-more" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
             </ons-toolbar>
-
-            <ons-list modifier="inset" style="margin-top: 10px">
-                <ons-list-item class="item">
+              <ons-tapbar position="top" class="homeTabs">
+                <div class="tab-bar tab-bar--top tab-bar--top-border">
+                    <label class="tab-bar__item tab-bar--top-border__item" id="goToZadania">
+                        <input type="radio" name="top-tab-bar-b" checked="checked">
+                        <button class="tab-bar__button tab-bar--top-border__button">
+                            Zadania
+                        </button>
+                    </label>
+                    <label class="tab-bar__item tab-bar--top-border__item" id="goToBudzet">
+                        <input type="radio" name="top-tab-bar-b">
+                        <button class="tab-bar__button tab-bar--top-border__button">
+                            Budżet
+                        </button>
+                    </label>
+                    <label class="tab-bar__item tab-bar--top-border__item" id="goToPostep">
+                        <input type="radio" name="top-tab-bar-b">
+                        <button class="tab-bar__button tab-bar--top-border__button">
+                            Postęp
+                        </button>
+                    </label>
+                </div>
+            </ons-tapbar>
+             <ons-list style="display:block;" class="tabProjekty">
+                <ons-list-item modifier="chevron" class="item" ng-repeat="zadanie in item.zadania" ng-click="showDetail($index)">
                     <ons-row>
-                        <ons-col width="60px">
-                            <div class="item-thum"></div>
-                        </ons-col>
                         <ons-col>
-                            <header>
-                                <span class="item-title">{{item.tytul}}</span>
-                                <span class="item-label">{{item.label}}</span>
-                            </header>
-                            <p class="item-desc">{{item.desc}}</p>
+                            <div class="basicItem subtask">
+                                <div class="avatarHolder">
+                                    <div class="person avatarUser"></div>
+                                </div>
+                                  <div class="dateHolder prioImportant">
+                                            <div class="day">12</div>
+                                            <div class="mounth">MAR</div>
+                                            <div class="hour">12:20</div>
+                                        </div>
+                                        <div class="statusHolder">
+                                            <div class="statusItem notificationsCount">2</div>
+                                            <div class="statusItem location"></div>
+                                            <div class="statusItem done"></div>
+                                            <div class="statusItem noPerson"></div>
+                                        </div>
+                                <div class="statusHolder">
+                                    <div class="statusItem notificationsCount" style="display:{{item.notyfikacjeDisplay}};">{{item.notyfikacje}}</div>
+                                </div>
+                                
+                                <div class="taskTitle">{{zadanie.nazwa}}</div>
+                                <div class="infoElements">
+                                    <div class='icon {{zadanie.statusClass}}'>{{item.statusUzytkownika}}</div>
+                                    <div class='icon time'>{{zadanie.czasUzytkownika}}</div>
+                                    <div class='icon cost'>{{zadanie.kasaUzytkownika}}</div>
+                                    <div class='icon promo'>{{zadanie.punktyUzytkownika}}</div>
+                                </div>
+                            </div>
                         </ons-col>
                     </ons-row>
                 </ons-list-item>
-
-                <ons-list-item modifier="chevron" ng-click="doSomething()">
-                    <ons-icon icon="ion-chatboxes" fixed-width="true" style="color: #ccc"></ons-icon>
-                    Add a note
-                </ons-list-item>
             </ons-list>
-
-            <ons-list style="margin-top: 10px">
-                <ons-list-item class="item" ng-repeat="i in [1,2,3]">
-                    <header>
-                        <span class="item-title">Lorem ipsum dolor sit amet</span>
-                    </header>
-                    <p class="item-desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                </ons-list-item>
-            </ons-list>
-            <br>
         </ons-page>
     </ons-template>
     <ons-template id="settings.html">
@@ -589,6 +619,28 @@
                             }
                         });
                     }
+                    
+                    
+                    $('#projectOptions').click(function () {
+                     ons.notification.confirm({
+                           title: 'Opcje projektu',
+    message: "co chcesz zrobić?",
+    buttonLabels: [
+      'Dodaj zadanie',
+      'Zarządzaj osobami',
+      'Zarządzaj terminami',
+        'Zarządzaj budżetem',
+        'Zakończ projekt'
+    ],
+    primaryButtonIndex: 0,
+                         callback: function(index) {
+    if(index==0) {
+    navi.pushPage('newproject.html', { animation : 'slide' } );
+    }
+        
+  }
+  });
+                    });
 
 
 

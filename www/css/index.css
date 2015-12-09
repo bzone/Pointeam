@@ -370,6 +370,15 @@ padding-top: 10px;
     padding-bottom: 15px;
 }
 
+.basicItem.subtask {
+    position: relative;
+    height: 85px;
+    padding-left: 100px;
+    padding-right: 50px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
 .basicItem .dateHolder {
     background-color: #7ABC32;
     width: 33px;
@@ -406,6 +415,12 @@ padding-top: 10px;
 .basicItem .avatarHolder {
     position: absolute;
     left:9px;
+    top:15px;
+}
+
+.basicItem.subtask .avatarHolder {
+    position: absolute;
+    left:39px;
     top:15px;
 }
 
