@@ -405,7 +405,8 @@
                 </div>
                 <div class="clear"></div>
                 <ul class="list ">
-                    <li class="list__header" id="budgetType">Koszty - zmień <i class="icon ion-android-arrow-dropdown"></i></li>
+                    <li class="list__header" id="budgetType">Koszty - zmień <i class="icon ion-android-arrow-dropdown"></i>
+                    </li>
                     <ons-list-item modifier="chevron" class="item typeAll typeKoszt" ng-repeat="osoba in item.przypisaneOsoby | orderBy:'-kasaUzytkownika'" ng-click="showDetail($index)">
                         <ons-row>
                             <ons-col>
@@ -536,64 +537,69 @@
                 </div>
                 <div class="clear"></div>
                 <ul class="list ">
-                    <li class="list__header" ng-click="logType()">Wszystko - zmień <i class="icon ion-android-arrow-dropdown"></i></li>
-                    <ons-list-item modifier="chevron" class="item typeLogAll typeKoszt" ng-repeat="logItem in item.log | orderBy:'-data' | logfilter:search" >
+                    <li class="list__header" ng-click="logType()">Wszystko - zmień <i class="icon ion-android-arrow-dropdown"></i>
+                    </li>
+                    <ons-list-item modifier="chevron" class="item typeLogAll typeKoszt" ng-repeat="logItem in item.log | orderBy:'-data' | logfilter:search">
                         <ons-row>
-                             <div ng-if="logItem.typ=='koniecZadania'" class="width100">
-                            <ons-col>
-                                <div class="basicItem logItem">
-                                    <div class="avatarHolder">
-                                        <div class="person" style="background-image:url({{logItem.avatarOsoby}})"></div>
-                                        <div class="clear"></div>
+                            <div ng-if="logItem.typ=='koniecZadania'" class="width100">
+                                <ons-col>
+                                    <div class="basicItem logItem">
+                                        <div class="avatarHolder">
+                                            <div class="person" style="background-image:url({{logItem.avatarOsoby}})"></div>
+                                            <div class="clear"></div>
+                                        </div>
+                                        <div class="actionButtonHolder" ng-if="!logItem.przyznanePunkty" data-id="{{logItem.idLog}}">
+                                            <div class="addPromo" ng-click="addPromoPoints(logItem.idLog)"></div>
+                                        </div>
+                                        <div class="taskTitle" style="margin-bottom:-10px;">Zakończenie zadania:</div>
+                                        <div class="taskTitle" style="margin-bottom:-10px;">{{logItem.nazwa}}</div>
+                                        <div class="infoElements">
+                                            <div class='icon none'>{{logItem.osoba}}</div>
+                                            <div class='icon time'>{{logItem.dataPrezentacja}}</div>
+                                        </div>
+                                        <div ng-if="logItem.przyznanePunkty" class="actionInfo" data-id="{{logItem.idLog}}">
+                                            Przyznano punkty premiowe: <strong>{{logItem.przyznanePunkty}}</strong>
+                                        </div>
                                     </div>
-                                    <div class="actionButtonHolder" ng-if="!logItem.przyznanePunkty" data-id="{{logItem.idLog}}"><div class="addPromo" ng-click="addPromoPoints(logItem.idLog)"></div></div>
-                                    <div class="taskTitle" style="margin-bottom:-10px;">Zakończenie zadania:</div>
-                                    <div class="taskTitle" style="margin-bottom:-10px;">{{logItem.nazwa}}</div>
-                                    <div class="infoElements">
-                                        <div class='icon none'>{{logItem.osoba}}</div><div class='icon time'>{{logItem.dataPrezentacja}}</div>
-                                    </div>
-                                       <div ng-if="logItem.przyznanePunkty" class="actionInfo" data-id="{{logItem.idLog}}">
-                                       Przyznano punkty premiowe: <strong>{{logItem.przyznanePunkty}}</strong>
-                                    </div>
-                                </div>
-                            </ons-col>
+                                </ons-col>
                             </div>
-                             <div ng-if="logItem.typ=='noweZadanie'" class="width100">
-                            <ons-col>
-                                <div class="basicItem logItem">
-                                    <div class="avatarHolder">
-                                        <div class="person" style="background-image:url({{logItem.avatarOsoby}})"></div>
-                                        <div class="clear"></div>
+                            <div ng-if="logItem.typ=='noweZadanie'" class="width100">
+                                <ons-col>
+                                    <div class="basicItem logItem">
+                                        <div class="avatarHolder">
+                                            <div class="person" style="background-image:url({{logItem.avatarOsoby}})"></div>
+                                            <div class="clear"></div>
+                                        </div>
+                                        <div class="taskTitle" style="margin-bottom:-10px;">Nowe zadanie:</div>
+                                        <div class="taskTitle" style="margin-bottom:-10px;">{{logItem.nazwa}}</div>
+                                        <div class="infoElements">
+                                            <div class='icon none'>{{logItem.osoba}}</div>
+                                            <div class='icon time'>{{logItem.dataPrezentacja}}</div>
+                                        </div>
+
                                     </div>
-                                    <div class="taskTitle" style="margin-bottom:-10px;">Nowe zadanie:</div>
-                                    <div class="taskTitle" style="margin-bottom:-10px;">{{logItem.nazwa}}</div>
-                                    <div class="infoElements">
-                                        <div class='icon none'>{{logItem.osoba}}</div><div class='icon time'>{{logItem.dataPrezentacja}}</div>
-                                    </div>
-                                     
-                                </div>
-                            </ons-col>
+                                </ons-col>
                             </div>
                             <div ng-if="logItem.typ=='zakonczenieProjektu'" class="width100">
-                            <ons-col>
-                                <div class="basicItem logItem purple">
-                                    <div class="taskTitle" style="margin-bottom:-10px;">Zakończenie projektu</div>
-                                    <div class="infoElements">
-                                        <div class='icon time'>{{logItem.dataPrezentacja}}</div>
-                                    </div>  
-                                </div>
-                            </ons-col>
+                                <ons-col>
+                                    <div class="basicItem logItem purple">
+                                        <div class="taskTitle" style="margin-bottom:-10px;">Zakończenie projektu</div>
+                                        <div class="infoElements">
+                                            <div class='icon time'>{{logItem.dataPrezentacja}}</div>
+                                        </div>
+                                    </div>
+                                </ons-col>
                             </div>
                             <div ng-if="logItem.typ=='zakonczenieMilestone'" class="width100">
-                            <ons-col>
-                                <div class="basicItem logItem grey">
-                                    <div class="taskTitle" style="margin-bottom:-10px;">Zakończenie milestone</div>
-                                    <div class="taskTitle" style="margin-bottom:-10px;">{{logItem.nazwa}}</div>
-                                    <div class="infoElements">
-                                        <div class='icon time'>{{logItem.dataPrezentacja}}</div>
-                                    </div>  
-                                </div>
-                            </ons-col>
+                                <ons-col>
+                                    <div class="basicItem logItem grey">
+                                        <div class="taskTitle" style="margin-bottom:-10px;">Zakończenie milestone</div>
+                                        <div class="taskTitle" style="margin-bottom:-10px;">{{logItem.nazwa}}</div>
+                                        <div class="infoElements">
+                                            <div class='icon time'>{{logItem.dataPrezentacja}}</div>
+                                        </div>
+                                    </div>
+                                </ons-col>
                             </div>
                         </ons-row>
                     </ons-list-item>
@@ -758,13 +764,39 @@
         var avatrUzytkownika = 'http://themina.net/themes/shema/img/demo/team/team_img_3.jpg';
         jQuery(document).ready(function ($) {
 
+
+
+            function convertToDataURLviaCanvas(url, callback, outputFormat) {
+                var img = new Image();
+                img.crossOrigin = 'Anonymous';
+                img.onload = function () {
+                    var canvas = document.createElement('CANVAS');
+                    var ctx = canvas.getContext('2d');
+                    var dataURL;
+                    canvas.height = this.height * 0.3;
+                    canvas.width = this.width * 0.3;
+                    ctx.translate(canvas.width / 2, canvas.height / 2);
+                    ctx.rotate(90 * Math.PI / 180);
+                    ctx.translate(-canvas.width / 2, -canvas.height / 2);
+                    ctx.drawImage(this, 0, 0, canvas.width, canvas.height);
+                    dataURL = canvas.toDataURL(outputFormat);
+                    callback(dataURL);
+                    canvas = null;
+                };
+                img.src = url;
+            }
+
+
             // Funkcje dla podstron
             function captureSuccess(mediaFiles) {
                 var i, len;
                 for (i = 0, len = mediaFiles.length; i < len; i += 1) {
                     var obrazek = document.getElementById('avatar');
                     avatrUzytkownika = mediaFiles[i].fullPath;
-                    $('.avatarUser').css('background-image', 'url(' + mediaFiles[i].fullPath + ')');
+                    convertToDataURLviaCanvas(avatrUzytkownika, function (base64Img) {
+                        avatrUzytkownika = base64Img;
+                        $('.avatarUser').css('background-image', 'url(' + base64Img + ')');
+                    });
                 }
             }
 
@@ -1022,7 +1054,7 @@
                             }
                         });
                     });
-                    
+
 
                     // Nowy projekt 
 
