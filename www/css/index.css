@@ -228,7 +228,7 @@ span.number {
   color: #000;
 }
 
-.chartHours, .chartMoney {
+.chartHours, .chartMoney, .chartTask {
   position: relative;
   display: block;
   width: 148px;
@@ -259,7 +259,7 @@ float: left;
     z-index: 9;
 }
 
-.chart canvas, .chartMini canvas, .chartMini2 canvas, .chartMini3 canvas, .chartMini4 canvas, .chartHours canvas, .chartMoney canvas {
+.chart canvas, .chartMini canvas, .chartMini2 canvas, .chartMini3 canvas, .chartMini4 canvas, .chartHours canvas, .chartMoney canvas, .chartTask canvas {
   position: absolute;
   top: 0;
   left: 0;
@@ -288,7 +288,7 @@ font-size: 68px;
     margin-left: 10px;
 }
 
-.chartHours .percent, .chartMoney .percent {
+.chartHours .percent, .chartMoney .percent, .chartTask .percent  {
     display: inline-block;
     line-height: 50px;
     z-index: 2;
@@ -626,15 +626,25 @@ padding-top: 10px;
     50% { opacity: 0.4; }
     to { opacity: 1.0; }
 }
+
+@keyframes fadeIn {
+    from { opacity: 0.0; }
+    to { opacity: 1.0; }
+}
+ 
+@-webkit-keyframes fadeIn {
+    from { opacity: 0.0; }
+    to { opacity: 1.0; }
+}
  
 .blink {
-    animation:fade 1000ms 1;
-    -webkit-animation:fade 1000ms 1;
+    animation:fade 500ms 1;
+    -webkit-animation:fade 500ms 1;
 }
 
 .blink2 {
-    animation:fade 1000ms 1;
-    -webkit-animation:fade 1000ms 1;
+    animation:fade 500ms 1;
+    -webkit-animation:fade 500ms 1;
 }
 
  #avatar {
@@ -904,14 +914,91 @@ p.recover {
     text-align: center;
     color: #000;
     font-size: 12px;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: 9px;
+    margin-bottom: 9px;
 }
 
-.chartHours .detail, .chartMoney .detail {
+.chartHours .detail, .chartMoney .detail, .chartTask .detail {
     font-weight: 100;
     text-align: center;
     color: #4A4A4A;
     font-size: 10px;*
-    
+}
+
+.statBigElement {
+    width: 90%;
+    margin: auto;
+    font-family: 'Hurme Geometric Sans 4 SemiBold'; 
+    font-size: 22px; 
+    text-align: center;
+}
+
+.statBigElement.borderBottom {
+    border-bottom:solid 1px #CCC;
+    padding-bottom: 5px;
+}
+
+.statBigElement span {
+    font-size: 9px;
+}
+
+.logItem {
+    padding-left: 70px;
+    height: auto;
+    width: 100%;
+        box-sizing: border-box;
+    padding-right: 60px;
+}
+
+.logItem.purple {
+    background-color: #EDF2F8;
+    background-image: url(stripesPurple.png);
+    background-repeat: repeat-y;
+    background-size: 59px 184px;
+}
+
+.logItem.grey {
+    background-image: url(stripesGrey.png);
+    background-repeat: repeat-y;
+    background-size: 59px 189px;
+}
+
+
+.icon.none {
+    padding-left: 0px;
+    background-image: none;
+}
+.actionButtonHolder {
+    position: absolute;
+    right: 8px;
+    top:15px;
+}
+
+.actionButtonHolder .addPromo {
+    width: 38px;
+    height: 38px;
+    background: url(addPromo.png);
+    background-size: 38px 38px;
+}
+
+.actionButtonHolder .addBudget {
+    width: 38px;
+    height: 38px;
+    background: url(addBudget.png);
+    background-size: 38px 38px;
+}
+
+.width100 {
+    width: 100%;
+}
+
+.actionInfo {
+    padding:8px;
+    margin-top: 8px;
+    border: solid 1px #FFD100;
+    color:#FFD100;
+    width: 100%;
+    font-size: 12px;
+    animation:fadeIn 500ms 1;
+    -webkit-animation:fadeIn 500ms 1;
 }

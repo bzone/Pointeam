@@ -80,17 +80,17 @@
 
     <ons-template id="register.html">
         <ons-toolbar>
-                <div class="left">
-                    <ons-toolbar-button onclick="navi.popPage();">
-                        <ons-icon icon="ion-chevron-left" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
-                    </ons-toolbar-button>
-                </div>
-            </ons-toolbar>
+            <div class="left">
+                <ons-toolbar-button onclick="navi.popPage();">
+                    <ons-icon icon="ion-chevron-left" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
+                </ons-toolbar-button>
+            </div>
+        </ons-toolbar>
         <ons-page style="background:#31198B !Important;">
             <div class="bigLogo logoMargin"></div>
             <form class="loginStyle">
-               <input type="text" class="loginInputStyle" placeholder="imię" />
-               <input type="text" class="loginInputStyle" placeholder="nazwisko" />
+                <input type="text" class="loginInputStyle" placeholder="imię" />
+                <input type="text" class="loginInputStyle" placeholder="nazwisko" />
                 <input type="email" class="loginInputStyle" placeholder="e-mail" />
                 <input type="password" class="loginInputStyle" placeholder="hasło" />
                 <a class="submitButton" onclick="navi.pushPage('home.html', { animation : 'slide' } )">Utwórz konto i zaloguj</a>
@@ -98,20 +98,21 @@
             </form>
         </ons-page>
     </ons-template>
-    
-    
-     <ons-template id="recovery.html">
-       <ons-toolbar>
-                <div class="left">
-                    <ons-toolbar-button onclick="navi.popPage();">
-                        <ons-icon icon="ion-chevron-left" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
-                    </ons-toolbar-button>
-                </div>
-            </ons-toolbar>
+
+
+    <ons-template id="recovery.html">
+        <ons-toolbar>
+            <div class="left">
+                <ons-toolbar-button onclick="navi.popPage();">
+                    <ons-icon icon="ion-chevron-left" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
+                </ons-toolbar-button>
+            </div>
+        </ons-toolbar>
         <ons-page style="background:#31198B !Important;">
             <div class="bigLogo logoMargin"></div>
             <form class="loginStyle">
-               <p class="recover">Opis zadania Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sit amet nulla lorem. Suspendisse imperdiet tincidunt ligula, non rutrum libero semper vel. Praesent quis molestie odio. Vestibulum nec urna commodo enim laoreet congue sed non risus. Fusce in lectus turpis</p><br/>
+                <p class="recover">Opis zadania Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sit amet nulla lorem. Suspendisse imperdiet tincidunt ligula, non rutrum libero semper vel. Praesent quis molestie odio. Vestibulum nec urna commodo enim laoreet congue sed non risus. Fusce in lectus turpis</p>
+                <br/>
                 <input type="email" class="loginInputStyle" placeholder="twój e-mail" />
                 <a class="submitButton" onclick="navi.popPage()">zresetuj hasło</a>
                 <br/>
@@ -241,44 +242,44 @@
             </ons-list>
             <ons-list ng-controller="MasterController" style="display:none;" class="tabMojeZadania">
                 <div ng-repeat="item in items">
-                 <ons-list-item modifier="chevron" class="item" ng-repeat="zadanie in item.zadania | orderBy:'data' | filter:{basicItem:'block',ukonczoneDisplay:'none'}" ng-click="showDetail($index)">
-                    <ons-row>
-                        <ons-col>
-                            <div class="basicItem myTask" style="display:{{zadanie.basicItem}};">
-                                  <div class="dateHolder {{zadanie.priorytet}}">
-                                            <div class="day">{{zadanie.dataDzien}}</div>
-                                            <div class="mounth">{{zadanie.dataMiesiac}}</div>
-                                            <div class="hour">{{zadanie.dataGodzina}}</div>
-                                        </div>
-                                        <div class="statusHolder">
-                                            <div class="statusItem notificationsCount" style="display:{{zadanie.notyfikacjeDisplay}};">{{zadanie.notyfikacje}}</div>
-                                            <div class="statusItem location" style="display:{{zadanie.lokalizacjaDisplay}};"></div>
-                                            <div class="statusItem done" style="display:{{zadanie.ukonczoneDisplay}};"></div>
-                                            <div class="statusItem noPerson" style="display:{{zadanie.brakOsobyDisplay}};"></div>
-                                        </div>
-                                <div class="statusHolder">
-                                    <div class="statusItem notificationsCount" style="display:{{zadanie.notyfikacjeDisplay}};">{{zadanie.notyfikacje}}</div>
+                    <ons-list-item modifier="chevron" class="item" ng-repeat="zadanie in item.zadania | orderBy:'data' | filter:{basicItem:'block',ukonczoneDisplay:'none'}" ng-click="showDetail($index)">
+                        <ons-row>
+                            <ons-col>
+                                <div class="basicItem myTask" style="display:{{zadanie.basicItem}};">
+                                    <div class="dateHolder {{zadanie.priorytet}}">
+                                        <div class="day">{{zadanie.dataDzien}}</div>
+                                        <div class="mounth">{{zadanie.dataMiesiac}}</div>
+                                        <div class="hour">{{zadanie.dataGodzina}}</div>
+                                    </div>
+                                    <div class="statusHolder">
+                                        <div class="statusItem notificationsCount" style="display:{{zadanie.notyfikacjeDisplay}};">{{zadanie.notyfikacje}}</div>
+                                        <div class="statusItem location" style="display:{{zadanie.lokalizacjaDisplay}};"></div>
+                                        <div class="statusItem done" style="display:{{zadanie.ukonczoneDisplay}};"></div>
+                                        <div class="statusItem noPerson" style="display:{{zadanie.brakOsobyDisplay}};"></div>
+                                    </div>
+                                    <div class="statusHolder">
+                                        <div class="statusItem notificationsCount" style="display:{{zadanie.notyfikacjeDisplay}};">{{zadanie.notyfikacje}}</div>
+                                    </div>
+
+                                    <div class="taskTitle">{{zadanie.nazwa}}</div>
+                                    <div class="smallProjectTitle">{{item.tytul}}</div>
+                                    <div class="infoElements">
+                                        <div class='icon {{zadanie.statusClass}}'>{{zadanie.statusUzytkownika}}</div>
+                                        <div class='icon time'>{{zadanie.czasUzytkownika}}</div>
+                                        <div class='icon cost'>{{zadanie.kasaUzytkownika}}</div>
+                                        <div class='icon promo'>{{zadanie.punktyUzytkownika}}</div>
+                                    </div>
                                 </div>
-                                
-                                <div class="taskTitle">{{zadanie.nazwa}}</div>
-                                <div class="smallProjectTitle">{{item.tytul}}</div>
-                                <div class="infoElements">
-                                    <div class='icon {{zadanie.statusClass}}'>{{zadanie.statusUzytkownika}}</div>
-                                    <div class='icon time'>{{zadanie.czasUzytkownika}}</div>
-                                    <div class='icon cost'>{{zadanie.kasaUzytkownika}}</div>
-                                    <div class='icon promo'>{{zadanie.punktyUzytkownika}}</div>
-                                </div>
-                            </div>
-                        </ons-col>
-                    </ons-row>
-                </ons-list-item>
+                            </ons-col>
+                        </ons-row>
+                    </ons-list-item>
             </ons-list>
             </div>
         </ons-page>
     </ons-template>
 
     <ons-template id="procjectview.html">
-        <ons-page ng-controller="DetailController" >
+        <ons-page ng-controller="DetailController">
             <ons-toolbar>
                 <div class="left">
                     <ons-toolbar-button onclick="if(projectCreated==1){projectCreated=0;navi.getPages()[3].destroy();navi.popPage();} else { navi.popPage(); }">
@@ -286,13 +287,13 @@
                     </ons-toolbar-button>
                 </div>
                 <div class="center">{{item.krotkitytul}}</div>
-                 <div class="right">
-                    <ons-toolbar-button id="projectOptions">
-                        <ons-icon icon="ion-more" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
+                <div class="right">
+                    <ons-toolbar-button id="projectOptions" ng-if="!item.zamkniety">
+                        <ons-icon icon="ion-more" fixed-width="false" style="font-size: 26px; vertical-align: -4px" ng-click="projectOptions()"></ons-icon>
                     </ons-toolbar-button>
                 </div>
             </ons-toolbar>
-              <ons-tapbar position="top" class="homeTabs">
+            <ons-tapbar position="top" class="homeTabs">
                 <div class="tab-bar tab-bar--top tab-bar--top-border">
                     <label class="tab-bar__item tab-bar--top-border__item" id="goToZadania">
                         <input type="radio" name="top-tab-bar-b" checked="checked">
@@ -314,59 +315,67 @@
                     </label>
                 </div>
             </ons-tapbar>
-            <div ng-if="!item.zadania" class="emptyAll"><div class="emptyState"></div><div id="newTask" style="display:none;">Dodaj zadanie</div></div>
-             <ons-list style="display:block;" class="tabZadania">
+            <div ng-if="!item.zadania" class="emptyAll">
+                <div class="emptyState"></div>
+                <div id="newTask" style="display:none;">Dodaj zadanie</div>
+            </div>
+            <ons-list style="display:block;" class="tabZadania">
                 <ons-list-item modifier="chevron" class="item" ng-repeat="zadanie in item.zadania | orderBy:'data'" ng-click="showDetail($index)">
                     <ons-row>
                         <ons-col>
                             <div class="basicItem subtask" style="display:{{zadanie.basicItem}};">
                                 <div class="avatarHolder">
-                                    <div class="person" style="background-image:url({{zadanie.avatarPierwszejOsoby}})"></div><div class="clear"></div>
+                                    <div class="person" style="background-image:url({{zadanie.avatarPierwszejOsoby}})"></div>
+                                    <div class="clear"></div>
                                     <div class="dodatkoweOsoby" style="display:{{zadanie.dodatkoweOsobyDisplay}};">+{{zadanie.dotatkoweOsoby}}</div>
                                 </div>
-                                  <div class="dateHolder {{zadanie.priorytet}}">
-                                            <div class="day">{{zadanie.dataDzien}}</div>
-                                            <div class="mounth">{{zadanie.dataMiesiac}}</div>
-                                            <div class="hour">{{zadanie.dataGodzina}}</div>
-                                        </div>
-                                        <div class="statusHolder">
-                                            <div class="statusItem notificationsCount" style="display:{{zadanie.notyfikacjeDisplay}};">{{zadanie.notyfikacje}}</div>
-                                            <div class="statusItem location" style="display:{{zadanie.lokalizacjaDisplay}};"></div>
-                                            <div class="statusItem done" style="display:{{zadanie.ukonczoneDisplay}};"></div>
-                                            <div class="statusItem noPerson" style="display:{{zadanie.brakOsobyDisplay}};"></div>
-                                        </div>
+                                <div class="dateHolder {{zadanie.priorytet}}">
+                                    <div class="day">{{zadanie.dataDzien}}</div>
+                                    <div class="mounth">{{zadanie.dataMiesiac}}</div>
+                                    <div class="hour">{{zadanie.dataGodzina}}</div>
+                                </div>
+                                <div class="statusHolder">
+                                    <div class="statusItem notificationsCount" style="display:{{zadanie.notyfikacjeDisplay}};">{{zadanie.notyfikacje}}</div>
+                                    <div class="statusItem location" style="display:{{zadanie.lokalizacjaDisplay}};"></div>
+                                    <div class="statusItem done" style="display:{{zadanie.ukonczoneDisplay}};"></div>
+                                    <div class="statusItem noPerson" style="display:{{zadanie.brakOsobyDisplay}};"></div>
+                                </div>
                                 <div class="statusHolder">
                                     <div class="statusItem notificationsCount" style="display:{{zadanie.notyfikacjeDisplay}};">{{zadanie.notyfikacje}}</div>
                                 </div>
-                                
+
                                 <div class="taskTitle" style="margin-bottom:-10px;">{{zadanie.nazwa}}</div>
                                 <div class="infoElements">
                                     <div class='icon {{zadanie.statusClass}}'>{{zadanie.statusUzytkownika}}</div>
-                                    <div class='icon time'>{{zadanie.czasUzytkownika}}</div><div class="clear" style="margin-bottom:5px;"></div>
+                                    <div class='icon time'>{{zadanie.czasUzytkownika}}</div>
+                                    <div class="clear" style="margin-bottom:5px;"></div>
                                     <div class='icon cost'>{{zadanie.kasaUzytkownika}}</div>
                                     <div class='icon promo'>{{zadanie.punktyUzytkownika}}</div>
                                 </div>
                             </div>
                             <div class="milestoneElement" style="display:{{zadanie.milestone}};">
-                               <div class="milestoneHeader">{{zadanie.mileStoneNaglowek}}</div>
-                               <div class="milerstoneDate">{{zadanie.data}}</div>
-                               <div class="milerstoneDes">{{zadanie.nazwa}}</div>
-                               <div class="charts">
-                                     <span class="chartMini2" data-percent="{{zadanie.milestoneUkonczoneZadaniaProcent}}">
+                                <div class="milestoneHeader">{{zadanie.mileStoneNaglowek}}</div>
+                                <div class="milerstoneDate">{{zadanie.data}}</div>
+                                <div class="milerstoneDes">{{zadanie.nazwa}}</div>
+                                <div class="charts">
+                                    <span class="chartMini2" data-percent="{{zadanie.milestoneUkonczoneZadaniaProcent}}">
 		                    <span class="percent"></span>
                                     </span>
-                                    <div class="charMiniLabel">ukończone<br/>zadania</div>
-                                      <span class="chartMini3" data-percent="{{zadanie.milestoneWykorzystanyBudzetPieniadze}}">
+                                    <div class="charMiniLabel">ukończone
+                                        <br/>zadania</div>
+                                    <span class="chartMini3" data-percent="{{zadanie.milestoneWykorzystanyBudzetPieniadze}}">
 		                    <span class="percent"></span>
                                     </span>
-                                     <div class="charMiniLabel">budżet<br/>pieniądze</div>
-                                      <span class="chartMini4" data-percent="{{zadanie.milestoneWykorzystanyBudzetGodziny}}">
+                                    <div class="charMiniLabel">budżet
+                                        <br/>pieniądze</div>
+                                    <span class="chartMini4" data-percent="{{zadanie.milestoneWykorzystanyBudzetGodziny}}">
 		                    <span class="percent"></span>
                                     </span>
-                                    <div class="charMiniLabel">budżet<br/>godziny</div>
-                                     <div class="clear"></div>
-                               </div>
-                               <div class="clear"></div>
+                                    <div class="charMiniLabel">budżet
+                                        <br/>godziny</div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="clear"></div>
                             </div>
                         </ons-col>
                     </ons-row>
@@ -377,47 +386,217 @@
                     <div class="half">
                         <span class="chartHours" data-percent="50">
 		                    <span class="percent"></span>
-                                    <div class="clear"></div>
-                                   <span class="detail">245.3/490</span>
-                                    </span>
-                                    <div class="chartLabel">przepracowanych<br/>godzin</div>
+                        <div class="clear"></div>
+                        <span class="detail">245.3/490</span>
+                        </span>
+                        <div class="chartLabel">przepracowanych
+                            <br/>godzin</div>
                     </div>
-                     <div class="half">
+                    <div class="half">
                         <span class="chartMoney" data-percent="25">
 		                    <span class="percent"></span>
-                                  <div class="clear"></div>
-                                   <span class="detail">10200.30/40800</span>
-                                    </span>
-                                    <div class="chartLabel">wykorzystane<br/>pieniądze</div>
+                        <div class="clear"></div>
+                        <span class="detail">10200.30/40800</span>
+                        </span>
+                        <div class="chartLabel">wykorzystane
+                            <br/>pieniądze</div>
                     </div>
                     <div class="clear"></div>
                 </div>
                 <div class="clear"></div>
-                 <ul class="list ">
-                <li class="list__header">Koszty - zmień</li>
-                <ons-list-item modifier="chevron" class="item" ng-repeat="osoba in item.przypisaneOsoby | orderBy:'data'" ng-click="showDetail($index)">
-                    <ons-row>
-                        <ons-col>
-                            <div class="basicItem subtask" style="display:{{zadanie.basicItem}};">
-                                <div class="avatarHolder">
-                                    <div class="person" style="background-image:url({{osoba.avatar}})"></div><div class="clear"></div>
-                            
+                <ul class="list ">
+                    <li class="list__header" id="budgetType">Koszty - zmień <i class="icon ion-android-arrow-dropdown"></i></li>
+                    <ons-list-item modifier="chevron" class="item typeAll typeKoszt" ng-repeat="osoba in item.przypisaneOsoby | orderBy:'-kasaUzytkownika'" ng-click="showDetail($index)">
+                        <ons-row>
+                            <ons-col>
+                                <div class="basicItem subtask" style="display:{{zadanie.basicItem}};">
+                                    <div class="avatarHolder">
+                                        <div class="person" style="background-image:url({{osoba.avatar}})"></div>
+                                        <div class="clear"></div>
+
+                                    </div>
+                                    <div class="dateHolder prioFinished">
+                                        <div class="day">0{{$index+1}}</div>
+                                    </div>
+                                    <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.imie}}</div>
+                                    <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.kasaUzytkownika}}zł</div>
+                                    <div class="infoElements">
+                                        <div class='icon time'>{{osoba.czasUzytkownika}}</div>
+                                        <div class='icon cost'>{{osoba.kasaUzytkownika}}</div>
+                                        <div class='icon cost'>{{osoba.stawka}}</div>
+                                        <div class='icon promo'>{{osoba.punktyUzytkownika}}</div>
+                                    </div>
                                 </div>
-                                  <div class="dateHolder prioFinished">
-                                            <div class="day">0{{$index+1}}</div>
-                                   </div>
-                                <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.imie}}</div>
-                                <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.kasaUzytkownika}}zł</div>
-                                <div class="infoElements">
-                                    <div class='icon time'>{{osoba.czasUzytkownika}}</div>
-                                    <div class='icon cost'>{{osoba.kasaUzytkownika}}</div>
-                                    <div class='icon cost'>{{osoba.stawka}}</div>
-                                    <div class='icon promo'>{{osoba.punktyUzytkownika}}</div>
+                            </ons-col>
+                        </ons-row>
+                    </ons-list-item>
+                    <ons-list-item modifier="chevron" class="item typeAll typeCzas" style="display:none;" ng-repeat="osoba in item.przypisaneOsoby | orderBy:'-czasUzytkownika'" ng-click="showDetail($index)">
+                        <ons-row>
+                            <ons-col>
+                                <div class="basicItem subtask" style="display:{{zadanie.basicItem}};">
+                                    <div class="avatarHolder">
+                                        <div class="person" style="background-image:url({{osoba.avatar}})"></div>
+                                        <div class="clear"></div>
+
+                                    </div>
+                                    <div class="dateHolder prioFinished">
+                                        <div class="day">0{{$index+1}}</div>
+                                    </div>
+                                    <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.imie}}</div>
+                                    <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.czasUzytkownika}}</div>
+                                    <div class="infoElements">
+                                        <div class='icon time'>{{osoba.czasUzytkownika}}</div>
+                                        <div class='icon cost'>{{osoba.kasaUzytkownika}}</div>
+                                        <div class='icon cost'>{{osoba.stawka}}</div>
+                                        <div class='icon promo'>{{osoba.punktyUzytkownika}}</div>
+                                    </div>
                                 </div>
+                            </ons-col>
+                        </ons-row>
+                    </ons-list-item>
+                    <ons-list-item modifier="chevron" class="item typeAll typePunkty" style="display:none;" ng-repeat="osoba in item.przypisaneOsoby | orderBy:'-punktyUzytkownika'" ng-click="showDetail($index)">
+                        <ons-row>
+                            <ons-col>
+                                <div class="basicItem subtask" style="display:{{zadanie.basicItem}};">
+                                    <div class="avatarHolder">
+                                        <div class="person" style="background-image:url({{osoba.avatar}})"></div>
+                                        <div class="clear"></div>
+
+                                    </div>
+                                    <div class="dateHolder prioFinished">
+                                        <div class="day">0{{$index+1}}</div>
+                                    </div>
+                                    <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.imie}}</div>
+                                    <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.punktyUzytkownika}}</div>
+                                    <div class="infoElements">
+                                        <div class='icon time'>{{osoba.czasUzytkownika}}</div>
+                                        <div class='icon cost'>{{osoba.kasaUzytkownika}}</div>
+                                        <div class='icon cost'>{{osoba.stawka}}</div>
+                                        <div class='icon promo'>{{osoba.punktyUzytkownika}}</div>
+                                    </div>
+                                </div>
+                            </ons-col>
+                        </ons-row>
+                    </ons-list-item>
+                    <ons-list-item modifier="chevron" class="item typeAll typeZadania" style="display:none;" ng-repeat="osoba in item.przypisaneOsoby | orderBy:'-iloscZadan'" ng-click="showDetail($index)">
+                        <ons-row>
+                            <ons-col>
+                                <div class="basicItem subtask" style="display:{{zadanie.basicItem}};">
+                                    <div class="avatarHolder">
+                                        <div class="person" style="background-image:url({{osoba.avatar}})"></div>
+                                        <div class="clear"></div>
+
+                                    </div>
+                                    <div class="dateHolder prioFinished">
+                                        <div class="day">0{{$index+1}}</div>
+                                    </div>
+                                    <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.imie}}</div>
+                                    <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.iloscZadan}}</div>
+                                    <div class="infoElements">
+                                        <div class='icon time'>{{osoba.czasUzytkownika}}</div>
+                                        <div class='icon cost'>{{osoba.kasaUzytkownika}}</div>
+                                        <div class='icon cost'>{{osoba.stawka}}</div>
+                                        <div class='icon promo'>{{osoba.punktyUzytkownika}}</div>
+                                    </div>
+                                </div>
+                            </ons-col>
+                        </ons-row>
+                    </ons-list-item>
+                </ul>
+            </div>
+            <div style="display:none;" class="tabPostep">
+                <div class="chartsBig">
+                    <div class="half">
+                        <span class="chartTask" data-percent="{{item.procentUkonczeniaProjektu}}">
+		                    <span class="percent"></span>
+                        <div class="clear"></div>
+                        <span class="detail">{{item.ukonczoneZadania}}/{{item.wszystkieZadania}}</span>
+                        </span>
+                        <div class="chartLabel">wykonanych
+                            <br/>zadań</div>
+                    </div>
+                    <div class="half">
+                        <div class="statBigElement borderBottom">
+                            <span class="stat-title">nieprzypisane zadania</span>
+                            <div class="clear"></div>
+                            {{item.zadaniaNieprzypisane}}
+                        </div>
+                        <div class="statBigElement borderBottom">
+                            <span class="stat-title">zadania po terminie</span>
+                            <div class="clear"></div>
+                            {{item.zadaniaPoTerminie}}
+                        </div>
+                        <div class="statBigElement">
+                            <span class="stat-title">zadania z przekroczonym budżetem</span>
+                            <div class="clear"></div>
+                            {{item.zadaniaPrzekroczonyBudzet}}
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+                <ul class="list ">
+                    <li class="list__header" ng-click="logType()">Wszystko - zmień <i class="icon ion-android-arrow-dropdown"></i></li>
+                    <ons-list-item modifier="chevron" class="item typeLogAll typeKoszt" ng-repeat="logItem in item.log | orderBy:'-data' | logfilter:search" >
+                        <ons-row>
+                             <div ng-if="logItem.typ=='koniecZadania'" class="width100">
+                            <ons-col>
+                                <div class="basicItem logItem">
+                                    <div class="avatarHolder">
+                                        <div class="person" style="background-image:url({{logItem.avatarOsoby}})"></div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="actionButtonHolder" ng-if="!logItem.przyznanePunkty" data-id="{{logItem.idLog}}"><div class="addPromo" ng-click="addPromoPoints(logItem.idLog)"></div></div>
+                                    <div class="taskTitle" style="margin-bottom:-10px;">Zakończenie zadania:</div>
+                                    <div class="taskTitle" style="margin-bottom:-10px;">{{logItem.nazwa}}</div>
+                                    <div class="infoElements">
+                                        <div class='icon none'>{{logItem.osoba}}</div><div class='icon time'>{{logItem.dataPrezentacja}}</div>
+                                    </div>
+                                       <div ng-if="logItem.przyznanePunkty" class="actionInfo" data-id="{{logItem.idLog}}">
+                                       Przyznano punkty premiowe: <strong>{{logItem.przyznanePunkty}}</strong>
+                                    </div>
+                                </div>
+                            </ons-col>
                             </div>
-                        </ons-col>
-                    </ons-row>
-                </ons-list-item>
+                             <div ng-if="logItem.typ=='noweZadanie'" class="width100">
+                            <ons-col>
+                                <div class="basicItem logItem">
+                                    <div class="avatarHolder">
+                                        <div class="person" style="background-image:url({{logItem.avatarOsoby}})"></div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="taskTitle" style="margin-bottom:-10px;">Nowe zadanie:</div>
+                                    <div class="taskTitle" style="margin-bottom:-10px;">{{logItem.nazwa}}</div>
+                                    <div class="infoElements">
+                                        <div class='icon none'>{{logItem.osoba}}</div><div class='icon time'>{{logItem.dataPrezentacja}}</div>
+                                    </div>
+                                     
+                                </div>
+                            </ons-col>
+                            </div>
+                            <div ng-if="logItem.typ=='zakonczenieProjektu'" class="width100">
+                            <ons-col>
+                                <div class="basicItem logItem purple">
+                                    <div class="taskTitle" style="margin-bottom:-10px;">Zakończenie projektu</div>
+                                    <div class="infoElements">
+                                        <div class='icon time'>{{logItem.dataPrezentacja}}</div>
+                                    </div>  
+                                </div>
+                            </ons-col>
+                            </div>
+                            <div ng-if="logItem.typ=='zakonczenieMilestone'" class="width100">
+                            <ons-col>
+                                <div class="basicItem logItem grey">
+                                    <div class="taskTitle" style="margin-bottom:-10px;">Zakończenie milestone</div>
+                                    <div class="taskTitle" style="margin-bottom:-10px;">{{logItem.nazwa}}</div>
+                                    <div class="infoElements">
+                                        <div class='icon time'>{{logItem.dataPrezentacja}}</div>
+                                    </div>  
+                                </div>
+                            </ons-col>
+                            </div>
+                        </ons-row>
+                    </ons-list-item>
                 </ul>
             </div>
         </ons-page>
@@ -603,43 +782,81 @@
                     $('#goToMojeZadania').click(function () {
                         $('.tabMojeZadania').css('display', 'block');
                         $('.tabProjekty').css('display', 'none');
-                        reChart();
+
 
                     });
                     $('#goToProjekty').click(function () {
                         $('.tabMojeZadania').css('display', 'none');
                         $('.tabProjekty').css('display', 'block');
-                        reChart();
+
                     });
-                    
+
                     $('#goToZadania').click(function () {
                         $('.tabZadania').css('display', 'block');
                         $('.tabPostep').css('display', 'none');
                         $('.tabBudzet').css('display', 'none');
-                                $('.emptyAll').css('display', 'block');
-                        reChart();
+                        $('.emptyAll').css('display', 'block');
+
                     });
-                    
+
                     $('#goToBudzet').click(function () {
                         $('.tabZadania').css('display', 'none');
                         $('.tabPostep').css('display', 'none');
                         $('.tabBudzet').css('display', 'block');
                         $('.emptyAll').css('display', 'none');
-                        
-                        reChart();
+                        $('.chartHours').easyPieChart({
+                            size: 148,
+                            lineWidth: 5,
+                            barColor: '#7ABC32',
+                            trackColor: '#F7F7F7',
+                            scaleColor: '#FAFAFD',
+                            lineCap: 'square',
+                            easing: 'easeOutBounce',
+                            onStep: function (from, to, percent) {
+                                $(this.el).find('.percent').text(Math.round(percent));
+                            }
+                        });
+
+                        $('.chartMoney').easyPieChart({
+                            size: 148,
+                            lineWidth: 5,
+                            barColor: '#E32C35',
+                            trackColor: '#F7F7F7',
+                            scaleColor: '#FAFAFD',
+                            lineCap: 'square',
+                            easing: 'easeOutBounce',
+                            onStep: function (from, to, percent) {
+                                $(this.el).find('.percent').text(Math.round(percent));
+                            }
+                        });
+
+
+
                     });
-                    
+
                     $('#goToPostep').click(function () {
                         $('.tabZadania').css('display', 'none');
                         $('.tabPostep').css('display', 'block');
                         $('.tabBudzet').css('display', 'none');
-                                $('.emptyAll').css('display', 'none');
-                        reChart();
+                        $('.emptyAll').css('display', 'none');
+                        $('.chartTask').easyPieChart({
+                            size: 148,
+                            lineWidth: 5,
+                            barColor: '#25007C',
+                            trackColor: '#F7F7F7',
+                            scaleColor: '#FAFAFD',
+                            lineCap: 'square',
+                            easing: 'easeOutBounce',
+                            onStep: function (from, to, percent) {
+                                $(this.el).find('.percent').text(Math.round(percent));
+                            }
+                        });
+
                     });
-                    
-                    
-                    
-                    
+
+
+
+
                     $('#goToDashboard').click(function () {
                         $('.page__background').toggleClass('simpleBG');
                         $('.tabMojeZadania').css('display', 'none');
@@ -649,20 +866,6 @@
                         $('.tabDashboard').css('overflow', 'initial');
                         $('.tabDashboard').css('height', 'auto');
                         $('#goToList').css('display', 'inline-block');
-                        reChart();
-                    });
-                    $('#goToList').click(function () {
-                        $('.page__background').toggleClass('simpleBG');
-                        $('.tabMojeZadania').css('display', 'none');
-                        $('.tabProjekty').css('display', 'block');
-                        $('.homeTabs').css('display', 'block');
-                        $(this).css('display', 'none');
-                        $('.tabDashboard').css('overflow', 'hidden');
-                        $('.tabDashboard').css('height', '1px');
-                        $('#goToDashboard').css('display', 'inline-block');
-                        reChart();
-                    });
-                    $(function () {
                         $('.chart').easyPieChart({
                             size: 230,
                             lineWidth: 6,
@@ -676,7 +879,19 @@
                             }
                         });
 
+                    });
+                    $('#goToList').click(function () {
+                        $('.page__background').toggleClass('simpleBG');
+                        $('.tabMojeZadania').css('display', 'none');
+                        $('.tabProjekty').css('display', 'block');
+                        $('.homeTabs').css('display', 'block');
+                        $(this).css('display', 'none');
+                        $('.tabDashboard').css('overflow', 'hidden');
+                        $('.tabDashboard').css('height', '1px');
+                        $('#goToDashboard').css('display', 'inline-block');
 
+                    });
+                    $(function () {
 
                         $('.chartMini').easyPieChart({
                             size: 50,
@@ -690,7 +905,7 @@
                                 $(this.el).find('.percent').text(Math.round(percent));
                             }
                         });
-                        
+
                         $('.chartMini2').easyPieChart({
                             size: 50,
                             lineWidth: 3,
@@ -703,7 +918,7 @@
                                 $(this.el).find('.percent').text(Math.round(percent));
                             }
                         });
-                        
+
                         $('.chartMini3').easyPieChart({
                             size: 50,
                             lineWidth: 3,
@@ -716,7 +931,7 @@
                                 $(this.el).find('.percent').text(Math.round(percent));
                             }
                         });
-                        
+
                         $('.chartMini4').easyPieChart({
                             size: 50,
                             lineWidth: 3,
@@ -729,35 +944,8 @@
                                 $(this.el).find('.percent').text(Math.round(percent));
                             }
                         });
-                        
-                         $('.chartHours').easyPieChart({
-                            size: 148,
-                            lineWidth: 5,
-                            barColor: '#7ABC32',
-                            trackColor: '#F7F7F7',
-                            scaleColor: '#FAFAFD',
-                            lineCap: 'square',
-                            easing: 'easeOutBounce',
-                            onStep: function (from, to, percent) {
-                                $(this.el).find('.percent').text(Math.round(percent));
-                            }
-                        });
-                        
-                        $('.chartMoney').easyPieChart({
-                            size: 148,
-                            lineWidth: 5,
-                            barColor: '#E32C35',
-                            trackColor: '#F7F7F7',
-                            scaleColor: '#FAFAFD',
-                            lineCap: 'square',
-                            easing: 'easeOutBounce',
-                            onStep: function (from, to, percent) {
-                                $(this.el).find('.percent').text(Math.round(percent));
-                            }
-                        });
-                        
-                        
-                        
+
+
                     });
 
                     function reChart() {
@@ -789,35 +977,57 @@
                             }
                         });
                     }
-                    
-                    
-                    $('#projectOptions').click(function () {
-                     ons.notification.confirm({
-                           title: 'Opcje projektu',
-    message: "co chcesz zrobić?",
-    buttonLabels: [
-      'Dodaj zadanie',
-      'Zarządzaj osobami',
-      'Zarządzaj terminami',
-        'Zarządzaj budżetem',
-        'Zakończ projekt'
+
+
+
+
+
+                    $('#budgetType').click(function () {
+                        ons.notification.confirm({
+                            title: 'Opcje projektu',
+                            message: "co chcesz zrobić?",
+                            buttonLabels: [
+      'Koszty',
+      'Przepracowane godziny',
+      'Przypisane zadania',
+        'Punkty premiowe'
     ],
-    primaryButtonIndex: 0,
-                         callback: function(index) {
-    if(index==0) {
-    navi.pushPage('newproject.html', { animation : 'slide' } );
-    }
-        
-  }
-  });
+                            primaryButtonIndex: 0,
+                            callback: function (index) {
+                                if (index == 0) {
+                                    $('.typeAll').css('display', 'none');
+                                    $('.typeKoszt').css('display', 'block');
+                                    $('.typeKoszt').addClass('blink');
+                                    $('#budgetType').html('Koszty - zmień <i class="icon ion-android-arrow-dropdown"></i>');
+                                }
+                                if (index == 1) {
+                                    $('.typeAll').css('display', 'none');
+                                    $('.typeCzas').css('display', 'block');
+                                    $('.typeCzas').addClass('blink');
+                                    $('#budgetType').html('Przepracowane godziny - zmień <i class="icon ion-android-arrow-dropdown"></i>');
+                                }
+                                if (index == 2) {
+                                    $('.typeAll').css('display', 'none');
+                                    $('.typeZadania').css('display', 'block');
+                                    $('.typeZadania').addClass('blink');
+                                    $('#budgetType').html('Przypisane zadania - zmień <i class="icon ion-android-arrow-dropdown"></i>');
+                                }
+                                if (index == 3) {
+                                    $('.typeAll').css('display', 'none');
+                                    $('.typePunkty').css('display', 'block');
+                                    $('.typePunkty').addClass('blink');
+                                    $('#budgetType').html('Punkty premiowe - zmień <i class="icon ion-android-arrow-dropdown"></i>');
+                                }
+
+                            }
+                        });
                     });
-
-
+                    
 
                     // Nowy projekt 
-                    
+
                     $('#newTask').fadeIn();
-                    
+
                     $('#budzetGodzinowy').click(function () {
                         $('#wartoscBudzetGodziny').toggleClass('inactive');
                     });
