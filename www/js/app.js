@@ -14,7 +14,8 @@
   };
 });
 
-    module.controller('AppController', function ($scope, $projekty) {
+    module.controller('AppController', function ($scope, $projekty, $currentUser) {
+        $scope.user = $currentUser.items[0];
         $scope.doSomething = function () {
             setTimeout(function () {
                 ons.notification.alert({
@@ -37,50 +38,114 @@
         $scope.addProject = function () {
             var nazwa = $('#nazwaProjektu').val();
             $scope.items = $projekty.items;
+            var today = new Date();
+                        var dd = today.getDate();
+                        var mm = today.getMonth() + 1;
+                        var yyyy = today.getFullYear();
+                        var gg=today.getHours();
+                        var min=today.getMinutes();
+                        if (dd < 10) {
+                            dd = '0' + dd
+                        }
+                        if (mm < 10) {
+                            mm = '0' + mm
+                        }
+                         if (gg < 10) {
+                            gg = '0' + gg
+                        }
+                         if (min < 10) {
+                            min = '0' + min
+                        }
+                        today = dd+'.'+mm+'.'+yyyy+' '+gg+':'+min;
+            
+            
+            
+            
+            var terminy='[';
+            var zadania='';
+            $('.pojedynczyTermin').each(function(x){
+                var dataTermin=$(this).find('input[type="datetime-local"]').val();
+                var nazwaTermin=$(this).find('input[type="text"]').val();
+                terminy=terminy+"{ data:'"+dataTermin+"', nazwa:'"+nazwaTermin+"'},";
+                zadania=zadania+"{idZadania:"+x+", basicItem: 'none', milestone: 'block', mileStoneNaglowek: 'Milestone "+(x+1)+"',milestoneUkonczoneZadaniaProcent: '0', milestoneWykorzystanyBudzetPieniadze: '0', milestoneWykorzystanyBudzetGodziny: '0', data:'"+dataTermin+"',nazwa: '"+nazwaTermin+"'},";   
+            });
+            terminy = terminy.substring(0, terminy.length-1);
+            terminy=terminy+"]";
+            zadania = zadania.substring(0, zadania.length-1);
+            alert(zadania);
+            
+ 
             var item = {
                 tytul: nazwa,
-                krotkitytul: nazwa,
-                avatarAdmina: 'http://themina.net/themes/shema/img/demo/team/team_img_3.jpg',
+                krotkitytul: nazwa.substring(0, 15)+'...',
+                avatarAdmina: $scope.user.avatar,
                 statusUzytkownika: 'oczekuje',
                 statusClass: 'completionHalf',
-                czasUzytkownika: '00:00',
-                kasaUzytkownika: '0zł',
+                czasUzytkownika: '00:0',
+                kasaUzytkownika: '0',
                 punktyUzytkownika: '0',
                 procentUkonczeniaProjektu: '0',
+                budzetPieniezny:'tak',
+                budzetPienieznyWartosc:'4000',
+                budzetPienieznyWykorzystanie:'1000',
+                budzetGodzinowy:'tak',
+                budzetGodzinowyWartosc:'4000',
+                budzetGodzinowyWykorzystanie:'1000',
                 ukonczoneZadania: '0',
                 wszystkieZadania: '0',
                 notyfikacjeDisplay: 'none',
                 notyfikacje: '0',
                 zadaniaPrzypisaneDoUzytkownika: '0',
                 zadaniaNieprzypisane: '0',
-                terminy: [
-                    {
-                        data: '12.12.2015 12:00',
-                        nazwa: 'Preztacja projektu'
-                  },
-                    {
-                        data: '22.12.2015 15:00',
-                        nazwa: 'Zakonczenie projektu'
-                  }
-              ],
+                zadaniaPoTerminie: '0',
+                zadaniaPrzekroczonyBudzet: '0',
+                terminy: [],
+                zadania: [],
+                log: [
+                      {
+                            idLog: 0,
+                            typ: 'rozpoczecieProjektu',
+                            data: today,
+                            dataPrezentacja: 'Dziś - '+gg+':'+min,
+                            odczytane: 0
+                        }
+                ],
                 przypisaneOsoby: [
                     {
-                        avatar: 'http://themina.net/themes/shema/img/demo/team/team_img_3.jpg',
-                        iloscZadan: 3,
-                  },
-                    {
-                        avatar: 'http://themina.net/themes/shema/img/demo/team/team_img_3.jpg',
-                        iloscZadan: 1,
-                  },
-                    {
-                        avatar: 'http://themina.net/themes/shema/img/demo/team/team_img_3.jpg',
-                        iloscZadan: 12,
+                        idOsoby: 0,
+                        avatar: $scope.user.avatar,
+                        iloscZadan: 0,
+                        stawka: '80zł',
+                        imie: $scope.user.imie+' '+$scope.user.nazwisko,
+                        czasUzytkownika: '00:00',
+                        kasaUzytkownika: '00.00',
+                        punktyUzytkownika: 0,
+                        dodatkowaKlasaListy: 'currentUser'
                   }
               ]
-            };
+          };
             $scope.items.push(item);
+             $scope.$apply;
             var index = $scope.items.length;
             var selectedItem = $projekty.items[index - 1];
+            
+            $('.pojedynczyTermin').each(function(x){
+                var dataTermin=$(this).find('input[type="datetime-local"]').val();
+                var nazwaTermin=$(this).find('input[type="text"]').val();
+                var zadanie = {
+                    idZadania:x,
+                    basicItem: 'none',
+                    milestone: 'block',
+                    mileStoneNaglowek: 'Milestone '+(x+1),
+                    milestoneUkonczoneZadaniaProcent: '0',
+                    milestoneWykorzystanyBudzetPieniadze: '0',
+                    milestoneWykorzystanyBudzetGodziny: '0',
+                    data:dataTermin,
+                    nazwa:nazwaTermin  
+                }
+                $projekty.items[index - 1].zadania.push(zadanie);
+            });
+            
             $projekty.selectedItem = selectedItem;
             $scope.navi.pushPage('procjectview.html', {
                 title: selectedItem.tytul
@@ -200,7 +265,17 @@
                 title: selectedItem.tytul
             });
         };
-
+    });
+    
+    module.factory('$currentUser', function () {
+        var currentUser = {};
+        currentUser.items = [
+            {
+                imie: 'Marcin',
+                nazwisko:'Kowalski',
+                avatar:'http://themina.net/themes/shema/img/demo/team/team_img_3.jpg'
+            }];
+        return currentUser;
     });
 
 
@@ -217,6 +292,12 @@
                 kasaUzytkownika: '215zł',
                 punktyUzytkownika: '5',
                 procentUkonczeniaProjektu: '30',
+                budzetPieniezny:'tak',
+                budzetPienieznyWartosc:'4000',
+                budzetPienieznyWykorzystanie:'1000',
+                budzetGodzinowy:'tak',
+                budzetGodzinowyWartosc:'4000',
+                budzetGodzinowyWykorzystanie:'1000',
                 ukonczoneZadania: '3',
                 wszystkieZadania: '10',
                 notyfikacjeDisplay: 'block',

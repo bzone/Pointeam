@@ -59,7 +59,17 @@
             color: #999;
             float: right;
         }
+        .over {
+            position: fixed;
+            bottom:0px;
+            left: 0px;
+            width: 100%;
+            height: 50px;
+            background-color: red;
+            z-index: 9999;
+        }
     </style>
+    <div class="over">test</div>
     <ons-navigator var="navi">
         <ons-page style="background:#31198B !Important;">
 
@@ -320,7 +330,7 @@
                 <div id="newTask" style="display:none;">Dodaj zadanie</div>
             </div>
             <ons-list style="display:block;" class="tabZadania">
-                <ons-list-item modifier="chevron" class="item" ng-repeat="zadanie in item.zadania | orderBy:'data'" ng-click="showDetail($index)">
+                <ons-list-item modifier="chevron" class="item" ng-repeat="zadanie in item.zadania track by $index | orderBy:'data'" ng-click="showDetail($index)">
                     <ons-row>
                         <ons-col>
                             <div class="basicItem subtask" style="display:{{zadanie.basicItem}};">
@@ -590,6 +600,16 @@
                                     </div>
                                 </ons-col>
                             </div>
+                             <div ng-if="logItem.typ=='rozpoczecieProjektu'" class="width100">
+                                <ons-col>
+                                    <div class="basicItem logItem purple">
+                                        <div class="taskTitle" style="margin-bottom:-10px;">Rozpoczęcie projektu</div>
+                                        <div class="infoElements">
+                                            <div class='icon time'>{{logItem.dataPrezentacja}}</div>
+                                        </div>
+                                    </div>
+                                </ons-col>
+                            </div>
                             <div ng-if="logItem.typ=='zakonczenieMilestone'" class="width100">
                                 <ons-col>
                                     <div class="basicItem logItem grey">
@@ -623,7 +643,7 @@
                 </div>
             </ons-toolbar>
             <div class="text-center" style="background-color:#32188f;">
-                <div id="avatar" class="avatarUser"></div>
+                <div id="avatar" class="avatarUser" style="background-url('{{user.avatar}}');"></div>
                 <a id="capturePhoto">zmień awatar</a>
             </div>
             <ul class="list">
@@ -632,7 +652,7 @@
                     <ons-row align="center" class="row ons-row-inner row-center">
                         <ons-col class="col ons-col-inner">Imię</ons-col>
                         <ons-col class="col ons-col-inner">
-                            <input type="text" class="text-input text-input--transparent inputWithLabel" placeholder="Imię" value="Piotr">
+                            <input type="text" class="text-input text-input--transparent inputWithLabel" placeholder="Imię" ng-model="user.imie" ng-init="user.imie">
                         </ons-col>
                     </ons-row>
                 </li>
@@ -640,7 +660,7 @@
                     <ons-row align="center" class="row ons-row-inner row-center">
                         <ons-col class="col ons-col-inner">Nazwisko</ons-col>
                         <ons-col class="col ons-col-inner">
-                            <input type="text" class="text-input text-input--transparent inputWithLabel" placeholder="Nazwisko" value="Kowalski">
+                            <input type="text" class="text-input text-input--transparent inputWithLabel" placeholder="Nazwisko" ng-model="user.nazwisko" ng-init="user.nazwisko">
                         </ons-col>
                     </ons-row>
                 </li>
@@ -681,6 +701,44 @@
             </div>
             <ul class="list ">
                 <li class="list__header">Budżet</li>
+                <li class="list__item" id="twojaStawkaGodzinowa">
+                    <ons-row align="center" class="row ons-row-inner row-center">
+                        <ons-col class="col ons-col-inner">Twoja stawka/h</ons-col>
+                        <ons-col class="col ons-col-inner">
+                            <select class="inputClear">
+                                <option>50zł</option>
+                                <option>100zł</option>
+                                <option>200zł</option>
+                                <option>300zł</option>
+                                <option>400zł</option>
+                                <option>500zł</option>
+                                <option>600zł</option>
+                                <option>700zł</option>
+                                <option>800zł</option>
+                                <option>900zł</option>
+                                <option>1000zł</option>
+                                <option>1500zł</option>
+                                <option>2000zł</option>
+                                <option>2500zł</option>
+                                <option>3000zł</option>
+                                <option>3500zł</option>
+                                <option>4000zł</option>
+                                <option>4500zł</option>
+                                <option>5000zł</option>
+                                <option>6000zł</option>
+                                <option>7000zł</option>
+                                <option>8000zł</option>
+                                <option>9000zł</option>
+                                <option>10000zł</option>
+                                <option>11000zł</option>
+                                <option>12000zł</option>
+                                <option>13000zł</option>
+                                <option>14000zł</option>
+                                <option>15000zł</option>
+                            </select>
+                        </ons-col>
+                    </ons-row>
+                </li>
                 <li class="list__item">
                     <ons-row align="center" class="row ons-row-inner row-center">
                         <ons-col class="col ons-col-inner">Budżet pieniężny</ons-col>
@@ -1011,9 +1069,6 @@
                     }
 
 
-
-
-
                     $('#budgetType').click(function () {
                         ons.notification.confirm({
                             title: 'Opcje projektu',
@@ -1050,7 +1105,6 @@
                                     $('.typePunkty').addClass('blink');
                                     $('#budgetType').html('Punkty premiowe - zmień <i class="icon ion-android-arrow-dropdown"></i>');
                                 }
-
                             }
                         });
                     });
