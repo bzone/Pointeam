@@ -58,22 +58,20 @@
                         }
                         today = dd+'.'+mm+'.'+yyyy+' '+gg+':'+min;
             
+            var budzetAdmin = $('#twojaStawkaGodzinowa select').val();
             
-            
-            
-            var terminy='[';
-            var zadania='';
-            $('.pojedynczyTermin').each(function(x){
-                var dataTermin=$(this).find('input[type="datetime-local"]').val();
-                var nazwaTermin=$(this).find('input[type="text"]').val();
-                terminy=terminy+"{ data:'"+dataTermin+"', nazwa:'"+nazwaTermin+"'},";
-                zadania=zadania+"{idZadania:"+x+", basicItem: 'none', milestone: 'block', mileStoneNaglowek: 'Milestone "+(x+1)+"',milestoneUkonczoneZadaniaProcent: '0', milestoneWykorzystanyBudzetPieniadze: '0', milestoneWykorzystanyBudzetGodziny: '0', data:'"+dataTermin+"',nazwa: '"+nazwaTermin+"'},";   
-            });
-            terminy = terminy.substring(0, terminy.length-1);
-            terminy=terminy+"]";
-            zadania = zadania.substring(0, zadania.length-1);
-            alert(zadania);
-            
+            var budzetGodzinowyWartosc=0;
+            var budzetGodzinowy='nie';
+            if ($('#budzetGodzinowy input:checked').length==1) {
+               budzetGodzinowy='tak';
+               budzetGodzinowyWartosc=$('#wartoscBudzetGodziny select').val();
+            }
+            var budzetPienieznyWartosc=0;
+            var budzetPieniezny='nie';
+            if ($('#budzetPieniadze input:checked').length==1) {
+               budzetPieniezny='tak';
+               budzetPienieznyWartosc=$('#wartoscBudzetPieniadze select').val(); 
+            }
  
             var item = {
                 tytul: nazwa,
@@ -85,12 +83,12 @@
                 kasaUzytkownika: '0',
                 punktyUzytkownika: '0',
                 procentUkonczeniaProjektu: '0',
-                budzetPieniezny:'tak',
-                budzetPienieznyWartosc:'4000',
-                budzetPienieznyWykorzystanie:'1000',
-                budzetGodzinowy:'tak',
-                budzetGodzinowyWartosc:'4000',
-                budzetGodzinowyWykorzystanie:'1000',
+                budzetPieniezny:budzetPieniezny,
+                budzetPienieznyWartosc:budzetPienieznyWartosc,
+                budzetPienieznyWykorzystanie:0,
+                budzetGodzinowy:budzetGodzinowy,
+                budzetGodzinowyWartosc:budzetGodzinowyWartosc,
+                budzetGodzinowyWykorzystanie:0,
                 ukonczoneZadania: '0',
                 wszystkieZadania: '0',
                 notyfikacjeDisplay: 'none',
@@ -115,7 +113,7 @@
                         idOsoby: 0,
                         avatar: $scope.user.avatar,
                         iloscZadan: 0,
-                        stawka: '80zł',
+                        stawka: budzetAdmin,
                         imie: $scope.user.imie+' '+$scope.user.nazwisko,
                         czasUzytkownika: '00:00',
                         kasaUzytkownika: '00.00',
@@ -131,6 +129,7 @@
             
             $('.pojedynczyTermin').each(function(x){
                 var dataTermin=$(this).find('input[type="datetime-local"]').val();
+                dataTermin=dataTermin.substring(8, 10)+'.'+dataTermin.substring(5, 7)+'.'+(parseInt(dataTermin.substring(0, 4)))+' '+dataTermin.substring(11, 13)+':'+dataTermin.substring(14, 16);
                 var nazwaTermin=$(this).find('input[type="text"]').val();
                 var zadanie = {
                     idZadania:x,
@@ -143,7 +142,14 @@
                     data:dataTermin,
                     nazwa:nazwaTermin  
                 }
+                var termin = {
+                    idTerminu:x,
+                    mileStoneNaglowek: 'Milestone '+(x+1),
+                    data:dataTermin,
+                    nazwa:nazwaTermin  
+                }
                 $projekty.items[index - 1].zadania.push(zadanie);
+                $projekty.items[index - 1].terminy.push(termin);
             });
             
             $projekty.selectedItem = selectedItem;
@@ -153,11 +159,9 @@
         }
     });
 
-    module.controller('DetailController', function ($scope, $projekty) {
+    module.controller('DetailController', function ($scope, $projekty, $filter) {
         $scope.item = $projekty.selectedItem;
         var dodatkowePunkty = 0;
-
-
         $scope.projectOptions = function () {
             ons.notification.confirm({
                 title: 'Opcje projektu',
@@ -166,7 +170,7 @@
                 primaryButtonIndex: 0,
                 callback: function (index) {
                     if (index == 0) {
-                        navi.pushPage('newproject.html', {
+                        navi.pushPage('newtask.html', {
                             animation: 'slide'
                         });
                     }
@@ -234,6 +238,14 @@
                                 }
                             }
                         });
+        };
+        
+        $scope.addPerson = function (idosobyS) {
+            
+        var found = $filter('filter')($scope.item.przypisaneOsoby, {idOsoby: idosobyS}, true);
+            
+          $('#personList').append('<ons-list-item class="item osoba" data-person="'+idosobyS+'"><ons-row><ons-col><div class="basicItem logItem"><div class="avatarHolder"><div class="person" style="background-image:url('+found[0].avatar+')"></div><div class="clear"></div></div><div class="taskTitle" style="margin-bottom:-10px;">'+found[0].imie+'</div><div class="infoElements"><div class="icon cost">'+found[0].stawka+'</div></div></div></ons-col></ons-row></ons-list-item>');
+            navi.popPage();
         };
 
 
