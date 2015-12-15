@@ -1028,6 +1028,17 @@ textarea.text-input {
     top: 21px;
 }
 
+.checkHolder {
+    position: absolute;
+    right: 15px;
+    color: #828181;
+    /* padding: 5px; */
+    /* background-color: red; */
+    height: 30px;
+    font-size: 29px;
+    top: 21px;
+}
+
 .searchbar {
     background-color: #000;
     padding: 13px;
@@ -1041,6 +1052,16 @@ textarea.text-input {
     padding: 10px;
     background-color: #FFF;
     box-sizing: border-box;
+}
+
+#pac-input {
+    width: 100%;
+    border:solid 13px #000;
+    background-color: #FFF;
+    box-sizing: border-box;
+    position: relative;
+    padding: 10px;
+    border-radius:0px !Important;
 }
 
 .searchbar .loopIcon {
@@ -1061,4 +1082,8 @@ h3 {
         font-family: 'Hurme Geometric Sans 4 SemiBold'; 
     margin-bottom: 5px;
     margin-top: 20px;
+}
+
+.pac-container {
+    display: none !important;
 }

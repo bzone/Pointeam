@@ -435,6 +435,30 @@
                 <ul class="list ">
                     <li class="list__header" id="budgetType">Koszty - zmień <i class="icon ion-android-arrow-dropdown"></i>
                     </li>
+                    <ons-list-item modifier="chevron" class="item typeAll typeKoszt" ng-repeat="osoba in item.przypisaneOsoby | orderBy:'-kasaUzytkownika'" ng-click="showDetail($index)">
+                        <ons-row>
+                            <ons-col>
+                                <div class="basicItem subtask" style="display:{{zadanie.basicItem}};">
+                                    <div class="avatarHolder">
+                                        <div class="person" style="background-image:url({{osoba.avatar}})"></div>
+                                        <div class="clear"></div>
+
+                                    </div>
+                                    <div class="dateHolder prioFinished">
+                                        <div class="day">0{{$index+1}}</div>
+                                    </div>
+                                    <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.imie}}</div>
+                                    <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.kasaUzytkownika}}zł</div>
+                                    <div class="infoElements">
+                                        <div class='icon time'>{{osoba.czasUzytkownika}}</div>
+                                        <div class='icon cost'>{{osoba.kasaUzytkownika}}</div>
+                                        <div class='icon cost'>{{osoba.stawka}}</div>
+                                        <div class='icon promo'>{{osoba.punktyUzytkownika}}</div>
+                                    </div>
+                                </div>
+                            </ons-col>
+                        </ons-row>
+                    </ons-list-item>
                     <ons-list-item modifier="chevron" class="item typeAll typeCzas" style="display:none;" ng-repeat="osoba in item.przypisaneOsoby | orderBy:'-czasUzytkownika'" ng-click="showDetail($index)">
                         <ons-row>
                             <ons-col>
@@ -753,7 +777,7 @@
                         <ons-icon icon="ion-chevron-left" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
                     </ons-toolbar-button>
                 </div>
-                <div class="center">Nowy projekt</div>
+                <div class="center">Nowe zadanie</div>
                 <div class="right">
                     <ons-toolbar-button>
                         <ons-icon icon="ion-checkmark-circled" fixed-width="false" style="font-size: 26px; vertical-align: -4px" onclick="navi.popPage();"></ons-icon>
@@ -823,7 +847,6 @@
                     </ons-row>
                 </li>
             </ul>
-
             <ul class="list">
                 <li class="list__header">Budżet</li>
                 <li class="list__item">
@@ -886,6 +909,23 @@
             </ul>
             <ul class="list" id="personList">
                 <li class="list__header">Osoby</li>
+                <ons-list-item modifier="chevron" class="item osoba" ng-repeat="osoba in currentuser[0].tmp | orderBy:'-imie'" data-person="{{osoba.idUser}}" ng-click="removePersonFromTask(osoba.idUser)">
+                    <ons-row>
+                        <ons-col>
+                            <div class="basicItem logItem">
+                                <div class="avatarHolder">
+                                    <div class="person" style="background-image:url({{osoba.avatar}})"></div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div ng-if="userAddedToTemp(osoba.idUser)" class="checkHolder"><i class="icon ion-android-cancel"></i></div>
+                                <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.imie}}</div>
+                                <div class="infoElements">
+                                    <div class='icon cost'>{{osoba.stawka}}</div>
+                                </div>
+                            </div>
+                        </ons-col>
+                    </ons-row>
+                </ons-list-item>
             </ul>
 
             <div class="text-center">
@@ -906,7 +946,7 @@
                 </div>
             </ons-toolbar>
             <ul class="list" id="personToAddList">
-                <ons-list-item modifier="chevron" class="item osoba" ng-repeat="osoba in item.przypisaneOsoby | orderBy:'-imie'" data-person="{{osoba.idOsoby}}" ng-click="addPerson(osoba.idOsoby)">
+                <ons-list-item modifier="chevron" class="item osoba" ng-repeat="osoba in item.przypisaneOsoby | orderBy:'-imie'" data-person="{{osoba.idUser}}" ng-click="addPersonToTask(osoba.idUser)">
                     <ons-row>
                         <ons-col>
                             <div class="basicItem logItem">
@@ -914,6 +954,7 @@
                                     <div class="person" style="background-image:url({{osoba.avatar}})"></div>
                                     <div class="clear"></div>
                                 </div>
+                                <div ng-if="userAddedToTemp(osoba.idUser)" class="checkHolder"><i class="icon ion-checkmark-circled"></i></div>
                                 <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.imie}}</div>
                                 <div class="infoElements">
                                     <div class='icon cost'>{{osoba.stawka}}</div>
@@ -926,7 +967,7 @@
         </ons-page>
     </ons-template>
     <ons-template id="map.html">
-        <ons-page ng-controller="DetailController">
+        <ons-page ng-controller="DetailController" ng-init="initMap()">
             <ons-toolbar>
                 <div class="left">
                     <ons-toolbar-button onclick="navi.popPage();">
@@ -937,9 +978,10 @@
                 <div class="right">
                 </div>
             </ons-toolbar>
-            <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+            <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDt3cHxEr4IhF8HFs7cgjvl7qnRD9hmGso&libraries=places"></script>
             <link href="http://code.google.com/apis/maps/documentation/javascript/examples/default.css" rel="stylesheet" type="text/css" />
-            <div id="map_canvas" style="width:100%; height:400px;">
+            <input id="pac-input" class="controls" type="text" placeholder="Wyśrodkuj mapę na...">
+            <div id="map_canvas" style="width:100%; height:500px;">
             </div>
         </ons-page>
     </ons-template>
@@ -978,8 +1020,8 @@
 
             <div>
 
-                <div id="currentProjectPeople">
-                  <ons-list-item modifier="chevron" class="item osoba" ng-repeat="osoba in item.przypisaneOsoby | orderBy:'imie' " data-person="{{osoba.idUser}}"  style="background:#FFF;">
+                <div id="currentProjectPeopleTab">
+                    <ons-list-item modifier="chevron" class="item osoba" ng-repeat="osoba in item.przypisaneOsoby | orderBy:'imie' " data-person="{{osoba.idUser}}" style="background:#FFF;">
                         <ons-row>
                             <ons-col>
                                 <div class="basicItem logItem">
@@ -987,6 +1029,7 @@
                                         <div class="person" style="background-image:url({{osoba.avatar}})"></div>
                                         <div class="clear"></div>
                                     </div>
+                                    <div ng-if="userNoTask(osoba.idUser)" class="checkHolder" ng-click="removePerson(osoba.idUser)"><i class="icon ion-android-cancel"></i></div>
                                     <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.imie}}</div>
                                     <div class="infoElements">
                                         <div class='icon cost'>{{osoba.stawka}}zł/h</div>
@@ -997,15 +1040,34 @@
                     </ons-list-item>
                 </div>
 
+                <div id="addNewPersonTab" style="display:none;">
+                    <div class="searchbar">
+                        <div class="loopIcon"></div>
+                        <input ng-model="searchText" id="searchPerson" placeholder="Wyszukaj przez e-mail">
+                    </div>
 
-                <div class="searchbar">
-                    <div class="loopIcon"></div>
-                    <input ng-model="searchText" id="searchPerson" placeholder="Wyszukaj przez e-mail">
-                </div>
-
-                <div id="lastUsedPeople">
-                    <h3>Ostatnio pracowałeś z:</h3>
-                    <ons-list-item modifier="chevron" class="item osoba" ng-repeat="osoba in currentuser[0].ostatnieOsoby | orderBy:'imie' " data-person="{{osoba.idUser}}" ng-click="addPersonLast(osoba.idOsoby)" style="background:#FFF;">
+                    <div id="lastUsedPeople">
+                        <h3>Ostatnio pracowałeś z:</h3>
+                        <ons-list-item modifier="chevron" class="item osoba" ng-repeat="osoba in currentuser[0].ostatnieOsoby | orderBy:'imie' " data-person="{{osoba.idUser}}" ng-click="addPersonLast(osoba.idUser)" style="background:#FFF;">
+                            <ons-row>
+                                <ons-col>
+                                    <div class="basicItem logItem">
+                                        <div class="avatarHolder">
+                                            <div class="person" style="background-image:url({{osoba.avatar}})"></div>
+                                            <div class="clear"></div>
+                                        </div>
+                                        <div ng-if="userAdded(osoba.idUser)" class="checkHolder"><i class="icon ion-checkmark-circled"></i></div>
+                                        <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.imie}}</div>
+                                        <div class="infoElements">
+                                            <div class='icon cost'>{{osoba.stawka}}zł/h</div>
+                                        </div>
+                                    </div>
+                                </ons-col>
+                            </ons-row>
+                        </ons-list-item>
+                    </div>
+                    <div id="searchPeople" style="display:none;" />
+                    <ons-list-item modifier="chevron" class="item osoba" ng-repeat="osoba in baza | orderBy:'imie' | filter:searchText" data-person="{{osoba.idUser}}" ng-click="addPersonNew(osoba.idUser)" style="background:#FFF;">
                         <ons-row>
                             <ons-col>
                                 <div class="basicItem logItem">
@@ -1013,34 +1075,17 @@
                                         <div class="person" style="background-image:url({{osoba.avatar}})"></div>
                                         <div class="clear"></div>
                                     </div>
+                                    <div ng-if="userAdded(osoba.idUser)" class="checkHolder"><i class="icon ion-checkmark-circled"></i></div>
                                     <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.imie}}</div>
                                     <div class="infoElements">
-                                        <div class='icon cost'>{{osoba.stawka}}zł/h</div>
+                                        <div class='icon none'>{{osoba.email}}</div>
                                     </div>
                                 </div>
                             </ons-col>
                         </ons-row>
                     </ons-list-item>
                 </div>
-                <div id="searchPeople" style="display:none;" />
-                <ons-list-item modifier="chevron" class="item osoba" ng-repeat="osoba in baza | orderBy:'imie' | filter:searchText" data-person="{{osoba.idUser}}" ng-click="addPerson(osoba.idOsoby)" style="background:#FFF;">
-                    <ons-row>
-                        <ons-col>
-                            <div class="basicItem logItem">
-                                <div class="avatarHolder">
-                                    <div class="person" style="background-image:url({{osoba.avatar}})"></div>
-                                    <div class="clear"></div>
-                                </div>
-                                <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.imie}}</div>
-                                <div class="infoElements">
-                                    <div class='icon none'>{{osoba.email}}</div>
-                                </div>
-                            </div>
-                        </ons-col>
-                    </ons-row>
-                </ons-list-item>
             </div>
-
             </div>
 
         </ons-page>
@@ -1259,27 +1304,8 @@
                         }
                     });
 
-                    function GoogleMap() {
+                
 
-                        this.initialize = function () {
-                            var map = showMap();
-                        }
-
-                        var showMap = function () {
-                            var mapOptions = {
-                                zoom: 4,
-                                center: new google.maps.LatLng(-33, 151),
-                                mapTypeId: google.maps.MapTypeId.ROADMAP
-                            }
-
-                            var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
-
-                            return map;
-                        }
-                    }
-
-                    //   var map = new GoogleMap();
-                    // map.initialize();
 
                     $('.avatarUser').css('background-image', 'url(' + avatrUzytkownika + ')');
 
