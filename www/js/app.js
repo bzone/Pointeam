@@ -2,7 +2,7 @@
     'use strict';
     var module = angular.module('app', ['onsen']);
     var logType='wszystkie';
-    
+    var searchText='nie ma takiej mozliwosci';
     
     module.filter('logfilter', function() {
             return function(items, search) {
@@ -13,8 +13,22 @@
             }
   };
 });
+    
+        module.filter('searchText', function() {
+            return function(items, search) {
+            var searchText = element(by.model('searchText'));
+            if (searchText=='') { 
+            return items.filter(function(element, index, array) {
+            return element.email=="nie ma takiej mozliwosci"; });
+            } else {
+            return items.filter(function(element, index, array) {
+            return element.email==searchText;
+    });
+            }
+  };
+});
 
-    module.controller('AppController', function ($scope, $projekty, $currentUser) {
+    module.controller('AppController', function ($scope, $projekty, $currentUser, $bazauzytkownikow) {
         $scope.user = $currentUser.items[0];
         $scope.doSomething = function () {
             setTimeout(function () {
@@ -159,8 +173,10 @@
         }
     });
 
-    module.controller('DetailController', function ($scope, $projekty, $filter) {
+    module.controller('DetailController', function ($scope, $projekty, $filter, $bazauzytkownikow, $currentUser) {
         $scope.item = $projekty.selectedItem;
+        $scope.baza=$bazauzytkownikow.items;
+        $scope.currentuser=$currentUser.items;
         var dodatkowePunkty = 0;
         $scope.projectOptions = function () {
             ons.notification.confirm({
@@ -171,6 +187,21 @@
                 callback: function (index) {
                     if (index == 0) {
                         navi.pushPage('newtask.html', {
+                            animation: 'slide'
+                        });
+                    }
+                      if (index == 1) {
+                        navi.pushPage('editPeople.html', {
+                            animation: 'slide'
+                        });
+                    }
+                     if (index == 2) {
+                        navi.pushPage('editTerms.html', {
+                            animation: 'slide'
+                        });
+                    }
+                       if (index == 3) {
+                        navi.pushPage('editBudget.html', {
                             animation: 'slide'
                         });
                     }
@@ -208,6 +239,68 @@
                 }
             });
         };
+        
+        $scope.addPersonLast = function(userToAddId) {
+            
+        }
+        
+        $scope.addTermTemplate = function () {
+                        var item = $('<li class="list__item pojedynczyTerminNowy" style="padding-right:8px; display:none;"><ons-row align="center" class="row ons-row-inner row-center" style="padding-right:1px;"><ons-col class="col ons-col-inner">Data*</ons-col><ons-col class="col ons-col-inner" style="padding-right:8px;"><input type="datetime-local"  class="inputClear" value="' + new Date().toJSON().slice(0, 19) + '" ></ons-col></ons-row><ons-row align="center" class="row ons-row-inner row-center"><ons-col class="col ons-col-inner">Nazwa*</ons-col><ons-col class="col ons-col-inner"><input type="text" class="text-input text-input--transparent inputWithLabel" placeholder="Nazwa terminu"></ons-col></ons-row></li>');
+                        $('#terminyNowe').append(item);
+                        $(item).fadeIn(2000);
+        }
+        
+        
+        
+        $scope.updateBudget = function () {
+            if($scope.item.budzetGodzinowy=='tak') {
+                $scope.item.budzetGodzinowyWartosc=$('#newHourBudgetText').text();
+            }
+            if($scope.item.budzetPieniezny=='tak') {
+                $scope.item.budzetPienieznyWartosc=$('#newMoneyBudgetText').text();
+            }
+            navi.popPage();
+        }
+        
+         $scope.updateTerms = function () {
+              $('.pojedynczyTerminNowy').each(function(x){
+                var dataTermin=$(this).find('input[type="datetime-local"]').val();
+                dataTermin=dataTermin.substring(8, 10)+'.'+dataTermin.substring(5, 7)+'.'+(parseInt(dataTermin.substring(0, 4)))+' '+dataTermin.substring(11, 13)+':'+dataTermin.substring(14, 16);
+                var nazwaTermin=$(this).find('input[type="text"]').val();
+                var zadanie = {
+                    idZadania:x,
+                    basicItem: 'none',
+                    milestone: 'block',
+                    mileStoneNaglowek: 'Milestone '+(x+1),
+                    milestoneUkonczoneZadaniaProcent: '0',
+                    milestoneWykorzystanyBudzetPieniadze: '0',
+                    milestoneWykorzystanyBudzetGodziny: '0',
+                    data:dataTermin,
+                    nazwa:nazwaTermin  
+                }
+                var termin = {
+                    idTerminu:x,
+                    mileStoneNaglowek: 'Milestone '+(x+1),
+                    data:dataTermin,
+                    nazwa:nazwaTermin  
+                }
+                $scope.item.zadania.push(zadanie);
+                $scope.item.terminy.push(termin);
+                
+            });
+             navi.popPage();
+             
+        }
+         
+        
+        $scope.removeTerm = function (selectedTermId) {
+            var found = $filter('filter')($scope.item.terminy, {idTerminu: selectedTermId}, true);
+            var tmpIndex=$scope.item.terminy.indexOf(found[0]);
+            $scope.item.terminy.splice(tmpIndex, 1);
+            found = $filter('filter')($scope.item.zadania, {idTerminu: selectedTermId}, true);
+            tmpIndex=$scope.item.zadania.indexOf(found[0]);
+            $scope.item.zadania.splice(tmpIndex, 1);
+        }
         
         $scope.logType = function () {
             ons.notification.confirm({
@@ -285,7 +378,30 @@
             {
                 imie: 'Marcin',
                 nazwisko:'Kowalski',
-                avatar:'http://themina.net/themes/shema/img/demo/team/team_img_3.jpg'
+                avatar:'http://themina.net/themes/shema/img/demo/team/team_img_3.jpg',
+                ostatnieOsoby:[
+                    {
+                idUser:12,
+                imie:'Piotr Kowalski',
+                email:'piotr@kowalski.pl',
+                avatar: 'http://api.adorable.io/avatars/209/abott@3.io.png',
+                stawka:20
+            },
+            {
+                idUser:13,
+                imie:'Marcin Kowalski',
+                email:'marcin@kowalski.pl',
+                avatar: 'http://api.adorable.io/avatars/209/abott@4.io.png',
+                stawka:20
+            },
+            {
+                idUser:14,
+                imie:'Dominik Kowalski',
+                email:'dominik@kowalski.pl',
+                avatar: 'http://api.adorable.io/avatars/209/abott@44.io.png',
+                stawka:50
+            }
+                ]
             }];
         return currentUser;
     });
@@ -320,10 +436,12 @@
                 zadaniaPrzekroczonyBudzet: '4',
                 terminy: [
                     {
+                        idTerminu:0,
                         data: '12.12.2015 12:00',
                         nazwa: 'Preztacja projektu'
                   },
                     {
+                        idTerminu:1,
                         data: '22.12.2015 15:00',
                         nazwa: 'Zakonczenie projektu'
                   }
@@ -502,6 +620,7 @@
                   },
                     {
                         idZadania: 6,
+                        idTerminu:0,
                         basicItem: 'none',
                         milestone: 'block',
                         mileStoneNaglowek: 'Milestone 1',
@@ -520,6 +639,7 @@
                   },
                     {
                         idZadania: "7",
+                        idTerminu:0,
                         basicItem: 'none',
                         milestone: 'block',
                         mileStoneNaglowek: 'Milestone 2',
@@ -586,6 +706,55 @@
           }
       ];
         return projekty;
+    });
+    
+    module.factory('$bazauzytkownikow', function () {
+        var bazauzytkownikow = {};
+        bazauzytkownikow.items = [
+            {
+                idUser:10,
+                imie:'Jan Kowalski',
+                email:'jan@kowalski.pl',
+                avatar: 'http://api.adorable.io/avatars/209/abott@1.io.png',
+            },
+            {
+                idUser:11,
+                imie:'Adam Kowalski',
+                email:'adam@kowalski.pl',
+                avatar: 'http://api.adorable.io/avatars/209/abott@2.io.png',
+            },
+            {
+                idUser:12,
+                imie:'Piotr Kowalski',
+                email:'piotr@kowalski.pl',
+                avatar: 'http://api.adorable.io/avatars/209/abott@3.io.png',
+            },
+            {
+                idUser:13,
+                imie:'Marcin Kowalski',
+                email:'marcin@kowalski.pl',
+                avatar: 'http://api.adorable.io/avatars/209/abott@4.io.png',
+            },
+            {
+                idUser:14,
+                imie:'Dominik Kowalski',
+                email:'dominik@kowalski.pl',
+                avatar: 'http://api.adorable.io/avatars/209/abott@44.io.png',
+            },
+            {
+                idUser:15,
+                imie:'Maciej Kowalski',
+                email:'maciej@kowalski.pl',
+                avatar: 'http://api.adorable.io/avatars/209/abott@45.io.png',
+            },
+            {
+                idUser:16,
+                imie:'Michał Kowalski',
+                email:'michal@kowalski.pl',
+                avatar: 'http://api.adorable.io/avatars/209/abott@46.io.png',
+            },
+        ];
+        return bazauzytkownikow;
     });
 
 })();

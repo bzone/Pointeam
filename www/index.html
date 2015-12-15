@@ -59,9 +59,10 @@
             color: #999;
             float: right;
         }
+        
         .over {
             position: fixed;
-            bottom:0px;
+            bottom: 0px;
             left: 0px;
             width: 100%;
             height: 50px;
@@ -391,7 +392,7 @@
                     </ons-row>
                 </ons-list-item>
             </ons-list>
-            <div style="display:none;" class="tabBudzet">
+            <div style="display:none;" class="tabBudzet" id="tabBudzet">
                 <div class="chartsBig">
                     <div class="half" ng-if="item.budzetGodzinowy=='tak'">
                         <span class="chartHours" data-percent="{{item.budzetGodzinowyWykorzystanie/item.budzetGodzinowyWartosc*100}}">
@@ -402,11 +403,11 @@
                         <div class="chartLabel">przepracowanych
                             <br/>godzin</div>
                     </div>
-                      <div class="half" ng-if="item.budzetGodzinowy!='tak'">
+                    <div class="half" ng-if="item.budzetGodzinowy!='tak'">
                         <span class="chartHours" data-percent="0">
 		                    <span class="value">{{item.budzetGodzinowyWykorzystanie}}</span>
                         <div class="clear"></div>
-    
+
                         </span>
                         <div class="chartLabel">przepracowanych
                             <br/>godzin</div>
@@ -593,7 +594,7 @@
                                     </div>
                                 </ons-col>
                             </div>
-                             <div ng-if="logItem.typ=='rozpoczecieProjektu'" class="width100">
+                            <div ng-if="logItem.typ=='rozpoczecieProjektu'" class="width100">
                                 <ons-col>
                                     <div class="basicItem logItem purple">
                                         <div class="taskTitle" style="margin-bottom:-10px;">Rozpoczęcie projektu</div>
@@ -770,7 +771,7 @@
                     </ons-row>
                 </li>
                 <li class="list__item">
-                    <ons-row  class="row ons-row-inner">
+                    <ons-row class="row ons-row-inner">
                         <ons-col class="col ons-col-inner">Opis</ons-col>
                         <ons-col class="col ons-col-inner">
                             <textarea class="text-input text-input--transparent inputWithLabel" id="opisZadania" placeholder="Dodatkowe informacje"></textarea>
@@ -778,10 +779,10 @@
                     </ons-row>
                 </li>
                 <li class="list__item">
-                    <ons-row  class="row ons-row-inner">
+                    <ons-row class="row ons-row-inner">
                         <ons-col class="col ons-col-inner">Miejsce</ons-col>
                         <ons-col class="col ons-col-inner">
-                            <span class="text-input text-input--transparent inputWithLabel" id="lokalizacja"  onclick="navi.pushPage('map.html', { animation : 'slide' } )">Wybierz lokalizację</span>
+                            <span class="text-input text-input--transparent inputWithLabel" id="lokalizacja" onclick="navi.pushPage('map.html', { animation : 'slide' } )">Wybierz lokalizację</span>
                         </ons-col>
                     </ons-row>
                 </li>
@@ -793,36 +794,36 @@
                         <ons-col class="col ons-col-inner">Termin</ons-col>
                         <ons-col class="col ons-col-inner">
                             <select class="inputClear">
-                            <option ng-repeat="termin in item.terminy" value="{{termin.idTerminu}}">{{termin.data}} ({{termin.nazwa}})</option>
-                            <option value="inny">Inna data</option>
+                                <option ng-repeat="termin in item.terminy" value="{{termin.idTerminu}}">{{termin.data}} ({{termin.nazwa}})</option>
+                                <option value="inny">Inna data</option>
                             </select>
                         </ons-col>
                     </ons-row>
                 </li>
-                 <li class="list__item" id="innaData">
+                <li class="list__item" id="innaData">
                     <ons-row align="center" class="row ons-row-inner row-center">
                         <ons-col class="col ons-col-inner">Termin</ons-col>
                         <ons-col class="col ons-col-inner">
-                               <input type="datetime-local"  class="inputClear">
+                            <input type="datetime-local" class="inputClear">
                         </ons-col>
                     </ons-row>
                 </li>
-                
-             
-                 <li class="list__item" id="wybranyPriorytet">
+
+
+                <li class="list__item" id="wybranyPriorytet">
                     <ons-row align="center" class="row ons-row-inner row-center">
                         <ons-col class="col ons-col-inner">Priorytet</ons-col>
                         <ons-col class="col ons-col-inner">
                             <select class="inputClear">
-                            <option value="niski">Niski</option>
-                            <option value="normalny">Normalny</option>
-                            <option value="wysoki">Wysoki</option>
+                                <option value="niski">Niski</option>
+                                <option value="normalny">Normalny</option>
+                                <option value="wysoki">Wysoki</option>
                             </select>
                         </ons-col>
                     </ons-row>
                 </li>
             </ul>
-           
+
             <ul class="list">
                 <li class="list__header">Budżet</li>
                 <li class="list__item">
@@ -886,7 +887,7 @@
             <ul class="list" id="personList">
                 <li class="list__header">Osoby</li>
             </ul>
-            
+
             <div class="text-center">
                 <div id="dodajOsobe" onclick="navi.pushPage('addperson.html', { animation : 'slide' } )">dodaj osobę</div>
             </div>
@@ -904,8 +905,81 @@
                 <div class="right">
                 </div>
             </ons-toolbar>
-            <ul class="list" id="personToAddList" >
-               <ons-list-item modifier="chevron" class="item osoba" ng-repeat="osoba in item.przypisaneOsoby | orderBy:'-imie'" data-person="{{osoba.idOsoby}}" ng-click="addPerson(osoba.idOsoby)">
+            <ul class="list" id="personToAddList">
+                <ons-list-item modifier="chevron" class="item osoba" ng-repeat="osoba in item.przypisaneOsoby | orderBy:'-imie'" data-person="{{osoba.idOsoby}}" ng-click="addPerson(osoba.idOsoby)">
+                    <ons-row>
+                        <ons-col>
+                            <div class="basicItem logItem">
+                                <div class="avatarHolder">
+                                    <div class="person" style="background-image:url({{osoba.avatar}})"></div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.imie}}</div>
+                                <div class="infoElements">
+                                    <div class='icon cost'>{{osoba.stawka}}</div>
+                                </div>
+                            </div>
+                        </ons-col>
+                    </ons-row>
+                </ons-list-item>
+            </ul>
+        </ons-page>
+    </ons-template>
+    <ons-template id="map.html">
+        <ons-page ng-controller="DetailController">
+            <ons-toolbar>
+                <div class="left">
+                    <ons-toolbar-button onclick="navi.popPage();">
+                        <ons-icon icon="ion-chevron-left" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+                <div class="center">Lokalizacja</div>
+                <div class="right">
+                </div>
+            </ons-toolbar>
+            <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+            <link href="http://code.google.com/apis/maps/documentation/javascript/examples/default.css" rel="stylesheet" type="text/css" />
+            <div id="map_canvas" style="width:100%; height:400px;">
+            </div>
+        </ons-page>
+    </ons-template>
+
+
+    <ons-template id="editPeople.html">
+        <ons-page ng-controller="DetailController">
+            <ons-toolbar>
+                <div class="left">
+                    <ons-toolbar-button onclick="navi.popPage();">
+                        <ons-icon icon="ion-chevron-left" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+                <div class="center">Osoby</div>
+                <div class="right">
+                </div>
+            </ons-toolbar>
+            <ons-tapbar position="top" class="homeTabs">
+                <div class="tab-bar tab-bar--top tab-bar--top-border">
+                    <label class="tab-bar__item tab-bar--top-border__item" ng-click="goToPersonListTab()">
+                        <input type="radio" name="top-tab-bar-b" checked="checked">
+                        <button class="tab-bar__button tab-bar--top-border__button">
+                            Dodane
+                        </button>
+                    </label>
+
+                    <label class="tab-bar__item tab-bar--top-border__item" ng-click="goToAddNewPersonTab()">
+                        <input type="radio" name="top-tab-bar-b">
+                        <button class="tab-bar__button tab-bar--top-border__button">
+                            Dodaj nową
+                        </button>
+                    </label>
+                </div>
+            </ons-tapbar>
+
+
+            <div>
+
+                <div id="currentProjectPeople">
+                  <ons-list-item modifier="chevron" class="item osoba" ng-repeat="osoba in item.przypisaneOsoby | orderBy:'imie' " data-person="{{osoba.idUser}}"  style="background:#FFF;">
                         <ons-row>
                             <ons-col>
                                 <div class="basicItem logItem">
@@ -915,19 +989,65 @@
                                     </div>
                                     <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.imie}}</div>
                                     <div class="infoElements">
-                                        <div class='icon cost'>{{osoba.stawka}}</div>
+                                        <div class='icon cost'>{{osoba.stawka}}zł/h</div>
                                     </div>
                                 </div>
                             </ons-col>
                         </ons-row>
                     </ons-list-item>
-            </ul>
-           
-           
-        
+                </div>
+
+
+                <div class="searchbar">
+                    <div class="loopIcon"></div>
+                    <input ng-model="searchText" id="searchPerson" placeholder="Wyszukaj przez e-mail">
+                </div>
+
+                <div id="lastUsedPeople">
+                    <h3>Ostatnio pracowałeś z:</h3>
+                    <ons-list-item modifier="chevron" class="item osoba" ng-repeat="osoba in currentuser[0].ostatnieOsoby | orderBy:'imie' " data-person="{{osoba.idUser}}" ng-click="addPersonLast(osoba.idOsoby)" style="background:#FFF;">
+                        <ons-row>
+                            <ons-col>
+                                <div class="basicItem logItem">
+                                    <div class="avatarHolder">
+                                        <div class="person" style="background-image:url({{osoba.avatar}})"></div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.imie}}</div>
+                                    <div class="infoElements">
+                                        <div class='icon cost'>{{osoba.stawka}}zł/h</div>
+                                    </div>
+                                </div>
+                            </ons-col>
+                        </ons-row>
+                    </ons-list-item>
+                </div>
+                <div id="searchPeople" style="display:none;" />
+                <ons-list-item modifier="chevron" class="item osoba" ng-repeat="osoba in baza | orderBy:'imie' | filter:searchText" data-person="{{osoba.idUser}}" ng-click="addPerson(osoba.idOsoby)" style="background:#FFF;">
+                    <ons-row>
+                        <ons-col>
+                            <div class="basicItem logItem">
+                                <div class="avatarHolder">
+                                    <div class="person" style="background-image:url({{osoba.avatar}})"></div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.imie}}</div>
+                                <div class="infoElements">
+                                    <div class='icon none'>{{osoba.email}}</div>
+                                </div>
+                            </div>
+                        </ons-col>
+                    </ons-row>
+                </ons-list-item>
+            </div>
+
+            </div>
+
         </ons-page>
     </ons-template>
-        <ons-template id="map.html">
+
+
+    <ons-template id="editTerms.html">
         <ons-page ng-controller="DetailController">
             <ons-toolbar>
                 <div class="left">
@@ -935,18 +1055,116 @@
                         <ons-icon icon="ion-chevron-left" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
                     </ons-toolbar-button>
                 </div>
-                <div class="center">Dodaj osobę</div>
+                <div class="center">Terminy</div>
                 <div class="right">
+                    <ons-toolbar-button>
+                        <ons-icon icon="ion-checkmark-circled" fixed-width="false" style="font-size: 26px; vertical-align: -4px" ng-click="updateTerms()"></ons-icon>
+                    </ons-toolbar-button>
                 </div>
             </ons-toolbar>
-            <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
-<link href="http://code.google.com/apis/maps/documentation/javascript/examples/default.css" rel="stylesheet" type="text/css" />
-       <div id="map_canvas" style="width:100%; height:400px;">
-</div>
+
+            <li ng-repeat="termin in item.terminy" class="list__item pojedynczyTermin" style="padding-right:8px; background-color:#FFF;" data-termid="{{termin.idTerminu}} ">
+                <div class="removeTerm" ng-click="removeTerm(termin.idTerminu)"><i class="icon ion-android-cancel"></i></div>
+                <ons-row align="center" class="row ons-row-inner row-center" style="padding-right:1px;">
+                    <ons-col class="col ons-col-inner">Data</ons-col>
+                    <ons-col class="col ons-col-inner" style="padding-right:8px;">{{termin.data}}</ons-col>
+                </ons-row>
+                <ons-row align="center" class="row ons-row-inner row-center">
+                    <ons-col class="col ons-col-inner">Nazwa</ons-col>
+                    <ons-col class="col ons-col-inner">{{termin.nazwa}} </ons-col>
+                </ons-row>
+            </li>
+
+
+
+            <ul class="list noOverscroll" id="terminyNowe">
+            </ul>
+            <div class="text-center">
+                <div id="dodajTerminNowy" ng-click="addTermTemplate()">dodaj termin</div>
+            </div>
+
         </ons-page>
     </ons-template>
-    
-    
+
+
+    <ons-template id="editBudget.html">
+        <ons-page ng-controller="DetailController">
+            <ons-toolbar>
+                <div class="left">
+                    <ons-toolbar-button onclick="navi.popPage();">
+                        <ons-icon icon="ion-chevron-left" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+                <div class="center">Budżet</div>
+                <div class="right">
+                    <ons-toolbar-button>
+                        <ons-icon icon="ion-checkmark-circled" fixed-width="false" style="font-size: 26px; vertical-align: -4px" ng-click="updateBudget()"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+            </ons-toolbar>
+            <div class="chartsBig" id="editBudgetCharts" ng-init="initBudgetCharts()">
+                <div class="half" ng-if="item.budzetGodzinowy=='tak'">
+                    <span class="chartHours" data-percent="{{item.budzetGodzinowyWykorzystanie/item.budzetGodzinowyWartosc*100}}">
+		                    <span class="percent"></span>
+                    <div class="clear"></div>
+                    <span class="detail">{{item.budzetGodzinowyWykorzystanie}}/<span id="newHourBudgetText">{{item.budzetGodzinowyWartosc}}</span></span>
+                    </span>
+                    <div class="chartLabel">przepracowanych
+                        <br/>godzin</div>
+                </div>
+                <div class="half" ng-if="item.budzetGodzinowy!='tak'">
+                    <span class="chartHours" data-percent="0">
+		                    <span class="value">{{item.budzetGodzinowyWykorzystanie}}</span>
+                    <div class="clear"></div>
+
+                    </span>
+                    <div class="chartLabel">przepracowanych
+                        <br/>godzin</div>
+                </div>
+                <div class="half" ng-if="item.budzetPieniezny=='tak'">
+                    <span class="chartMoney" data-percent="{{item.budzetPienieznyWykorzystanie/item.budzetPienieznyWartosc*100}}">
+		                    <span class="percent"></span>
+                    <div class="clear"></div>
+                    <span class="detail">{{item.budzetPienieznyWykorzystanie}}/<span id="newMoneyBudgetText">{{item.budzetPienieznyWartosc}}</span></span>
+                    </span>
+                    <div class="chartLabel">wykorzystane
+                        <br/>pieniądze</div>
+                </div>
+                <div class="half" ng-if="item.budzetPieniezny!='tak'">
+                    <span class="chartMoney" data-percent="{{item.budzetPienieznyWykorzystanie/item.budzetPienieznyWartosc*100}}">
+		                    <span class="value">{{item.budzetPienieznyWykorzystanie}}zł</span>
+                    <div class="clear"></div>
+                    </span>
+                    <div class="chartLabel">wykorzystane
+                        <br/>pieniądze</div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <ul class="list ">
+                <li class="list__header">Budżet</li>
+                <li class="list__item" ng-if="item.budzetPieniezny=='tak'">
+                    <ons-row align="center" class="row ons-row-inner row-center">
+                        <ons-col class="col ons-col-inner">Pieniądze</ons-col>
+                        <ons-col class="col ons-col-inner">
+                            <select id="newMoneyBudget" class="inputClear optionGenerator" data-count="1000" data-step="250" data-unit="zł" data-min="{{item.budzetPienieznyWykorzystanie}}" data-select="{{item.budzetPienieznyWartosc}}">
+                            </select>
+                        </ons-col>
+                    </ons-row>
+                </li>
+                <li class="list__item" ng-if="item.budzetGodzinowy=='tak'">
+                    <ons-row align="center" class="row ons-row-inner row-center">
+                        <ons-col class="col ons-col-inner">Godziny</ons-col>
+                        <ons-col class="col ons-col-inner">
+                            <select id="newHourBudget" class="inputClear optionGenerator" data-count="1000" data-step="250" data-unit="" data-min="{{item.budzetGodzinowyWykorzystanie}}" data-select="{{item.budzetGodzinowyWartosc}}">
+                            </select>
+                        </ons-col>
+                    </ons-row>
+                </li>
+            </ul>
+        </ons-page>
+    </ons-template>
+
+
     <script>
         var projectCreated = 0;
         var imieUzytkownika = 'Piotr';
@@ -996,44 +1214,72 @@
                 });
             }
             ons.ready(function () {
+                navi.on('postpop', function () {
+                    var newpercent = $('.chartMoney').attr('data-percent');
+                    $('.chartMoney').data('easyPieChart').update(newpercent);
+                    newpercent = $('.chartHours').attr('data-percent');
+                    $('.chartHours').data('easyPieChart').update(newpercent);
+                });
+
+
                 navi.on('postpush', function () {
-                    
-                    $('select.optionGenerator').each(function(){
-                        if($(this).find('option').length==0) {
-                       var count=$(this).attr('data-count');
-                        var step=$(this).attr('data-step');
-                        var unit=$(this).attr('data-unit');
-                        var stringtt='';
-                        console.log(new Date());
-                        for (i = 1; i <= count; i++) { 
-                           stringtt+='<option value="'+(step*i)+'">'+(step*i)+unit+'</option>';
+
+
+                    $('#searchPerson').on("change keyup paste", function () {
+                        if ($('#searchPerson').val().length > 2) {
+                            $('#lastUsedPeople').css('display', 'none');
+                            $('#searchPeople').css('display', 'block');
+                        } else {
+                            $('#lastUsedPeople').css('display', 'block');
+                            $('#searchPeople').css('display', 'none');
                         }
-                         $(this).append(stringtt);
-                         console.log(new Date());
+
+                    });
+
+                    $('select.optionGenerator').each(function () {
+                        if ($(this).find('option').length == 0) {
+                            var count = $(this).attr('data-count');
+                            var step = $(this).attr('data-step');
+                            var unit = $(this).attr('data-unit');
+                            var select = $(this).attr('data-select');
+                            var min = $(this).attr('data-min');
+                            var stringtt = '';
+                            console.log(new Date());
+                            for (i = 1; i <= count; i++) {
+                                if (step * i >= min) {
+                                    if (step * i == select) {
+                                        stringtt += '<option value="' + (step * i) + '"  selected="selected">' + (step * i) + unit + '</option>';
+                                    } else {
+                                        stringtt += '<option value="' + (step * i) + '">' + (step * i) + unit + '</option>';
+                                    }
+                                }
+                            }
+                            $(this).append(stringtt);
+                            console.log(new Date());
                         }
                     });
-                    
-                    function GoogleMap(){
- 
-this.initialize = function(){
-var map = showMap();
-}
- 
- var showMap = function(){
-var mapOptions = {
-zoom: 4,
-center: new google.maps.LatLng(-33, 151),
-mapTypeId: google.maps.MapTypeId.ROADMAP
-}
- 
-var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
- 
-return map;
-}
-}
-                    
-                       var map = new GoogleMap();
-    map.initialize();
+
+                    function GoogleMap() {
+
+                        this.initialize = function () {
+                            var map = showMap();
+                        }
+
+                        var showMap = function () {
+                            var mapOptions = {
+                                zoom: 4,
+                                center: new google.maps.LatLng(-33, 151),
+                                mapTypeId: google.maps.MapTypeId.ROADMAP
+                            }
+
+                            var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+
+                            return map;
+                        }
+                    }
+
+                    //   var map = new GoogleMap();
+                    // map.initialize();
 
                     $('.avatarUser').css('background-image', 'url(' + avatrUzytkownika + ')');
 
@@ -1090,6 +1336,54 @@ return map;
                         });
                     });
 
+                    $('#editBudgetCharts .chartHours').easyPieChart({
+                        size: 148,
+                        lineWidth: 5,
+                        barColor: '#7ABC32',
+                        trackColor: '#F7F7F7',
+                        scaleColor: '#FAFAFD',
+                        lineCap: 'square',
+                        easing: 'easeOutBounce',
+                        onStep: function (from, to, percent) {
+                            $(this.el).find('.percent').text(Math.round(percent));
+                        }
+                    });
+
+                    $('#editBudgetCharts .chartMoney').easyPieChart({
+                        size: 148,
+                        lineWidth: 5,
+                        barColor: '#E32C35',
+                        trackColor: '#F7F7F7',
+                        scaleColor: '#FAFAFD',
+                        lineCap: 'square',
+                        easing: 'easeOutBounce',
+                        onStep: function (from, to, percent) {
+                            $(this.el).find('.percent').text(Math.round(percent));
+                        }
+                    });
+
+
+                    $("#newHourBudget").change(function () {
+                        var min = $(this).attr('data-min');
+                        var max = $(this).find("option:selected").val();
+                        min = Math.floor(min / max * 100);
+                        $('#newHourBudgetText').text(max);
+                        $('#editBudgetCharts .chartHours').data('easyPieChart').update(min);
+                    });
+
+                    $("#newMoneyBudget").change(function () {
+                        var min = $(this).attr('data-min');
+                        var max = $(this).find("option:selected").val();
+                        min = Math.floor(min / max * 100);
+                        $('#newMoneyBudgetText').text(max);
+                        $('#editBudgetCharts .chartMoney').data('easyPieChart').update(min);
+                    });
+
+
+
+
+
+
                     $('#goToPostep').click(function () {
                         $('.tabZadania').css('display', 'none');
                         $('.tabPostep').css('display', 'block');
@@ -1134,7 +1428,7 @@ return map;
                         });
 
                     });
-                    
+
                     $('#goToList').click(function () {
                         $('.page__background').toggleClass('simpleBG');
                         $('.tabMojeZadania').css('display', 'none');
