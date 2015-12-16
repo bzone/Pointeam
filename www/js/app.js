@@ -4,6 +4,17 @@
     var logType = 'wszystkie';
     var searchText = 'nie ma takiej mozliwosci';
 
+
+    function orderKeyGen(dd, mm, yyyy, gg, min, p) {
+        dd = parseInt(dd);
+        mm = parseInt(mm);
+        yyyy = parseInt(yyyy);
+        gg = parseInt(gg);
+        min = parseInt(min);
+        p = parseInt(p);
+        return ((((dd + mm * 31 + yyyy * 365) * 10000) + gg * 60 + min) * 10) + p;
+    }
+
     module.filter('logfilter', function () {
         return function (items, search) {
             if (logType == 'wszystkie') {
@@ -61,6 +72,7 @@
             var yyyy = today.getFullYear();
             var gg = today.getHours();
             var min = today.getMinutes();
+            var orderKey = orderKeyGen(dd, mm, yyyy, gg, min, 0);
             if (dd < 10) {
                 dd = '0' + dd
             }
@@ -119,6 +131,7 @@
                 log: [
                     {
                         idLog: 0,
+                        orderKey: orderKey,
                         typ: 'rozpoczecieProjektu',
                         data: today,
                         dataPrezentacja: 'Dziś - ' + gg + ':' + min,
@@ -146,10 +159,18 @@
 
             $('.pojedynczyTermin').each(function (x) {
                 var dataTermin = $(this).find('input[type="datetime-local"]').val();
-                dataTermin = dataTermin.substring(8, 10) + '.' + dataTermin.substring(5, 7) + '.' + (parseInt(dataTermin.substring(0, 4))) + ' ' + dataTermin.substring(11, 13) + ':' + dataTermin.substring(14, 16);
+                dd = dataTermin.substring(8, 10);
+                mm = dataTermin.substring(5, 7);
+                yyyy = dataTermin.substring(0, 4);
+                gg = dataTermin.substring(11, 13);
+                min = dataTermin.substring(14, 16);
+                dataTermin = dd + '.' + mm + '.' + yyyy + ' ' + gg + ':' + min;
+                orderKey = orderKeyGen(dd, mm, yyyy, gg, min, 9);
                 var nazwaTermin = $(this).find('input[type="text"]').val();
                 var zadanie = {
-                    idZadania: x,
+                    idZadania: (x + 1) * 1000,
+                    idTerminu: (x + 1) * 1000,
+                    orderKey: orderKey,
                     basicItem: 'none',
                     milestone: 'block',
                     mileStoneNaglowek: 'Milestone ' + (x + 1),
@@ -160,7 +181,8 @@
                     nazwa: nazwaTermin
                 }
                 var termin = {
-                    idTerminu: x,
+                    idTerminu: (x + 1) * 1000,
+                    orderKey: orderKey,
                     mileStoneNaglowek: 'Milestone ' + (x + 1),
                     data: dataTermin,
                     nazwa: nazwaTermin
@@ -181,6 +203,270 @@
         $scope.baza = $bazauzytkownikow.items;
         $scope.currentuser = $currentUser.items;
         var dodatkowePunkty = 0;
+
+        //NOTE: Dodawanie zadania
+        $scope.addNewTask = function () {
+            var nazwa = $('#nazwaZadania').val();
+
+            var data = $('#wybranyTermin select').val();
+            var innaData = 0;
+            if (data == "inny") {
+                data = $('#innaData input').val();
+                innaData = 1;
+            }
+
+            if (nazwa == '') {
+                ons.notification.alert({
+                    message: 'Podaj nazwę zadania',
+                    title: 'Brak nazwy',
+                    buttonLabel: 'OK',
+                    animation: 'default',
+                    callback: function () {}
+                });
+            } else if (data == '') {
+                ons.notification.alert({
+                    message: 'Podaj termin wykonania zadania',
+                    title: 'Brak daty',
+                    buttonLabel: 'OK',
+                    animation: 'default',
+                    callback: function () {}
+                });
+            } else {
+                var opis = $('#opisZadania');
+
+                var pokazLokalizacje = 'none';
+                var lokalizacja = $('#lokalizacjaZadania').html();
+                var lokalizacjaZadaniaLatLng=$('#lokalizacjaZadaniaLatLng').html();
+                if (lokalizacja != "Wybierz lokalizację") {
+                    pokazLokalizacje = 'block';
+                }
+
+
+                var priorytet = $('#wybranyPriorytet select').val();
+                var priorytetValue = 0;
+                if (priorytet == "niski") {
+                    priorytet = 'prioLow';
+                    priorytetValue = 3;
+                }
+                if (priorytet == "normalny") {
+                    priorytet = 'prioNormal';
+                    priorytetValue = 2;
+                }
+                if (priorytet == "wysoki") {
+                    priorytet = 'prioImportant';
+                    priorytetValue = 1;
+                }
+
+                //NOTE: now point
+                var orderKey;
+                var dd;
+                var mm;
+                var yyyy;
+                var gg;
+                var min;
+
+                if (innaData == 0) {
+                    data = parseInt(data);
+                    var found = $filter('filter')($scope.item.terminy, {
+                        idTerminu: data
+                    }, true);
+                    orderKey = found[0].orderKey - 9 + priorytetValue;
+                    data = found[0].data;
+                    dd = data.substring(0, 2);
+                    mm = data.substring(3, 5);
+                    yyyy = data.substring(6, 10);
+                    gg = data.substring(11, 13);
+                    min = data.substring(14, 16);
+                    
+                } else {
+                    dd = data.substring(8, 10);
+                    mm = data.substring(5, 7);
+                    yyyy = data.substring(0, 4);
+                    gg = data.substring(11, 13);
+                    min = data.substring(14, 16);
+                    data = dd + '.' + mm + '.' + yyyy + ' ' + gg + ':' + min;
+                    orderKey = orderKeyGen(dd, mm, yyyy, gg, min, priorytetValue);
+                }
+                if (mm == '01') {
+                        mm = 'STY';
+                    }
+                    if (mm == '02') {
+                        mm = 'LUT';
+                    }
+                    if (mm == '03') {
+                        mm = 'MAR';
+                    }
+                    if (mm == '04') {
+                        mm = 'KWI';
+                    }
+                    if (mm == '05') {
+                        mm = 'MAJ';
+                    }
+                    if (mm == '06') {
+                        mm = 'CZE';
+                    }
+                    if (mm == '07') {
+                        mm = 'LIP';
+                    }
+                    if (mm == '08') {
+                        mm = 'SIE';
+                    }
+                    if (mm == '09') {
+                        mm = 'WRZ';
+                    }
+                    if (mm == '10') {
+                        mm = 'PAZ';
+                    }
+                    if (mm == '11') {
+                        mm = 'LIS';
+                    }
+                    if (mm == '12') {
+                        mm = 'GRU';
+                    }
+                
+                
+                
+            var budzetGodzinowyWartosc = 0;
+            var budzetGodzinowy = 'nie';
+            if ($('#zadanieWartoscBudzetGodziny input:checked').length == 1) {
+                budzetGodzinowy = 'tak';
+                budzetGodzinowyWartosc = $('#zadanieWartoscBudzetGodziny select').val();
+            }
+            var budzetPienieznyWartosc = 0;
+            var budzetPieniezny = 'nie';
+            if ($('#zadanieWartoscBudzetPieniadze input:checked').length == 1) {
+                budzetPieniezny = 'tak';
+                budzetPienieznyWartosc = $('#zadanieWartoscBudzetPieniadze select').val();
+            }
+
+
+                var zadanie = {
+                    idZadania: 5,
+                    orderKey: orderKey,
+                    basicItem: 'block',
+                    data: data,
+                    dataDzien: dd,
+                    dataMiesiac: mm,
+                    dataGodzina: gg + ':' + min,
+                    notyfikacjeDisplay: 'none',
+                    notyfikacje: 0,
+                    lokalizacjaDisplay:pokazLokalizacje,
+                    lokalizacja:lokalizacja,
+                    latLngPosition:lokalizacjaZadaniaLatLng,
+                    brakOsobyDisplay: 'block',
+                    ukonczoneDisplay: 'none',
+                    avatarPierwszejOsoby: 'https://dl.dropboxusercontent.com/u/28981503/noPerson.png',
+                    dotatkoweOsoby: '0',
+                    dodatkoweOsobyDisplay: 'none',
+                    nazwa: nazwa,
+                    opis: opis,
+                    priorytet: priorytet,
+                    statusUzytkownika:'oczekuje',
+                    statusClass:'completionHalf',
+                    czasUzytkownika:'00:00',
+                    kasaUzytkownika:0,
+                    punktyUzytkownika:0,
+                    budzetPieniezny:budzetPieniezny,
+                    budzetPienieznyWartosc:budzetPienieznyWartosc,
+                    budzetPienieznyWykorzystanie:0,
+                    budzetGodzinowy:budzetGodzinowy,
+                    budzetGodzinowyWartosc:budzetGodzinowyWartosc,
+                    budzetGodzinowyWykorzystanie:0,
+                }
+                $scope.item.zadania.push(zadanie);
+                $scope.RebuildTerms();
+                navi.popPage();
+            }
+
+        }
+
+
+        $scope.RebuildTerms = function () {
+            var listaTerminow = [];
+            angular.forEach($scope.item.terminy, function (term, index) {
+                var found = $filter('filter')($scope.item.zadania, {
+                    idTerminu: term.idTerminu
+                }, true);
+                var orderKeyTmp = found[0].orderKey;
+                listaTerminow[index] = orderKeyTmp;
+            });
+            listaTerminow.sort();
+
+
+            var iterator = 0;
+            listaTerminow.forEach(function (entry) {
+
+
+                var found = $filter('filter')($scope.item.zadania, {
+                    orderKey: entry
+                }, true);
+
+
+                var orderKeyTmp = found[0].orderKey;
+                found[0].mileStoneNaglowek = 'Milestone ' + (iterator + 1);
+                found[0].milestoneUkonczoneZadaniaProcent = 0;
+                found[0].milestoneWykorzystanyBudzetPieniadze = 0;
+                found[0].milestoneWykorzystanyBudzetGodziny = 0;
+                var iloscZadan = 0;
+                var iloscZadanUkonczonych = 0;
+                var przydzielonyBudzetPieniadze = 0;
+                var przydzielonyBudzetPieniadzeWykorzystany = 0;
+                var przydzielonyBudzetGodziny = 0;
+                var przydzielonyBudzetGodzinyWykorzystany = 0;
+
+                angular.forEach($scope.item.zadania, function (task, index) {
+                    if (iterator == 0) {
+                        if (task.orderKey <= orderKeyTmp && task.orderKey > 0) {
+                            if (!task.idTerminu) {
+                                iloscZadan++;
+                                if (task.priorytet == 'prioFinished') {
+                                    iloscZadanUkonczonych++;
+                                }
+                                if (task.budzetPieniezny == 'tak') {
+                                    przydzielonyBudzetPieniadze += task.budzetPienieznyWartosc;
+                                    przydzielonyBudzetPieniadzeWykorzystany += task.budzetPienieznyWykorzystanie;
+                                }
+                                if (task.budzetGodzinowy == 'tak') {
+                                    przydzielonyBudzetGodziny += task.budzetGodzinowyWartosc;
+                                    przydzielonyBudzetGodzinyWykorzystany += task.budzetGodzinowyWykorzystanie;
+                                }
+                            }
+                        }
+                    } else {
+                        if (task.orderKey <= orderKeyTmp && task.orderKey > listaTerminow[iterator - 1]) {
+                            if (!task.idTerminu) {
+                                iloscZadan++;
+                                if (task.priorytet == 'prioFinished') {
+                                    iloscZadanUkonczonych++;
+                                }
+                                if (task.budzetPieniezny == 'tak') {
+                                    przydzielonyBudzetPieniadze += task.budzetPienieznyWartosc;
+                                    przydzielonyBudzetPieniadzeWykorzystany += task.budzetPienieznyWykorzystanie;
+                                }
+                                if (task.budzetGodzinowy == 'tak') {
+                                    przydzielonyBudzetGodziny += task.budzetGodzinowyWartosc;
+                                    przydzielonyBudzetGodzinyWykorzystany += task.budzetGodzinowyWykorzystanie;
+                                }
+                            }
+                        }
+                    }
+                });
+
+                if (iloscZadan > 0) {
+                    found[0].milestoneUkonczoneZadaniaProcent = iloscZadanUkonczonych / iloscZadan * 100;
+                }
+                if (przydzielonyBudzetPieniadze > 0) {
+                    found[0].milestoneWykorzystanyBudzetPieniadze = przydzielonyBudzetPieniadzeWykorzystany / przydzielonyBudzetPieniadze * 100;
+                }
+                if (przydzielonyBudzetGodziny > 0) {
+                    found[0].milestoneWykorzystanyBudzetGodziny = przydzielonyBudzetGodzinyWykorzystany / przydzielonyBudzetGodziny * 100;
+                }
+
+                iterator++;
+            });
+
+        }
+
         $scope.projectOptions = function () {
             ons.notification.confirm({
                 title: 'Opcje projektu',
@@ -242,150 +528,188 @@
                 }
             });
         };
-        
-        
-        $scope.initMap = function() {
-            
-            var currentLocationLat=0;
-            var currentLocationLong=0;
+
+
+
+        //NOTE: Google Maps function
+        $scope.applyLocation = function () {
+            var location = $('#adressPreview').html();
+            if (location != 'Kliknij na mapie, by wybrać lokalizację') {
+                $('#lokalizacjaZadania').html(location);
+                var latLngTmp=$('#adressPreview small').html();
+                $('#lokalizacjaZadaniaLatLng').html(latLngTmp);
+            }
+            navi.popPage();
+        }
+
+        $scope.initMap = function () {
+
+            var currentLocationLat = 0;
+            var currentLocationLong = 0;
             var map;
-            var onSuccess = function(position) {
-                
-            //.$('#map_canvas').height($(window).innerHeight()-150); 
-                
-                
-            currentLocationLat=position.coords.latitude;
-            currentLocationLong=position.coords.longitude;
-            canterMap(currentLocationLat,currentLocationLong,map);
-};
-            
-            var options = { };
-           
-                var marker = null;
-                    var geocoder;
+            var onSuccess = function (position) {
+
+                //.$('#map_canvas').height($(window).innerHeight()-150); 
 
 
-                    function GoogleMap() {
-                        this.initialize = function () {
-                            map = showMap();
-                            navigator.geolocation.getCurrentPosition(onSuccess, null, options);  
+                currentLocationLat = position.coords.latitude;
+                currentLocationLong = position.coords.longitude;
+                canterMap(currentLocationLat, currentLocationLong, map);
+            };
+
+            var options = {};
+
+            var marker = null;
+            var geocoder;
+
+
+            function GoogleMap() {
+                this.initialize = function () {
+                    map = showMap();
+                    navigator.geolocation.getCurrentPosition(onSuccess, null, options);
+                }
+                var showMap = function () {
+                    var mapOptions = {
+                        zoom: 12,
+                        disableDefaultUI: true,
+                        center: new google.maps.LatLng(currentLocationLat, currentLocationLong),
+                        mapTypeId: google.maps.MapTypeId.ROADMAP
+                    }
+
+                    var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+                    map.addListener('click', function (e) {
+                        placeMarkerAndPanTo(e.latLng, map);
+
+                    });
+                    geocoder = new google.maps.Geocoder();
+                    // Create the search box and link it to the UI element.
+                    var input = document.getElementById('pac-input');
+                    var searchBox = new google.maps.places.SearchBox(input);
+                    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+                    // Bias the SearchBox results towards current map's viewport.
+                    map.addListener('bounds_changed', function () {
+                        searchBox.setBounds(map.getBounds());
+                    });
+
+                    var markers = [];
+
+                    searchBox.addListener('places_changed', function () {
+                        var places = searchBox.getPlaces();
+
+                        if (places.length == 0) {
+                            return;
                         }
-                        var showMap = function () {
-                            var mapOptions = {
-                                zoom: 12,
-                                disableDefaultUI: true,
-                                center: new google.maps.LatLng(currentLocationLat, currentLocationLong),
-                                mapTypeId: google.maps.MapTypeId.ROADMAP
+
+
+
+                        // For each place, get the icon, name and location.
+                        var bounds = new google.maps.LatLngBounds();
+                        places.forEach(function (place) {
+                            var icon = {
+                                url: place.icon,
+                                size: new google.maps.Size(71, 71),
+                                origin: new google.maps.Point(0, 0),
+                                anchor: new google.maps.Point(17, 34),
+                                scaledSize: new google.maps.Size(25, 25)
+                            };
+
+
+
+                            if (place.geometry.viewport) {
+                                // Only geocodes have viewport.
+                                bounds.union(place.geometry.viewport);
+                            } else {
+                                bounds.extend(place.geometry.location);
                             }
-
-                            var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
-                            map.addListener('click', function (e) {
-                                placeMarkerAndPanTo(e.latLng, map);
-
-                            });
-                            geocoder = new google.maps.Geocoder();
-                                 // Create the search box and link it to the UI element.
-                            var input = document.getElementById('pac-input');
-                            var searchBox = new google.maps.places.SearchBox(input);
-                            map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-
-                            // Bias the SearchBox results towards current map's viewport.
-                            map.addListener('bounds_changed', function () {
-                                searchBox.setBounds(map.getBounds());
-                            });
-                            
-                             var markers = [];
-
-                            searchBox.addListener('places_changed', function () {
-                                var places = searchBox.getPlaces();
-
-                                if (places.length == 0) {
-                                    return;
-                                }
-
-                            
-                               
-                                // For each place, get the icon, name and location.
-                                var bounds = new google.maps.LatLngBounds();
-                                places.forEach(function (place) {
-                                    var icon = {
-                                        url: place.icon,
-                                        size: new google.maps.Size(71, 71),
-                                        origin: new google.maps.Point(0, 0),
-                                        anchor: new google.maps.Point(17, 34),
-                                        scaledSize: new google.maps.Size(25, 25)
-                                    };
-
-                                    
-
-                                    if (place.geometry.viewport) {
-                                        // Only geocodes have viewport.
-                                        bounds.union(place.geometry.viewport);
-                                    } else {
-                                        bounds.extend(place.geometry.location);
-                                    }
-                                });
-                                map.fitBounds(bounds);
-                                map.setZoom(12);
-                            });
-                                 
-                            return map;
-                            
-                        }
-
-                    }
-
-                    function placeMarkerAndPanTo(latLng, map) {
-
-                        if (marker != null) {
-                            marker.setMap(null);
-                        }
-                        marker = new google.maps.Marker({
-                            position: latLng,
-                            map: map
                         });
-                        getAddress(latLng);
-                        map.panTo(latLng);
-                    }
-            
-                    function canterMap(lat,lng,map) {
-                        map.setCenter(new google.maps.LatLng(lat,lng));
-                    }
+                        map.fitBounds(bounds);
+                        map.setZoom(12);
+                    });
 
-                    function getAddress(latLng) {
-                        geocoder.geocode({
-                                'latLng': latLng
-                            },
-                            function (results, status) {
-                                if (status == google.maps.GeocoderStatus.OK) {
-                                    if (results[0]) {
-                                        alert(results[0].address_components[1].short_name);
-                                        document.getElementById("address").value = results[0].address_components[1].short_name;
-                                    } else {
-                                        alert('brak');
-                                        document.getElementById("address").value = "No results";
+                    return map;
+
+                }
+
+            }
+
+            function placeMarkerAndPanTo(latLng, map) {
+
+                if (marker != null) {
+                    marker.setMap(null);
+                }
+                marker = new google.maps.Marker({
+                    position: latLng,
+                    map: map
+                });
+                getAddress(latLng);
+                map.panTo(latLng);
+            }
+
+            function canterMap(lat, lng, map) {
+                map.setCenter(new google.maps.LatLng(lat, lng));
+            }
+
+            function getAddress(latLng) {
+                geocoder.geocode({
+                        'latLng': latLng
+                    },
+                    function (results, status) {
+                        if (status == google.maps.GeocoderStatus.OK) {
+                            if (results[0]) {
+                                var ilosc = results[0].address_components.length;
+                                var ulica = '';
+                                var numer = '';
+                                var miasto = '';
+                                var kodPocztowy = '';
+                                for (i = 0; i < ilosc; i++) {
+                                    if (results[0].address_components[i].types[0] == 'street_number') {
+                                        numer = results[0].address_components[i].short_name;
                                     }
-                                } else {
-                                    document.getElementById("address").value = status;
+                                    if (results[0].address_components[i].types[0] == 'route') {
+                                        ulica = results[0].address_components[i].short_name;
+                                    }
+                                    if (results[0].address_components[i].types[0] == 'locality') {
+                                        miasto = results[0].address_components[i].short_name;
+                                    }
+                                    if (results[0].address_components[i].types[0] == 'postal_code') {
+                                        kodPocztowy = results[0].address_components[i].short_name;
+                                    }
                                 }
-                            });
-                    }
-                    
+                                
+                                if (ulica != '' && kodPocztowy != '') {
+                                    $('#adressPreview').html(ulica + ' ' + numer + '<br/>' + kodPocztowy + ' ' + miasto + '<br/>' + '<small>' + latLng + '</small>');
+                                   
+                                } else if (ulica != '') {
+                                    $('#adressPreview').html(ulica + ' ' + numer + '<br/>' + '<small>' + latLng + '</small>');
+                                } else if (kodPocztowy != '') {
+                                    $('#adressPreview').html(kodPocztowy + ' ' + miasto + '<br/>' + '<small>' + latLng + '</small>');
+                                }
 
-                    var map = new GoogleMap();
-                    map.initialize();
+                            } else {
+                                $('#adressPreview').html("Nie znaleziono adresu");
+                            }
+                        } else {
+                            $('#adressPreview').html(status);
+                        }
+                    });
+            }
+
+
+            var map = new GoogleMap();
+            map.initialize();
         }
-        
-        $scope.goToAddNewPersonTab = function() {
-            $('#currentProjectPeopleTab').css('display','none');
-            $('#addNewPersonTab').css('display','block');
+
+        $scope.goToAddNewPersonTab = function () {
+            $('#currentProjectPeopleTab').css('display', 'none');
+            $('#addNewPersonTab').css('display', 'block');
         }
-        
-        $scope.goToPersonListTab = function() {
-            $('#currentProjectPeopleTab').css('display','block');
-            $('#addNewPersonTab').css('display','none');
+
+        $scope.goToPersonListTab = function () {
+            $('#currentProjectPeopleTab').css('display', 'block');
+            $('#addNewPersonTab').css('display', 'none');
         }
-    
+
         $scope.addPersonNew = function (userToAddId) {
             var foundCheck = $filter('filter')($scope.item.przypisaneOsoby, {
                 idUser: userToAddId
@@ -407,46 +731,55 @@
                             email: found[0].email,
                             avatar: found[0].avatar,
                             stawka: age,
-                            iloscZadan:0,
-                            czasUzytkownika:'00:00',
-                            kasaUzytkownika:'0',
-                            punktyUzytkownika:0,
+                            iloscZadan: 0,
+                            czasUzytkownika: '00:00',
+                            kasaUzytkownika: '0',
+                            punktyUzytkownika: 0,
                         }
                         var foundCheck2 = $filter('filter')($scope.currentuser[0].ostatnieOsoby, {
-                idUser: userToAddId   }, true);
+                            idUser: userToAddId
+                        }, true);
                         $scope.item.przypisaneOsoby.push(osoba);
                         if (foundCheck2.length > 0) {} else {
-                        $scope.currentuser[0].ostatnieOsoby.push(osoba);
-                            }
+                            $scope.currentuser[0].ostatnieOsoby.push(osoba);
+                        }
                         $scope.$apply();
                     }
                 });
 
             }
         }
-        
+
         $scope.userAdded = function (userToAddId) {
             var foundCheck = $filter('filter')($scope.item.przypisaneOsoby, {
                 idUser: userToAddId
             }, true);
-            if (foundCheck.length > 0) { return true; } else { return false; }
+            if (foundCheck.length > 0) {
+                return true;
+            } else {
+                return false;
+            }
         }
-        
+
         $scope.userNoTask = function (userToAddId) {
-             var foundCheck = $filter('filter')($scope.item.przypisaneOsoby, {
+            var foundCheck = $filter('filter')($scope.item.przypisaneOsoby, {
                 idUser: userToAddId
             }, true);
-            if(foundCheck[0].iloscZadan==0) { return true; } else { return false; }
+            if (foundCheck[0].iloscZadan == 0) {
+                return true;
+            } else {
+                return false;
+            }
         }
-        
+
         $scope.removePerson = function (userToAddId) {
-         var found = $filter('filter')($scope.item.przypisaneOsoby, {
+            var found = $filter('filter')($scope.item.przypisaneOsoby, {
                 idUser: userToAddId
             }, true);
             var tmpIndex = $scope.item.przypisaneOsoby.indexOf(found[0]);
-              $scope.item.przypisaneOsoby.splice(tmpIndex, 1);
+            $scope.item.przypisaneOsoby.splice(tmpIndex, 1);
         }
-        
+
         $scope.addPersonLast = function (userToAddId) {
             var foundCheck = $filter('filter')($scope.item.przypisaneOsoby, {
                 idUser: userToAddId
@@ -465,10 +798,10 @@
                     email: found[0].email,
                     avatar: found[0].avatar,
                     stawka: found[0].stawka,
-                    iloscZadan:0,
-                    czasUzytkownika:'00:00',
-                    kasaUzytkownika:'0',
-                    punktyUzytkownika:0,
+                    iloscZadan: 0,
+                    czasUzytkownika: '00:00',
+                    kasaUzytkownika: '0',
+                    punktyUzytkownika: 0,
                 }
                 $scope.item.przypisaneOsoby.push(osoba);
             }
@@ -495,10 +828,19 @@
         $scope.updateTerms = function () {
             $('.pojedynczyTerminNowy').each(function (x) {
                 var dataTermin = $(this).find('input[type="datetime-local"]').val();
-                dataTermin = dataTermin.substring(8, 10) + '.' + dataTermin.substring(5, 7) + '.' + (parseInt(dataTermin.substring(0, 4))) + ' ' + dataTermin.substring(11, 13) + ':' + dataTermin.substring(14, 16);
+                var dd = dataTermin.substring(8, 10);
+                var mm = dataTermin.substring(5, 7);
+                var yyyy = dataTermin.substring(0, 4);
+                var gg = dataTermin.substring(11, 13);
+                var min = dataTermin.substring(14, 16);
+                dataTermin = dd + '.' + mm + '.' + yyyy + ' ' + gg + ':' + min;
+                var orderKey = orderKeyGen(dd, mm, yyyy, gg, min, 9);
                 var nazwaTermin = $(this).find('input[type="text"]').val();
+                var countTerms = $scope.item.terminy.length;
                 var zadanie = {
-                    idZadania: x,
+                    idZadania: (countTerms + x + 1) * 1000,
+                    idTerminu: (countTerms + x + 1) * 1000,
+                    orderKey: orderKey,
                     basicItem: 'none',
                     milestone: 'block',
                     mileStoneNaglowek: 'Milestone ' + (x + 1),
@@ -509,7 +851,8 @@
                     nazwa: nazwaTermin
                 }
                 var termin = {
-                    idTerminu: x,
+                    idTerminu: (countTerms + x + 1) * 1000,
+                    orderKey: orderKey,
                     mileStoneNaglowek: 'Milestone ' + (x + 1),
                     data: dataTermin,
                     nazwa: nazwaTermin
@@ -517,7 +860,10 @@
                 $scope.item.zadania.push(zadanie);
                 $scope.item.terminy.push(termin);
 
+
             });
+            $scope.RebuildTerms();
+
             navi.popPage();
 
         }
@@ -576,40 +922,44 @@
                     message: 'Ta osoba jest już dodana do tego zadania'
                 });
             } else {
-            var found = $filter('filter')($scope.item.przypisaneOsoby, {
-                idUser: idosobyS
-            }, true);
-            var osoba = {
-                            idUser: found[0].idUser,
-                            imie: found[0].imie,
-                            email: found[0].email,
-                            avatar: found[0].avatar,
-                            stawka: found[0].stawka,
-                            iloscZadan:0,
-                            czasUzytkownika:'00:00',
-                            kasaUzytkownika:'0',
-                            punktyUzytkownika:0,
-            }
-            $scope.currentuser[0].tmp.push(osoba);
-            navi.popPage();
+                var found = $filter('filter')($scope.item.przypisaneOsoby, {
+                    idUser: idosobyS
+                }, true);
+                var osoba = {
+                    idUser: found[0].idUser,
+                    imie: found[0].imie,
+                    email: found[0].email,
+                    avatar: found[0].avatar,
+                    stawka: found[0].stawka,
+                    iloscZadan: 0,
+                    czasUzytkownika: '00:00',
+                    kasaUzytkownika: '0',
+                    punktyUzytkownika: 0,
+                }
+                $scope.currentuser[0].tmp.push(osoba);
+                navi.popPage();
             }
         };
-        
+
         $scope.removePersonFromTask = function (userToAddId) {
-         var found = $filter('filter')($scope.currentuser[0].tmp, {
+            var found = $filter('filter')($scope.currentuser[0].tmp, {
                 idUser: userToAddId
             }, true);
             var tmpIndex = $scope.currentuser[0].tmp.indexOf(found[0]);
             $scope.currentuser[0].tmp.splice(tmpIndex, 1);
         }
-        
+
         $scope.userAddedToTemp = function (userToAddId) {
             var foundCheck = $filter('filter')($scope.currentuser[0].tmp, {
                 idUser: userToAddId
             }, true);
-            if (foundCheck.length > 0) { return true; } else { return false; }
+            if (foundCheck.length > 0) {
+                return true;
+            } else {
+                return false;
+            }
         }
-        
+
 
 
         $scope.addPromoPoints = function (indexid) {
@@ -649,7 +999,7 @@
                 imie: 'Marcin',
                 nazwisko: 'Kowalski',
                 avatar: 'http://themina.net/themes/shema/img/demo/team/team_img_3.jpg',
-                tmp:[],
+                tmp: [],
                 ostatnieOsoby: [
                     {
                         idUser: 12,
@@ -680,6 +1030,7 @@
 
     module.factory('$projekty', function () {
         var projekty = {};
+        //NOTE: Lista projekty
         projekty.items = [
             {
                 tytul: 'Strona internetowa pointeam',
@@ -692,11 +1043,11 @@
                 punktyUzytkownika: '5',
                 procentUkonczeniaProjektu: '30',
                 budzetPieniezny: 'tak',
-                budzetPienieznyWartosc: '4000',
-                budzetPienieznyWykorzystanie: '1000',
+                budzetPienieznyWartosc: 4000,
+                budzetPienieznyWykorzystanie: 1000,
                 budzetGodzinowy: 'tak',
-                budzetGodzinowyWartosc: '4000',
-                budzetGodzinowyWykorzystanie: '1000',
+                budzetGodzinowyWartosc: 4000,
+                budzetGodzinowyWykorzystanie: 1000,
                 ukonczoneZadania: '3',
                 wszystkieZadania: '10',
                 notyfikacjeDisplay: 'block',
@@ -707,13 +1058,15 @@
                 zadaniaPrzekroczonyBudzet: '4',
                 terminy: [
                     {
-                        idTerminu: 0,
-                        data: '12.12.2015 12:00',
+                        idTerminu: 1000,
+                        orderKey: 73585607209,
+                        data: '09.12.2015 12:00',
                         nazwa: 'Preztacja projektu'
                   },
                     {
-                        idTerminu: 1,
-                        data: '22.12.2015 15:00',
+                        idTerminu: 2000,
+                        orderKey: 73587010809,
+                        data: '23.12.2015 15:00',
                         nazwa: 'Zakonczenie projektu'
                   }
               ],
@@ -766,6 +1119,7 @@
                 zadania: [
                     {
                         idZadania: 1,
+                        orderKey: 73586107201,
                         basicItem: 'block',
                         milestone: 'none',
                         data: '14.12.2015 12:00',
@@ -781,16 +1135,23 @@
                         dotatkoweOsoby: '1',
                         dodatkoweOsobyDisplay: 'inline-block',
                         nazwa: 'Preztacja projektu',
-                        priorytet: 'prioImportant0',
+                        priorytet: 'prioImportant',
                         statusUzytkownika: 'w trakcie',
                         statusClass: 'completionHalf',
                         czasUzytkownika: '12:23',
                         kasaUzytkownika: '215zł',
                         punktyUzytkownika: '5',
-                        dodatkowaKlasaListy: 'currentUser'
+                        dodatkowaKlasaListy: 'currentUser',
+                        budzetPieniezny: 'tak',
+                        budzetPienieznyWartosc: 4000,
+                        budzetPienieznyWykorzystanie: 1000,
+                        budzetGodzinowy: 'tak',
+                        budzetGodzinowyWartosc: 4000,
+                        budzetGodzinowyWykorzystanie: 1000,
                   },
                     {
                         idZadania: 2,
+                        orderKey: 73586107203,
                         basicItem: 'block',
                         milestone: 'none',
                         data: '14.12.2015 12:00',
@@ -812,10 +1173,17 @@
                         czasUzytkownika: '12:23',
                         kasaUzytkownika: '215zł',
                         punktyUzytkownika: '5',
-                        dodatkowaKlasaListy: 'currentUser'
+                        dodatkowaKlasaListy: 'currentUser',
+                        budzetPieniezny: 'tak',
+                        budzetPienieznyWartosc: 600,
+                        budzetPienieznyWykorzystanie: 260,
+                        budzetGodzinowy: 'tak',
+                        budzetGodzinowyWartosc: 30,
+                        budzetGodzinowyWykorzystanie: 15,
                   },
                     {
                         idZadania: 3,
+                        orderKey: 73586407202,
                         basicItem: 'block',
                         milestone: 'none',
                         data: '17.12.2015 12:00',
@@ -837,10 +1205,17 @@
                         czasUzytkownika: '12:23',
                         kasaUzytkownika: '215zł',
                         punktyUzytkownika: '5',
-                        dodatkowaKlasaListy: 'currentUser'
+                        dodatkowaKlasaListy: 'currentUser',
+                        budzetPieniezny: 'tak',
+                        budzetPienieznyWartosc: 600,
+                        budzetPienieznyWykorzystanie: 260,
+                        budzetGodzinowy: 'tak',
+                        budzetGodzinowyWartosc: 30,
+                        budzetGodzinowyWykorzystanie: 15,
                   },
                     {
                         idZadania: 4,
+                        orderKey: 73584907204,
                         basicItem: 'block',
                         milestone: 'none',
                         data: '02.12.2015 12:00',
@@ -862,10 +1237,17 @@
                         czasUzytkownika: '12:23',
                         kasaUzytkownika: '215zł',
                         punktyUzytkownika: '5',
-                        dodatkowaKlasaListy: 'currentUser'
+                        dodatkowaKlasaListy: 'currentUser',
+                        budzetPieniezny: 'tak',
+                        budzetPienieznyWartosc: 600,
+                        budzetPienieznyWykorzystanie: 260,
+                        budzetGodzinowy: 'tak',
+                        budzetGodzinowyWartosc: 30,
+                        budzetGodzinowyWykorzystanie: 15,
                   },
                     {
                         idZadania: 5,
+                        orderKey: 73585207201,
                         basicItem: 'block',
                         milestone: 'none',
                         data: '05.12.2015 14:00',
@@ -887,11 +1269,18 @@
                         czasUzytkownika: '0',
                         kasaUzytkownika: '0',
                         punktyUzytkownika: '0',
-                        dodatkowaKlasaListy: ''
+                        dodatkowaKlasaListy: '',
+                        budzetPieniezny: 'tak',
+                        budzetPienieznyWartosc: 600,
+                        budzetPienieznyWykorzystanie: 140,
+                        budzetGodzinowy: 'nie',
+                        budzetGodzinowyWartosc: 0,
+                        budzetGodzinowyWykorzystanie: 0,
                   },
                     {
                         idZadania: 6,
-                        idTerminu: 0,
+                        idTerminu: 1000,
+                        orderKey: 73585607209,
                         basicItem: 'none',
                         milestone: 'block',
                         mileStoneNaglowek: 'Milestone 1',
@@ -909,8 +1298,9 @@
                         dodatkowaKlasaListy: 'currentUser'
                   },
                     {
-                        idZadania: "7",
-                        idTerminu: 0,
+                        idZadania: 7,
+                        idTerminu: 2000,
+                        orderKey: 73587010809,
                         basicItem: 'none',
                         milestone: 'block',
                         mileStoneNaglowek: 'Milestone 2',

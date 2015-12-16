@@ -68,6 +68,7 @@
             height: 50px;
             background-color: red;
             z-index: 9999;
+            display: none;
         }
     </style>
     <div class="over">test</div>
@@ -290,7 +291,7 @@
     </ons-template>
 
     <ons-template id="procjectview.html">
-        <ons-page ng-controller="DetailController">
+        <ons-page ng-controller="DetailController" ng-init="RebuildTerms()">
             <ons-toolbar>
                 <div class="left">
                     <ons-toolbar-button onclick="if(projectCreated==1){projectCreated=0;navi.getPages()[3].destroy();navi.popPage();} else { navi.popPage(); }">
@@ -330,10 +331,10 @@
                 <div class="emptyState"></div>
                 <div id="newTask" style="display:none;">Dodaj zadanie</div>
             </div>
-            <ons-list style="display:block;" class="tabZadania">
-                <ons-list-item modifier="chevron" class="item" ng-repeat="zadanie in item.zadania track by $index | orderBy:'data'" ng-click="showDetail($index)">
+            <ons-list style="display:block;" class="tabZadania" id="tabZadania">
+                <ons-list-item modifier="chevron" class="item" ng-repeat="zadanie in item.zadania | orderBy:'orderKey'" ng-click="showDetail($index)">
                     <ons-row>
-                        <ons-col>
+                        <ons-col ng-if="zadanie.basicItem=='block'">
                             <div class="basicItem subtask" style="display:{{zadanie.basicItem}};">
                                 <div class="avatarHolder">
                                     <div class="person" style="background-image:url({{zadanie.avatarPierwszejOsoby}})"></div>
@@ -364,6 +365,8 @@
                                     <div class='icon promo'>{{zadanie.punktyUzytkownika}}</div>
                                 </div>
                             </div>
+                        </ons-col>
+                        <ons-col ng-if="zadanie.milestone=='block'">    
                             <div class="milestoneElement" style="display:{{zadanie.milestone}};">
                                 <div class="milestoneHeader">{{zadanie.mileStoneNaglowek}}</div>
                                 <div class="milerstoneDate">{{zadanie.data}}</div>
@@ -780,7 +783,7 @@
                 <div class="center">Nowe zadanie</div>
                 <div class="right">
                     <ons-toolbar-button>
-                        <ons-icon icon="ion-checkmark-circled" fixed-width="false" style="font-size: 26px; vertical-align: -4px" onclick="navi.popPage();"></ons-icon>
+                        <ons-icon icon="ion-checkmark-circled" fixed-width="false" style="font-size: 26px; vertical-align: -4px" ng-click="addNewTask()"></ons-icon>
                     </ons-toolbar-button>
                 </div>
             </ons-toolbar>
@@ -789,15 +792,15 @@
                 <li class="list__item">
                     <ons-row align="center" class="row ons-row-inner row-center">
                         <ons-col class="col ons-col-inner">Nazwa*</ons-col>
-                        <ons-col class="col ons-col-inner">
-                            <input type="text" class="text-input text-input--transparent inputWithLabel" id="nazwaProjektu" placeholder="Nowy projekt">
+                        <ons-col class="col ons-col-inner flex2">
+                            <input type="text" class="text-input text-input--transparent inputWithLabel" id="nazwaZadania" placeholder="Nowy projekt">
                         </ons-col>
                     </ons-row>
                 </li>
                 <li class="list__item">
                     <ons-row class="row ons-row-inner">
                         <ons-col class="col ons-col-inner">Opis</ons-col>
-                        <ons-col class="col ons-col-inner">
+                        <ons-col class="col ons-col-inner flex2">
                             <textarea class="text-input text-input--transparent inputWithLabel" id="opisZadania" placeholder="Dodatkowe informacje"></textarea>
                         </ons-col>
                     </ons-row>
@@ -805,30 +808,31 @@
                 <li class="list__item">
                     <ons-row class="row ons-row-inner">
                         <ons-col class="col ons-col-inner">Miejsce</ons-col>
-                        <ons-col class="col ons-col-inner">
-                            <span class="text-input text-input--transparent inputWithLabel" id="lokalizacja" onclick="navi.pushPage('map.html', { animation : 'slide' } )">Wybierz lokalizację</span>
+                        <ons-col class="col ons-col-inner flex2">
+                            <span class="text-input text-input--transparent inputWithLabel" id="lokalizacjaZadania" onclick="navi.pushPage('map.html', { animation : 'slide' } )">Wybierz lokalizację</span><span id="lokalizacjaZadaniaLatLng" style="display:none;"></span>
                         </ons-col>
                     </ons-row>
                 </li>
             </ul>
+            // TODO: Termin i priorytet
             <ul class="list noOverscroll" id="terminy">
                 <li class="list__header">Termin i priorytet</li>
                 <li class="list__item" id="wybranyTermin">
                     <ons-row align="center" class="row ons-row-inner row-center">
                         <ons-col class="col ons-col-inner">Termin</ons-col>
-                        <ons-col class="col ons-col-inner">
-                            <select class="inputClear">
+                        <ons-col class="col ons-col-inner flex2">
+                            <select class="inputClear" id="wyborTerminu">
+                               <option value="inny">Inna data</option>
                                 <option ng-repeat="termin in item.terminy" value="{{termin.idTerminu}}">{{termin.data}} ({{termin.nazwa}})</option>
-                                <option value="inny">Inna data</option>
                             </select>
                         </ons-col>
                     </ons-row>
                 </li>
-                <li class="list__item" id="innaData">
-                    <ons-row align="center" class="row ons-row-inner row-center">
-                        <ons-col class="col ons-col-inner">Termin</ons-col>
-                        <ons-col class="col ons-col-inner">
-                            <input type="datetime-local" class="inputClear">
+                <li class="list__item inacive" id="innaData">
+                    <ons-row align="center" class="row ons-row-inner row-center" style="padding-right:8px;">
+                        <ons-col class="col ons-col-inner">Wartość</ons-col>
+                        <ons-col class="col ons-col-inner flex2" style="padding-right:20px;">
+                            <input type="datetime-local" value="2015-12-00T12:00:00"   step="1" class="inputClear" style="margin-right:20px;">
                         </ons-col>
                     </ons-row>
                 </li>
@@ -837,7 +841,7 @@
                 <li class="list__item" id="wybranyPriorytet">
                     <ons-row align="center" class="row ons-row-inner row-center">
                         <ons-col class="col ons-col-inner">Priorytet</ons-col>
-                        <ons-col class="col ons-col-inner">
+                        <ons-col class="col ons-col-inner flex2">
                             <select class="inputClear">
                                 <option value="niski">Niski</option>
                                 <option value="normalny">Normalny</option>
@@ -847,6 +851,7 @@
                     </ons-row>
                 </li>
             </ul>
+            // TODO: Budzet
             <ul class="list">
                 <li class="list__header">Budżet</li>
                 <li class="list__item">
@@ -854,16 +859,16 @@
                         <ons-col class="col ons-col-inner">Budżet pieniężny</ons-col>
                         <ons-col class="col ons-col-inner">
                             <div class="switchHolder">
-                                <ons-switch id="budzetPieniadze"></ons-switch>
+                                <ons-switch id="zadanieCzyPieniadze" class="connectedSwitch"  data-connected="zadanieWartoscBudzetPieniadze"></ons-switch>
                             </div>
                         </ons-col>
                     </ons-row>
                 </li>
-                <li class="list__item inactive" id="wartoscBudzetPieniadze">
+                <li class="list__item inactive" id="zadanieWartoscBudzetPieniadze">
                     <ons-row align="center" class="row ons-row-inner row-center">
                         <ons-col class="col ons-col-inner">Wartość</ons-col>
                         <ons-col class="col ons-col-inner">
-                            <select class="inputClear optionGenerator" data-count="5000" data-step="250" data-unit="zł">
+                            <select class="inputClear optionGenerator" data-count="1000" data-step="50" data-unit="zł" data-min="0" data-max="{{item.budzetPienieznyWartosc-item.budzetPienieznyWykorzystanie}}" data-select="50">
                             </select>
                         </ons-col>
                     </ons-row>
@@ -873,16 +878,16 @@
                         <ons-col class="col ons-col-inner">Budżet godzinowy</ons-col>
                         <ons-col class="col ons-col-inner">
                             <div class="switchHolder">
-                                <ons-switch id="budzetGodzinowy"></ons-switch>
+                                <ons-switch id="zadanieCzyGodziny" class="connectedSwitch"  data-connected="zadanieWartoscBudzetGodziny"></ons-switch>
                             </div>
                         </ons-col>
                     </ons-row>
                 </li>
-                <li class="list__item inactive" id="wartoscBudzetGodziny">
+                <li class="list__item inactive" id="zadanieWartoscBudzetGodziny">
                     <ons-row align="center" class="row ons-row-inner row-center">
                         <ons-col class="col ons-col-inner">Wartość</ons-col>
                         <ons-col class="col ons-col-inner">
-                            <select class="inputClear optionGenerator" data-count="1000" data-step="1" data-unit="h">
+                            <select class="inputClear optionGenerator" data-count="1000" data-step="1" data-unit="h" data-max="{{item.budzetGodzinowyWartosc-item.budzetGodzinowyWykorzystanie}}">
                             </select>
                         </ons-col>
                     </ons-row>
@@ -892,12 +897,12 @@
                         <ons-col class="col ons-col-inner">Punkty premiowe</ons-col>
                         <ons-col class="col ons-col-inner">
                             <div class="switchHolder">
-                                <ons-switch id="budzetGodzinowy"></ons-switch>
+                                <ons-switch id="czyPunktyPremiowe" class="connectedSwitch"  data-connected="zadanieWartoscPunktyPremiowe"></ons-switch>
                             </div>
                         </ons-col>
                     </ons-row>
                 </li>
-                <li class="list__item inactive" id="wartoscBudzetGodziny">
+                <li class="list__item inactive" id="zadanieWartoscPunktyPremiowe">
                     <ons-row align="center" class="row ons-row-inner row-center">
                         <ons-col class="col ons-col-inner">Wartość</ons-col>
                         <ons-col class="col ons-col-inner">
@@ -966,11 +971,12 @@
             </ul>
         </ons-page>
     </ons-template>
+    //FIXME: Ekran mapa
     <ons-template id="map.html">
         <ons-page ng-controller="DetailController" ng-init="initMap()">
             <ons-toolbar>
                 <div class="left">
-                    <ons-toolbar-button onclick="navi.popPage();">
+                    <ons-toolbar-button ng-click="applyLocation()">
                         <ons-icon icon="ion-chevron-left" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
                     </ons-toolbar-button>
                 </div>
@@ -981,7 +987,11 @@
             <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDt3cHxEr4IhF8HFs7cgjvl7qnRD9hmGso&libraries=places"></script>
             <link href="http://code.google.com/apis/maps/documentation/javascript/examples/default.css" rel="stylesheet" type="text/css" />
             <input id="pac-input" class="controls" type="text" placeholder="Wyśrodkuj mapę na...">
-            <div id="map_canvas" style="width:100%; height:500px;">
+            <div id="map_canvas" style="width:100%; height:450px;">
+            </div>
+            <div class="locationBig">
+                <h3>Lokalizacja:</h3>
+                <div id="adressPreview">Kliknij na mapie, by wybrać lokalizację</div>
             </div>
         </ons-page>
     </ons-template>
@@ -1131,7 +1141,7 @@
         </ons-page>
     </ons-template>
 
-
+//TODO: Ekran edytuj budżet
     <ons-template id="editBudget.html">
         <ons-page ng-controller="DetailController">
             <ons-toolbar>
@@ -1200,7 +1210,7 @@
                     <ons-row align="center" class="row ons-row-inner row-center">
                         <ons-col class="col ons-col-inner">Godziny</ons-col>
                         <ons-col class="col ons-col-inner">
-                            <select id="newHourBudget" class="inputClear optionGenerator" data-count="1000" data-step="250" data-unit="" data-min="{{item.budzetGodzinowyWykorzystanie}}" data-select="{{item.budzetGodzinowyWartosc}}">
+                            <select id="newHourBudget" class="inputClear optionGenerator" data-count="5000" data-step="1" data-unit="" data-min="{{item.budzetGodzinowyWykorzystanie}}" data-select="{{item.budzetGodzinowyWartosc}}">
                             </select>
                         </ons-col>
                     </ons-row>
@@ -1260,10 +1270,76 @@
             }
             ons.ready(function () {
                 navi.on('postpop', function () {
-                    var newpercent = $('.chartMoney').attr('data-percent');
-                    $('.chartMoney').data('easyPieChart').update(newpercent);
-                    newpercent = $('.chartHours').attr('data-percent');
-                    $('.chartHours').data('easyPieChart').update(newpercent);
+                    var newpercent
+                    if ($('.chartMoney').find('canvas').length) {
+                        newpercent = $('.chartMoney').attr('data-percent');
+                        $('.chartMoney').data('easyPieChart').update(newpercent);
+                    }
+                    if ($('.chartHours').find('canvas').length) {
+                        newpercent = $('.chartHours').attr('data-percent');
+                        $('.chartHours').data('easyPieChart').update(newpercent);
+                    }
+                   
+                    $('#tabZadania .chartMini2').each(function(e){
+                        if ($(this).find('canvas').length) {
+                        newpercent = $(this).attr('data-percent');
+                        $(this).data('easyPieChart').update(newpercent);
+                        } else {
+                            $(this).easyPieChart({
+                            size: 50,
+                            lineWidth: 3,
+                            barColor: '#25007C',
+                            trackColor: '#F7F7F7',
+                            scaleColor: '#FAFAFD',
+                            lineCap: 'square',
+                            easing: 'easeOutBounce',
+                            onStep: function (from, to, percent) {
+                                $(this.el).find('.percent').text(Math.round(percent));
+                            }
+                        });
+                        }
+                    });
+                    
+                    $('#tabZadania .chartMini3').each(function(e){
+                        if ($(this).find('canvas').length) {
+                        newpercent = $(this).attr('data-percent');
+                        $(this).data('easyPieChart').update(newpercent);
+                        } else {
+                            $(this).easyPieChart({
+                            size: 50,
+                            lineWidth: 3,
+                            barColor: '#E32C35',
+                            trackColor: '#F7F7F7',
+                            scaleColor: '#FAFAFD',
+                            lineCap: 'square',
+                            easing: 'easeOutBounce',
+                            onStep: function (from, to, percent) {
+                                $(this.el).find('.percent').text(Math.round(percent));
+                            }
+                        });
+                        }
+                    });
+                    
+                    $('#tabZadania .chartMini4').each(function(e){
+                        if ($(this).find('canvas').length) {
+                        newpercent = $(this).attr('data-percent');
+                        $(this).data('easyPieChart').update(newpercent);
+                        } else {
+                            $(this).easyPieChart({
+                            size: 50,
+                            lineWidth: 3,
+                            barColor: '#7ABC32',
+                            trackColor: '#F7F7F7',
+                            scaleColor: '#FAFAFD',
+                            lineCap: 'square',
+                            easing: 'easeOutBounce',
+                            onStep: function (from, to, percent) {
+                                $(this.el).find('.percent').text(Math.round(percent));
+                            }
+                        });
+
+                        }
+                    });
                 });
 
 
@@ -1278,9 +1354,9 @@
                             $('#lastUsedPeople').css('display', 'block');
                             $('#searchPeople').css('display', 'none');
                         }
-
                     });
-
+                    
+                    //TODO: optionGenerator JS
                     $('select.optionGenerator').each(function () {
                         if ($(this).find('option').length == 0) {
                             var count = $(this).attr('data-count');
@@ -1288,10 +1364,17 @@
                             var unit = $(this).attr('data-unit');
                             var select = $(this).attr('data-select');
                             var min = $(this).attr('data-min');
+                            if (typeof min == typeof undefined || min == false) {
+                                min=0;
+                            }
+                            var max = $(this).attr('data-max');
+                            if (typeof max == typeof undefined || max == false) {
+                                max=10000000000000;
+                            }
                             var stringtt = '';
                             console.log(new Date());
                             for (i = 1; i <= count; i++) {
-                                if (step * i >= min) {
+                                if (step * i >= min && step * i <= max) {
                                     if (step * i == select) {
                                         stringtt += '<option value="' + (step * i) + '"  selected="selected">' + (step * i) + unit + '</option>';
                                     } else {
@@ -1304,7 +1387,7 @@
                         }
                     });
 
-                
+
 
 
                     $('.avatarUser').css('background-image', 'url(' + avatrUzytkownika + ')');
@@ -1403,6 +1486,19 @@
                         min = Math.floor(min / max * 100);
                         $('#newMoneyBudgetText').text(max);
                         $('#editBudgetCharts .chartMoney').data('easyPieChart').update(min);
+                    });
+                    
+                    
+                    
+                    // TODO: zmiana terminu
+                    $("#wyborTerminu").change(function() {
+                        var tamp=$(this).find("option:selected").val();
+                        if (tamp=="inny") {
+                            $('#innaData').removeClass('inactive');
+                        }
+                        else {
+                             $('#innaData').addClass('inactive');
+                        }
                     });
 
 
@@ -1592,6 +1688,7 @@
                     });
 
                     // Nowy projekt 
+                    // TODO: switch JS
                     $('#newTask').fadeIn();
 
                     $('#budzetGodzinowy').click(function () {
@@ -1600,6 +1697,12 @@
                     $('#budzetPieniadze').click(function () {
                         $('#wartoscBudzetPieniadze').toggleClass('inactive');
                     });
+                    
+                    $('.connectedSwitch').click(function () {
+                        var tmp=$(this).attr('data-connected');
+                        $('#'+tmp).toggleClass('inactive');
+                    });
+                    
                     var animationCount = 0;
                     $('#dodajTermin').click(function () {
                         if (animationCount == 0) {

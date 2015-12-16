@@ -1087,3 +1087,52 @@ h3 {
 .pac-container {
     display: none !important;
 }
+
+
+.locationBig {
+    padding: 15px;
+    padding-top: 0px;
+    margin-top: 20px;
+    background: url(locationbig.png);
+    padding-left: 55px;
+    margin-left: 15px;
+    box-sizing: border-box;
+    background-size: 41px 41px;
+    background-repeat: no-repeat;
+    margin-bottom: 100px;
+    color: #4A4A4A;
+    font-size: 12px;
+    line-height: 14px;
+}
+
+.locationBig h3 {
+    margin: 0px;
+    margin-bottom: 5px;
+    color:#000;
+}
+
+span#lokalizacjaZadania {
+    height: 93px;
+    line-height: 16px !important;
+    padding-top: 15px;
+    text-align: left !important;
+        width: 100%;
+}
+
+textarea#opisZadania {
+    width: 100%;
+    line-height: 16px !important;
+    text-align: left;
+    padding-top: 8px;
+}
+
+.flex2 {
+    -webkit-box-flex: 2 !important;
+    flex: 2 !important;
+    text-align:left !important;
+}
+
+input#nazwaProjektu {
+    width: 100%;
+    text-align: left;
+}
