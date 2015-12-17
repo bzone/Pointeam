@@ -701,7 +701,7 @@ padding-top: 10px;
     pointer-events: none;
 }
 
-#dodajTermin, #dodajTerminNowy, #dodajOsobe {
+#dodajTermin, #dodajTerminNowy, #dodajOsobe, #dodajSiebie {
     color:#000;
     font-size: 17px;
     font-family: 'Hurme Geometric Sans 4 SemiBold'; 
@@ -1079,7 +1079,7 @@ textarea.text-input {
 h3 {
     font-size: 17px !important;
     margin-left: 15px;
-        font-family: 'Hurme Geometric Sans 4 SemiBold'; 
+    font-family: 'Hurme Geometric Sans 4 SemiBold'; 
     margin-bottom: 5px;
     margin-top: 20px;
 }
@@ -1135,4 +1135,349 @@ textarea#opisZadania {
 input#nazwaProjektu {
     width: 100%;
     text-align: left;
+}
+
+.single {
+    min-height: 95px;
+    background-color: #FFFFFF;
+}
+
+.basicItem.single .dateHolder {
+    height: 100%;
+}
+
+
+.more {
+    height: auto !Important;
+    min-height: 500px;
+    background-color: #FFFFFF;
+    padding-left: 33px !important;
+    padding-right: 0px !important;
+}
+
+.basicItem.more .dateHolder {
+    height: 100%;
+}
+
+
+p.opis {
+    padding: 15px;
+    padding-right: 50px;
+    color: #4A4A4A;
+    font-size: 12px;
+}
+
+.singleSection {
+    padding-bottom: 15px;
+    border-top:solid 1px #979797;
+}
+
+.singleSection .locationBig {
+    margin-bottom: 0px;
+}
+
+.singleRow {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.priorytet {
+    font-size: 17px;
+    font-family: 'Hurme Geometric Sans 4 SemiBold'; 
+    margin-top: 10px;
+    display: block;
+}
+
+.priorytet.important {
+    color: #E32C35;
+}
+
+.priorytet.normal {
+    color: #FFD100;
+}
+
+.priorytet.low {
+    color: #7ABC32;
+}
+
+.priorytet.done {
+    color: #1E0E54;
+}
+
+
+@-webkit-keyframes fadeInDown {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
+
+
+.komentarz {
+    padding: 15px;
+    background-color: #FFF;
+    position: relative;
+     animation:fadeInDown 500ms 1;
+    -webkit-animation:fadeInDown 500ms 1;
+}
+
+.komentarz .lewy .tooltip {
+    margin-left: 62px;
+    padding: 15px;
+    border: solid 1px #E9E9E9;
+    background-color: #FFFFFF;
+    color:#4B4B4B;
+    font-size: 14px;
+    line-height: 16px;
+}
+
+.komentarz .prawy .tooltip {
+    margin-right: 62px;
+    padding: 15px;
+    border: solid 1px #513897;
+    background-color: #513897;
+    color:#FFFFFF;
+    font-size: 14px;
+    line-height: 16px;
+}
+
+
+.komentarz .tooltip p {
+    margin: 0px;
+}
+
+.komentarz .lewy .arrow {
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    background:url(arrow-commentWhite.png);
+    background-size: 10px 10px;
+    background-repeat: no-repeat;
+    left: 68px;
+    top: 29px;
+}
+
+.komentarz .prawy .arrow {
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    background:url(arrow-commentPurple.png);
+    background-size: 10px 10px;
+    background-repeat: no-repeat;
+    right: 68px;
+    top: 29px;
+}
+
+.komentarz .lewy .avatarHolder {
+    position: absolute;
+    left:15px;
+    top:15px;
+     text-align: center;
+}
+
+.komentarz .prawy .avatarHolder {
+    position: absolute;
+    right:15px;
+    top:15px;
+    text-align: right;
+}
+
+.komentarz .avatarHolder .person {
+    width:42px;
+    height: 42px;
+    border-radius:50%;
+    background-size: cover;
+    position: relative;
+    display: inline-block;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.komentarz .prawy .infoElements .icon {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.komentarz .prawy .infoElements .icon.time {
+    background-image: url(timeB.png);
+}
+
+.commentForm {
+    position: fixed;
+    z-index: 9999;
+    bottom: 0px;
+    width: 100%;
+    padding: 15px;
+    background-color: #000;
+}
+
+.commentForm .inputHolder {
+    padding-right: 69px;
+    position:relative;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.commentForm .inputHolder input {
+    width: 100%;
+    background-color: #FFF;
+    box-sizing: border-box;
+    position: relative;
+    padding: 10px;
+    border-radius:0px !Important;
+}
+
+.commentForm .inputHolder .acceptButton {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    color: #FFF;
+    right: 30px;
+    top: 53%;
+    margin-top: -12px;
+    font-weight: bold;
+}
+
+/* timer */
+@-webkit-keyframes slideInUp {
+  from {
+    -webkit-transform: translate3d(0, 100%, 0);
+    transform: translate3d(0, 100%, 0);
+    visibility: visible;
+  }
+
+  to {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    -webkit-transform: translate3d(0, 100%, 0);
+    transform: translate3d(0, 100%, 0);
+    visibility: visible;
+  }
+
+  to {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+  .over {
+            position: fixed;
+            bottom: 0px;
+            left: 0px;
+            width: 100%;
+            padding: 15px;
+            box-sizing: border-box;
+            background-color: #E32C35;
+            z-index: 9998;
+            animation:slideInUp 500ms 1;
+            -webkit-animation:slideInUp 500ms 1;
+            border-top: solid 1px #A72026;
+}
+
+.timerHolder {
+    position: relative;
+    padding-left: 40px;
+    height: 32px;
+}
+
+.timerHolder .clockAnimationBg {
+    width: 32px;
+    height: 32px;
+    position: absolute;
+    left: 0px;
+    top:0px;
+    background:url(timerBg.png);
+    background-size:32px 32px;
+    background-repeat: no-repeat;
+}
+
+
+@-webkit-keyframes rotating /* Safari and Chrome */ {
+  from {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes rotating {
+  from {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+
+.timerHolder .clockAnimation {
+    width: 32px;
+    
+    height: 32px;
+    position: absolute;
+    left: 0px;
+    top:0px;
+    background:url(timerarrow.png);
+    background-size:32px 32px;
+    background-repeat: no-repeat;
+}
+
+.animateClock {
+    -webkit-animation: rotating 60s linear infinite;
+  -moz-animation: rotating 60s linear infinite;
+  -ms-animation: rotating 60s linear infinite;
+  -o-animation: rotating 60s linear infinite;
+  animation: rotating 60s linear infinite;
+}
+
+div#clockdiv {
+    color: #FFF;
+    font-size: 16px;
+    font-weight: bold;
+      font-family: 'Hurme Geometric Sans 4 SemiBold'; 
+}
+
+div#clockTaskName {
+    color: rgba(255, 255, 255, 0.75);
 }
