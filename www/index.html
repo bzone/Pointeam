@@ -62,9 +62,10 @@
     </style>
     <div class="over" id="timer" style="display:none;">
         <div class="timerHolder">
+            <div class="stopTimer"><i class="icon ion-close-circled"></i></div>
            <div class="clockAnimation"></div>
             <div class="clockAnimationBg"></div>
-            <div id="clockTaskName">Nazwa aktywnego zadania</div>
+            <div id="clockTaskName"></div>
             <div id="clockdiv"></div>
         </div>
     </div>
@@ -300,16 +301,16 @@
 
             <ons-toolbar>
                 <div class="left">
-                    <ons-toolbar-button onclick="if(projectCreated==1){projectCreated=0;navi.getPages()[3].destroy();navi.popPage();} else { navi.popPage(); }">
+                    <ons-toolbar-button ng-click="closeSingleTask()">
                         <ons-icon icon="ion-chevron-left" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
                     </ons-toolbar-button>
                 </div>
                 <div class="center">{{shortname}}</div>
                 <div class="right">
-                    <ons-toolbar-button ng-if="item.ukonczoneDisplay=='none'">
-                        <ons-icon icon="ion-android-time" fixed-width="false" style="font-size: 26px; vertical-align: -4px" ng-click="startTimer(item.idZadania, projekt.idProjekt)"></ons-icon>
+                    <ons-toolbar-button ng-if="item.ukonczoneDisplay=='none' && isUserIn(item.idZadania, projekt.idProjekt, currentuser[0].idUser)">
+                        <ons-icon icon="ion-android-time" fixed-width="false" style="font-size: 26px; vertical-align: -4px" ng-click="startTimer(item.idZadania, projekt.idProjekt, currentuser[0].idUser)"></ons-icon>
                     </ons-toolbar-button>
-                    <ons-toolbar-button ng-if="item.ukonczoneDisplay=='none'">
+                    <ons-toolbar-button ng-if="item.ukonczoneDisplay=='none' && isUserIn(item.idZadania, projekt.idProjekt, currentuser[0].idUser)">
                         <ons-icon icon="ion-checkmark-circled" fixed-width="false" style="font-size: 26px; vertical-align: -4px" ng-click="markAsComplete(item.idZadania, projekt.idProjekt)"></ons-icon>
                     </ons-toolbar-button>
                 </div>
@@ -365,7 +366,6 @@
                     <div class="basicItem subtask more" style="display:{{item.basicItem}};">
                         <div class="dateHolder {{item.priorytet}}">
                         </div>
-                        {{currentuser[0].idUser}}
                         <div class="singleSection" ng-if="item.opis.length>1 || item.lokalizacja!='Wybierz lokalizację'">
                             <div ng-if="item.opis">
                                 <h3>Opis zadania</h3>
@@ -395,14 +395,14 @@
                                     <span class="chartHours" data-percent="{{item.budzetGodzinowyWykorzystanie/item.budzetGodzinowyWartosc*100}}">
 		                    <span class="percent"></span>
                                     <div class="clear"></div>
-                                    <span class="detail">{{item.budzetGodzinowyWykorzystanie}}/{{item.budzetGodzinowyWartosc}}</span>
+                                    <span class="detail">{{item.budzetGodzinowyWykorzystanie/60 | number: 2}}/{{item.budzetGodzinowyWartosc/60 | number: 0}}</span>
                                     </span>
                                     <div class="chartLabel">przepracowanych
                                         <br/>godzin</div>
                                 </div>
                                 <div class="half" ng-if="item.budzetGodzinowy!='tak'">
                                     <span class="chartHours" data-percent="0">
-		                    <span class="value">{{item.budzetGodzinowyWykorzystanie}}</span>
+		                    <span class="value">{{item.budzetGodzinowyWykorzystanie/60 | number: 2}}</span>
                                     <div class="clear"></div>
 
                                     </span>
@@ -413,14 +413,14 @@
                                     <span class="chartMoney" data-percent="{{item.budzetPienieznyWykorzystanie/item.budzetPienieznyWartosc*100}}">
 		                    <span class="percent"></span>
                                     <div class="clear"></div>
-                                    <span class="detail">{{item.budzetPienieznyWykorzystanie}}/{{item.budzetPienieznyWartosc}}</span>
+                                    <span class="detail">{{item.budzetPienieznyWykorzystanie/100 | number :2}}/{{item.budzetPienieznyWartosc/100 | number: 0}}</span>
                                     </span>
                                     <div class="chartLabel">wykorzystane
                                         <br/>pieniądze</div>
                                 </div>
                                 <div class="half" ng-if="item.budzetPieniezny!='tak'">
                                     <span class="chartMoney" data-percent="{{item.budzetPienieznyWykorzystanie/item.budzetPienieznyWartosc*100}}">
-		                    <span class="value">{{item.budzetPienieznyWykorzystanie}}zł</span>
+		                    <span class="value">{{item.budzetPienieznyWykorzystanie/100 | number: 2}}zł</span>
                                     <div class="clear"></div>
                                     </span>
                                     <div class="chartLabel">wykorzystane
@@ -602,14 +602,14 @@
                         <span class="chartHours" data-percent="{{item.budzetGodzinowyWykorzystanie/item.budzetGodzinowyWartosc*100}}">
 		                    <span class="percent"></span>
                         <div class="clear"></div>
-                        <span class="detail">{{item.budzetGodzinowyWykorzystanie}}/{{item.budzetGodzinowyWartosc}}</span>
+                        <span class="detail">{{item.budzetGodzinowyWykorzystanie/60 | number : 2}}/{{item.budzetGodzinowyWartosc/60 | number : 0}}</span>
                         </span>
                         <div class="chartLabel">przepracowanych
                             <br/>godzin</div>
                     </div>
                     <div class="half" ng-if="item.budzetGodzinowy!='tak'">
                         <span class="chartHours" data-percent="0">
-		                    <span class="value">{{item.budzetGodzinowyWykorzystanie}}</span>
+		                    <span class="value">{{item.budzetGodzinowyWykorzystanie/60 | number : 2}</span>
                         <div class="clear"></div>
 
                         </span>
@@ -620,14 +620,14 @@
                         <span class="chartMoney" data-percent="{{item.budzetPienieznyWykorzystanie/item.budzetPienieznyWartosc*100}}">
 		                    <span class="percent"></span>
                         <div class="clear"></div>
-                        <span class="detail">{{item.budzetPienieznyWykorzystanie}}/{{item.budzetPienieznyWartosc}}</span>
+                        <span class="detail">{{item.budzetPienieznyWykorzystanie/100 | number : 2}}/{{item.budzetPienieznyWartosc/100 | number : 0}}</span>
                         </span>
                         <div class="chartLabel">wykorzystane
                             <br/>pieniądze</div>
                     </div>
                     <div class="half" ng-if="item.budzetPieniezny!='tak'">
                         <span class="chartMoney" data-percent="{{item.budzetPienieznyWykorzystanie/item.budzetPienieznyWartosc*100}}">
-		                    <span class="value">{{item.budzetPienieznyWykorzystanie}}zł</span>
+		                    <span class="value">{{item.budzetPienieznyWykorzystanie/60 | number : 2}}zł</span>
                         <div class="clear"></div>
                         </span>
                         <div class="chartLabel">wykorzystane
@@ -1363,14 +1363,14 @@
                     <span class="chartHours" data-percent="{{item.budzetGodzinowyWykorzystanie/item.budzetGodzinowyWartosc*100}}">
 		                    <span class="percent"></span>
                     <div class="clear"></div>
-                    <span class="detail">{{item.budzetGodzinowyWykorzystanie}}/<span id="newHourBudgetText">{{item.budzetGodzinowyWartosc}}</span></span>
+                    <span class="detail">{{item.budzetGodzinowyWykorzystanie/60 | number:0}}/<span id="newHourBudgetText">{{item.budzetGodzinowyWartosc/60 | number:0}}</span></span>
                     </span>
                     <div class="chartLabel">przepracowanych
                         <br/>godzin</div>
                 </div>
                 <div class="half" ng-if="item.budzetGodzinowy!='tak'">
                     <span class="chartHours" data-percent="0">
-		                    <span class="value">{{item.budzetGodzinowyWykorzystanie}}</span>
+		                    <span class="value">{{item.budzetGodzinowyWykorzystanie/60 | number:0}}</span>
                     <div class="clear"></div>
 
                     </span>
@@ -1381,14 +1381,14 @@
                     <span class="chartMoney" data-percent="{{item.budzetPienieznyWykorzystanie/item.budzetPienieznyWartosc*100}}">
 		                    <span class="percent"></span>
                     <div class="clear"></div>
-                    <span class="detail">{{item.budzetPienieznyWykorzystanie}}/<span id="newMoneyBudgetText">{{item.budzetPienieznyWartosc}}</span></span>
+                    <span class="detail">{{item.budzetPienieznyWykorzystanie/100 | number:0}}/<span id="newMoneyBudgetText">{{item.budzetPienieznyWartosc/100 | number:0}}</span></span>
                     </span>
                     <div class="chartLabel">wykorzystane
                         <br/>pieniądze</div>
                 </div>
                 <div class="half" ng-if="item.budzetPieniezny!='tak'">
                     <span class="chartMoney" data-percent="{{item.budzetPienieznyWykorzystanie/item.budzetPienieznyWartosc*100}}">
-		                    <span class="value">{{item.budzetPienieznyWykorzystanie}}zł</span>
+		                    <span class="value">{{item.budzetPienieznyWykorzystanie/100 | number:0}}zł</span>
                     <div class="clear"></div>
                     </span>
                     <div class="chartLabel">wykorzystane
@@ -1411,7 +1411,7 @@
                     <ons-row align="center" class="row ons-row-inner row-center">
                         <ons-col class="col ons-col-inner">Godziny</ons-col>
                         <ons-col class="col ons-col-inner">
-                            <select id="newHourBudget" class="inputClear optionGenerator" data-count="5000" data-step="1" data-unit="" data-min="{{item.budzetGodzinowyWykorzystanie}}" data-select="{{item.budzetGodzinowyWartosc}}">
+                            <select id="newHourBudget" class="inputClear optionGenerator" data-count="5000" data-step="1" data-unit="h" data-min="{{item.budzetGodzinowyWykorzystanie}}" data-select="{{item.budzetGodzinowyWartosc}}">
                             </select>
                         </ons-col>
                     </ons-row>
@@ -1570,6 +1570,9 @@
                             var unit = $(this).attr('data-unit');
                             var select = $(this).attr('data-select');
                             var min = $(this).attr('data-min');
+                            var multi=1;
+                            if (unit=="h") { multi=60; }
+                            if (unit=="zł") { multi=100; }
                             if (typeof min == typeof undefined || min == false) {
                                 min = 0;
                             }
@@ -1580,11 +1583,11 @@
                             var stringtt = '';
                             console.log(new Date());
                             for (i = 1; i <= count; i++) {
-                                if (step * i >= min && step * i <= max) {
+                                if ((step * i * multi) >= min && (step * i * multi) <= max) {
                                     if (step * i == select) {
-                                        stringtt += '<option value="' + (step * i) + '"  selected="selected">' + (step * i) + unit + '</option>';
+                                        stringtt += '<option value="' + (step * i * multi) + '"  selected="selected">' + (step * i) + unit + '</option>';
                                     } else {
-                                        stringtt += '<option value="' + (step * i) + '">' + (step * i) + unit + '</option>';
+                                        stringtt += '<option value="' + (step * i * multi) + '">' + (step * i) + unit + '</option>';
                                     }
                                 }
                             }

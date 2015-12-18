@@ -1464,11 +1464,11 @@ p.opis {
 }
 
 .animateClock {
-    -webkit-animation: rotating 60s linear infinite;
-  -moz-animation: rotating 60s linear infinite;
-  -ms-animation: rotating 60s linear infinite;
-  -o-animation: rotating 60s linear infinite;
-  animation: rotating 60s linear infinite;
+    -webkit-animation: rotating 15s linear infinite;
+  -moz-animation: rotating 15s linear infinite;
+  -ms-animation: rotating 15s linear infinite;
+  -o-animation: rotating 15s linear infinite;
+  animation: rotating 15s linear infinite;
 }
 
 div#clockdiv {
@@ -1480,4 +1480,12 @@ div#clockdiv {
 
 div#clockTaskName {
     color: rgba(255, 255, 255, 0.75);
+}
+
+.stopTimer {
+    position: absolute;
+    font-size: 32px;
+    color: #FFF;
+    right: 0px;
+    top:-2px;
 }
