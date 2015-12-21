@@ -83,13 +83,13 @@
     </div>
 
     <ons-navigator var="navi">
-        <ons-page style="background:#31198B !Important;">
+        <ons-page style="background:#31198B !Important;" ng-init="checkLogin()">
 
             <div class="bigLogo"></div>
             <form class="loginStyle">
-                <input type="email" class="loginInputStyle" placeholder="e-mail" />
-                <input type="password" class="loginInputStyle" placeholder="hasło" />
-                <a class="submitButton" onclick="navi.pushPage('home.html', { animation : 'slide' } )">Zaloguj się</a>
+                <input type="email" id="loginEmail" class="loginInputStyle" placeholder="e-mail" />
+                <input type="password" id="loginPassword" class="loginInputStyle" placeholder="hasło" />
+                <a class="submitButton" ng-click="loginUser()">Zaloguj się</a>
                 <br/>
                 <span class="lub">lub</span>
                 <a class="submitButton" onclick="navi.pushPage('register.html', { animation : 'slide' } )">Utwórz nowe konto</a>
@@ -108,7 +108,7 @@
                 </ons-toolbar-button>
             </div>
         </ons-toolbar>
-        <ons-page style="background:#31198B !Important;">
+        <ons-page style="background:#31198B !Important;" >
             <div class="bigLogo logoMargin"></div>
             <form class="loginStyle">
                 <input type="text" id="newUserName" class="loginInputStyle" placeholder="imię" />
@@ -133,10 +133,10 @@
         <ons-page style="background:#31198B !Important;">
             <div class="bigLogo logoMargin"></div>
             <form class="loginStyle">
-                <p class="recover">Opis zadania Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sit amet nulla lorem. Suspendisse imperdiet tincidunt ligula, non rutrum libero semper vel. Praesent quis molestie odio. Vestibulum nec urna commodo enim laoreet congue sed non risus. Fusce in lectus turpis</p>
+                <p class="recover">Podaj adres e-mail powiązany z Twoim kontem. <br/>Na podany adres otrzymasz przypomnienia swojego hasła.</p>
                 <br/>
-                <input type="email" class="loginInputStyle" placeholder="twój e-mail" />
-                <a class="submitButton" onclick="navi.popPage()">zresetuj hasło</a>
+                <input type="email" id="recoverEmail" class="loginInputStyle" placeholder="twój e-mail" />
+                <a class="submitButton" ng-click="recoverPassword()">zresetuj hasło</a>
                 <br/>
             </form>
         </ons-page>
@@ -234,7 +234,7 @@
                         <ons-col>
                             <div class="basicItem project">
                                 <div class="avatarHolder">
-                                    <div class="person avatarUser"></div>
+                                    <div class="person" style="background-image:url('{{item.avatarAdmina}}');"></div>
                                 </div>
                                 <div class="statusHolder">
                                     <div class="statusItem notificationsCount" style="display:{{item.notyfikacjeDisplay}};">{{item.notyfikacje}}</div>
@@ -613,7 +613,7 @@
                     </div>
                     <div class="half" ng-if="item.budzetGodzinowy!='tak'">
                         <span class="chartHours" data-percent="0">
-		                    <span class="value">{{item.budzetGodzinowyWykorzystanie/60 | number : 2}</span>
+		                    <span class="value">{{item.budzetGodzinowyWykorzystanie/60 | number : 2}}</span>
                         <div class="clear"></div>
 
                         </span>
@@ -744,7 +744,12 @@
             <div style="display:none;" class="tabPostep">
                 <div class="chartsBig">
                     <div class="half">
-                        <span class="chartTask" data-percent="{{item.ukonczoneZadania/item.wszystkieZadania*100}}">
+                        <span class="chartTask" ng-if="item.wszystkieZadania>0" data-percent="{{item.ukonczoneZadania/item.wszystkieZadania*100}}">
+		                    <span class="percent"></span>
+                        <div class="clear"></div>
+                        <span class="detail">{{item.ukonczoneZadania}}/{{item.wszystkieZadania}}</span>
+                        </span>
+                        <span class="chartTask" ng-if="item.wszystkieZadania==0" data-percent="0">
 		                    <span class="percent"></span>
                         <div class="clear"></div>
                         <span class="detail">{{item.ukonczoneZadania}}/{{item.wszystkieZadania}}</span>
@@ -775,7 +780,7 @@
                 <ul class="list ">
                     <li class="list__header" ng-click="logType()">Wszystko - zmień <i class="icon ion-android-arrow-dropdown"></i>
                     </li>
-                    <ons-list-item modifier="chevron" class="item typeLogAll typeKoszt" ng-repeat="logItem in item.log | orderBy:'-data' | logfilter:search">
+                    <ons-list-item modifier="chevron" class="item typeLogAll typeKoszt" ng-repeat="logItem in item.log | orderBy:'idLog' | logfilter:search">
                         <ons-row>
                             <div ng-if="logItem.typ=='koniecZadania'" class="width100">
                                 <ons-col>
@@ -791,7 +796,7 @@
                                         <div class="taskTitle" style="margin-bottom:-10px;">{{logItem.nazwa}}</div>
                                         <div class="infoElements">
                                             <div class='icon none'>{{logItem.osoba}}</div>
-                                            <div class='icon time'>{{logItem.dataPrezentacja}}</div>
+                                            <div class='icon time'>{{logItem.data}}</div>
                                         </div>
                                         <div ng-if="logItem.przyznanePunkty" class="actionInfo" data-id="{{logItem.idLog}}">
                                             Przyznano punkty premiowe: <strong>{{logItem.przyznanePunkty}}</strong>
@@ -810,7 +815,7 @@
                                         <div class="taskTitle" style="margin-bottom:-10px;">{{logItem.nazwa}}</div>
                                         <div class="infoElements">
                                             <div class='icon none'>{{logItem.osoba}}</div>
-                                            <div class='icon time'>{{logItem.dataPrezentacja}}</div>
+                                            <div class='icon time'>{{logItem.data}}</div>
                                         </div>
 
                                     </div>
@@ -821,7 +826,7 @@
                                     <div class="basicItem logItem purple">
                                         <div class="taskTitle" style="margin-bottom:-10px;">Zakończenie projektu</div>
                                         <div class="infoElements">
-                                            <div class='icon time'>{{logItem.dataPrezentacja}}</div>
+                                            <div class='icon time'>{{logItem.data}}</div>
                                         </div>
                                     </div>
                                 </ons-col>
@@ -831,7 +836,7 @@
                                     <div class="basicItem logItem purple">
                                         <div class="taskTitle" style="margin-bottom:-10px;">Rozpoczęcie projektu</div>
                                         <div class="infoElements">
-                                            <div class='icon time'>{{logItem.dataPrezentacja}}</div>
+                                            <div class='icon time'>{{logItem.data}}</div>
                                         </div>
                                     </div>
                                 </ons-col>
@@ -842,7 +847,7 @@
                                         <div class="taskTitle" style="margin-bottom:-10px;">Zakończenie milestone</div>
                                         <div class="taskTitle" style="margin-bottom:-10px;">{{logItem.nazwa}}</div>
                                         <div class="infoElements">
-                                            <div class='icon time'>{{logItem.dataPrezentacja}}</div>
+                                            <div class='icon time'>{{logItem.data}}</div>
                                         </div>
                                     </div>
                                 </ons-col>
@@ -853,24 +858,24 @@
             </div>
         </ons-page>
     </ons-template>
-    <ons-template id="settings.html">
+    <ons-template id="settings.html" >
         <ons-page>
             <ons-toolbar>
                 <div class="left">
-                    <ons-toolbar-button onclick="navi.popPage();">
+                    <ons-toolbar-button ng-click="updateUser()">
                         <ons-icon icon="ion-chevron-left" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
                     </ons-toolbar-button>
                 </div>
                 <div class="center">Ustawienia</div>
                 <div class="right">
-                    <ons-toolbar-button onclick="navi.getPages()[2].destroy();navi.popPage();">
+                    <ons-toolbar-button ng-click="logOut()">
                         <ons-icon icon="ion-log-out" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
                     </ons-toolbar-button>
                 </div>
             </ons-toolbar>
             <div class="text-center" style="background-color:#32188f;">
                 <div id="avatar" class="avatarUser" style="background-image:url('{{user.avatar}}');"></div>
-                <a id="capturePhoto">zmień awatar</a>
+                <a id="capturePhoto" data-attr="{{user.avatar}}">zmień awatar</a>
             </div>
             <ul class="list">
                 <li class="list__header">Modyfikuj dane osobowe</li>
@@ -1247,7 +1252,7 @@
                                     <div ng-if="userNoTask(osoba.idUser)" class="checkHolder" ng-click="removePerson(osoba.idUser)"><i class="icon ion-android-cancel"></i></div>
                                     <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.imie}}</div>
                                     <div class="infoElements">
-                                        <div class='icon cost'>{{osoba.stawka}}zł/h</div>
+                                        <div class='icon cost'>{{osoba.stawka/100 | number:0 }}zł/h</div>
                                     </div>
                                 </div>
                             </ons-col>
@@ -1274,7 +1279,7 @@
                                         <div ng-if="userAdded(osoba.idUser)" class="checkHolder"><i class="icon ion-checkmark-circled"></i></div>
                                         <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.imie}}</div>
                                         <div class="infoElements">
-                                            <div class='icon cost'>{{osoba.stawka}}zł/h</div>
+                                            <div class='icon cost'>{{osoba.stawka/100 | number:0 }}zł/h</div>
                                         </div>
                                     </div>
                                 </ons-col>
@@ -1291,7 +1296,7 @@
                                         <div class="clear"></div>
                                     </div>
                                     <div ng-if="userAdded(osoba.idUser)" class="checkHolder"><i class="icon ion-checkmark-circled"></i></div>
-                                    <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.imie}}</div>
+                                    <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.imienazwisko}}</div>
                                     <div class="infoElements">
                                         <div class='icon none'>{{osoba.email}}</div>
                                     </div>
@@ -1438,8 +1443,8 @@
                     var canvas = document.createElement('CANVAS');
                     var ctx = canvas.getContext('2d');
                     var dataURL;
-                    canvas.height = this.height * 0.3;
-                    canvas.width = this.width * 0.3;
+                    canvas.height = this.height * 0.1;
+                    canvas.width = this.width * 0.1;
                     ctx.translate(canvas.width / 2, canvas.height / 2);
                     ctx.rotate(90 * Math.PI / 180);
                     ctx.translate(-canvas.width / 2, -canvas.height / 2);
@@ -1461,6 +1466,8 @@
                     convertToDataURLviaCanvas(avatrUzytkownika, function (base64Img) {
                         avatrUzytkownika = base64Img;
                         $('.avatarUser').css('background-image', 'url(' + base64Img + ')');
+                        $('#capturePhoto').attr('data-avatar',base64Img);
+                        
                     });
                 }
             }

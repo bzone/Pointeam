@@ -3,7 +3,7 @@
     var module = angular.module('app', ['onsen']);
     var logType = 'wszystkie';
     var searchText = 'nie ma takiej mozliwosci';
-var url = "http://rabidata.kylos.pl/pointeam/auth.php?callback=?";
+    var url = "http://rabidata.kylos.pl/pointeam/auth.php?callback=?";
 
     function orderKeyGen(dd, mm, yyyy, gg, min, p) {
         dd = parseInt(dd);
@@ -52,14 +52,58 @@ var url = "http://rabidata.kylos.pl/pointeam/auth.php?callback=?";
             }, 100);
         };
 
-        $scope.registerUser = function () {
-            
-            var fullname = $("#newUserName").val() + $("#newUserSurName").val();
-            var email = $("#newUserEmail").val();
-            var password = $("#newUserPassword").val();
-            var dataString = "imie=" + fullname + "&email=" + email + "&password=" + password + "&signup=";
 
-            if ($.trim(fullname).length > 0 & $.trim(email).length > 0 & $.trim(password).length > 0) {
+
+        $scope.checkLogin = function () {
+            if (localStorage.login == "true") {
+                $("#spinner").css('display', 'block');
+                $('#spinnerIcon').delay(1500).queue(function (next) {
+                    $(this).hide();
+                    next();
+                });
+                $('#spinnerOk').delay(1500).queue(function (next) {
+                    $(this).show();
+                    next();
+                });
+                var email = localStorage.email;
+                $scope.updateUsersBase();
+                $scope.getUserData(email,1);
+            }
+        }
+
+        $scope.updateUsersBase = function () {
+            var dataString = "updateUsersBase=";
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: dataString,
+                crossDomain: true,
+                cache: false,
+                beforeSend: function () {},
+                success: function (data) {
+                    $bazauzytkownikow.items = angular.fromJson(data).osoby;
+                }
+            });
+        }
+
+        $scope.logOut = function () {
+            localStorage.login = "false";
+            var pages = navi.getPages();
+            if (pages.length == 3) {
+                navi.getPages()[2].destroy();
+                navi.popPage();
+            } else {
+                navi.getPages()[3].destroy();
+                navi.getPages()[2].destroy();
+                navi.popPage();
+            }
+        }
+
+        $scope.loginUser = function () {
+            var email = $("#loginEmail").val();
+            var password = $("#loginPassword").val();
+            var dataString = "email=" + email + "&password=" + password + "&login=";
+            if ($.trim(email).length > 0 & $.trim(password).length > 0) {
                 $.ajax({
                     type: "POST",
                     url: url,
@@ -71,6 +115,8 @@ var url = "http://rabidata.kylos.pl/pointeam/auth.php?callback=?";
                     },
                     success: function (data) {
                         if (data == "success") {
+                            localStorage.login = "true";
+                            localStorage.email = email;
 
                             $('#spinnerIcon').delay(1500).queue(function (next) {
                                 $(this).hide();
@@ -80,39 +126,213 @@ var url = "http://rabidata.kylos.pl/pointeam/auth.php?callback=?";
                                 $(this).show();
                                 next();
                             });
-                            
-                            $scope.getUserData(email);
-                            
-                        } else if (data == "exist") {
-                            alert("Hey! You alreay has account! you can login with us");
-                        } else if (data == "failed") {
-                            alert("Something Went wrong");
+                            $scope.updateUsersBase();
+                            $scope.getUserData(email,1);
+
+
+                        } else if (data = "failed") {
+                            $("#spinner").fadeOut(1000);
+                            ons.notification.alert({
+                                message: 'Podane dane są niepoprawne. Zapomniałeś hasła ?'
+                            });
                         }
                     }
                 });
             }
             return false;
+        }
+
+
+        $scope.updateUser = function () {
+            var imie = $scope.user.imie;
+            var nazwisko = $scope.user.nazwisko;
+            var email = $scope.user.email;
+            var avatar = $('#capturePhoto').attr('data-avatar');
+            if (typeof avatar == typeof undefined) {
+                avatar = $scope.user.avatar;
+            } else {
+                $scope.user.avatar = avatar;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: {
+                    imie: imie,
+                    nazwisko: nazwisko,
+                    email: email,
+                    avatar: avatar,
+                    updateUser: ''
+                },
+                crossDomain: true,
+                cache: false,
+                beforeSend: function () {},
+                success: function (data) {
+                    if (data == "success") {
+
+                        navi.popPage();
+                    } else if (data = "failed") {
+                        ons.notification.alert({
+                            message: 'Podane dane są niepoprawne.'
+                        });
+                    }
+                }
+            });
+
+
+        }
+
+        $scope.registerUser = function () {
+
+            function validateEmail(email) {
+                var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                return re.test(email);
+            }
+
+            var imie = $("#newUserName").val();
+            var nazwisko = $("#newUserSurName").val();
+            var email = $("#newUserEmail").val();
+            var password = $("#newUserPassword").val();
+
+            if (!validateEmail(email)) {
+
+                ons.notification.alert({
+                    message: 'Podany adres e-mail jest niepoprawny'
+                });
+
+            } else {
+
+                var dataString = "imie=" + imie + "&nazwisko=" + nazwisko + "&email=" + email + "&password=" + password + "&signup=";
+
+                if ($.trim(imie).length > 0 & $.trim(nazwisko).length > 0 & $.trim(email).length > 0 & $.trim(password).length > 0) {
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: dataString,
+                        crossDomain: true,
+                        cache: false,
+                        beforeSend: function () {
+                            $("#spinner").css('display', 'block');
+                        },
+                        success: function (data) {
+                            if (data == "success") {
+                                localStorage.login = "true";
+                                localStorage.email = email;
+                                $('#spinnerIcon').delay(1500).queue(function (next) {
+                                    $(this).hide();
+                                    next();
+                                });
+                                $('#spinnerOk').delay(1500).queue(function (next) {
+                                    $(this).show();
+                                    next();
+                                });
+
+                                $scope.getUserData(email,1);
+                                $scope.updateUsersBase();
+
+                            } else if (data == "exist") {
+
+                                ons.notification.alert({
+                                    message: 'Hey! Już masz konto! możesz się zalogować'
+                                });
+                                $("#spinner").fadeOut(1000);
+                                navi.popPage();
+                            } else if (data == "failed") {
+                                alert("Something Went wrong");
+                            }
+                        }
+                    });
+                }
+            }
+            return false;
             //onclick="navi.pushPage('home.html', { animation : 'slide' } )"
         }
-        
-        $scope.getUserData = function(email) {
-            var dataString = "email=" + email + "&getUserData=";
-            $.ajax({
+
+        $scope.recoverPassword = function () {
+            var email = $("#recoverEmail").val();
+            var dataString = "email=" + email + "&forget_password=";
+            if ($.trim(email).length > 0) {
+                $.ajax({
                     type: "POST",
                     url: url,
                     data: dataString,
                     crossDomain: true,
                     cache: false,
-                    beforeSend: function () { alert('pobieramy'); },
+                    beforeSend: function () {},
                     success: function (data) {
-                       
-
-                            alert(data);
-                            $scope.user=angular.fromJson(data).osoba[0];
-                        $("#spinner").css('display', 'none');
-                      navi.pushPage('home.html', { animation : 'slide' } );
+                        if (data == "invalid") {
+                            ons.notification.alert({
+                                message: 'Brak konta powiązanego z tym adresem e-mail'
+                            });
+                        } else if (data = "success") {
+                            ons.notification.alert({
+                                message: 'Twoje hasło zostało wysłane na podany adres e-mail'
+                            });
+                            navi.popPage();
+                        }
                     }
                 });
+            }
+            return false;
+        }
+
+        $scope.getUserData = function (email,go) {
+            var dataString = "email=" + email + "&getUserData=";
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: dataString,
+                crossDomain: true,
+                cache: false,
+                beforeSend: function () {
+                    alert('pobieramy');
+                },
+                success: function (data) {
+
+                    //alert(data);
+
+                    $('#spinner').delay(1500).queue(function (next) {
+                        $scope.user = angular.fromJson(data).user[0];
+                        if(angular.fromJson(data).project) {
+                        $projekty.items = angular.fromJson(data).project;
+                        } 
+
+                        angular.forEach($projekty.items, function (project, index) {
+                            alert(project.idProjekt);
+                            $.ajax({
+                                type: "POST",
+                                url: url,
+                                data: {
+                                    idProjekt:project.idProjekt,
+                                    getLogData:''
+                                },
+                                crossDomain: true,
+                                cache: false,
+                                beforeSend: function () {
+                                },
+                                success: function (data) {
+                                          project.log = angular.fromJson(data).log;
+                                        project.przypisaneOsoby = angular.fromJson(data).osoby;
+                                }
+                            });
+
+                        });
+
+
+                        $(this).hide();
+
+                        if (go==1) {
+                        navi.pushPage('home.html', {
+                            animation: 'slide'
+                        });
+                        }
+                        
+                        
+                        next();
+                    });
+
+                }
+            });
         }
 
 
@@ -349,101 +569,170 @@ var url = "http://rabidata.kylos.pl/pointeam/auth.php?callback=?";
                 budzetPienieznyWartosc = $('#wartoscBudzetPieniadze select').val();
             }
 
-            var item = {
-                idProjekt: $scope.items.length + 1,
-                tytul: nazwa,
-                krotkitytul: nazwa.substring(0, 15) + '...',
-                avatarAdmina: $scope.user.avatar,
-                statusUzytkownika: 'oczekuje',
-                statusClass: 'completionHalf',
-                czasUzytkownika: '00:0',
-                kasaUzytkownika: '0',
-                punktyUzytkownika: '0',
-                procentUkonczeniaProjektu: '0',
-                budzetPieniezny: budzetPieniezny,
-                budzetPienieznyWartosc: budzetPienieznyWartosc,
-                budzetPienieznyWykorzystanie: 0,
-                budzetGodzinowy: budzetGodzinowy,
-                budzetGodzinowyWartosc: budzetGodzinowyWartosc,
-                budzetGodzinowyWykorzystanie: 0,
-                ukonczoneZadania: '0',
-                wszystkieZadania: '0',
-                notyfikacjeDisplay: 'none',
-                notyfikacje: '0',
-                zadaniaPrzypisaneDoUzytkownika: '0',
-                zadaniaNieprzypisane: '0',
-                zadaniaPoTerminie: '0',
-                zadaniaPrzekroczonyBudzet: '0',
-                terminy: [],
-                zadania: [],
-                log: [
-                    {
-                        idLog: 0,
-                        orderKey: orderKey,
-                        typ: 'rozpoczecieProjektu',
-                        data: today,
-                        dataPrezentacja: 'Dziś - ' + gg + ':' + min,
-                        odczytane: 0
+            var krotki = nazwa.substring(0, 15) + '...';
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: {
+                    tytul: nazwa,
+                    idUser: $scope.user.idUser,
+                    krotkitytul: krotki,
+                    avatarAdmina: $scope.user.avatar,
+                    imie: $scope.user.imienazwisko,
+                    stawka:budzetAdmin,
+                    procentUkonczeniaProjektu: 0,
+                    budzetPieniezny: budzetPieniezny,
+                    budzetPienieznyWartosc: budzetPienieznyWartosc,
+                    budzetPienieznyWykorzystanie: 0,
+                    budzetGodzinowy: budzetGodzinowy,
+                    budzetGodzinowyWartosc: budzetGodzinowyWartosc,
+                    budzetGodzinowyWykorzystanie: 0,
+                    ukonczoneZadania: 0,
+                    wszystkieZadania: 0,
+                    zadaniaNieprzypisane: 0,
+                    zadaniaPoTerminie: 0,
+                    zadaniaPrzekroczonyBudzet: 0,
+                    insertNewProject: ''
+                },
+                crossDomain: true,
+                cache: false,
+                beforeSend: function () {},
+                success: function (data) {
+                    var projektID = data;
+alert(projektID);
+                    $scope.addLogElement(projektID,$scope.user.idUser, 'rozpoczecieProjektu', '', $scope.user.imienazwisko, $scope.user.avatar, today, 0);
+                    
+
+                    var item = {
+                        idProjekt: projektID,
+                        tytul: nazwa,
+                        krotkitytul: krotki,
+                        avatarAdmina: $scope.user.avatar,
+                        statusUzytkownika: 'oczekuje',
+                        statusClass: 'completionHalf',
+                        czasUzytkownika: '00:0',
+                        kasaUzytkownika: '0',
+                        punktyUzytkownika: '0',
+                        procentUkonczeniaProjektu: 0,
+                        budzetPieniezny: budzetPieniezny,
+                        budzetPienieznyWartosc: budzetPienieznyWartosc,
+                        budzetPienieznyWykorzystanie: 0,
+                        budzetGodzinowy: budzetGodzinowy,
+                        budzetGodzinowyWartosc: budzetGodzinowyWartosc,
+                        budzetGodzinowyWykorzystanie: 0,
+                        ukonczoneZadania: 0,
+                        wszystkieZadania: 0,
+                        notyfikacjeDisplay: 'none',
+                        notyfikacje: 0,
+                        zadaniaPrzypisaneDoUzytkownika: 0,
+                        zadaniaNieprzypisane: 0,
+                        zadaniaPoTerminie: 0,
+                        zadaniaPrzekroczonyBudzet: 0,
+                        terminy: [],
+                        zadania: [],
+                        log: [
+                            {
+                                idLog: 0,
+                                orderKey: orderKey,
+                                typ: 'rozpoczecieProjektu',
+                                data: today,
+                                dataPrezentacja: 'Dziś - ' + gg + ':' + min,
+                                odczytane: 0
                         }
                 ],
-                przypisaneOsoby: [
-                    {
-                        idUser: $scope.user.idUser,
-                        avatar: $scope.user.avatar,
-                        iloscZadan: 0,
-                        stawka: budzetAdmin,
-                        imie: $scope.user.imie + ' ' + $scope.user.nazwisko,
-                        czasUzytkownika: 0,
-                        kasaUzytkownika: 0,
-                        punktyUzytkownika: 0,
-                        dodatkowaKlasaListy: 'currentUser'
+                        przypisaneOsoby: [
+                            {
+                                idUser: $scope.user.idUser,
+                                avatar: $scope.user.avatar,
+                                iloscZadan: 0,
+                                stawka: budzetAdmin,
+                                imie: $scope.user.imie + ' ' + $scope.user.nazwisko,
+                                czasUzytkownika: 0,
+                                kasaUzytkownika: 0,
+                                punktyUzytkownika: 0,
+                                dodatkowaKlasaListy: 'currentUser'
                   }
               ]
-            };
-            $scope.items.push(item);
-            $scope.$apply;
-            var index = $scope.items.length;
-            var selectedItem = $projekty.items[index - 1];
+                    };
 
-            $('.pojedynczyTermin').each(function (x) {
-                var dataTermin = $(this).find('input[type="datetime-local"]').val();
-                dd = dataTermin.substring(8, 10);
-                mm = dataTermin.substring(5, 7);
-                yyyy = dataTermin.substring(0, 4);
-                gg = dataTermin.substring(11, 13);
-                min = dataTermin.substring(14, 16);
-                dataTermin = dd + '.' + mm + '.' + yyyy + ' ' + gg + ':' + min;
-                orderKey = orderKeyGen(dd, mm, yyyy, gg, min, 9);
-                var nazwaTermin = $(this).find('input[type="text"]').val();
-                var zadanie = {
-                    idZadania: (x + 1) * 1000,
-                    idTerminu: (x + 1) * 1000,
-                    orderKey: orderKey,
-                    basicItem: 'none',
-                    milestone: 'block',
-                    mileStoneNaglowek: 'Milestone ' + (x + 1),
-                    milestoneUkonczoneZadaniaProcent: '0',
-                    milestoneWykorzystanyBudzetPieniadze: '0',
-                    milestoneWykorzystanyBudzetGodziny: '0',
-                    data: dataTermin,
-                    nazwa: nazwaTermin
+
+
+
+
+
+                    $projekty.items.push(item);
+                    $scope.$apply;
+                    var index = $scope.items.length;
+                    var selectedItem = $projekty.items[index - 1];
+
+                    $('.pojedynczyTermin').each(function (x) {
+                        var dataTermin = $(this).find('input[type="datetime-local"]').val();
+                        dd = dataTermin.substring(8, 10);
+                        mm = dataTermin.substring(5, 7);
+                        yyyy = dataTermin.substring(0, 4);
+                        gg = dataTermin.substring(11, 13);
+                        min = dataTermin.substring(14, 16);
+                        dataTermin = dd + '.' + mm + '.' + yyyy + ' ' + gg + ':' + min;
+                        orderKey = orderKeyGen(dd, mm, yyyy, gg, min, 9);
+                        var nazwaTermin = $(this).find('input[type="text"]').val();
+                        var zadanie = {
+                            idZadania: (x + 1) * 1000,
+                            idTerminu: (x + 1) * 1000,
+                            orderKey: orderKey,
+                            basicItem: 'none',
+                            milestone: 'block',
+                            mileStoneNaglowek: 'Milestone ' + (x + 1),
+                            milestoneUkonczoneZadaniaProcent: '0',
+                            milestoneWykorzystanyBudzetPieniadze: '0',
+                            milestoneWykorzystanyBudzetGodziny: '0',
+                            data: dataTermin,
+                            nazwa: nazwaTermin
+                        }
+                        var termin = {
+                            idTerminu: (x + 1) * 1000,
+                            orderKey: orderKey,
+                            mileStoneNaglowek: 'Milestone ' + (x + 1),
+                            data: dataTermin,
+                            nazwa: nazwaTermin
+                        }
+                        $projekty.items[index - 1].zadania.push(zadanie);
+                        $projekty.items[index - 1].terminy.push(termin);
+                    });
+
+                    $projekty.selectedItem = selectedItem;
+                    $scope.navi.pushPage('procjectview.html', {
+                        title: selectedItem.tytul
+                    });
+
                 }
-                var termin = {
-                    idTerminu: (x + 1) * 1000,
-                    orderKey: orderKey,
-                    mileStoneNaglowek: 'Milestone ' + (x + 1),
-                    data: dataTermin,
-                    nazwa: nazwaTermin
-                }
-                $projekty.items[index - 1].zadania.push(zadanie);
-                $projekty.items[index - 1].terminy.push(termin);
             });
 
-            $projekty.selectedItem = selectedItem;
-            $scope.navi.pushPage('procjectview.html', {
-                title: selectedItem.tytul
+
+        }
+
+
+        $scope.addLogElement = function (idProjekt, idUser, typ, nazwa, osoba, avatar, data, odczytany) {
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: {
+                    idProjekt: idProjekt,
+                    idUser: idUser,
+                    typ: typ,
+                    nazwa: nazwa,
+                    osoba: osoba,
+                    avatar: avatar,
+                    data: data,
+                    odczytany: odczytany,
+                    insertNewLog: ''
+                },
+                crossDomain: true,
+                cache: false,
+                beforeSend: function () {},
+                success: function (data) {}
             });
         }
+
     });
 
 
@@ -1565,383 +1854,7 @@ var url = "http://rabidata.kylos.pl/pointeam/auth.php?callback=?";
     module.factory('$projekty', function () {
         var projekty = {};
         //NOTE: Lista projekty
-        projekty.items = [
-            {
-                idProjekt: 1,
-                tytul: 'Strona internetowa pointeam',
-                krotkitytul: 'Strona inter...',
-                avatarAdmina: 'http://themina.net/themes/shema/img/demo/team/team_img_3.jpg',
-                statusUzytkownika: 'w trakcie',
-                statusClass: 'completionHalf',
-                czasUzytkownika: '12:23',
-                kasaUzytkownika: '215zł',
-                punktyUzytkownika: '5',
-                procentUkonczeniaProjektu: '30',
-                budzetPieniezny: 'tak',
-                budzetPienieznyWartosc: 400000,
-                budzetPienieznyWykorzystanie: 1000,
-                budzetGodzinowy: 'tak',
-                budzetGodzinowyWartosc: 6000,
-                budzetGodzinowyWykorzystanie: 1000,
-                ukonczoneZadania: '3',
-                wszystkieZadania: '10',
-                notyfikacjeDisplay: 'block',
-                notyfikacje: '3',
-                zadaniaPrzypisaneDoUzytkownika: '2',
-                zadaniaNieprzypisane: '0',
-                zadaniaPoTerminie: '4',
-                zadaniaPrzekroczonyBudzet: '4',
-                terminy: [
-                    {
-                        idTerminu: 1000,
-                        orderKey: 73585607209,
-                        data: '09.12.2015 12:00',
-                        nazwa: 'Preztacja projektu'
-                  },
-                    {
-                        idTerminu: 2000,
-                        orderKey: 73587010809,
-                        data: '23.12.2015 15:00',
-                        nazwa: 'Zakonczenie projektu'
-                  }
-              ],
-                log: [
-                    {
-                        idLog: 0,
-                        idZadania: 1,
-                        typ: 'koniecZadania',
-                        nazwa: 'Preztacja projektu',
-                        osoba: 'Natalia Kowalska',
-                        idOsoby: 1,
-                        avatarOsoby: 'http://themina.net/themes/shema/img/demo/team/team_img_3.jpg',
-                        data: '09.12.2015 12:00',
-                        dataPrezentacja: 'Wczoraj - 12:42',
-                        odczytane: 0
-                    },
-                    {
-                        idLog: 1,
-                        idZadania: 1,
-                        typ: 'koniecZadania',
-                        nazwa: 'Preztacja projektu',
-                        osoba: 'Natalia Kowalska',
-                        idOsoby: 1,
-                        avatarOsoby: 'http://themina.net/themes/shema/img/demo/team/team_img_3.jpg',
-                        data: '03.12.2015 12:00',
-                        dataPrezentacja: 'Wczoraj - 12:42',
-                        odczytane: 0
-                    },
-                    {
-                        idLog: 2,
-                        idZadania: 1,
-                        typ: 'noweZadanie',
-                        nazwa: 'Preztacja projektu',
-                        osoba: 'Natalia Kowalska',
-                        idOsoby: 1,
-                        avatarOsoby: 'http://themina.net/themes/shema/img/demo/team/team_img_3.jpg',
-                        data: '08.12.2015 12:00',
-                        dataPrezentacja: 'Wczoraj - 12:42',
-                        odczytane: 0
-                    },
-                    {
-                        idLog: 4,
-                        typ: 'zakonczenieMilestone',
-                        nazwa: 'Długa nazwa milestone',
-                        data: '09.12.2015 14:00',
-                        dataPrezentacja: 'Wczoraj - 14:22',
-                        odczytane: 0
-                    }
-                ],
-                zadania: [
-                    {
-                        idZadania: 1,
-                        orderKey: 73586107201,
-                        basicItem: 'block',
-                        milestone: 'none',
-                        data: '14.12.2015 12:00',
-                        dataDzien: '14',
-                        dataMiesiac: 'GRU',
-                        dataGodzina: '12:00',
-                        notyfikacjeDisplay: 'none',
-                        notyfikacje: '3',
-                        lokalizacjaDisplay: 'block',
-                        brakOsobyDisplay: 'none',
-                        ukonczoneDisplay: 'none',
-                        avatarPierwszejOsoby: 'http://themina.net/themes/shema/img/demo/team/team_img_3.jpg',
-                        dotatkoweOsoby: '1',
-                        dodatkoweOsobyDisplay: 'inline-block',
-                        nazwa: 'Preztacja projektu',
-                        priorytet: 'prioImportant',
-                        statusUzytkownika: 'w trakcie',
-                        statusClass: 'completionHalf',
-                        czasUzytkownika: '12:23',
-                        kasaUzytkownika: '215zł',
-                        punktyUzytkownika: '5',
-                        dodatkowaKlasaListy: 'currentUser',
-                        budzetPieniezny: 'tak',
-                        budzetPienieznyWartosc: 4000,
-                        budzetPienieznyWykorzystanie: 1000,
-                        budzetGodzinowy: 'tak',
-                        budzetGodzinowyWartosc: 3600,
-                        budzetGodzinowyWykorzystanie: 60,
-                        komentarze: []
-                  },
-                    {
-                        idZadania: 2,
-                        orderKey: 73586107203,
-                        basicItem: 'block',
-                        milestone: 'none',
-                        data: '14.12.2015 12:00',
-                        dataDzien: '14',
-                        dataMiesiac: 'GRU',
-                        dataGodzina: '12:00',
-                        notyfikacjeDisplay: 'none',
-                        notyfikacje: '3',
-                        lokalizacjaDisplay: 'block',
-                        brakOsobyDisplay: 'none',
-                        ukonczoneDisplay: 'none',
-                        avatarPierwszejOsoby: 'http://themina.net/themes/shema/img/demo/team/team_img_3.jpg',
-                        dotatkoweOsoby: '1',
-                        dodatkoweOsobyDisplay: 'inline-block',
-                        nazwa: 'Preztacja projektu',
-                        priorytet: 'prioLow',
-                        statusUzytkownika: 'w trakcie',
-                        statusClass: 'completionHalf',
-                        czasUzytkownika: '12:23',
-                        kasaUzytkownika: '215zł',
-                        punktyUzytkownika: '5',
-                        dodatkowaKlasaListy: 'currentUser',
-                        budzetPieniezny: 'tak',
-                        budzetPienieznyWartosc: 600,
-                        budzetPienieznyWykorzystanie: 260,
-                        budzetGodzinowy: 'tak',
-                        budzetGodzinowyWartosc: 30,
-                        budzetGodzinowyWykorzystanie: 15,
-                        komentarze: []
-                  },
-                    {
-                        idZadania: 3,
-                        orderKey: 73586407202,
-                        basicItem: 'block',
-                        milestone: 'none',
-                        data: '17.12.2015 12:00',
-                        dataDzien: '17',
-                        dataMiesiac: 'GRU',
-                        dataGodzina: '12:00',
-                        notyfikacjeDisplay: 'block',
-                        notyfikacje: '3',
-                        lokalizacjaDisplay: 'none',
-                        brakOsobyDisplay: 'none',
-                        ukonczoneDisplay: 'none',
-                        avatarPierwszejOsoby: 'http://lcars.ucip.org/images/a/ac/Jason-statham07.jpg',
-                        dotatkoweOsoby: '2',
-                        dodatkoweOsobyDisplay: 'inline-block',
-                        nazwa: 'Preztacja projektu',
-                        priorytet: 'prioNormal',
-                        statusUzytkownika: 'oczekuje',
-                        statusClass: 'completionHalf',
-                        czasUzytkownika: '12:23',
-                        kasaUzytkownika: '215zł',
-                        punktyUzytkownika: '5',
-                        dodatkowaKlasaListy: 'currentUser',
-                        budzetPieniezny: 'tak',
-                        budzetPienieznyWartosc: 600,
-                        budzetPienieznyWykorzystanie: 260,
-                        budzetGodzinowy: 'tak',
-                        budzetGodzinowyWartosc: 30,
-                        budzetGodzinowyWykorzystanie: 15,
-                        komentarze: []
-                  },
-                    {
-                        idZadania: 4,
-                        orderKey: 73584907204,
-                        basicItem: 'block',
-                        milestone: 'none',
-                        data: '02.12.2015 12:00',
-                        dataDzien: '02',
-                        dataMiesiac: 'GRU',
-                        dataGodzina: '12:00',
-                        notyfikacjeDisplay: 'none',
-                        notyfikacje: '3',
-                        lokalizacjaDisplay: 'none',
-                        brakOsobyDisplay: 'none',
-                        ukonczoneDisplay: 'block',
-                        avatarPierwszejOsoby: 'http://themina.net/themes/shema/img/demo/team/team_img_3.jpg',
-                        dotatkoweOsoby: '1',
-                        dodatkoweOsobyDisplay: 'inline-block',
-                        nazwa: 'Preztacja projektu',
-                        priorytet: 'prioFinished',
-                        statusUzytkownika: 'ukończone',
-                        statusClass: 'completionHalf',
-                        czasUzytkownika: '12:23',
-                        kasaUzytkownika: '215zł',
-                        punktyUzytkownika: '5',
-                        dodatkowaKlasaListy: 'currentUser',
-                        budzetPieniezny: 'tak',
-                        budzetPienieznyWartosc: 600,
-                        budzetPienieznyWykorzystanie: 260,
-                        budzetGodzinowy: 'tak',
-                        budzetGodzinowyWartosc: 30,
-                        budzetGodzinowyWykorzystanie: 15,
-                        komentarze: []
-                  },
-                    {
-                        idZadania: 5,
-                        orderKey: 73585207201,
-                        basicItem: 'block',
-                        milestone: 'none',
-                        data: '05.12.2015 14:00',
-                        dataDzien: '05',
-                        dataMiesiac: 'GRU',
-                        dataGodzina: '14:00',
-                        notyfikacjeDisplay: 'none',
-                        notyfikacje: '3',
-                        lokalizacjaDisplay: 'none',
-                        brakOsobyDisplay: 'block',
-                        ukonczoneDisplay: 'none',
-                        avatarPierwszejOsoby: 'https://dl.dropboxusercontent.com/u/28981503/noPerson.png',
-                        dotatkoweOsoby: '0',
-                        dodatkoweOsobyDisplay: 'none',
-                        nazwa: 'Przygotowanie prezentacji opisującej projekt',
-                        opis: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi commodo, ipsum sed pharetra gravida, orci magna rhoncus neque, id pulvinar odio lorem non turpis. Nullam sit amet enim. Suspendisse id velit vitae ligula volutpat condimentum. Aliquam erat volutpat. Sed quis velit. Nulla facilisi. Nulla libero. Vivamus pharetra posuere sapien. Nam consectetuer. Sed aliquam, nunc eget euismod ullamcorper, lectus nunc ullamcorper orci, fermentum bibendum enim nibh eget ipsum. Donec porttitor ligula eu dolor. Maecenas vitae nulla consequat libero cursus venenatis.',
-                        lokalizacja: 'Skrzywana 3A<br><small>(51.741433381190426, 19.455885887145996)</small>',
-                        latLngPosition: '(51.741433381190426, 19.455885887145996)',
-                        priorytet: 'prioImportant',
-                        statusUzytkownika: 'oczekuje',
-                        statusClass: 'completionHalf',
-                        czasUzytkownika: '0',
-                        kasaUzytkownika: '0',
-                        punktyUzytkownika: '0',
-                        dodatkowaKlasaListy: '',
-                        budzetPieniezny: 'tak',
-                        budzetPienieznyWartosc: 60000,
-                        budzetPienieznyWykorzystanie: 0,
-                        budzetGodzinowy: 'nie',
-                        budzetGodzinowyWartosc: 0,
-                        budzetGodzinowyWykorzystanie: 0,
-                        komentarze: [
-                            {
-                                idUsera: 456,
-                                admin: 1,
-                                type: 'normal',
-                                orderKey: 73585207201,
-                                text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi commodo, ipsum sed pharetra gravida, orci magna rhoncus neque.',
-                                data: '05.12.2015 14:00',
-                                avatar: 'http://themina.net/themes/shema/img/demo/team/team_img_3.jpg',
-                                autor: 'Admin adminowy'
-                            },
-                            {
-                                idUsera: 2,
-                                admin: 0,
-                                type: 'normal',
-                                orderKey: 73585207201,
-                                text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi commodo, ipsum sed pharetra gravida, orci magna rhoncus neque.',
-                                data: '05.12.2015 14:00',
-                                avatar: 'http://themina.net/themes/shema/img/demo/team/team_img_3.jpg',
-                                autor: 'Admin ktosiowy'
-                            }
-                        ],
-                        przypisaneOsoby: [
-                            {
-                                idUser: 456,
-                                avatar: 'http://themina.net/themes/shema/img/demo/team/team_img_3.jpg',
-                                iloscZadan: 3,
-                                stawka: 200,
-                                imie: 'Catalia Kowalska',
-                                czasUzytkownika: 0,
-                                kasaUzytkownika: 0,
-                                punktyUzytkownika: 0,
-                                dodatkowaKlasaListy: 'currentUser'
-                            }]
-                    },
-                    {
-                        idZadania: 6,
-                        idTerminu: 1000,
-                        orderKey: 73585607209,
-                        basicItem: 'none',
-                        milestone: 'block',
-                        mileStoneNaglowek: 'Milestone 1',
-                        milestoneUkonczoneZadaniaProcent: 0,
-                        milestoneWykorzystanyBudzetPieniadze: 0,
-                        milestoneWykorzystanyBudzetGodziny: 0,
-                        data: '09.12.2015 12:00',
-                        avatarPierwszejOsoby: 'http://themina.net/themes/shema/img/demo/team/team_img_3.jpg',
-                        nazwa: 'Preztacja projektu milestone',
-                        statusUzytkownika: 'w trakcie',
-                        statusClass: 'completionHalf',
-                        czasUzytkownika: '12:23',
-                        kasaUzytkownika: '215zł',
-                        punktyUzytkownika: '5',
-                        dodatkowaKlasaListy: 'currentUser'
-                  },
-                    {
-                        idZadania: 7,
-                        idTerminu: 2000,
-                        orderKey: 73587010809,
-                        basicItem: 'none',
-                        milestone: 'block',
-                        mileStoneNaglowek: 'Milestone 2',
-                        milestoneUkonczoneZadaniaProcent: '0',
-                        milestoneWykorzystanyBudzetPieniadze: '30',
-                        milestoneWykorzystanyBudzetGodziny: '40',
-                        data: '23.12.2015 15:00',
-                        avatarPierwszejOsoby: 'http://themina.net/themes/shema/img/demo/team/team_img_3.jpg',
-                        nazwa: 'Preztacja projektu milestone',
-                        statusUzytkownika: 'w trakcie',
-                        statusClass: 'completionHalf',
-                        czasUzytkownika: '12:23',
-                        kasaUzytkownika: '215zł',
-                        punktyUzytkownika: '5',
-                        dodatkowaKlasaListy: 'currentUser'
-                  }
-              ],
-                przypisaneOsoby: [
-                    {
-                        idUser: 1,
-                        avatar: 'http://themina.net/themes/shema/img/demo/team/team_img_3.jpg',
-                        iloscZadan: 3,
-                        stawka: 200,
-                        imie: 'Catalia Kowalska',
-                        czasUzytkownika: '18:22',
-                        kasaUzytkownika: '200.50',
-                        punktyUzytkownika: 2,
-                        dodatkowaKlasaListy: 'currentUser'
-                  },
-                    {
-                        idUser: 2,
-                        avatar: 'http://themina.net/themes/shema/img/demo/team/team_img_3.jpg',
-                        iloscZadan: 1,
-                        stawka: 50,
-                        imie: 'Natalia Kowalska',
-                        czasUzytkownika: '11:22',
-                        kasaUzytkownika: '100.50',
-                        punktyUzytkownika: 4,
-                        dodatkowaKlasaListy: 'currentUser'
-                  },
-                    {
-                        idUser: 456,
-                        avatar: 'http://themina.net/themes/shema/img/demo/team/team_img_3.jpg',
-                        iloscZadan: 22,
-                        stawka: 80,
-                        imie: 'Aatalia Kowalska',
-                        czasUzytkownika: 0,
-                        kasaUzytkownika: 0,
-                        punktyUzytkownika: 14,
-                        dodatkowaKlasaListy: 'currentUser'
-                  },
-                    {
-                        idUser: 4,
-                        avatar: 'http://themina.net/themes/shema/img/demo/team/team_img_3.jpg',
-                        iloscZadan: 12,
-                        stawka: 80,
-                        imie: 'Zatalia Kowalska',
-                        czasUzytkownika: '12:22',
-                        kasaUzytkownika: '500.50',
-                        punktyUzytkownika: 5,
-                        dodatkowaKlasaListy: 'currentUser'
-                  }
-              ]
-          }
-      ];
+        projekty.items = [];
         return projekty;
     });
 

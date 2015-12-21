@@ -484,7 +484,9 @@ padding-top: 10px;
     margin-right: 6px;
     margin-left: 6px;
     display: inline-block;
-      background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(0, 0, 0, 0.2);
+    background-size: cover;
+    background-position: center center;
 }
 
 .basicItem .statusHolder .statusItem {
