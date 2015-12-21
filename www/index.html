@@ -60,6 +60,10 @@
             float: right;
         }
     </style>
+    <div class="spinner" id="spinner" style="display:none;">
+        <div id="spinnerOk" style="display:none;"><i class="ion-checkmark-round"></i></div>
+                <div id="spinnerIcon"></div>
+    </div>
     <div class="over" id="timer" style="display:none;">
         <div class="timerHolder">
             <div class="stopTimer"><i class="icon ion-close-circled"></i></div>
@@ -107,11 +111,11 @@
         <ons-page style="background:#31198B !Important;">
             <div class="bigLogo logoMargin"></div>
             <form class="loginStyle">
-                <input type="text" class="loginInputStyle" placeholder="imię" />
-                <input type="text" class="loginInputStyle" placeholder="nazwisko" />
-                <input type="email" class="loginInputStyle" placeholder="e-mail" />
-                <input type="password" class="loginInputStyle" placeholder="hasło" />
-                <a class="submitButton" onclick="navi.pushPage('home.html', { animation : 'slide' } )">Utwórz konto i zaloguj</a>
+                <input type="text" id="newUserName" class="loginInputStyle" placeholder="imię" />
+                <input type="text" id="newUserSurName" class="loginInputStyle" placeholder="nazwisko" />
+                <input type="email" id="newUserEmail" class="loginInputStyle" placeholder="e-mail" />
+                <input type="password" id="newUserPassword" class="loginInputStyle" placeholder="hasło" />
+                <a class="submitButton" ng-click="registerUser()" >Utwórz konto i zaloguj</a>
                 <br/>
             </form>
         </ons-page>
@@ -865,7 +869,7 @@
                 </div>
             </ons-toolbar>
             <div class="text-center" style="background-color:#32188f;">
-                <div id="avatar" class="avatarUser" style="background-url('{{user.avatar}}');"></div>
+                <div id="avatar" class="avatarUser" style="background-image:url('{{user.avatar}}');"></div>
                 <a id="capturePhoto">zmień awatar</a>
             </div>
             <ul class="list">
@@ -1423,9 +1427,6 @@
 
     <script>
         var projectCreated = 0;
-        var imieUzytkownika = 'Piotr';
-        var nazwiskoUzytkownia = 'Kowalski';
-        var avatrUzytkownika = 'http://themina.net/themes/shema/img/demo/team/team_img_3.jpg';
         jQuery(document).ready(function ($) {
 
 
@@ -1596,10 +1597,6 @@
                         }
                     });
 
-
-
-
-                    $('.avatarUser').css('background-image', 'url(' + avatrUzytkownika + ')');
 
 
                     $('#goToMojeZadania').click(function () {

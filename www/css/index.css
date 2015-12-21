@@ -1450,6 +1450,29 @@ p.opis {
   }
 }
 
+@-webkit-keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale3d(.3, .3, .3);
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale3d(.3, .3, .3);
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+
 
 .timerHolder .clockAnimation {
     width: 32px;
@@ -1469,6 +1492,49 @@ p.opis {
   -ms-animation: rotating 15s linear infinite;
   -o-animation: rotating 15s linear infinite;
   animation: rotating 15s linear infinite;
+}
+
+#spinnerIcon {
+    -webkit-animation: rotating 2s linear infinite;
+  -moz-animation: rotating 2s linear infinite;
+  -ms-animation: rotating 2s linear infinite;
+  -o-animation: rotating 2s linear infinite;
+  animation: rotating 2s linear infinite;
+   background:url(spinner.png);
+    background-size: 32px 32px;
+    width: 100px;
+    height: 100px;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+#spinnerOk {
+    width: 100px;
+    height: 100px;
+    color:#FFF;
+    text-align: center;
+    line-height: 100px;
+    font-size: 30px;
+       -webkit-animation: zoomIn 1s linear 1;
+  -moz-animation: zoomIn 1s linear 1;
+  -ms-animation: zoomIn 1s linear 1;
+  -o-animation: zoomIn 1s linear 1;
+  animation: zoomIn 1s linear 1;
+}
+
+#spinner {
+    width: 100px;
+    height: 100px;
+    position: fixed;
+    border-radius:20px;
+    background-color: rgba(0, 0, 0, 0.9);
+    left: 50%;
+    top:50%;
+    margin-left: -50px;
+    margin-top: -50px;
+    text-align: center;
+    line-height: 100px;
+    z-index: 9999;
 }
 
 div#clockdiv {

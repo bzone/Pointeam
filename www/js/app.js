@@ -3,7 +3,7 @@
     var module = angular.module('app', ['onsen']);
     var logType = 'wszystkie';
     var searchText = 'nie ma takiej mozliwosci';
-
+var url = "http://rabidata.kylos.pl/pointeam/auth.php?callback=?";
 
     function orderKeyGen(dd, mm, yyyy, gg, min, p) {
         dd = parseInt(dd);
@@ -52,113 +52,178 @@
             }, 100);
         };
 
+        $scope.registerUser = function () {
+            
+            var fullname = $("#newUserName").val() + $("#newUserSurName").val();
+            var email = $("#newUserEmail").val();
+            var password = $("#newUserPassword").val();
+            var dataString = "imie=" + fullname + "&email=" + email + "&password=" + password + "&signup=";
+
+            if ($.trim(fullname).length > 0 & $.trim(email).length > 0 & $.trim(password).length > 0) {
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: dataString,
+                    crossDomain: true,
+                    cache: false,
+                    beforeSend: function () {
+                        $("#spinner").css('display', 'block');
+                    },
+                    success: function (data) {
+                        if (data == "success") {
+
+                            $('#spinnerIcon').delay(1500).queue(function (next) {
+                                $(this).hide();
+                                next();
+                            });
+                            $('#spinnerOk').delay(1500).queue(function (next) {
+                                $(this).show();
+                                next();
+                            });
+                            
+                            $scope.getUserData(email);
+                            
+                        } else if (data == "exist") {
+                            alert("Hey! You alreay has account! you can login with us");
+                        } else if (data == "failed") {
+                            alert("Something Went wrong");
+                        }
+                    }
+                });
+            }
+            return false;
+            //onclick="navi.pushPage('home.html', { animation : 'slide' } )"
+        }
+        
+        $scope.getUserData = function(email) {
+            var dataString = "email=" + email + "&getUserData=";
+            $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: dataString,
+                    crossDomain: true,
+                    cache: false,
+                    beforeSend: function () { alert('pobieramy'); },
+                    success: function (data) {
+                       
+
+                            alert(data);
+                            $scope.user=angular.fromJson(data).osoba[0];
+                        $("#spinner").css('display', 'none');
+                      navi.pushPage('home.html', { animation : 'slide' } );
+                    }
+                });
+        }
+
 
         $scope.addCommentGlobal = function () {
             $scope.$root.$broadcast("addCommentEvent");
         }
 
-        
+
         var timeinterval;
-        
+
         $scope.startTimer = function (zadanie, projekt, user) {
             var found;
             var foundTask;
             var foundUser;
-            
+
             found = $filter('filter')($projekty.items, {
                 idProjekt: projekt
             }, true);
-            
+
             foundTask = $filter('filter')(found[0].zadania, {
                 idZadania: zadanie
             }, true);
-            var nazwa=foundTask[0].nazwa;
+            var nazwa = foundTask[0].nazwa;
             $('#clockTaskName').text(nazwa);
-            
+
             foundUser = $filter('filter')(foundTask[0].przypisaneOsoby, {
                 idUser: user
             }, true);
-                           
-            
+
+
             //NOTE: New now point
-            var stawka=foundUser[0].stawka;
-            var czasStartu=foundUser[0].czasUzytkownika;
-            var kasaStartu=foundUser[0].kasaUzytkownika;
-            
-            $('#timer').css('display','block');
-            var minutes=czasStartu;
-            var hours=(minutes-(minutes%60))/60;
-            var kasa=((minutes/60)*stawka).toFixed(2);
-            var kasagr=Math.floor((minutes/60)*stawka);
+            var stawka = foundUser[0].stawka;
+            var czasStartu = foundUser[0].czasUzytkownika;
+            var kasaStartu = foundUser[0].kasaUzytkownika;
+
+            $('#timer').css('display', 'block');
+            var minutes = czasStartu;
+            var hours = (minutes - (minutes % 60)) / 60;
+            var kasa = ((minutes / 60) * stawka).toFixed(2);
+            var kasagr = Math.floor((minutes / 60) * stawka);
             var clock = document.getElementById('clockdiv');
             $('.clockAnimation').addClass('animateClock');
-            
-            if((minutes-(hours*60))<10){
-                clock.innerHTML = hours+':0'+(minutes-(hours*60))+' | '+kasa+'zł';
-                } else {
-                    clock.innerHTML = hours+':'+(minutes-(hours*60))+' | '+kasa+'zł';
-                }
-            
+
+            if ((minutes - (hours * 60)) < 10) {
+                clock.innerHTML = hours + ':0' + (minutes - (hours * 60)) + ' | ' + kasa + 'zł';
+            } else {
+                clock.innerHTML = hours + ':' + (minutes - (hours * 60)) + ' | ' + kasa + 'zł';
+            }
+
             timeinterval = setInterval(function () {
                 minutes++;
-                kasa=((minutes/60)*stawka/100).toFixed(2);
-                kasagr=Math.floor((minutes/60)*stawka);
-                hours=(minutes-(minutes%60))/60;
-                if((minutes-(hours*60))<10){
-                clock.innerHTML = hours+':0'+(minutes-(hours*60))+' | '+kasa+'zł';
+                kasa = ((minutes / 60) * stawka / 100).toFixed(2);
+                kasagr = Math.floor((minutes / 60) * stawka);
+                hours = (minutes - (minutes % 60)) / 60;
+                if ((minutes - (hours * 60)) < 10) {
+                    clock.innerHTML = hours + ':0' + (minutes - (hours * 60)) + ' | ' + kasa + 'zł';
                 } else {
-                    clock.innerHTML = hours+':'+(minutes-(hours*60))+' | '+kasa+'zł';
+                    clock.innerHTML = hours + ':' + (minutes - (hours * 60)) + ' | ' + kasa + 'zł';
                 }
-                foundUser[0].czasUzytkownika=minutes;
-                foundUser[0].kasaUzytkownika=kasagr;
+                foundUser[0].czasUzytkownika = minutes;
+                foundUser[0].kasaUzytkownika = kasagr;
             }, 1000);
-            
-            
-            
-            $('.stopTimer').one( "click", function(){
+
+
+
+            $('.stopTimer').one("click", function () {
                 clearInterval(timeinterval);
                 $('.clockAnimation').removeClass('animateClock');
                 $('#timer').fadeOut();
-                alert(minutes-czasStartu);
-                alert(kasagr-kasaStartu);
-                foundTask[0].budzetGodzinowyWykorzystanie+=(minutes-czasStartu);
-                foundTask[0].budzetPienieznyWykorzystanie+=(kasagr-kasaStartu);
+                alert(minutes - czasStartu);
+                alert(kasagr - kasaStartu);
+                foundTask[0].budzetGodzinowyWykorzystanie += (minutes - czasStartu);
+                foundTask[0].budzetPienieznyWykorzystanie += (kasagr - kasaStartu);
                 $scope.$apply();
                 $('#taskCharts .chartHours')
-                
-                 if ($('#taskCharts .chartHours').find('canvas').length) {
-                 var newpercent = $('#taskCharts .chartHours').attr('data-percent');
-                $('#taskCharts .chartHours').data('easyPieChart').update(newpercent);
-                newpercent = $('#taskCharts .chartMoney').attr('data-percent');
-                $('#taskCharts .chartMoney').data('easyPieChart').update(newpercent);
-                 }
-                   
+
+                if ($('#taskCharts .chartHours').find('canvas').length) {
+                    var newpercent = $('#taskCharts .chartHours').attr('data-percent');
+                    $('#taskCharts .chartHours').data('easyPieChart').update(newpercent);
+                    newpercent = $('#taskCharts .chartMoney').attr('data-percent');
+                    $('#taskCharts .chartMoney').data('easyPieChart').update(newpercent);
+                }
+
                 $scope.$root.$broadcast("updateTerms");
             });
-            
+
         }
-        
-        
+
+
         $scope.isUserIn = function (zadanie, projekt, user) {
             var found;
             var foundTask;
             var foundUser;
-            
+
             found = $filter('filter')($projekty.items, {
                 idProjekt: projekt
             }, true);
-            
+
             foundTask = $filter('filter')(found[0].zadania, {
                 idZadania: zadanie
             }, true);
-            
+
             foundUser = $filter('filter')(foundTask[0].przypisaneOsoby, {
                 idUser: user
             }, true);
-            
-            if(foundUser.length>0) {
+
+            if (foundUser.length > 0) {
                 return true;
-            } else { return false; }    
+            } else {
+                return false;
+            }
         }
 
 
@@ -285,7 +350,7 @@
             }
 
             var item = {
-                idProjekt:$scope.items.length+1,
+                idProjekt: $scope.items.length + 1,
                 tytul: nazwa,
                 krotkitytul: nazwa.substring(0, 15) + '...',
                 avatarAdmina: $scope.user.avatar,
@@ -328,9 +393,9 @@
                         iloscZadan: 0,
                         stawka: budzetAdmin,
                         imie: $scope.user.imie + ' ' + $scope.user.nazwisko,
-                        czasUzytkownika:0,
-                        kasaUzytkownika:0,
-                        punktyUzytkownika:0,
+                        czasUzytkownika: 0,
+                        kasaUzytkownika: 0,
+                        punktyUzytkownika: 0,
                         dodatkowaKlasaListy: 'currentUser'
                   }
               ]
@@ -394,12 +459,12 @@
         if (found.length > 0) {
             $scope.milestoneName = found[0];
         }
-        
-        
-        $scope.closeSingleTask = function() {
+
+
+        $scope.closeSingleTask = function () {
             navi.popPage();
             $scope.$root.$broadcast("updateTerms");
-             $('#commentForm').css('display', 'none');
+            $('#commentForm').css('display', 'none');
         }
 
         $scope.shortname = $scope.item.nazwa.substring(0, 15) + '...',
@@ -758,21 +823,21 @@
 
 
             var listaTerminow = [];
-            
-    
-            
+
+
+
             //NOTE: analiza zadan
-            
+
             angular.forEach($scope.item.zadania, function (task, index) {
-                task.budzetPienieznyWykorzystanie=0;
-                task.budzetGodzinowyWykorzystanie=0;
+                task.budzetPienieznyWykorzystanie = 0;
+                task.budzetGodzinowyWykorzystanie = 0;
                 angular.forEach(task.przypisaneOsoby, function (osoba, index) {
-                    task.budzetPienieznyWykorzystanie+=osoba.kasaUzytkownika;
-                    task.budzetGodzinowyWykorzystanie+=osoba.czasUzytkownika;
+                    task.budzetPienieznyWykorzystanie += osoba.kasaUzytkownika;
+                    task.budzetGodzinowyWykorzystanie += osoba.czasUzytkownika;
                 });
             });
-        
-            
+
+
             angular.forEach($scope.item.terminy, function (term, index) {
                 var found = $filter('filter')($scope.item.zadania, {
                     idTerminu: term.idTerminu
@@ -1748,11 +1813,11 @@
                         punktyUzytkownika: '0',
                         dodatkowaKlasaListy: '',
                         budzetPieniezny: 'tak',
-                        budzetPienieznyWartosc:60000,
-                        budzetPienieznyWykorzystanie:0,
+                        budzetPienieznyWartosc: 60000,
+                        budzetPienieznyWykorzystanie: 0,
                         budzetGodzinowy: 'nie',
-                        budzetGodzinowyWartosc:0,
-                        budzetGodzinowyWykorzystanie:0,
+                        budzetGodzinowyWartosc: 0,
+                        budzetGodzinowyWykorzystanie: 0,
                         komentarze: [
                             {
                                 idUsera: 456,
@@ -1780,11 +1845,11 @@
                                 idUser: 456,
                                 avatar: 'http://themina.net/themes/shema/img/demo/team/team_img_3.jpg',
                                 iloscZadan: 3,
-                                stawka:200,
+                                stawka: 200,
                                 imie: 'Catalia Kowalska',
-                                czasUzytkownika:0,
-                                kasaUzytkownika:0,
-                                punktyUzytkownika:0,
+                                czasUzytkownika: 0,
+                                kasaUzytkownika: 0,
+                                punktyUzytkownika: 0,
                                 dodatkowaKlasaListy: 'currentUser'
                             }]
                     },
@@ -1795,9 +1860,9 @@
                         basicItem: 'none',
                         milestone: 'block',
                         mileStoneNaglowek: 'Milestone 1',
-                        milestoneUkonczoneZadaniaProcent:0,
-                        milestoneWykorzystanyBudzetPieniadze:0,
-                        milestoneWykorzystanyBudzetGodziny:0,
+                        milestoneUkonczoneZadaniaProcent: 0,
+                        milestoneWykorzystanyBudzetPieniadze: 0,
+                        milestoneWykorzystanyBudzetGodziny: 0,
                         data: '09.12.2015 12:00',
                         avatarPierwszejOsoby: 'http://themina.net/themes/shema/img/demo/team/team_img_3.jpg',
                         nazwa: 'Preztacja projektu milestone',
@@ -1834,7 +1899,7 @@
                         idUser: 1,
                         avatar: 'http://themina.net/themes/shema/img/demo/team/team_img_3.jpg',
                         iloscZadan: 3,
-                        stawka:200,
+                        stawka: 200,
                         imie: 'Catalia Kowalska',
                         czasUzytkownika: '18:22',
                         kasaUzytkownika: '200.50',
@@ -1845,7 +1910,7 @@
                         idUser: 2,
                         avatar: 'http://themina.net/themes/shema/img/demo/team/team_img_3.jpg',
                         iloscZadan: 1,
-                        stawka:50,
+                        stawka: 50,
                         imie: 'Natalia Kowalska',
                         czasUzytkownika: '11:22',
                         kasaUzytkownika: '100.50',
@@ -1853,13 +1918,13 @@
                         dodatkowaKlasaListy: 'currentUser'
                   },
                     {
-                        idUser:456,
+                        idUser: 456,
                         avatar: 'http://themina.net/themes/shema/img/demo/team/team_img_3.jpg',
-                        iloscZadan:22,
-                        stawka:80,
+                        iloscZadan: 22,
+                        stawka: 80,
                         imie: 'Aatalia Kowalska',
-                        czasUzytkownika:0,
-                        kasaUzytkownika:0,
+                        czasUzytkownika: 0,
+                        kasaUzytkownika: 0,
                         punktyUzytkownika: 14,
                         dodatkowaKlasaListy: 'currentUser'
                   },
@@ -1867,7 +1932,7 @@
                         idUser: 4,
                         avatar: 'http://themina.net/themes/shema/img/demo/team/team_img_3.jpg',
                         iloscZadan: 12,
-                        stawka:80,
+                        stawka: 80,
                         imie: 'Zatalia Kowalska',
                         czasUzytkownika: '12:22',
                         kasaUzytkownika: '500.50',
