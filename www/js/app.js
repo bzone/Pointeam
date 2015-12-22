@@ -67,7 +67,7 @@
                 });
                 var email = localStorage.email;
                 $scope.updateUsersBase();
-                $scope.getUserData(email,1);
+                $scope.getUserData(email, 1);
             }
         }
 
@@ -127,7 +127,7 @@
                                 next();
                             });
                             $scope.updateUsersBase();
-                            $scope.getUserData(email,1);
+                            $scope.getUserData(email, 1);
 
 
                         } else if (data = "failed") {
@@ -227,7 +227,7 @@
                                     next();
                                 });
 
-                                $scope.getUserData(email,1);
+                                $scope.getUserData(email, 1);
                                 $scope.updateUsersBase();
 
                             } else if (data == "exist") {
@@ -276,7 +276,7 @@
             return false;
         }
 
-        $scope.getUserData = function (email,go) {
+        $scope.getUserData = function (email, go) {
             var dataString = "email=" + email + "&getUserData=";
             $.ajax({
                 type: "POST",
@@ -293,9 +293,9 @@
 
                     $('#spinner').delay(1500).queue(function (next) {
                         $scope.user = angular.fromJson(data).user[0];
-                        if(angular.fromJson(data).project) {
-                        $projekty.items = angular.fromJson(data).project;
-                        } 
+                        if (angular.fromJson(data).project) {
+                            $projekty.items = angular.fromJson(data).project;
+                        }
 
                         angular.forEach($projekty.items, function (project, index) {
                             alert(project.idProjekt);
@@ -303,31 +303,27 @@
                                 type: "POST",
                                 url: url,
                                 data: {
-                                    idProjekt:project.idProjekt,
-                                    getLogData:''
+                                    idProjekt: project.idProjekt,
+                                    getLogData: ''
                                 },
                                 crossDomain: true,
                                 cache: false,
-                                beforeSend: function () {
-                                },
+                                beforeSend: function () {},
                                 success: function (data) {
-                                          project.log = angular.fromJson(data).log;
-                                        project.przypisaneOsoby = angular.fromJson(data).osoby;
+                                    project.log = angular.fromJson(data).log;
+                                    project.przypisaneOsoby = angular.fromJson(data).osoby;
                                 }
                             });
 
                         });
 
-
                         $(this).hide();
-
-                        if (go==1) {
-                        navi.pushPage('home.html', {
-                            animation: 'slide'
-                        });
+                        if (go == 1) {
+                            navi.pushPage('home.html', {
+                                animation: 'slide'
+                            });
                         }
-                        
-                        
+
                         next();
                     });
 
@@ -532,87 +528,59 @@
 
         $scope.addProject = function () {
             var nazwa = $('#nazwaProjektu').val();
-            $scope.items = $projekty.items;
-            var today = new Date();
-            var dd = today.getDate();
-            var mm = today.getMonth() + 1;
-            var yyyy = today.getFullYear();
-            var gg = today.getHours();
-            var min = today.getMinutes();
-            var orderKey = orderKeyGen(dd, mm, yyyy, gg, min, 0);
-            if (dd < 10) {
-                dd = '0' + dd
-            }
-            if (mm < 10) {
-                mm = '0' + mm
-            }
-            if (gg < 10) {
-                gg = '0' + gg
-            }
-            if (min < 10) {
-                min = '0' + min
-            }
-            today = dd + '.' + mm + '.' + yyyy + ' ' + gg + ':' + min;
+            if (nazwa == '') {
+                ons.notification.alert({
+                    message: 'Musisz podać nazwę projektu'
+                });
+            } else {
+                $scope.items = $projekty.items;
+                var today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth() + 1;
+                var yyyy = today.getFullYear();
+                var gg = today.getHours();
+                var min = today.getMinutes();
+                var orderKey = orderKeyGen(dd, mm, yyyy, gg, min, 0);
+                if (dd < 10) {
+                    dd = '0' + dd
+                }
+                if (mm < 10) {
+                    mm = '0' + mm
+                }
+                if (gg < 10) {
+                    gg = '0' + gg
+                }
+                if (min < 10) {
+                    min = '0' + min
+                }
+                today = dd + '.' + mm + '.' + yyyy + ' ' + gg + ':' + min;
 
-            var budzetAdmin = $('#twojaStawkaGodzinowa select').val();
+                var budzetAdmin = $('#twojaStawkaGodzinowa select').val();
 
-            var budzetGodzinowyWartosc = 0;
-            var budzetGodzinowy = 'nie';
-            if ($('#budzetGodzinowy input:checked').length == 1) {
-                budzetGodzinowy = 'tak';
-                budzetGodzinowyWartosc = $('#wartoscBudzetGodziny select').val();
-            }
-            var budzetPienieznyWartosc = 0;
-            var budzetPieniezny = 'nie';
-            if ($('#budzetPieniadze input:checked').length == 1) {
-                budzetPieniezny = 'tak';
-                budzetPienieznyWartosc = $('#wartoscBudzetPieniadze select').val();
-            }
+                var budzetGodzinowyWartosc = 0;
+                var budzetGodzinowy = 'nie';
+                if ($('#budzetGodzinowy input:checked').length == 1) {
+                    budzetGodzinowy = 'tak';
+                    budzetGodzinowyWartosc = $('#wartoscBudzetGodziny select').val();
+                }
+                var budzetPienieznyWartosc = 0;
+                var budzetPieniezny = 'nie';
+                if ($('#budzetPieniadze input:checked').length == 1) {
+                    budzetPieniezny = 'tak';
+                    budzetPienieznyWartosc = $('#wartoscBudzetPieniadze select').val();
+                }
 
-            var krotki = nazwa.substring(0, 15) + '...';
-            $.ajax({
-                type: "POST",
-                url: url,
-                data: {
-                    tytul: nazwa,
-                    idUser: $scope.user.idUser,
-                    krotkitytul: krotki,
-                    avatarAdmina: $scope.user.avatar,
-                    imie: $scope.user.imienazwisko,
-                    stawka:budzetAdmin,
-                    procentUkonczeniaProjektu: 0,
-                    budzetPieniezny: budzetPieniezny,
-                    budzetPienieznyWartosc: budzetPienieznyWartosc,
-                    budzetPienieznyWykorzystanie: 0,
-                    budzetGodzinowy: budzetGodzinowy,
-                    budzetGodzinowyWartosc: budzetGodzinowyWartosc,
-                    budzetGodzinowyWykorzystanie: 0,
-                    ukonczoneZadania: 0,
-                    wszystkieZadania: 0,
-                    zadaniaNieprzypisane: 0,
-                    zadaniaPoTerminie: 0,
-                    zadaniaPrzekroczonyBudzet: 0,
-                    insertNewProject: ''
-                },
-                crossDomain: true,
-                cache: false,
-                beforeSend: function () {},
-                success: function (data) {
-                    var projektID = data;
-alert(projektID);
-                    $scope.addLogElement(projektID,$scope.user.idUser, 'rozpoczecieProjektu', '', $scope.user.imienazwisko, $scope.user.avatar, today, 0);
-                    
-
-                    var item = {
-                        idProjekt: projektID,
+                var krotki = nazwa.substring(0, 15) + '...';
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: {
                         tytul: nazwa,
+                        idUser: $scope.user.idUser,
                         krotkitytul: krotki,
                         avatarAdmina: $scope.user.avatar,
-                        statusUzytkownika: 'oczekuje',
-                        statusClass: 'completionHalf',
-                        czasUzytkownika: '00:0',
-                        kasaUzytkownika: '0',
-                        punktyUzytkownika: '0',
+                        imie: $scope.user.imienazwisko,
+                        stawka: budzetAdmin,
                         procentUkonczeniaProjektu: 0,
                         budzetPieniezny: budzetPieniezny,
                         budzetPienieznyWartosc: budzetPienieznyWartosc,
@@ -622,117 +590,150 @@ alert(projektID);
                         budzetGodzinowyWykorzystanie: 0,
                         ukonczoneZadania: 0,
                         wszystkieZadania: 0,
-                        notyfikacjeDisplay: 'none',
-                        notyfikacje: 0,
-                        zadaniaPrzypisaneDoUzytkownika: 0,
                         zadaniaNieprzypisane: 0,
                         zadaniaPoTerminie: 0,
                         zadaniaPrzekroczonyBudzet: 0,
-                        terminy: [],
-                        zadania: [],
-                        log: [
-                            {
-                                idLog: 0,
-                                orderKey: orderKey,
-                                typ: 'rozpoczecieProjektu',
-                                data: today,
-                                dataPrezentacja: 'Dziś - ' + gg + ':' + min,
-                                odczytane: 0
+                        insertNewProject: ''
+                    },
+                    crossDomain: true,
+                    cache: false,
+                    beforeSend: function () {},
+                    success: function (data) {
+                        var projektID = data;
+                        alert(projektID);
+                        $scope.addLogElement(projektID, $scope.user.idUser, 'rozpoczecieProjektu', '', $scope.user.imienazwisko, $scope.user.avatar, today, 0);
+
+
+                        var item = {
+                            idProjekt: projektID,
+                            tytul: nazwa,
+                            krotkitytul: krotki,
+                            avatarAdmina: $scope.user.avatar,
+                            statusUzytkownika: 'oczekuje',
+                            statusClass: 'completionHalf',
+                            czasUzytkownika: '00:0',
+                            kasaUzytkownika: '0',
+                            punktyUzytkownika: '0',
+                            procentUkonczeniaProjektu: 0,
+                            budzetPieniezny: budzetPieniezny,
+                            budzetPienieznyWartosc: budzetPienieznyWartosc,
+                            budzetPienieznyWykorzystanie: 0,
+                            budzetGodzinowy: budzetGodzinowy,
+                            budzetGodzinowyWartosc: budzetGodzinowyWartosc,
+                            budzetGodzinowyWykorzystanie: 0,
+                            ukonczoneZadania: 0,
+                            wszystkieZadania: 0,
+                            notyfikacjeDisplay: 'none',
+                            notyfikacje: 0,
+                            zadaniaPrzypisaneDoUzytkownika: 0,
+                            zadaniaNieprzypisane: 0,
+                            zadaniaPoTerminie: 0,
+                            zadaniaPrzekroczonyBudzet: 0,
+                            terminy: [],
+                            zadania: [],
+                            log: [
+                                {
+                                    idLog: 0,
+                                    orderKey: orderKey,
+                                    typ: 'rozpoczecieProjektu',
+                                    data: today,
+                                    dataPrezentacja: 'Dziś - ' + gg + ':' + min,
+                                    odczytane: 0
                         }
                 ],
-                        przypisaneOsoby: [
-                            {
-                                idUser: $scope.user.idUser,
-                                avatar: $scope.user.avatar,
-                                iloscZadan: 0,
-                                stawka: budzetAdmin,
-                                imie: $scope.user.imie + ' ' + $scope.user.nazwisko,
-                                czasUzytkownika: 0,
-                                kasaUzytkownika: 0,
-                                punktyUzytkownika: 0,
-                                dodatkowaKlasaListy: 'currentUser'
+                            przypisaneOsoby: [
+                                {
+                                    idUser: $scope.user.idUser,
+                                    avatar: $scope.user.avatar,
+                                    iloscZadan: 0,
+                                    stawka: budzetAdmin,
+                                    imie: $scope.user.imie + ' ' + $scope.user.nazwisko,
+                                    czasUzytkownika: 0,
+                                    kasaUzytkownika: 0,
+                                    punktyUzytkownika: 0,
+                                    dodatkowaKlasaListy: 'currentUser'
                   }
               ]
-                    };
+                        };
 
 
 
 
 
 
-                    $projekty.items.push(item);
-                    $scope.$apply;
-                    var index = $scope.items.length;
-                    var selectedItem = $projekty.items[index - 1];
+                        $projekty.items.push(item);
+                        $scope.$apply;
+                        var index = $scope.items.length;
+                        var selectedItem = $projekty.items[index - 1];
 
-                    $('.pojedynczyTermin').each(function (x) {
-                        var dataTermin = $(this).find('input[type="datetime-local"]').val();
-                        dd = dataTermin.substring(8, 10);
-                        mm = dataTermin.substring(5, 7);
-                        yyyy = dataTermin.substring(0, 4);
-                        gg = dataTermin.substring(11, 13);
-                        min = dataTermin.substring(14, 16);
-                        dataTermin = dd + '.' + mm + '.' + yyyy + ' ' + gg + ':' + min;
-                        orderKey = orderKeyGen(dd, mm, yyyy, gg, min, 9);
-                        var nazwaTermin = $(this).find('input[type="text"]').val();
-                        var zadanie = {
-                            idZadania: (x + 1) * 1000,
-                            idTerminu: (x + 1) * 1000,
-                            orderKey: orderKey,
-                            basicItem: 'none',
-                            milestone: 'block',
-                            mileStoneNaglowek: 'Milestone ' + (x + 1),
-                            milestoneUkonczoneZadaniaProcent: '0',
-                            milestoneWykorzystanyBudzetPieniadze: '0',
-                            milestoneWykorzystanyBudzetGodziny: '0',
-                            data: dataTermin,
-                            nazwa: nazwaTermin
-                        }
-                        var termin = {
-                            idTerminu: (x + 1) * 1000,
-                            orderKey: orderKey,
-                            mileStoneNaglowek: 'Milestone ' + (x + 1),
-                            data: dataTermin,
-                            nazwa: nazwaTermin
-                        }
-                        $projekty.items[index - 1].zadania.push(zadanie);
-                        $projekty.items[index - 1].terminy.push(termin);
-                    });
+                        $('.pojedynczyTermin').each(function (x) {
+                            var dataTermin = $(this).find('input[type="datetime-local"]').val();
+                            dd = dataTermin.substring(8, 10);
+                            mm = dataTermin.substring(5, 7);
+                            yyyy = dataTermin.substring(0, 4);
+                            gg = dataTermin.substring(11, 13);
+                            min = dataTermin.substring(14, 16);
+                            dataTermin = dd + '.' + mm + '.' + yyyy + ' ' + gg + ':' + min;
+                            orderKey = orderKeyGen(dd, mm, yyyy, gg, min, 9);
+                            var nazwaTermin = $(this).find('input[type="text"]').val();
+                            var zadanie = {
+                                idZadania: (x + 1) * 1000,
+                                idTerminu: (x + 1) * 1000,
+                                orderKey: orderKey,
+                                basicItem: 'none',
+                                milestone: 'block',
+                                mileStoneNaglowek: 'Milestone ' + (x + 1),
+                                milestoneUkonczoneZadaniaProcent: '0',
+                                milestoneWykorzystanyBudzetPieniadze: '0',
+                                milestoneWykorzystanyBudzetGodziny: '0',
+                                data: dataTermin,
+                                nazwa: nazwaTermin
+                            }
+                            var termin = {
+                                idTerminu: (x + 1) * 1000,
+                                orderKey: orderKey,
+                                mileStoneNaglowek: 'Milestone ' + (x + 1),
+                                data: dataTermin,
+                                nazwa: nazwaTermin
+                            }
+                            $projekty.items[index - 1].zadania.push(zadanie);
+                            $projekty.items[index - 1].terminy.push(termin);
+                        });
 
-                    $projekty.selectedItem = selectedItem;
-                    $scope.navi.pushPage('procjectview.html', {
-                        title: selectedItem.tytul
-                    });
+                        $projekty.selectedItem = selectedItem;
+                        $scope.navi.pushPage('procjectview.html', {
+                            title: selectedItem.tytul
+                        });
 
-                }
-            });
+                    }
+                });
 
 
+            }
+
+
+            $scope.addLogElement = function (idProjekt, idUser, typ, nazwa, osoba, avatar, data, odczytany) {
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: {
+                        idProjekt: idProjekt,
+                        idUser: idUser,
+                        typ: typ,
+                        nazwa: nazwa,
+                        osoba: osoba,
+                        avatar: avatar,
+                        data: data,
+                        odczytany: odczytany,
+                        insertNewLog: ''
+                    },
+                    crossDomain: true,
+                    cache: false,
+                    beforeSend: function () {},
+                    success: function (data) {}
+                });
+            }
         }
-
-
-        $scope.addLogElement = function (idProjekt, idUser, typ, nazwa, osoba, avatar, data, odczytany) {
-            $.ajax({
-                type: "POST",
-                url: url,
-                data: {
-                    idProjekt: idProjekt,
-                    idUser: idUser,
-                    typ: typ,
-                    nazwa: nazwa,
-                    osoba: osoba,
-                    avatar: avatar,
-                    data: data,
-                    odczytany: odczytany,
-                    insertNewLog: ''
-                },
-                crossDomain: true,
-                cache: false,
-                beforeSend: function () {},
-                success: function (data) {}
-            });
-        }
-
     });
 
 
@@ -1009,7 +1010,6 @@ alert(projektID);
 
                 var avatar = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIQAAACECAYAAABRRIOnAAAAAXNSR0IArs4c6QAAE+lJREFUeAHtnWvIHcUZx09iNIkmJtEkGtFEQVRoBW+h+EFFoVXwg2Bt0NZKg0rFWlS00FbSUkX90ItaWrFYKxWrVMQSqKVCUTAfLKhosWAFqUk0F5No7onRXPr/TXa2c+bsOe9eZvfsOe888LwzOzvX5/mfmWdu+3Y6kaIEHAlMcfxj7T106NBMNfBU8Rzx7AxWUGdnBm9X2OopU6bsJcK409gBQoqfJ6WdLz7T48V6LtveQ0q7Vvyex28KKFsVNjZUVkCtEYAAMEuVuUh8WcLnyJ0qboIOqpC3xS8nvEoA2dVEwXWVMZKAEAiWSCDXi68ULxVPEw8kpens37+/c+DAgQ7+gwcPGrZ+Ek+dOrUjhRrX+o844ojOtGnTTPjAAg6/3C/ndfGL4qeV15rDwaPzd2QAIcUdK7FeI75BfLE4s+4oeN++fZ0vvviih5WmNB155JEdn6dPnz4IKAwzr4qfEj8vcOwoXXiDCTOF2mD5ExYlBTMc3Cq+Soxh2EUA4PPPP+989tlnnb179xqXsCaI3mTGjBmdmTNnGveoo47qBxAM0pXiR5VmVRN1K1tGawEhpV6uRt0jBhBdhMJR/q5du4xL998GYpgBHLNmzTIugMkgAHG/3r2U8W7oQZk1HlatpGjqQ08AEC7w68FQAAjgtoDAr6N9BhwAA2ZoyaA3FHa/eKXA0UyXllEJP6g1gBAYmCU8LD7brSS9wc6dOzs7duwwNoH7blT82B7HHntsZ/bs2VlDyjtqx+0CxSttaM/QASGFL5IgfiH+pisQegCAsH37djMzcN+Nqp8Zy5w5cwww6EE8ekbPdwsYG7zwRh+HBggB4Qi19Hvi+8TMIAwBBHoDgND2YcHWuagLGAAGvYYHDGYiK8S/FTAOFM03RPyhAEJgYPHoSTFuStgGn3766dj0CGnD+njoMY477jhjZ3hRWOxaLlDgNkqNA0JguEUtfEg8w7aUaeMnn3xipow2bDK5TF2PP/74DtNWhz6T/06B4jEnrHZvY4AQEBgWHhcvs61iSNi2bZsZHmzYZHYZRubOnesPI89JJjcLGI0sbDUCCIHhXDWKhp1uFc4UctOmTWY52YZFV2vwWiZfuHChP1V9X7JZJlC8VbeMageEwHCdGoG9kE7GMRoZIiL1lwBDCEanQ/vkXy5QPOuEBffWCgiB4XbVGHvBlMMQsWXLls7u3buDN2QcMzzmmGM68+fPd4cQFrDuECh+XVd7awOEwPCAKv0jW3EMx48//jgOEVYgOV2GkBNOOME3OB8UKH6cM4tC0YIDQkBgfeF34httTdh4Agzjuq5g21mXy1oFoGA24tAT8n9XwAi6XhEUEAkYMB6vthVneNi8ebM5g2DDoltcAlJ8Z8GCBR2GEYdekB9jMxgoetZPncLKeOkZUjCw9MxMQkApk1dM40gAGSJLZOoQskbmwSgYIFRhbIZ0mGDpGQMyUlgJIFNk69CNieydoPLeIEOGKsRs4mFbDVAcwWClUY/L7IPdU4fYMa08+6gMCIHhOlXqT2KTFzYDXVuk+iXAApZjUzAuf0ugqLROUQkQAgMrkK+JzaITs4mNGzdGm6F+LJgSMDRPPPFEd/axTy8uVHjpFc3SNoTAwDIaMwoDBrvOoHBT2finfgkga6bzyD4hdPFcohsb1uPqfd+OoDQgVAobVWZvgvWFuM7QI/dGAjJkj07QTQ8JCKeJ+RHf1fMyCSgFCGXKFna6a4kByZ2HSMORALL3jPhliY5MheSfJb5XD++KvyFeoeeF5qX3p2/X4cVLH5URh1r+KTZDRdyoSkUzdI+3IcZ5igvFXxL/XLxI7NITsjVucgPwFwKEwMCyNKeFAYW5ELN+/Xq8kVoigZNOOsndOmcXsWtp06kmdxcu8A3QokPGbcrEgIGxK04vHfG2xMuxAv1wbW36gYH36P4RG9G6uXsIFUKX8x+x2aTn7KO3YmbzjO4QJMAUlPMTGSeuJqrNtUr7ZxupCCCeUaLrSMg0Z926dTaP6A5ZAkcffbQ5rMv9jxK0VmnOEijM9y9yDRnqHS5TIgMGCoynnZDC8IlDuSxMsTVeEgw0YrH4B7Y1E/YQAgNx/iU2N6o4Ks92dqThSYDzEfPmzet3E6xMxfYo0RnqJdZNy5H6KsUxYMCQxHaINDwJYCcABu+CT5UKsSX9M/FGMskDCC7eGmLNgQ9uRGpeAtwq51KPd3ejSkVYSeTOxwr1DNtsRgMBoeHickU0t7DpHeKswoqtORfbACBgOAakfyiv7wsIzBq7aCAgFDPtHTjjACgiNSMBKctMIbm8gz8g/Vv5fbVffn0Bod7hIiWCzUJH7B36iTB8ON+UoFfg7mcI4ocMqBJgfRndyr8qK+9B085bbQJ6h2g7WGnU53KqmqVnDtOGAIMUb85gfvjhh/5ZzFS3fmsy+yJlxGokVqf5ptNHH300sh/r8BvcxmfuXjBzoGcIRXxyiRmhPSuBLXLyySfb7FmEOlG9xA4bYN1+QwZfezNgsF90swmiG04CdOHYCHCoaSRf39u6dWvP7TjC0WXyeSN0i47/4LemHyBusBFZiIoUXgKchcROoHcIQXYWiK3HUJFF6NL53hU67gFEz5ChzJYo4gfiKWS8du3aOLvIkm7JMNYROLfg3cIqmdvhZHk/tEIvtHjxYmtcgprT1EutcQvPMiqvVwQDFMahONV0xVXej5HI0XmMxlBgYAjgPApbCXmMfnSJThNCx+i6i7IAcaWNEYcLK4lqLjYCBl2fr9AVzpwjc4AAMACKIuTpNNW1zaNrANMQgZm7lJcMFw6abPzoFpBAxW3pnpLQCTYCX93BX4bQKWkxaEVL5Z8lf2oodgFCES4WmzCmK3G4QGbFiSkedgL7D6Foz5495thB1cPM6BTdJsYlukbnf7P19AFxqX3BpZtIxSRQw7a0UV7oD7KhW2e2gc77AoKDMIbicGElkc/FPmBxKcQKIyViJDI0sMMcmtAtdk1Cqc55TnsIjSXz9GwO0DLGxB4iEdcEDjMGhodQ29LInq0CFpfqGrLRLeUkdsQ56F7+rTQ1BYT8/FsiM+vAciVBpP4SYEEJIITcluaXy/DAqmKdhG7RcTL9Refoni3xLkCcSQBUd4UOlzKaf/lVcbKZLjf5hVVuCPJm3wHDsSmiTGc9BN1HQBQVfh3b0sP6cKv3o087A3fISAO9yEXlNnbxscgZHhzLvFIb6bLtcnNddsJEFfR0nOo+AmKA5JgxsAEVclsagw47wW5LDyi+1lcDASHEsoKymBqAXi9yrRVrY+bYBtgIcKhtaRaUsBPa8tFWdIyuEztoMRiQf6/tIU6TYsxaZtWVsDYquEidhrEtXaR+IeOi6+SCD7o/VfyuBUS6SpFn1yxkpdqS1zC3pYclA3SdAIIqzOWPBUT6ObNhGTlUZhiEnWCPr4WaRjLHx04ouhPZdPs9XRsMWECkh/kYVyYLYSOUuC3dVzz84lhhZKVxFMjTtcGABcSk6iHq2JZmzwEweEJuNS4G9RApIEapQUWl3eZt6aJtCRHf03XXkJECwkNNiHKHngdTR4YGLsqGshNYRwi9Ld20oDxddwGi6bo0Vt4obUs3JpQBBVkbIrWCQi3EDCizkVejuC3diGCcQjxdGwz0ACJUl+qU26iXbWmWm51vQFcuv6lt6coVLZiBp+tsQHioKVjE8KLTuHHYlm5Sgp6uxwcQ47Qt3TpAeN1Ik/UrXFZd29KsJ0yGJXxP1109xHarjVCHRG1+dbjjvC1dh7z65enp2mDAGpWrlYg16ymhLp/2q0SVcBA97tvSVeRTNK2ja3S/mvQGEBL0Xq1ardXzEoTOil7bzkRMpm1pFFM3oWNnyFgLBijT9hD43xMvwdMmQNSxLc0hFQ6rTOazH+jYIXRvyAfE1wj1Ih+O2fBfpkT2+JqD5Eq1YDsaIMQ7Jz067gsII/BhA2Kyb0tXQn3OxJ6O2wkILsdyutmrbM4m9kZjN28Ut6V7WxI+xLtplgmIN1XsQfFU5vd00972aPhaJTkCAIaHkLegQt2Wrq3RQ8wY3TqAQOfo3lBqQyjSVgHgbYWeRwI2h+q+8IudUMe2NHZC3XVP5DeSDrpFxwm9je7tQwqIJOBluefhp/uuU6hxWzqR+BAc77sV6DwlHxCv6M3dvHXu/aWRQ3jitnQIKVbLw9PtQEC8qqL2i6cxxtCle6dqStckbkuXFl3QhOjUsR/Qddcnjrt6CI0lu2RHvK5I/LtgM2xUvWlEPnFbOqhOK2XGcIFOEnodndsH3C5AJC9elHshfraVqwCC9Nx5cNbMkyLKOfRWw7otXa7G7Uvl3VNF112UQsWGqodg+foDcekPl8ZtaSvNdrkMFxN9uLSnh1AXskagwJa4hK4FROX9zpHdlmYjyumWKkmlLbelKzWiJYnRpaOXV9G1X7UeQCQRnpJ7Cf48gKCQOralOajifWgzqV50ykjAGy7QcQ/1DBnEUA+R+98j0BtgJ4RabsZOoEeq8nHOnlbGAKOfPP8eYWqWrPSL51t4K+07Lrj4xNSF/xm5cOHCYGDAgOUfxI7alThfNm189nS4MtFxT1X7DRlEfFR8LR5WFfnFcs4Qw4QegTCGihAUt6VDSLF/Hth26MshdJtJAzWaGJfm/27xjWUOlAAGQBGCRu22dIg2DyMPNg6x8RJapR/yxfbBdycCxOVK8HcSCRzBegTysnZCqJVQv2Hx+bAE+PGecsop7o/4CgHipX7yGTRkkGaNmNO4c0IND2xLsxvZtjObNHYciZ7B6dHfGAQG2p8JCP2C+bzMT8W39Yuj8ELEbem4LV1IZJUjYzt4xuT9E2XaBQgBgX8UebP4PvH8iRLnec+QwKwh7+JWnjxjnHwSwHZweod3lCqdOfbLoQsQivRX8RX9IhcJx06o+yPeReoz2eKyxe0tRN2h4eLQRHLwpwvPTJQgz3sO1vDvf/igRjQa80gsfBzOpjr0jMDQde7Bedfl7Zpl6FfN82vir3TFyvmAocjwUGWHNGdRMdoACWBIMlwkxCLjWQLEBhswyO0aMuhSRLcrAaDoAsugTOgFWKcY9D8jB6WP78JJgKMGnD9xaEVeMJAmU+kCBRsf33YyzfQqnukNmD1MhtvSmUJoWSD/BtL5SDuHpi8QIA7kraZvQ9h0P5Rnt33o56ogYyNEMPSTULPh3hf7+adpy4uAgdpmAkKZrNe7B4iQQYxFf7ThzHNDfr7H5hvdYhJAB96aw53SIz1EIcoERJLDr+SudnLbJ/+D4jNU0HfkPic2xH+sDXVMzuYZ3fwSQPbowKHnpKPHnOfc3kwbwqaWjfB1+Z8X/0V8twr5r/OOPXFu/JxOGCuRGzZsiNNMhNEgsfC0aNEi9yT1+yr+fOmK2UVhGggIchMolipzTmL3kN6dq0BmJNN5yXG3jRs3NnYFkDInM0kv5kyKc8+CXpwT82+VlcugIcPk2Q8MvEwKXi6vWQGjYgsWLDDp4p/6JYCsHTCgg+VVwECNJwTERM1SBZ5VnDttPIwbbzyzr6IbUALI2DPmMSLRRSWqDAhKV0UekfOgrQmnc5yVMhsc3UASQLbeCagHEx1ULmFCG6JICbIpfq/4N9o0bG5t2bLFPkY3gAToGTwwPCEw3BQga5NFaECwfc509GpbQfY1Nm/eHA1NK5CSrpRu7DNvmHhB2S3Tu9wrkRMVH2TIsIUkFVum5ydsGA3gdLazL29fRTenBJAdMvTAgIyDgoHqBAUEGQIKMV1YalNgCTNXjotXSKgYITNk58wmyACb4abkB1gswwliBx0y/LJkU7Bz+pDYlMOuKDZF3B73JZX9TI+AzeD0rkwtmU1gxNdCtQKCGgsU18l5UjydZ4jjdByeidRfAmxUeXsTLDotFxgqTy37l5r8cgdFCPFOoDhP+fxZbJa5yZPLOZs2bZrUHw9FDj4xRHAbztnCJgrL0dgLpVcg/XL6PdfeQ9iCBQr2Ph4XY3QaYgiJ33uw0tBdh+x/G8ms7WaBodTexP9zz+drDBC2OgLGLfJjV8ywYePwD81sW8q4GIwMEc6nfsiG8wzYC6V2LcvUgzSNA4JCBYpz5GBX4KbE1f/JdPrKfk/DOx2NPDjHsFxgKHyeIRVmSc9QAEFdBQoWsbgIdK+Y4cQQwwhGJ+cz8Y8jMWtgeMBodGYQNJVh4Sfi3wgMwRabyDgvDQ0QtoICxiL5fylmNpISYGDpG2CMyxE9egSAwNKzBwTazezhLgFhQyqEIXiGDgjbZgHjMvkfFp9tw3AVboBBrzGq90H5mAq9AUCQwt3m4edGFZdoct2b8BOHfu6pXegCiuQn5VOfq8T3iC/w0zJVxc6A2z6c0ANgG8DeFNI26w15uGu5UmBgwakV1CpAuBIROC7XM8C4yA3HT6/B7TCAgdsWcAACvgMJCLzvQbpNWKWH+wWCl9zAtvhbCwgrICkfQNwqpueYacOtCziYtnJ8D3DgEtYE0f0zZUT5uEwbCcsg/n3RSvGjeg8gWkuZtW9jbaVkZiLXiG8QXyzOrDtgYGjB3vBZaUoTdoDPDAV9AEA5oPJV8VPi5xWvkYUllVWJMoVaKccGEkvpS1TM9eIrxUvF08QDCaDwSSRmLAwxPLsuienyUbDrMjNgOXmA4t1y9+uBA8l8IfZppVnjvhwF/0gCwhWsFDtLz/QYl4qZqbDYNVXcBB1UISwevSx+RczHQHfJHVkaeUD4khdA5insfPGZHi/Wc9n20v2vFb/n8ZsCwFaFjQ2VFdDICUBAwSA9VTxXPFtMz4JrWd7OTof5pfO8Tbxaijf/11L+SFECk0cC/wPgFSm29GnNzQAAAABJRU5ErkJggg==';
 
-
                 var iloscOsob = $scope.currentuser[0].tmp.length;
                 var brakOsobyDisplay = 'block';
                 var dodatkoweOsobyDisplay = 'none';
@@ -1021,88 +1021,150 @@ alert(projektID);
                     dodatkoweOsobyDisplay = 'inline-block';
                 }
                 alert(iloscOsob);
-                var idZadania = $scope.item.zadania.length + 1
+                var idProjekt = $scope.item.idProjekt;
 
 
-                var zadanie = {
-                    idZadania: idZadania,
-                    orderKey: orderKey,
-                    basicItem: 'block',
-                    data: data,
-                    dataDzien: dd,
-                    dataMiesiac: mm,
-                    dataGodzina: gg + ':' + min,
-                    notyfikacjeDisplay: 'none',
-                    notyfikacje: 0,
-                    lokalizacjaDisplay: pokazLokalizacje,
-                    lokalizacja: lokalizacja,
-                    latLngPosition: lokalizacjaZadaniaLatLng,
-                    brakOsobyDisplay: brakOsobyDisplay,
-                    ukonczoneDisplay: 'none',
-                    avatarPierwszejOsoby: avatar,
-                    dotatkoweOsoby: iloscOsob - 1,
-                    dodatkoweOsobyDisplay: dodatkoweOsobyDisplay,
-                    nazwa: nazwa,
-                    opis: opis,
-                    priorytet: priorytet,
-                    statusUzytkownika: 'oczekuje',
-                    statusClass: 'completionHalf',
-                    czasUzytkownika: '00:00',
-                    kasaUzytkownika: 0,
-                    punktyUzytkownika: 0,
-                    budzetPieniezny: budzetPieniezny,
-                    budzetPienieznyWartosc: budzetPienieznyWartosc,
-                    budzetPienieznyWykorzystanie: 0,
-                    budzetGodzinowy: budzetGodzinowy,
-                    budzetGodzinowyWartosc: budzetGodzinowyWartosc,
-                    budzetGodzinowyWykorzystanie: 0,
-                    punktyPremiowe: punktyPremiowe,
-                    punktyPremioweWartosc: punktyPremioweWartosc,
-                    przypisaneOsoby: angular.copy($scope.currentuser[0].tmp),
-                    komentarze: []
-                }
-                $scope.item.zadania.push(zadanie);
-                $scope.currentuser[0].tmp.splice(0, iloscOsob);
 
-                var todayLog = new Date();
-                dd = todayLog.getDate();
-                mm = todayLog.getMonth() + 1;
-                yyyy = todayLog.getFullYear();
-                gg = todayLog.getHours();
-                min = todayLog.getMinutes();
-                if (dd < 10) {
-                    dd = '0' + dd
-                }
-                if (mm < 10) {
-                    mm = '0' + mm
-                }
-                if (gg < 10) {
-                    gg = '0' + gg
-                }
-                if (min < 10) {
-                    min = '0' + min
-                }
-                todayLog = orderKeyGen(dd, mm, yyyy, gg, min, 9);
+                //NOTE: ajax zadanie
 
 
-                var logItem = {
-                    idLog: $scope.item.log.length + 1,
-                    idZadania: idZadania,
-                    orderKey: todayLog,
-                    typ: 'noweZadanie',
-                    nazwa: nazwa,
-                    osoba: $scope.currentuser[0].imie + ' ' + $scope.currentuser[0].nazwisko,
-                    idOsoby: $scope.currentuser[0].idUser,
-                    avatarOsoby: $scope.currentuser[0].avatar,
-                    data: dd + '.' + mm + '.' + yyyy + ' ' + gg + ':' + min,
-                    dataPrezentacja: 'Dziś - ' + gg + ':' + min,
-                    odczytane: 0
-                }
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: {
+                        idProjekt: idProjekt,
+                        nazwa: nazwa,
+                        opis: opis,
+                        data: data,
+                        dataDzien: dd,
+                        dataMiesiac: mm,
+                        dataGodzina: gg + ':' + min,
+                        orderKey: orderKey,
+                        basicItem: 'block',
+                        milestone: 'none',
+                        mileStoneNaglowek: '',
+                        milestoneUkonczoneZadaniaProcent: 0,
+                        milestoneWykorzystanyBudzetPieniadze: 0,
+                        milestoneWykorzystanyBudzetGodziny: 0,
+                        avatarPierwszejOsoby: avatar,
+                        dodatkoweOsobyDisplay: dodatkoweOsobyDisplay,
+                        dotatkoweOsoby: iloscOsob - 1,
+                        ukonczoneDisplay: 'none',
+                        brakOsobyDisplay: brakOsobyDisplay,
+                        lokalizacjaDisplay: pokazLokalizacje,
+                        lokalizacja: lokalizacja,
+                        latLngPosition: lokalizacjaZadaniaLatLng,
+                        priorytet: priorytet,
+                        status: 'oczekuje',
+                        budzetPieniezny: budzetPieniezny,
+                        budzetPienieznyWartosc: budzetPienieznyWartosc,
+                        budzetPienieznyWykorzystanie: 0,
+                        budzetGodzinowy: budzetGodzinowy,
+                        budzetGodzinowyWartosc: budzetGodzinowyWartosc,
+                        budzetGodzinowyWykorzystanie: 0,
+                        punktyPremiowe: punktyPremiowe,
+                        punktyPremioweWartosc: punktyPremioweWartosc,
+                        addTaskToProject: ''
+                    },
+                    crossDomain: true,
+                    cache: false,
+                    beforeSend: function () {},
+                    success: function (data) {
+var idZadania=data;
 
-                $scope.item.log.push(logItem);
+                        var zadanie = {
+                            idZadania: data,
+                            orderKey: orderKey,
+                            basicItem: 'block',
+                            data: data,
+                            dataDzien: dd,
+                            dataMiesiac: mm,
+                            dataGodzina: gg + ':' + min,
+                            notyfikacjeDisplay: 'none',
+                            notyfikacje: 0,
+                            lokalizacjaDisplay: pokazLokalizacje,
+                            lokalizacja: lokalizacja,
+                            latLngPosition: lokalizacjaZadaniaLatLng,
+                            brakOsobyDisplay: brakOsobyDisplay,
+                            ukonczoneDisplay: 'none',
+                            avatarPierwszejOsoby: avatar,
+                            dotatkoweOsoby: iloscOsob - 1,
+                            dodatkoweOsobyDisplay: dodatkoweOsobyDisplay,
+                            nazwa: nazwa,
+                            opis: opis,
+                            priorytet: priorytet,
+                            statusUzytkownika: 'oczekuje',
+                            statusClass: 'completionHalf',
+                            czasUzytkownika: '00:00',
+                            kasaUzytkownika: 0,
+                            punktyUzytkownika: 0,
+                            budzetPieniezny: budzetPieniezny,
+                            budzetPienieznyWartosc: budzetPienieznyWartosc,
+                            budzetPienieznyWykorzystanie: 0,
+                            budzetGodzinowy: budzetGodzinowy,
+                            budzetGodzinowyWartosc: budzetGodzinowyWartosc,
+                            budzetGodzinowyWykorzystanie: 0,
+                            punktyPremiowe: punktyPremiowe,
+                            punktyPremioweWartosc: punktyPremioweWartosc,
+                            przypisaneOsoby: angular.copy($scope.currentuser[0].tmp),
+                            komentarze: []
+                        }
 
-                $scope.RebuildTerms();
-                navi.popPage();
+                        if (!$scope.item.zadania) {
+                              $scope.item.zadania=[];
+                        }
+                        $scope.item.zadania.push(zadanie);
+                        $scope.currentuser[0].tmp.splice(0, iloscOsob);
+
+                        var todayLog = new Date();
+                        dd = todayLog.getDate();
+                        mm = todayLog.getMonth() + 1;
+                        yyyy = todayLog.getFullYear();
+                        gg = todayLog.getHours();
+                        min = todayLog.getMinutes();
+                        if (dd < 10) {
+                            dd = '0' + dd
+                        }
+                        if (mm < 10) {
+                            mm = '0' + mm
+                        }
+                        if (gg < 10) {
+                            gg = '0' + gg
+                        }
+                        if (min < 10) {
+                            min = '0' + min
+                        }
+                        todayLog = orderKeyGen(dd, mm, yyyy, gg, min, 9);
+
+
+                        var logItem = {
+                            idLog: $scope.item.log.length + 1,
+                            idZadania: idZadania,
+                            orderKey: todayLog,
+                            typ: 'noweZadanie',
+                            nazwa: nazwa,
+                            osoba: $scope.currentuser[0].imie + ' ' + $scope.currentuser[0].nazwisko,
+                            idOsoby: $scope.currentuser[0].idUser,
+                            avatarOsoby: $scope.currentuser[0].avatar,
+                            data: dd + '.' + mm + '.' + yyyy + ' ' + gg + ':' + min,
+                            dataPrezentacja: 'Dziś - ' + gg + ':' + min,
+                            odczytane: 0
+                        }
+                        
+
+                        $scope.item.log.push(logItem);
+$scope.$apply();
+                        $scope.RebuildTerms();
+                        navi.popPage();
+
+
+
+                    }
+                });
+
+
+
+
             }
 
         }
