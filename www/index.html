@@ -212,7 +212,7 @@
                     </div>
                 </ons-carousel-item>
             </ons-carousel>
-            <ons-tapbar position="top" class="homeTabs">
+            <ons-tapbar position="top" class="homeTabs" ng-controller="MasterController" >
                 <div class="tab-bar tab-bar--top tab-bar--top-border">
                     <label class="tab-bar__item tab-bar--top-border__item" ng-click="goToProjekty()">
                         <input type="radio" name="top-tab-bar-b" checked="checked">
@@ -221,7 +221,7 @@
                         </button>
                     </label>
 
-                    <label class="tab-bar__item tab-bar--top-border__item" id="goToMojeZadania">
+                    <label class="tab-bar__item tab-bar--top-border__item" ng-click="goToMojeZadania()">
                         <input type="radio" name="top-tab-bar-b">
                         <button class="tab-bar__button tab-bar--top-border__button">
                             Moje zadania
@@ -264,8 +264,7 @@
                 </ons-list-item>
             </ons-list>
             <ons-list ng-controller="MasterController" style="display:none;" class="tabMojeZadania">
-                <div ng-repeat="item in items">
-                    <ons-list-item modifier="chevron" class="item" ng-repeat="zadanie in item.zadania | orderBy:'data' | filter:{basicItem:'block',ukonczoneDisplay:'none'}" ng-click="showDetail($index)">
+                    <ons-list-item modifier="chevron" class="item" ng-repeat="zadanie in user.tasks | orderBy:'orderKey'" ng-click="showDetail($index)" ng-if="zadanie.priorytet!='prioFinished'">
                         <ons-row>
                             <ons-col>
                                 <div class="basicItem myTask" style="display:{{zadanie.basicItem}};">
@@ -277,15 +276,15 @@
                                     <div class="statusHolder">
                                         <div class="statusItem notificationsCount" style="display:{{zadanie.notyfikacjeDisplay}};">{{zadanie.notyfikacje}}</div>
                                         <div class="statusItem location" style="display:{{zadanie.lokalizacjaDisplay}};"></div>
-                                        <div class="statusItem done" style="display:{{zadanie.ukonczoneDisplay}};"></div>
-                                        <div class="statusItem noPerson" style="display:{{zadanie.brakOsobyDisplay}};"></div>
+                                        
+                                       
                                     </div>
                                     <div class="statusHolder">
                                         <div class="statusItem notificationsCount" style="display:{{zadanie.notyfikacjeDisplay}};">{{zadanie.notyfikacje}}</div>
                                     </div>
 
                                     <div class="taskTitle">{{zadanie.nazwa}}</div>
-                                    <div class="smallProjectTitle">{{item.tytul}}</div>
+                                    <div class="smallProjectTitle">{{zadanie.tytul}}</div>
                                     <div class="infoElements">
                                         <div class='icon {{zadanie.statusClass}}'>{{zadanie.statusUzytkownika}}</div>
                                         <div class='icon time'>{{zadanie.czasUzytkownika}}</div>
@@ -297,7 +296,7 @@
                         </ons-row>
                     </ons-list-item>
             </ons-list>
-            </div>
+           
         </ons-page>
     </ons-template>
     //FUTURE: Ekran pojedyncze zadania
@@ -424,7 +423,7 @@
                                         <br/>pieniądze</div>
                                 </div>
                                 <div class="half" ng-if="item.budzetPieniezny!='tak'">
-                                    <span class="chartMoney" data-percent="{{item.budzetPienieznyWykorzystanie/item.budzetPienieznyWartosc*100}}">
+                                    <span class="chartMoney" data-percent="0">
 		                    <span class="value">{{item.budzetPienieznyWykorzystanie/100 | number: 2}}zł</span>
                                     <div class="clear"></div>
                                     </span>
@@ -451,7 +450,7 @@
                                             <div ng-if="userAddedToTemp(osoba.idUser)" class="checkHolder"><i class="icon ion-android-cancel"></i></div>
                                             <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.imie}}</div>
                                             <div class="infoElements">
-                                                <div class='icon cost'>{{osoba.stawka}}</div>
+                                                <div class='icon cost'>{{osoba.stawka/100 | number:0}} zł/h</div>
                                             </div>
                                         </div>
                                     </ons-col>
@@ -506,12 +505,12 @@
                 </div>
                 <div class="center">{{item.krotkitytul}}</div>
                 <div class="right">
-                    <ons-toolbar-button id="projectOptions" ng-if="!item.zamkniety">
+                    <ons-toolbar-button id="projectOptions" ng-if="!item.zamkniety && isAdmin(item.idProjekt)">
                         <ons-icon icon="ion-more" fixed-width="false" style="font-size: 26px; vertical-align: -4px" ng-click="projectOptions()"></ons-icon>
                     </ons-toolbar-button>
                 </div>
             </ons-toolbar>
-            <ons-tapbar position="top" class="homeTabs">
+            <ons-tapbar position="top" class="homeTabs" ng-if="isAdmin(item.idProjekt)">
                 <div class="tab-bar tab-bar--top tab-bar--top-border">
                     <label class="tab-bar__item tab-bar--top-border__item" id="goToZadania">
                         <input type="radio" name="top-tab-bar-b" checked="checked">
@@ -529,6 +528,22 @@
                         <input type="radio" name="top-tab-bar-b">
                         <button class="tab-bar__button tab-bar--top-border__button">
                             Postęp
+                        </button>
+                    </label>
+                </div>
+            </ons-tapbar>
+              <ons-tapbar position="top" class="homeTabs" ng-if="!isAdmin(item.idProjekt)">
+                <div class="tab-bar tab-bar--top tab-bar--top-border">
+                    <label class="tab-bar__item tab-bar--top-border__item" id="goToZadania">
+                        <input type="radio" name="top-tab-bar-b" checked="checked">
+                        <button class="tab-bar__button tab-bar--top-border__button">
+                            Zadania
+                        </button>
+                    </label>
+                    <label class="tab-bar__item tab-bar--top-border__item" id="goToStatystyki">
+                        <input type="radio" name="top-tab-bar-b">
+                        <button class="tab-bar__button tab-bar--top-border__button">
+                            Statystyki
                         </button>
                     </label>
                 </div>
@@ -657,11 +672,11 @@
                                         <div class="day">0{{$index+1}}</div>
                                     </div>
                                     <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.imie}}</div>
-                                    <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.kasaUzytkownika}}zł</div>
+                                    <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.kasaUzytkownika/100 | number:2}}zł</div>
                                     <div class="infoElements">
-                                        <div class='icon time'>{{osoba.czasUzytkownika}}</div>
-                                        <div class='icon cost'>{{osoba.kasaUzytkownika}}</div>
-                                        <div class='icon cost'>{{osoba.stawka}}</div>
+                                        <div class='icon time'>{{osoba.czasUzytkownika/60 | number:2}}</div>
+                                        <div class='icon cost'>{{osoba.kasaUzytkownika/100 | number:2}}</div>
+                                        <div class='icon cost'>{{osoba.stawka/100 | number:0}}</div>
                                         <div class='icon promo'>{{osoba.punktyUzytkownika}}</div>
                                     </div>
                                 </div>
@@ -681,11 +696,11 @@
                                         <div class="day">0{{$index+1}}</div>
                                     </div>
                                     <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.imie}}</div>
-                                    <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.czasUzytkownika}}</div>
+                                    <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.czasUzytkownika/60 | number:2}}</div>
                                     <div class="infoElements">
-                                        <div class='icon time'>{{osoba.czasUzytkownika}}</div>
-                                        <div class='icon cost'>{{osoba.kasaUzytkownika}}</div>
-                                        <div class='icon cost'>{{osoba.stawka}}</div>
+                                        <div class='icon time'>{{osoba.czasUzytkownika/60 | number:2}}</div>
+                                        <div class='icon cost'>{{osoba.kasaUzytkownika/100 | number:2}}</div>
+                                        <div class='icon cost'>{{osoba.stawka/100 | number:0}}</div>
                                         <div class='icon promo'>{{osoba.punktyUzytkownika}}</div>
                                     </div>
                                 </div>
@@ -706,10 +721,10 @@
                                     </div>
                                     <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.imie}}</div>
                                     <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.punktyUzytkownika}}</div>
-                                    <div class="infoElements">
-                                        <div class='icon time'>{{osoba.czasUzytkownika}}</div>
-                                        <div class='icon cost'>{{osoba.kasaUzytkownika}}</div>
-                                        <div class='icon cost'>{{osoba.stawka}}</div>
+                                     <div class="infoElements">
+                                        <div class='icon time'>{{osoba.czasUzytkownika/60 | number:2}}</div>
+                                        <div class='icon cost'>{{osoba.kasaUzytkownika/100 | number:2}}</div>
+                                        <div class='icon cost'>{{osoba.stawka/100 | number:0}}</div>
                                         <div class='icon promo'>{{osoba.punktyUzytkownika}}</div>
                                     </div>
                                 </div>
@@ -730,10 +745,10 @@
                                     </div>
                                     <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.imie}}</div>
                                     <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.iloscZadan}}</div>
-                                    <div class="infoElements">
-                                        <div class='icon time'>{{osoba.czasUzytkownika}}</div>
-                                        <div class='icon cost'>{{osoba.kasaUzytkownika}}</div>
-                                        <div class='icon cost'>{{osoba.stawka}}</div>
+                                     <div class="infoElements">
+                                        <div class='icon time'>{{osoba.czasUzytkownika/60 | number:2}}</div>
+                                        <div class='icon cost'>{{osoba.kasaUzytkownika/100 | number:2}}</div>
+                                        <div class='icon cost'>{{osoba.stawka/100 | number:0}}</div>
                                         <div class='icon promo'>{{osoba.punktyUzytkownika}}</div>
                                     </div>
                                 </div>
@@ -853,6 +868,65 @@
                                     </div>
                                 </ons-col>
                             </div>
+                        </ons-row>
+                    </ons-list-item>
+                </ul>
+            </div>
+            <div style="display:none;" class="tabStatystyki">
+                <div class="chartsBig">
+                    <div class="half">
+                        <span class="chartTask" ng-if="item.wszystkieZadania>0" data-percent="{{item.ukonczoneZadania/item.wszystkieZadania*100}}">
+		                    <span class="percent"></span>
+                        <div class="clear"></div>
+                        <span class="detail">{{item.ukonczoneZadania}}/{{item.wszystkieZadania}}</span>
+                        </span>
+                        <span class="chartTask" ng-if="item.wszystkieZadania==0" data-percent="0">
+		                    <span class="percent"></span>
+                        <div class="clear"></div>
+                        <span class="detail">{{item.ukonczoneZadania}}/{{item.wszystkieZadania}}</span>
+                        </span>
+                        <div class="chartLabel">wykonanych
+                            <br/>zadań</div>
+                    </div>
+                    <div class="half">
+                        <div class="statBigElement borderBottom">
+                            <span class="stat-title">nieprzypisane zadania</span>
+                            <div class="clear"></div>
+                            {{item.zadaniaNieprzypisane}}
+                        </div>
+                        <div class="statBigElement borderBottom">
+                            <span class="stat-title">zadania po terminie</span>
+                            <div class="clear"></div>
+                            {{item.zadaniaPoTerminie}}
+                        </div>
+                        <div class="statBigElement">
+                            <span class="stat-title">zadania z przekroczonym budżetem</span>
+                            <div class="clear"></div>
+                            {{item.zadaniaPrzekroczonyBudzet}}
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+                <ul class="list ">
+                    <li class="list__header" >Punkty premiowe</li>
+                    <ons-list-item modifier="chevron" class="item typeAll typePunkty" ng-repeat="osoba in item.przypisaneOsoby | orderBy:'-punktyUzytkownika'" ng-click="showDetail($index)">
+                        <ons-row>
+                            <ons-col>
+                                <div class="basicItem subtask" style="display:{{zadanie.basicItem}};">
+                                    <div class="avatarHolder">
+                                        <div class="person" style="background-image:url({{osoba.avatar}})"></div>
+                                        <div class="clear"></div>
+
+                                    </div>
+                                    <div class="dateHolder prioFinished">
+                                        <div class="day">0{{$index+1}}</div>
+                                    </div>
+                                    <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.imie}}</div>
+                                    <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.punktyUzytkownika}}</div>
+                                    
+                                </div>
+                            </ons-col>
                         </ons-row>
                     </ons-list-item>
                 </ul>
@@ -1007,7 +1081,7 @@
                     <ons-row align="center" class="row ons-row-inner row-center">
                         <ons-col class="col ons-col-inner">Nazwa*</ons-col>
                         <ons-col class="col ons-col-inner flex2">
-                            <input type="text" class="text-input text-input--transparent inputWithLabel" id="nazwaZadania" placeholder="Nowy projekt">
+                            <input type="text" class="text-input text-input--transparent inputWithLabel" id="nazwaZadania" placeholder="Nowe zadanie">
                         </ons-col>
                     </ons-row>
                 </li>
@@ -1073,7 +1147,7 @@
                         <ons-col class="col ons-col-inner">Budżet pieniężny</ons-col>
                         <ons-col class="col ons-col-inner">
                             <div class="switchHolder">
-                                <ons-switch id="zadanieCzyPieniadze" class="connectedSwitch" data-connected="zadanieWartoscBudzetPieniadze"></ons-switch>
+                                <ons-switch id="zadanieCzyPieniadze" ng-click="switch('zadanieWartoscBudzetPieniadze')"></ons-switch>
                             </div>
                         </ons-col>
                     </ons-row>
@@ -1092,7 +1166,7 @@
                         <ons-col class="col ons-col-inner">Budżet godzinowy</ons-col>
                         <ons-col class="col ons-col-inner">
                             <div class="switchHolder">
-                                <ons-switch id="zadanieCzyGodziny" class="connectedSwitch" data-connected="zadanieWartoscBudzetGodziny"></ons-switch>
+                                <ons-switch id="zadanieCzyGodziny" ng-click="switch('zadanieWartoscBudzetGodziny')"></ons-switch>
                             </div>
                         </ons-col>
                     </ons-row>
@@ -1111,7 +1185,7 @@
                         <ons-col class="col ons-col-inner">Punkty premiowe</ons-col>
                         <ons-col class="col ons-col-inner">
                             <div class="switchHolder">
-                                <ons-switch id="czyPunktyPremiowe" class="connectedSwitch" data-connected="zadanieWartoscPunktyPremiowe"></ons-switch>
+                                <ons-switch id="czyPunktyPremiowe" ng-click="switch('zadanieWartoscPunktyPremiowe')"></ons-switch>
                             </div>
                         </ons-col>
                     </ons-row>
@@ -1254,7 +1328,7 @@
                                         <div class="person" style="background-image:url({{osoba.avatar}})"></div>
                                         <div class="clear"></div>
                                     </div>
-                                    <div ng-if="userNoTask(osoba.idUser)" class="checkHolder" ng-click="removePerson(osoba.idUser)"><i class="icon ion-android-cancel"></i></div>
+                                    <div ng-if="userNoTask(osoba.idUser) && !isAdmin(item.idProjekt)" class="checkHolder" ng-click="removePerson(osoba.idUser)"><i class="icon ion-android-cancel"></i></div>
                                     <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.imie}}</div>
                                     <div class="infoElements">
                                         <div class='icon cost'>{{osoba.stawka/100 | number:0 }}zł/h</div>
@@ -1597,7 +1671,7 @@
                             console.log(new Date());
                             for (i = 1; i <= count; i++) {
                                 if ((step * i * multi) >= min && (step * i * multi) <= max) {
-                                    if (step * i == select) {
+                                    if (step * i * multi== select) {
                                         stringtt += '<option value="' + (step * i * multi) + '"  selected="selected">' + (step * i) + unit + '</option>';
                                     } else {
                                         stringtt += '<option value="' + (step * i * multi) + '">' + (step * i) + unit + '</option>';
@@ -1611,12 +1685,7 @@
 
 
 
-                    $('#goToMojeZadania').click(function () {
-                        $('.tabMojeZadania').css('display', 'block');
-                        $('.tabProjekty').css('display', 'none');
-
-
-                    });
+                  
                     $('#goToProjekty').click(function () {
                         $('.tabMojeZadania').css('display', 'none');
                         $('.tabProjekty').css('display', 'block');
@@ -1627,6 +1696,7 @@
                         $('.tabZadania').css('display', 'block');
                         $('.tabPostep').css('display', 'none');
                         $('.tabBudzet').css('display', 'none');
+                        $('.tabStatystyki').css('display', 'none');
                         $('.emptyAll').css('display', 'block');
 
                     });
@@ -1722,7 +1792,7 @@
                         var min = $(this).attr('data-min');
                         var max = $(this).find("option:selected").val();
                         min = Math.floor(min / max * 100);
-                        $('#newHourBudgetText').text(max);
+                        $('#newHourBudgetText').text(max/60);
                         $('#editBudgetCharts .chartHours').data('easyPieChart').update(min);
                     });
 
@@ -1730,7 +1800,7 @@
                         var min = $(this).attr('data-min');
                         var max = $(this).find("option:selected").val();
                         min = Math.floor(min / max * 100);
-                        $('#newMoneyBudgetText').text(max);
+                        $('#newMoneyBudgetText').text(max/100);
                         $('#editBudgetCharts .chartMoney').data('easyPieChart').update(min);
                     });
 
@@ -1768,7 +1838,26 @@
                                 $(this.el).find('.percent').text(Math.round(percent));
                             }
                         });
-
+                    });
+                    
+                       $('#goToStatystyki').click(function () {
+                        $('.tabZadania').css('display', 'none');
+                        $('.tabPostep').css('display', 'none');
+                        $('.tabStatystyki').css('display', 'block');
+                        $('.tabBudzet').css('display', 'none');
+                        $('.emptyAll').css('display', 'none');
+                        $('.chartTask').easyPieChart({
+                            size: 148,
+                            lineWidth: 5,
+                            barColor: '#25007C',
+                            trackColor: '#F7F7F7',
+                            scaleColor: '#FAFAFD',
+                            lineCap: 'square',
+                            easing: 'easeOutBounce',
+                            onStep: function (from, to, percent) {
+                                $(this.el).find('.percent').text(Math.round(percent));
+                            }
+                        });
                     });
 
 
