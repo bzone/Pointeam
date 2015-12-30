@@ -578,12 +578,21 @@
                                 </div>
 
                                 <div class="taskTitle" style="margin-bottom:-10px;">{{zadanie.nazwa}}</div>
-                                <div class="infoElements">
-                                    <div class='icon {{zadanie.statusClass}}'>{{zadanie.statusUzytkownika}}</div>
-                                    <div class='icon time'>{{zadanie.czasUzytkownika}}</div>
+                                <div class="infoElements" ng-if="isAdmin(item.idProjekt)">
+                                    <div class='icon {{zadanie.statusClass}}' ng-if="zadanie.priorytet!='prioFinished'">{{zadanie.statusUzytkownika}}</div>
+                                    <div class='icon {{zadanie.statusClass}}' ng-if="zadanie.priorytet=='prioFinished'">zakończone</div>
+                                    <div class='icon time'>{{zadanie.budzetGodzinowyWykorzystanie}}</div>
                                     <div class="clear" style="margin-bottom:5px;"></div>
-                                    <div class='icon cost'>{{zadanie.kasaUzytkownika}}</div>
-                                    <div class='icon promo'>{{zadanie.punktyUzytkownika}}</div>
+                                    <div class='icon cost'>{{zadanie.budzetPienieznyWykorzystanie}}</div>
+                                    <div class='icon promo'>{{zadanie.punktyPremioweWartosc}}</div>
+                                </div>
+                                <div class="infoElements" ng-if="!isAdmin(item.idProjekt)">
+                                    <div class='icon {{zadanie.statusClass}}' ng-if="zadanie.priorytet!='prioFinished'">{{zadanie.statusUzytkownika}}</div>
+                                    <div class='icon {{zadanie.statusClass}}' ng-if="zadanie.priorytet=='prioFinished'">zakończone</div>
+                                    <div class='icon time'  ng-if="zadanie.osobaCzasTF==1">{{zadanie.osobaCzas}}</div>
+                                    <div class="clear" style="margin-bottom:5px;"></div>
+                                    <div class='icon cost' ng-if="zadanie.osobaKasaTF==1">{{zadanie.osobaKasa}}</div>
+                                    <div class='icon promo'>{{zadanie.punktyPremioweWartosc}}</div>
                                 </div>
                             </div>
                         </ons-col>
@@ -796,7 +805,7 @@
                 <ul class="list ">
                     <li class="list__header" ng-click="logType()">Wszystko - zmień <i class="icon ion-android-arrow-dropdown"></i>
                     </li>
-                    <ons-list-item modifier="chevron" class="item typeLogAll typeKoszt" ng-repeat="logItem in item.log | orderBy:'idLog' | logfilter:search">
+                    <ons-list-item modifier="chevron" class="item typeLogAll typeKoszt" ng-repeat="logItem in item.log | orderBy:'-idLog' | logfilter:search">
                         <ons-row>
                             <div ng-if="logItem.typ=='koniecZadania'" class="width100">
                                 <ons-col>

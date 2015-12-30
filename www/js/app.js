@@ -52,6 +52,32 @@
                 });
             }, 100);
         };
+        
+        
+        $scope.addLogElement = function (idProjekt, idUser, typ, nazwa, osoba, avatar, data, odczytany) {
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: {
+                        idProjekt: idProjekt,
+                        idUser: idUser,
+                        typ: typ,
+                        nazwa: nazwa,
+                        osoba: osoba,
+                        avatar: avatar,
+                        data: data,
+                        odczytany: odczytany,
+                        insertNewLog: ''
+                    },
+                    crossDomain: true,
+                    cache: false,
+                    beforeSend: function () {},
+                    success: function (data) {
+                        return data;
+                    }
+                });
+            }
+        
 
         $scope.switch = function (nazwa) {
             nazwa = '#' + nazwa;
@@ -143,6 +169,10 @@
                             });
                         }
                     }
+                });
+            } else {
+                 ons.notification.alert({
+                    message: 'Podaj e-mail i hasło'
                 });
             }
             return false;
@@ -494,24 +524,38 @@
             var found;
             var foundTask;
             var foundUser;
+            console.log(projekt);
+            console.log(zadanie);
 
             found = $filter('filter')($projekty.items, {
                 idProjekt: projekt
             }, true);
+            
+            console.log(found[0].tytul);
 
             foundTask = $filter('filter')(found[0].zadania, {
                 idZadania: zadanie
             }, true);
 
-            foundUser = $filter('filter')(foundTask[0].przypisaneOsoby, {
-                idUser: user
-            }, true);
+           
+            
+            //FUCK!
+            var przypisany=true;
+         angular.forEach(foundTask[0].przypisaneOsoby, function (userp, index) {
+             if(userp.idUser==user) {
+                 przypisany=true;
+             }
+         });
+            
+             console.log(przypisany);
+            
+            
+            
+            
 
-            if (foundUser.length > 0) {
-                return true;
-            } else {
-                return false;
-            }
+
+                return przypisany;
+            
         }
 
 
@@ -536,6 +580,43 @@
                 alert(distance);
 
                 if (distance < 0.3) {
+                    
+                     var today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth() + 1;
+                var yyyy = today.getFullYear();
+                var gg = today.getHours();
+                var min = today.getMinutes();
+                var orderKey = orderKeyGen(dd, mm, yyyy, gg, min, 0);
+                if (dd < 10) {
+                    dd = '0' + dd
+                }
+                if (mm < 10) {
+                    mm = '0' + mm
+                }
+                if (gg < 10) {
+                    gg = '0' + gg
+                }
+                if (min < 10) {
+                    min = '0' + min
+                }
+                today = dd + '.' + mm + '.' + yyyy + ' ' + gg + ':' + min;
+                
+                
+                
+                   var newLog=$scope.addLogElement(projekt, $scope.user.idUser, 'koniecZadania', '', $scope.user.imienazwisko, $scope.user.avatar, today, 0);
+                        
+                        var item = {
+                            idLog: newLog,
+                            typ: 'koniecZadania',
+                            data: today,
+                            dataPrezentacja: 'Dziś - ' + gg + ':' + min,
+                            odczytane: 0
+                        }
+                        found[0].log.push(item);
+                        
+                    
+                    
                     foundTask[0].ukonczoneDisplay = 'block';
                     foundTask[0].priorytet = 'prioFinished';
                     $.ajax({
@@ -589,6 +670,44 @@
             if (foundTask[0].latLngPosition == '' || !foundTask[0].latLngPosition) {
                 foundTask[0].ukonczoneDisplay = 'block';
                 foundTask[0].priorytet = 'prioFinished';
+                
+                
+                     var today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth() + 1;
+                var yyyy = today.getFullYear();
+                var gg = today.getHours();
+                var min = today.getMinutes();
+                var orderKey = orderKeyGen(dd, mm, yyyy, gg, min, 0);
+                if (dd < 10) {
+                    dd = '0' + dd
+                }
+                if (mm < 10) {
+                    mm = '0' + mm
+                }
+                if (gg < 10) {
+                    gg = '0' + gg
+                }
+                if (min < 10) {
+                    min = '0' + min
+                }
+                today = dd + '.' + mm + '.' + yyyy + ' ' + gg + ':' + min;
+                
+                
+                
+                   var newLog=$scope.addLogElement(projekt, $scope.user.idUser, 'koniecZadania', '', $scope.user.imienazwisko, $scope.user.avatar, today, 0);
+                        
+                        var item = {
+                            idLog: newLog,
+                            typ: 'koniecZadania',
+                            data: today,
+                            dataPrezentacja: 'Dziś - ' + gg + ':' + min,
+                            odczytane: 0
+                        }
+                        found[0].log.push(item);
+                       
+                
+                
                 $.ajax({
                     type: "POST",
                     url: url,
@@ -707,7 +826,7 @@
                     beforeSend: function () {},
                     success: function (data) {
                         var projektID = data;
-                        alert(projektID);
+                      
                         $scope.addLogElement(projektID, $scope.user.idUser, 'rozpoczecieProjektu', '', $scope.user.imienazwisko, $scope.user.avatar, today, 0);
 
 
@@ -894,27 +1013,7 @@
             }
 
 
-            $scope.addLogElement = function (idProjekt, idUser, typ, nazwa, osoba, avatar, data, odczytany) {
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: {
-                        idProjekt: idProjekt,
-                        idUser: idUser,
-                        typ: typ,
-                        nazwa: nazwa,
-                        osoba: osoba,
-                        avatar: avatar,
-                        data: data,
-                        odczytany: odczytany,
-                        insertNewLog: ''
-                    },
-                    crossDomain: true,
-                    cache: false,
-                    beforeSend: function () {},
-                    success: function (data) {}
-                });
-            }
+            
         }
     });
 
@@ -1503,8 +1602,12 @@
                         todayLog = orderKeyGen(dd, mm, yyyy, gg, min, 9);
 
 
+                        
+                        var today=dd + '.' + mm + '.' + yyyy + ' ' + gg + ':' + min;
+                         var newLog=$scope.addLogElement($scope.item.idProjekt, $scope.currentuser[0].idUser, 'noweZadanie', nazwa, $scope.currentuser[0].imienazwisko, $scope.currentuser[0].avatar, today, 0);
+                        
                         var logItem = {
-                            idLog: $scope.item.log.length + 1,
+                            idLog: newLog,
                             idZadania: idZadania,
                             orderKey: todayLog,
                             typ: 'noweZadanie',
@@ -1539,18 +1642,51 @@
         $scope.RebuildTerms = function () {
 
 
+              var email = localStorage.email;
+            $scope.getUserData(email, 0);
+            
+            
             var listaTerminow = [];
 
 
 
             //NOTE: analiza zadan
 
+            var naszUser=$scope.currentuser[0].idUser;
+      
+            
+            
             angular.forEach($scope.item.zadania, function (task, index) {
                 task.budzetPienieznyWykorzystanie = 0;
                 task.budzetGodzinowyWykorzystanie = 0;
+                 task.statusUzytkownika = "oczekuje";
+                        task.statusClass = "completionHalf";
                 angular.forEach(task.przypisaneOsoby, function (osoba, index) {
+           
+                    task.osobaKasa=osoba.kasaUzytkownika;
+                        task.osobaCzasTF=0;
+                        task.osobaKasaTF=0;
+                    if(osoba.idUser==naszUser) {
+                    
+                        task.osobaCzas=osoba.czasUzytkownika;
+                        task.osobaKasa=osoba.kasaUzytkownika;
+                        task.osobaCzasTF=1;
+                        task.osobaKasaTF=1;
+                    }
+                    
+                    
                     task.budzetPienieznyWykorzystanie += osoba.kasaUzytkownika;
                     task.budzetGodzinowyWykorzystanie += osoba.czasUzytkownika;
+                    
+                     if (task.budzetGodzinowyWykorzystanie == 0) {
+                        task.statusUzytkownika = "oczekuje";
+                        task.statusClass = "completionHalf";
+                    } else {
+                        task.statusUzytkownika = "w trakcie";
+                        task.statusClass = "completionHalf";
+                    }
+                    
+                    
                 });
             });
 
@@ -1765,8 +1901,10 @@
                             min = '0' + min
                         }
                         today = dd + '.' + mm + '.' + yyyy + ' ' + gg + ':' + min;
+                          var newLog=$scope.addLogElement($scope.item.idProjekt, $scope.currentuser[0].idUser, 'zakonczenieProjektu', '', $scope.currentuser[0].imienazwisko, $scope.currentuser[0].avatar, today, 0);
+                        
                         var item = {
-                            idLog: $scope.item.log.length + 1,
+                            idLog: newLog,
                             typ: 'zakonczenieProjektu',
                             data: today,
                             dataPrezentacja: 'Dziś - ' + gg + ':' + min,
