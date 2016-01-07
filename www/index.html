@@ -1618,7 +1618,7 @@
 
 
             function shareNFC() {
-                var mimeType = 'my/mimetype';
+                var mimeType = 'text/pg';
                 var payload = 'Hello Bzone';
                 var record = ndef.mimeMediaRecord(mimeType, nfc.stringToBytes(payload));
 
@@ -2147,6 +2147,7 @@
                     
                     $('#lisenNFC').click(function() {
                         lisenNFC();
+                        alert('slucham');
                     })
 
                 });
