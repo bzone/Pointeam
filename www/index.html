@@ -1560,7 +1560,9 @@
             }
 
             function parseTag(nfcEvent) {
-                var records = nfcEvent.tagData;
+                alert('pobrano');
+                var records = nfcEvent.tag;
+                alert(records);
                 for (var i = 0; i < records.length; i++) {
                     var record = records[i];
                     var p = nfc.bytesToString(record.payload);
