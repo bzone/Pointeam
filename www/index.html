@@ -1557,14 +1557,8 @@
                 }
             );
 
-            function parseTag(nfcEvent) {
-                var records = nfcEvent.tagData;
-                for (var i = 0; i < records.length; i++) {
-                    var record = records[i];
-                    var p = nfc.bytesToString(record.payload);
-                    alert(p);
-                    alert('ok');
-                }
+            function parseTag() {
+               alert('test');
             }
 
 
@@ -1724,8 +1718,6 @@
 
 
                 navi.on('postpush', function () {
-
-
                     $('#searchPerson').on("change keyup paste", function () {
                         if ($('#searchPerson').val().length > 2) {
                             $('#lastUsedPeople').css('display', 'none');
@@ -1773,8 +1765,6 @@
                             console.log(new Date());
                         }
                     });
-
-
 
 
                     $('#goToProjekty').click(function () {
@@ -1877,8 +1867,6 @@
                     });
 
 
-
-
                     $("#newHourBudget").change(function () {
                         var min = $(this).attr('data-min');
                         var max = $(this).find("option:selected").val();
@@ -1896,7 +1884,6 @@
                     });
 
 
-
                     // TODO: zmiana terminu
                     $("#wyborTerminu").change(function () {
                         var tamp = $(this).find("option:selected").val();
@@ -1906,10 +1893,6 @@
                             $('#innaData').addClass('inactive');
                         }
                     });
-
-
-
-
 
 
                     $('#goToPostep').click(function () {
