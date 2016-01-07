@@ -170,7 +170,7 @@
                         <ons-icon icon="ion-gear-a" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
                     </ons-toolbar-button>
                 </div>
-                <div class="center"><span class="logo"></span>
+                <div class="center"><span class="logo" id="lisenNFC"></span>
                 </div>
                 <div class="right">
                     <ons-toolbar-button id="goToDashboard">
@@ -182,6 +182,7 @@
                     <ons-toolbar-button onclick="projectCreated++;navi.pushPage('newproject.html', { animation : 'slide' } );">
                         <ons-icon icon="ion-plus-round" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
                     </ons-toolbar-button>
+                    
                 </div>
             </ons-toolbar>
             <ons-carousel swipeable overscrollable auto-scroll auto-refresh fullscreen var="carousel" ng-controller="MasterController" class="tabDashboard" style="overflow:hidden; height:0px;">
@@ -1546,9 +1547,9 @@
         var projectCreated = 0;
         jQuery(document).ready(function ($) {
 
-
+            function lisenNFC() {
             nfc.addMimeTypeListener(
-                "my/mimetype", alert('start'),
+                'text/pg', parseTag,
                 function () {
                     alert("Success.");
                 },
@@ -1556,6 +1557,7 @@
                     alert("Fail.");
                 }
             );
+            }
 
             function parseTag(nfcEvent) {
                 var records = nfcEvent.tagData;
@@ -2142,6 +2144,10 @@
                         alert('start');
                         shareNFC();
                     });
+                    
+                    $('#lisenNFC').click(function() {
+                        lisenNFC();
+                    })
 
                 });
             });
