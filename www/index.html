@@ -62,12 +62,12 @@
     </style>
     <div class="spinner" id="spinner" style="display:none;">
         <div id="spinnerOk" style="display:none;"><i class="ion-checkmark-round"></i></div>
-                <div id="spinnerIcon"></div>
+        <div id="spinnerIcon"></div>
     </div>
     <div class="over" id="timer" style="display:none;">
         <div class="timerHolder">
             <div class="stopTimer"><i class="icon ion-close-circled"></i></div>
-           <div class="clockAnimation"></div>
+            <div class="clockAnimation"></div>
             <div class="clockAnimationBg"></div>
             <div id="clockTaskName"></div>
             <div id="clockdiv"></div>
@@ -100,22 +100,22 @@
 
 
     <ons-template id="register.html">
-        
-        <ons-page style="background:#31198B !Important;" >
-           <ons-toolbar>
-            <div class="left">
-                <ons-toolbar-button onclick="navi.popPage();">
-                    <ons-icon icon="ion-chevron-left" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
-                </ons-toolbar-button>
-            </div>
-        </ons-toolbar>
+
+        <ons-page style="background:#31198B !Important;">
+            <ons-toolbar>
+                <div class="left">
+                    <ons-toolbar-button onclick="navi.popPage();">
+                        <ons-icon icon="ion-chevron-left" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+            </ons-toolbar>
             <div class="bigLogo logoMargin"></div>
             <form class="loginStyle">
                 <input type="text" id="newUserName" class="loginInputStyle" placeholder="imię" />
                 <input type="text" id="newUserSurName" class="loginInputStyle" placeholder="nazwisko" />
                 <input type="email" id="newUserEmail" class="loginInputStyle" placeholder="e-mail" />
                 <input type="password" id="newUserPassword" class="loginInputStyle" placeholder="hasło" />
-                <a class="submitButton" ng-click="registerUser()" >Utwórz konto i zaloguj</a>
+                <a class="submitButton" ng-click="registerUser()">Utwórz konto i zaloguj</a>
                 <br/>
             </form>
         </ons-page>
@@ -124,16 +124,17 @@
 
     <ons-template id="recovery.html">
         <ons-page style="background:#31198B !Important;">
-           <ons-toolbar>
-            <div class="left">
-                <ons-toolbar-button onclick="navi.popPage();">
-                    <ons-icon icon="ion-chevron-left" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
-                </ons-toolbar-button>
-            </div>
-        </ons-toolbar>
+            <ons-toolbar>
+                <div class="left">
+                    <ons-toolbar-button onclick="navi.popPage();">
+                        <ons-icon icon="ion-chevron-left" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+            </ons-toolbar>
             <div class="bigLogo logoMargin"></div>
             <form class="loginStyle">
-                <p class="recover">Podaj adres e-mail powiązany z Twoim kontem. <br/>Na podany adres otrzymasz przypomnienia swojego hasła.</p>
+                <p class="recover">Podaj adres e-mail powiązany z Twoim kontem.
+                    <br/>Na podany adres otrzymasz przypomnienia swojego hasła.</p>
                 <br/>
                 <input type="email" id="recoverEmail" class="loginInputStyle" placeholder="twój e-mail" />
                 <a class="submitButton" ng-click="recoverPassword()">zresetuj hasło</a>
@@ -141,25 +142,25 @@
             </form>
         </ons-page>
     </ons-template>
-    
-    
+
+
     <ons-template id="nfcShare.html">
         <ons-page style="background:#31198B !Important;">
-           <ons-toolbar>
-            <div class="left">
-                <ons-toolbar-button ng-click="stopNFC()">
-                    <ons-icon icon="ion-chevron-left" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
-                </ons-toolbar-button>
-            </div>
-        </ons-toolbar>
+            <ons-toolbar>
+                <div class="left">
+                    <ons-toolbar-button ng-click="stopNFC()">
+                        <ons-icon icon="ion-chevron-left" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+            </ons-toolbar>
             <div>
                 <a id="shareNFC" data-attr="{{user.avatar}}">informacja o share NFC</a>
             </div>
-            
-          
+
+
         </ons-page>
     </ons-template>
-    
+
 
     <ons-template id="home.html">
         <ons-page>
@@ -230,7 +231,7 @@
                     </div>
                 </ons-carousel-item>
             </ons-carousel>
-            <ons-tapbar position="top" class="homeTabs" ng-controller="MasterController" >
+            <ons-tapbar position="top" class="homeTabs" ng-controller="MasterController">
                 <div class="tab-bar tab-bar--top tab-bar--top-border">
                     <label class="tab-bar__item tab-bar--top-border__item" ng-click="goToProjekty()">
                         <input type="radio" name="top-tab-bar-b" checked="checked">
@@ -282,39 +283,39 @@
                 </ons-list-item>
             </ons-list>
             <ons-list ng-controller="MasterController" style="display:none;" class="tabMojeZadania">
-                    <ons-list-item modifier="chevron" class="item" ng-repeat="zadanie in user.tasks | orderBy:'orderKey'" ng-click="showDetail($index)" ng-if="zadanie.priorytet!='prioFinished'">
-                        <ons-row>
-                            <ons-col>
-                                <div class="basicItem myTask" style="display:{{zadanie.basicItem}};">
-                                    <div class="dateHolder {{zadanie.priorytet}}">
-                                        <div class="day">{{zadanie.dataDzien}}</div>
-                                        <div class="mounth">{{zadanie.dataMiesiac}}</div>
-                                        <div class="hour">{{zadanie.dataGodzina}}</div>
-                                    </div>
-                                    <div class="statusHolder">
-                                        <div class="statusItem notificationsCount" style="display:{{zadanie.notyfikacjeDisplay}};">{{zadanie.notyfikacje}}</div>
-                                        <div class="statusItem location" style="display:{{zadanie.lokalizacjaDisplay}};"></div>
-                                        
-                                       
-                                    </div>
-                                    <div class="statusHolder">
-                                        <div class="statusItem notificationsCount" style="display:{{zadanie.notyfikacjeDisplay}};">{{zadanie.notyfikacje}}</div>
-                                    </div>
-
-                                    <div class="taskTitle">{{zadanie.nazwa}}</div>
-                                    <div class="smallProjectTitle">{{zadanie.tytul}}</div>
-                                    <div class="infoElements">
-                                        <div class='icon {{zadanie.statusClass}}'>{{zadanie.statusUzytkownika}}</div>
-                                        <div class='icon time'>{{zadanie.czasUzytkownika}}</div>
-                                        <div class='icon cost'>{{zadanie.kasaUzytkownika}}</div>
-                                        <div class='icon promo'>{{zadanie.punktyUzytkownika}}</div>
-                                    </div>
+                <ons-list-item modifier="chevron" class="item" ng-repeat="zadanie in user.tasks | orderBy:'orderKey'" ng-click="showDetail($index)" ng-if="zadanie.priorytet!='prioFinished'">
+                    <ons-row>
+                        <ons-col>
+                            <div class="basicItem myTask" style="display:{{zadanie.basicItem}};">
+                                <div class="dateHolder {{zadanie.priorytet}}">
+                                    <div class="day">{{zadanie.dataDzien}}</div>
+                                    <div class="mounth">{{zadanie.dataMiesiac}}</div>
+                                    <div class="hour">{{zadanie.dataGodzina}}</div>
                                 </div>
-                            </ons-col>
-                        </ons-row>
-                    </ons-list-item>
+                                <div class="statusHolder">
+                                    <div class="statusItem notificationsCount" style="display:{{zadanie.notyfikacjeDisplay}};">{{zadanie.notyfikacje}}</div>
+                                    <div class="statusItem location" style="display:{{zadanie.lokalizacjaDisplay}};"></div>
+
+
+                                </div>
+                                <div class="statusHolder">
+                                    <div class="statusItem notificationsCount" style="display:{{zadanie.notyfikacjeDisplay}};">{{zadanie.notyfikacje}}</div>
+                                </div>
+
+                                <div class="taskTitle">{{zadanie.nazwa}}</div>
+                                <div class="smallProjectTitle">{{zadanie.tytul}}</div>
+                                <div class="infoElements">
+                                    <div class='icon {{zadanie.statusClass}}'>{{zadanie.statusUzytkownika}}</div>
+                                    <div class='icon time'>{{zadanie.czasUzytkownika}}</div>
+                                    <div class='icon cost'>{{zadanie.kasaUzytkownika}}</div>
+                                    <div class='icon promo'>{{zadanie.punktyUzytkownika}}</div>
+                                </div>
+                            </div>
+                        </ons-col>
+                    </ons-row>
+                </ons-list-item>
             </ons-list>
-           
+
         </ons-page>
     </ons-template>
     //FUTURE: Ekran pojedyncze zadania
@@ -335,11 +336,11 @@
                     <ons-toolbar-button ng-if="item.ukonczoneDisplay=='none' && isUserIn(item.idZadania, projekt.idProjekt, currentuser[0].idUser)">
                         <ons-icon icon="ion-checkmark-circled" fixed-width="false" style="font-size: 26px; vertical-align: -4px" ng-click="markAsComplete(item.idZadania, projekt.idProjekt)"></ons-icon>
                     </ons-toolbar-button>
-                     <ons-toolbar-button  ng-if="isAndroidTest() && item.ukonczoneDisplay=='none'">
+                    <ons-toolbar-button ng-if="isAndroidTest() && item.ukonczoneDisplay=='none'">
                         <ons-icon icon="ion-android-wifi" fixed-width="false" style="font-size: 26px; vertical-align: -4px" ng-click="startNFC(item.idZadania, projekt.idProjekt)"></ons-icon>
                     </ons-toolbar-button>
-                    
-                    
+
+
                 </div>
             </ons-toolbar>
             <ons-tapbar position="top" class="homeTabs">
@@ -555,7 +556,7 @@
                     </label>
                 </div>
             </ons-tapbar>
-              <ons-tapbar position="top" class="homeTabs" ng-if="!isAdmin(item.idProjekt)">
+            <ons-tapbar position="top" class="homeTabs" ng-if="!isAdmin(item.idProjekt)">
                 <div class="tab-bar tab-bar--top tab-bar--top-border">
                     <label class="tab-bar__item tab-bar--top-border__item" id="goToZadania">
                         <input type="radio" name="top-tab-bar-b" checked="checked">
@@ -612,7 +613,7 @@
                                 <div class="infoElements" ng-if="!isAdmin(item.idProjekt)">
                                     <div class='icon {{zadanie.statusClass}}' ng-if="zadanie.priorytet!='prioFinished'">{{zadanie.statusUzytkownika}}</div>
                                     <div class='icon {{zadanie.statusClass}}' ng-if="zadanie.priorytet=='prioFinished'">zakończone</div>
-                                    <div class='icon time'  ng-if="zadanie.osobaCzasTF==1">{{zadanie.osobaCzas}}</div>
+                                    <div class='icon time' ng-if="zadanie.osobaCzasTF==1">{{zadanie.osobaCzas}}</div>
                                     <div class="clear" style="margin-bottom:5px;"></div>
                                     <div class='icon cost' ng-if="zadanie.osobaKasaTF==1">{{zadanie.osobaKasa}}</div>
                                     <div class='icon promo'>{{zadanie.punktyPremioweWartosc}}</div>
@@ -753,7 +754,7 @@
                                     </div>
                                     <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.imie}}</div>
                                     <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.punktyUzytkownika}}</div>
-                                     <div class="infoElements">
+                                    <div class="infoElements">
                                         <div class='icon time'>{{osoba.czasUzytkownika/60 | number:2}}</div>
                                         <div class='icon cost'>{{osoba.kasaUzytkownika/100 | number:2}}</div>
                                         <div class='icon cost'>{{osoba.stawka/100 | number:0}}</div>
@@ -777,7 +778,7 @@
                                     </div>
                                     <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.imie}}</div>
                                     <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.iloscZadan}}</div>
-                                     <div class="infoElements">
+                                    <div class="infoElements">
                                         <div class='icon time'>{{osoba.czasUzytkownika/60 | number:2}}</div>
                                         <div class='icon cost'>{{osoba.kasaUzytkownika/100 | number:2}}</div>
                                         <div class='icon cost'>{{osoba.stawka/100 | number:0}}</div>
@@ -941,7 +942,7 @@
                 </div>
                 <div class="clear"></div>
                 <ul class="list ">
-                    <li class="list__header" >Punkty premiowe</li>
+                    <li class="list__header">Punkty premiowe</li>
                     <ons-list-item modifier="chevron" class="item typeAll typePunkty" ng-repeat="osoba in item.przypisaneOsoby | orderBy:'-punktyUzytkownika'" ng-click="showDetail($index)">
                         <ons-row>
                             <ons-col>
@@ -956,7 +957,7 @@
                                     </div>
                                     <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.imie}}</div>
                                     <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.punktyUzytkownika}}</div>
-                                    
+
                                 </div>
                             </ons-col>
                         </ons-row>
@@ -966,7 +967,7 @@
         </ons-page>
     </ons-template>
     //FUTURE: Ekran ustawienia
-    <ons-template id="settings.html" >
+    <ons-template id="settings.html">
         <ons-page>
             <ons-toolbar>
                 <div class="left">
@@ -1544,30 +1545,27 @@
     <script>
         var projectCreated = 0;
         jQuery(document).ready(function ($) {
-            
-            
+
+
             nfc.addMimeTypeListener(
-    "pointeam/mimeType", parseTag,     
+                "my/mimetype", parseTag,
+                function () {
+                    alert("Success.");
+                },
+                function () {
+                    alert("Fail.");
+                }
+            );
 
-    function() {
-        alert("Success.");
-    }   ,
-    function() {
-        console.log("Fail.");
-    }
-);
-            
-function parseTag(nfcEvent) {
-    var records = nfcEvent.tagData;
-
-    for (var i = 0; i < records.length; i++) {
-        var record = records[i];
-        var p='';
-        p = nfc.bytesToString(record.payload);
-        alert(p);
-        alert('ok');
-    }
-}
+            function parseTag(nfcEvent) {
+                var records = nfcEvent.tagData;
+                for (var i = 0; i < records.length; i++) {
+                    var record = records[i];
+                    var p = nfc.bytesToString(record.payload);
+                    alert(p);
+                    alert('ok');
+                }
+            }
 
 
             function convertToDataURLviaCanvas(url, callback, outputFormat) {
@@ -1589,9 +1587,9 @@ function parseTag(nfcEvent) {
                 };
                 img.src = url;
             }
-            
-            
-            
+
+
+
 
 
             // Funkcje dla podstron
@@ -1603,8 +1601,8 @@ function parseTag(nfcEvent) {
                     convertToDataURLviaCanvas(avatrUzytkownika, function (base64Img) {
                         avatrUzytkownika = base64Img;
                         $('.avatarUser').css('background-image', 'url(' + base64Img + ')');
-                        $('#capturePhoto').attr('data-avatar',base64Img);
-                        
+                        $('#capturePhoto').attr('data-avatar', base64Img);
+
                     });
                 }
             }
@@ -1613,37 +1611,38 @@ function parseTag(nfcEvent) {
                 navigator.device.capture.captureImage(captureSuccess, console.log("capture"), {
                     limit: 1
                 });
-                
+
             }
-            
-            
+
+
             function shareNFC() {
-                 var mimeType = 'pointeam/mimeType';
-        var payload =  'Hello Bzone';
-        var record = ndef.mimeMediaRecord(mimeType, nfc.stringToBytes(payload));
-		
-        nfc.share(
+                var mimeType = 'my/mimetype';
+                var payload = 'Hello Bzone';
+                var record = ndef.mimeMediaRecord(mimeType, nfc.stringToBytes(payload));
+
+                nfc.share(
             [record],
-            function () {
-                if (bb10) {
-        
-                } else if (windowsphone) {
-                    // Windows phone calls success immediately. Bug?
-                    $scope.notifyUser("Sharing Message");
-                } else {
-                    alert("Sent Message to Peer");
-                }
-            }, function (reason) {
-                alert("Failed to share tag " + reason);
-                checkbox.checked = false;
+                    function () {
+                        if (bb10) {
+
+                        } else if (windowsphone) {
+                            // Windows phone calls success immediately. Bug?
+                            $scope.notifyUser("Sharing Message");
+                        } else {
+                            alert("Sent Message to Peer");
+                        }
+                    },
+                    function (reason) {
+                        alert("Failed to share tag " + reason);
+                        checkbox.checked = false;
+                    }
+                );
             }
-        );
-            }
-            
-            
-            
-            
-            
+
+
+
+
+
             ons.ready(function () {
                 navi.on('postpop', function () {
                     var newpercent
@@ -1745,9 +1744,13 @@ function parseTag(nfcEvent) {
                             var unit = $(this).attr('data-unit');
                             var select = $(this).attr('data-select');
                             var min = $(this).attr('data-min');
-                            var multi=1;
-                            if (unit=="h") { multi=60; }
-                            if (unit=="zł") { multi=100; }
+                            var multi = 1;
+                            if (unit == "h") {
+                                multi = 60;
+                            }
+                            if (unit == "zł") {
+                                multi = 100;
+                            }
                             if (typeof min == typeof undefined || min == false) {
                                 min = 0;
                             }
@@ -1759,7 +1762,7 @@ function parseTag(nfcEvent) {
                             console.log(new Date());
                             for (i = 1; i <= count; i++) {
                                 if ((step * i * multi) >= min && (step * i * multi) <= max) {
-                                    if (step * i * multi== select) {
+                                    if (step * i * multi == select) {
                                         stringtt += '<option value="' + (step * i * multi) + '"  selected="selected">' + (step * i) + unit + '</option>';
                                     } else {
                                         stringtt += '<option value="' + (step * i * multi) + '">' + (step * i) + unit + '</option>';
@@ -1773,7 +1776,7 @@ function parseTag(nfcEvent) {
 
 
 
-                  
+
                     $('#goToProjekty').click(function () {
                         $('.tabMojeZadania').css('display', 'none');
                         $('.tabProjekty').css('display', 'block');
@@ -1880,7 +1883,7 @@ function parseTag(nfcEvent) {
                         var min = $(this).attr('data-min');
                         var max = $(this).find("option:selected").val();
                         min = Math.floor(min / max * 100);
-                        $('#newHourBudgetText').text(max/60);
+                        $('#newHourBudgetText').text(max / 60);
                         $('#editBudgetCharts .chartHours').data('easyPieChart').update(min);
                     });
 
@@ -1888,7 +1891,7 @@ function parseTag(nfcEvent) {
                         var min = $(this).attr('data-min');
                         var max = $(this).find("option:selected").val();
                         min = Math.floor(min / max * 100);
-                        $('#newMoneyBudgetText').text(max/100);
+                        $('#newMoneyBudgetText').text(max / 100);
                         $('#editBudgetCharts .chartMoney').data('easyPieChart').update(min);
                     });
 
@@ -1927,8 +1930,8 @@ function parseTag(nfcEvent) {
                             }
                         });
                     });
-                    
-                       $('#goToStatystyki').click(function () {
+
+                    $('#goToStatystyki').click(function () {
                         $('.tabZadania').css('display', 'none');
                         $('.tabPostep').css('display', 'none');
                         $('.tabStatystyki').css('display', 'block');
@@ -2144,12 +2147,12 @@ function parseTag(nfcEvent) {
                     $('#capturePhoto').click(function () {
                         captureImage();
                     });
-                    
+
                     $('#shareNFC').click(function () {
                         alert('start');
                         shareNFC();
                     });
-                    
+
                 });
             });
         });
