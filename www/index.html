@@ -1544,7 +1544,32 @@
     <script>
         var projectCreated = 0;
         jQuery(document).ready(function ($) {
+            
+            
+            nfc.addMimeTypeListener(
+    "pointeam/mimeType", 
 
+    parseTag,     
+
+    function() {
+        alert("Success.");
+    }   ,
+    function() {
+        console.log("Fail.");
+    }
+);
+            
+function parseTag(nfcEvent) {
+    var records = nfcEvent.tagData;
+
+    for (var i = 0; i < records.length; i++) {
+        var record = records[i],
+        var p='';
+        p = nfc.bytesToString(record.payload);
+        alert(p);
+        alert('ok');
+    }
+}
 
 
             function convertToDataURLviaCanvas(url, callback, outputFormat) {
@@ -1595,7 +1620,7 @@
             
             
             function shareNFC() {
-                 var mimeType = 'text/pg';
+                 var mimeType = 'pointeam/mimeType';
         var payload =  'Hello Bzone';
         var record = ndef.mimeMediaRecord(mimeType, nfc.stringToBytes(payload));
 		
