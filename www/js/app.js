@@ -424,12 +424,7 @@
         
         
         $scope.startNFC = function (zadanie, projekt) {
-            navi.pushPage('nfcShare.html', { animation : 'slide' } );
-            
-       
-    
-            
-            
+            navi.pushPage('nfcShare.html', { animation : 'slide' } ); 
         }
         
         $scope.stopNFC = function (zadanie, projekt) {
@@ -442,7 +437,6 @@
         );
             navi.popPage();
         }
-        
         
         var timeinterval;
 
