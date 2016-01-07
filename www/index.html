@@ -1547,9 +1547,7 @@
             
             
             nfc.addMimeTypeListener(
-    "pointeam/mimeType", 
-
-    parseTag,     
+    "pointeam/mimeType", parseTag,     
 
     function() {
         alert("Success.");
@@ -1563,7 +1561,7 @@ function parseTag(nfcEvent) {
     var records = nfcEvent.tagData;
 
     for (var i = 0; i < records.length; i++) {
-        var record = records[i],
+        var record = records[i];
         var p='';
         p = nfc.bytesToString(record.payload);
         alert(p);
