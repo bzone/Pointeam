@@ -84,7 +84,6 @@
 
     <ons-navigator var="navi">
         <ons-page style="background:#31198B !Important;" ng-init="checkLogin()">
-
             <div class="bigLogo"></div>
             <form class="loginStyle">
                 <input type="email" id="loginEmail" class="loginInputStyle" placeholder="e-mail" />
@@ -153,9 +152,11 @@
                 </ons-toolbar-button>
             </div>
         </ons-toolbar>
+            <div>
+                <a id="shareNFC" data-attr="{{user.avatar}}">informacja o share NFC</a>
+            </div>
             
-            
-            informacja o share NFC
+          
         </ons-page>
     </ons-template>
     
@@ -1565,6 +1566,9 @@
                 };
                 img.src = url;
             }
+            
+            
+            
 
 
             // Funkcje dla podstron
@@ -1586,7 +1590,37 @@
                 navigator.device.capture.captureImage(captureSuccess, console.log("capture"), {
                     limit: 1
                 });
+                
             }
+            
+            
+            function shareNFC() {
+                 var mimeType = 'text/pg';
+        var payload =  'Hello Bzone';
+        var record = ndef.mimeMediaRecord(mimeType, nfc.stringToBytes(payload));
+		
+        nfc.share(
+            [record],
+            function () {
+                if (bb10) {
+        
+                } else if (windowsphone) {
+                    // Windows phone calls success immediately. Bug?
+                    $scope.notifyUser("Sharing Message");
+                } else {
+                    alert("Sent Message to Peer");
+                }
+            }, function (reason) {
+                alert("Failed to share tag " + reason);
+                checkbox.checked = false;
+            }
+        );
+            }
+            
+            
+            
+            
+            
             ons.ready(function () {
                 navi.on('postpop', function () {
                     var newpercent
@@ -2087,6 +2121,11 @@
                     $('#capturePhoto').click(function () {
                         captureImage();
                     });
+                    
+                    $('#shareNFC').click(function () {
+                        shareNFC();
+                    });
+                    
                 });
             });
         });

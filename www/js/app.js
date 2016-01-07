@@ -426,30 +426,7 @@
         $scope.startNFC = function (zadanie, projekt) {
             navi.pushPage('nfcShare.html', { animation : 'slide' } );
             
-        var mimeType = 'text/pg';
-        var  payload =  'Hello Bzone';
-        var record = ndef.mimeMediaRecord(mimeType, nfc.stringToBytes(payload));
-		
-        nfc.share(
-            [record],
-            function () {
-                if (bb10) {
-                    // Blackberry calls success as soon as the Card appears
-                    checkbox.checked = false;
-                    $scope.enableUI();
-                } else if (windowsphone) {
-                    // Windows phone calls success immediately. Bug?
-                    $scope.notifyUser("Sharing Message");
-                } else {
-                    // Android call the success callback when the message is sent to peer
-                    navigator.notification.vibrate(100);
-                    $scope.notifyUser("Sent Message to Peer");
-                }
-            }, function (reason) {
-                alert("Failed to share tag " + reason);
-                checkbox.checked = false;
-            }
-        );
+       
     
             
             
@@ -458,8 +435,7 @@
         $scope.stopNFC = function (zadanie, projekt) {
             nfc.unshare(
             function () {
-                navigator.notification.vibrate(100);
-                $scope.notifyUser("Message is no longer shared.");
+                alert("Message is no longer shared.");
             }, function (reason) {
                 alert("Failed to unshare message " + reason);
             }
