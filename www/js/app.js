@@ -407,37 +407,40 @@
         }
 
 
-        
+
         var android = true;
- 
-        
-        $scope.notifyUser = function(message) {
-              if (android) {
-            toast.showShort(message);
-        } else {
-            statusDiv.innerHTML = message;
-            setTimeout(function() {
-                statusDiv.innerHTML = "";
-            }, 3000);
+
+
+        $scope.notifyUser = function (message) {
+            if (android) {
+                toast.showShort(message);
+            } else {
+                statusDiv.innerHTML = message;
+                setTimeout(function () {
+                    statusDiv.innerHTML = "";
+                }, 3000);
+            }
         }
-        }
-        
-        
+
+
         $scope.startNFC = function (zadanie, projekt) {
-            navi.pushPage('nfcShare.html', { animation : 'slide' } ); 
+            navi.pushPage('nfcShare.html', {
+                animation: 'slide'
+            });
         }
-        
+
         $scope.stopNFC = function (zadanie, projekt) {
             nfc.unshare(
-            function () {
-                alert("Message is no longer shared.");
-            }, function (reason) {
-                alert("Failed to unshare message " + reason);
-            }
-        );
+                function () {
+                    alert("Message is no longer shared.");
+                },
+                function (reason) {
+                    alert("Failed to unshare message " + reason);
+                }
+            );
             navi.popPage();
         }
-        
+
         var timeinterval;
 
         $scope.startTimer = function (zadanie, projekt, user) {
@@ -2728,3 +2731,4 @@
     });
 
 })();
+

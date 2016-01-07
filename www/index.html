@@ -1563,7 +1563,7 @@
                 alert('pobrano');
                 var records = nfcEvent.tag;
                 alert(records.id);
-                alert(records.ndefMessage.payload);
+                alert(records.ndefMessage[0].payload[1]);
                 for (var i = 0; i < records.length; i++) {
                     var record = records[i];
                     var p = nfc.bytesToString(record.payload);
