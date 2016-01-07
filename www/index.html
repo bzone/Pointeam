@@ -142,6 +142,23 @@
             </form>
         </ons-page>
     </ons-template>
+    
+    
+    <ons-template id="nfcShare.html">
+        <ons-page style="background:#31198B !Important;">
+           <ons-toolbar>
+            <div class="left">
+                <ons-toolbar-button ng-click="stopNFC()">
+                    <ons-icon icon="ion-chevron-left" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
+                </ons-toolbar-button>
+            </div>
+        </ons-toolbar>
+            
+            
+            informacja o share NFC
+        </ons-page>
+    </ons-template>
+    
 
     <ons-template id="home.html">
         <ons-page>
@@ -317,6 +334,11 @@
                     <ons-toolbar-button ng-if="item.ukonczoneDisplay=='none' && isUserIn(item.idZadania, projekt.idProjekt, currentuser[0].idUser)">
                         <ons-icon icon="ion-checkmark-circled" fixed-width="false" style="font-size: 26px; vertical-align: -4px" ng-click="markAsComplete(item.idZadania, projekt.idProjekt)"></ons-icon>
                     </ons-toolbar-button>
+                     <ons-toolbar-button  ng-if="isAndroidTest() && item.ukonczoneDisplay=='none'">
+                        <ons-icon icon="ion-android-wifi" fixed-width="false" style="font-size: 26px; vertical-align: -4px" ng-click="startNFC(item.idZadania, projekt.idProjekt)"></ons-icon>
+                    </ons-toolbar-button>
+                    
+                    
                 </div>
             </ons-toolbar>
             <ons-tapbar position="top" class="homeTabs">
