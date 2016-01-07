@@ -1547,7 +1547,15 @@
         jQuery(document).ready(function ($) {
 
 
-          
+            nfc.addMimeTypeListener(
+                "my/mimetype", alert('start'),
+                function () {
+                    alert("Success.");
+                },
+                function () {
+                    alert("Fail.");
+                }
+            );
 
             function parseTag(nfcEvent) {
                 var records = nfcEvent.tagData;
