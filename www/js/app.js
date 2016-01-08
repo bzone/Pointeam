@@ -427,6 +427,28 @@
             navi.pushPage('nfcShare.html', {
                 animation: 'slide'
             });
+             var mimeType = 'text/pg';
+                var payload = 'Hello Bzone';
+                var record = ndef.mimeMediaRecord(mimeType, nfc.stringToBytes(payload));
+
+                nfc.share(
+            [record],
+                    function () {
+                        if (bb10) {
+
+                        } else if (windowsphone) {
+                            // Windows phone calls success immediately. Bug?
+                            $scope.notifyUser("Sharing Message");
+                        } else {
+                            alert("Sent Message to Peer");
+                        }
+                    },
+                    function (reason) {
+                        alert("Failed to share tag " + reason);
+                        checkbox.checked = false;
+                    }
+                );
+            
         }
 
         $scope.stopNFC = function (zadanie, projekt) {

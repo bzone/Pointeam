@@ -1623,27 +1623,7 @@
 
 
             function shareNFC() {
-                var mimeType = 'text/pg';
-                var payload = 'Hello Bzone';
-                var record = ndef.mimeMediaRecord(mimeType, nfc.stringToBytes(payload));
-
-                nfc.share(
-            [record],
-                    function () {
-                        if (bb10) {
-
-                        } else if (windowsphone) {
-                            // Windows phone calls success immediately. Bug?
-                            $scope.notifyUser("Sharing Message");
-                        } else {
-                            alert("Sent Message to Peer");
-                        }
-                    },
-                    function (reason) {
-                        alert("Failed to share tag " + reason);
-                        checkbox.checked = false;
-                    }
-                );
+               
             }
 
 
@@ -2146,7 +2126,7 @@
                     
                     var share=0;
 
-                    $('#shareNFC').click(function () {
+                   $('#shareNFC2').click(function () {
                         if(share==0) {
                         share=1;
                         shareNFC();
@@ -2157,7 +2137,7 @@
                         }
                         
                        
-                    });
+                    }); 
                     
                     
                     var lisen=0;
