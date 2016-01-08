@@ -173,7 +173,7 @@
                         <ons-icon icon="ion-gear-a" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
                     </ons-toolbar-button>
                 </div>
-                <div class="center"><span class="logo" id="lisenNFC"></span>
+                <div class="center"><span class="logo" ng-click="lisenNFC()"></span>
                 </div>
                 <div class="right">
                     <ons-toolbar-button id="goToDashboard">
@@ -1550,30 +1550,6 @@
         var projectCreated = 0;
         jQuery(document).ready(function ($) {
 
-            function lisenNFC() {
-            nfc.addMimeTypeListener(
-                'text/pg', parseTag,
-                function () {
-                    alert("Success.");
-                },
-                function () {
-                    alert("Fail.");
-                }
-            );
-            }
-
-            function parseTag(nfcEvent) {
-                alert('pobrano');
-                var records = nfcEvent.tag;
-                var record='';
-                alert(records.id);
-                alert(records.ndefMessage[0].payload[1]);
-                for (var i = 0; i < records.ndefMessage[0].payload.length; i++) {
-                    record += records.ndefMessage[0].payload[i];
-                }
-                alert(record);
-            }
-
 
             function convertToDataURLviaCanvas(url, callback, outputFormat) {
                 var img = new Image();
@@ -1594,9 +1570,6 @@
                 };
                 img.src = url;
             }
-
-
-
 
 
             // Funkcje dla podstron

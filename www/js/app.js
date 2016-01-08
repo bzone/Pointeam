@@ -462,6 +462,34 @@
             );
             navi.popPage();
         }
+        
+        
+        $scope.lisenNFC = function () {
+            alert('słucham');
+             function parseTag(nfcEvent) {
+                alert('pobrano');
+                var records = nfcEvent.tag;
+                var record='';
+                alert(records.id);
+                alert(records.ndefMessage[0].payload[1]);
+                for (var i = 0; i < records.ndefMessage[0].payload.length; i++) {
+                    record += records.ndefMessage[0].payload[i];
+                }
+                alert(record);
+            }
+            
+            
+            nfc.addMimeTypeListener(
+                'text/pg', parseTag,
+                function () {
+                    alert("Success.");
+                },
+                function () {
+                    alert("Fail.");
+                }
+            );
+        }
+        
 
         var timeinterval;
 
