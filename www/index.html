@@ -154,9 +154,12 @@
                 </div>
             </ons-toolbar>
             <div>
-                <a id="shareNFC" data-attr="{{user.avatar}}">informacja o share NFC</a>
+              <form class="loginStyle">
+              <h2 class="nfcHeader">Przypisz użytkownika/ów do tego zadania wykorzystując NFC</h2>
+               <img src="css/NFC.png" class="nfcImage"/>
+                <a class="submitButton" id="shareNFC">rozpocznij udospępnianie</a>
+                </form>
             </div>
-
 
         </ons-page>
     </ons-template>
@@ -1562,14 +1565,13 @@
             function parseTag(nfcEvent) {
                 alert('pobrano');
                 var records = nfcEvent.tag;
+                var record='';
                 alert(records.id);
                 alert(records.ndefMessage[0].payload[1]);
-                for (var i = 0; i < records.length; i++) {
-                    var record = records[i];
-                    var p = nfc.bytesToString(record.payload);
-                    alert(p);
-                    alert('ok');
+                for (var i = 0; i < records.ndefMessage[0].payload.length; i++) {
+                    record += records.ndefMessage[0].payload[i];
                 }
+                alert(record);
             }
 
 
@@ -2141,14 +2143,26 @@
                     $('#capturePhoto').click(function () {
                         captureImage();
                     });
+                    
+                    var share=0;
 
                     $('#shareNFC').click(function () {
-                        console.log('kurwa');
-                        alert('start');
+                        if(share==0) {
+                        share=1;
                         shareNFC();
+                            $(this).text('zakończ udostępnianie');
+                        } else {
+                            share=0;
+                            $(this).text('rozpocznij udostępnianie');
+                        }
+                        
+                       
                     });
                     
+                    
+                    var lisen=0;
                     $('#lisenNFC').click(function() {
+                        lisen=1;
                         lisenNFC();
                         alert('slucham');
                     })

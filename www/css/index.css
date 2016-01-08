@@ -1557,3 +1557,19 @@ div#clockTaskName {
     right: 0px;
     top:-2px;
 }
+
+.nfcImage {
+    width:192px;
+    height: 192px;
+    margin: auto;
+    display: block;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.nfcHeader {
+    color:#FFF;
+    text-align: center;
+    font-family: 'Hurme Geometric Sans 4 SemiBold'; 
+    font-size:22px;
+}
