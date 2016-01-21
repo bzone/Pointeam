@@ -361,6 +361,8 @@
                                     project.przypisaneOsoby = angular.fromJson(data).osoby;
                                     project.zadania = angular.fromJson(data).zadania;
                                     project.terminy = angular.fromJson(data).terminy;
+                                    project.koszty = angular.fromJson(data).koszty;
+
 
                                     var found = $filter('filter')(project.przypisaneOsoby, {
                                         idUser: $scope.user.idUser
@@ -1360,6 +1362,84 @@
         });
 
 
+        $scope.acceptNotification = function (idKoszt) {
+            var found = $filter('filter')($scope.item.koszty, {
+                idKoszt: idKoszt
+            }, true);
+
+            found[0].zaakceptowanyUser = 1;
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: {
+                    idKoszt: idKoszt,
+                    acceptNotification: ''
+                },
+                crossDomain: true,
+                cache: false,
+                beforeSend: function () {},
+                success: function (data) {}
+            });
+
+        }
+
+
+        $scope.submitCost = function () {
+            var idProjekt = $scope.item.idProjekt;
+            var kwota = $('#itemCost').val();
+            var nazwa = $('#nazwaKosztu').val();
+            var idUser = $scope.currentuser[0].idUser;
+            var imie = $scope.currentuser[0].imie;
+            var avatar = $scope.currentuser[0].avatar;
+
+            if (nazwa == '') {
+                ons.notification.alert({
+                    message: 'Podaj nazwę kosztu',
+                    title: 'Brak nazwy',
+                    buttonLabel: 'OK',
+                    animation: 'default',
+                    callback: function () {}
+                });
+            } else {
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: {
+                        idProjekt: idProjekt,
+                        idUser: idUser,
+                        imie: imie,
+                        avatar: avatar,
+                        kwota: kwota,
+                        nazwa: nazwa,
+                        submitCostToBase: ''
+                    },
+                    crossDomain: true,
+                    cache: false,
+                    beforeSend: function () {},
+                    success: function (data) {
+                        var item = {
+                            idKoszt: data,
+                            idProjekt: idProjekt,
+                            idUser: idUser,
+                            imie: imie,
+                            avatar: avatar,
+                            kwota: kwota,
+                            nazwa: nazwa,
+                        }
+                        if ($scope.item.koszty) {
+                            $scope.item.koszty.push(item);
+                        } else {
+                            $scope.item.koszty = [];
+                            $scope.item.koszty.push(item);
+                        }
+                        navi.popPage();
+                    }
+                });
+            }
+
+        }
 
         $scope.showTask = function (index) {
             //NOTE: now point]
@@ -2747,6 +2827,7 @@
                         success: function (data) {
 
                             zadanie.przypisaneOsoby = angular.fromJson(data).osoby;
+
 
                             if (index == (ilosczadan - 1)) {
                                 $scope.navi.pushPage('procjectview.html', {

@@ -1628,3 +1628,59 @@ div#clockTaskName {
     font-family: 'Hurme Geometric Sans 4 SemiBold';
     font-size: 22px;
 }
+
+p.infoBox {
+    display: block;
+    padding: 10px;
+    margin: 10px;
+    border: solid 1px #462BA5;
+    color: #462BA5;
+    font-size: 14px;
+    text-align: center;
+    margin-top: 20px;
+    background-color: #EEECF7;
+}
+
+.notificationBox {
+    position: relative;
+    background-color: #FFDA33;
+    border-bottom: solid 1px #BD9E11;
+    padding-left: 60px;
+    padding-right: 50px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    color: #4A4A4A;
+    font-size: 16px;
+}
+
+.notificationBox .person {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background-size: cover;position: absolute;
+    left: 10px;
+    display: block;
+    float: left;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.notificationBox span.cena,
+.notificationBox span.nazwa {
+    font-family: 'Hurme Geometric Sans 4 SemiBold';
+}
+
+.notificationBox span.imie {
+    font-size: 12px;
+      display:block;
+}
+
+.notificationBox .infoBox {
+    margin: 0px;
+    margin-top: 5px;
+    padding: 3px;
+    text-align: left;
+    color: #4A4A4A;
+    background-color: transparent;
+    border-color: #4A4A4A;
+    font-size: 12px;
+}

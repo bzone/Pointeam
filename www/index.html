@@ -591,6 +591,23 @@
                     </label>
                 </div>
             </ons-tapbar>
+            <div class="notifications" ng-if="!isAdmin(item.idProjekt)">
+                <div class="notificationBox" ng-repeat="koszt in item.koszty | orderBy:'idKoszt'" ng-if="koszt.zaakceptowanyAdmin==1 && koszt.zaakceptowanyUser==0 && currentuser[0].idUser == koszt.idUser">
+                    <div class="person" style="background-image:url({{koszt.avatar}})"></div>
+                    <span class="nazwa">Zgłoszony koszt: {{koszt.nazwa}} - </span><span class="cena">{{koszt.kwota/100 | number:2}}zł</span>
+                    <!-- <span class="imie">{{koszt.imie}}</span>-->
+                    <p class="infoBox">koszt zaakceptowany</p>
+                    <a class="acceptNotification" ng-click="acceptNotification(koszt.idKoszt)">akcept</a>
+                </div>
+                <div class="notificationBox" ng-repeat="koszt in item.koszty | orderBy:'idKoszt'" ng-if="koszt.zaakceptowanyAdmin==2 && koszt.zaakceptowanyUser==0 && currentuser[0].idUser == koszt.idUser">
+                    <div class="person" style="background-image:url({{koszt.avatar}})"></div>
+                    <span class="nazwa">Zgłoszony koszt: {{koszt.nazwa}} - </span><span class="cena">{{koszt.kwota/100 | number:2}}zł</span>
+                    <!-- <span class="imie">{{koszt.imie}}</span>-->
+                    <p class="infoBox">koszt odrzucony</p>
+                    <a class="acceptNotification" ng-click="acceptNotification(koszt.idKoszt)">akcept</a>
+                </div>
+
+            </div>
             <div ng-if="!item.zadania" class="emptyAll">
                 <div class="emptyState"></div>
                 <div id="newTask" style="display:none;">Dodaj zadanie</div>
@@ -1605,6 +1622,48 @@
                     </ons-row>
                 </li>
             </ul>
+        </ons-page>
+    </ons-template>
+
+    <ons-template id="addCost.html">
+        <ons-page ng-controller="DetailController">
+            <ons-toolbar>
+                <div class="left">
+                    <ons-toolbar-button onclick="navi.popPage();">
+                        <ons-icon icon="ion-chevron-left" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+                <div class="center">Zgłoś koszt</div>
+                <div class="right">
+                    <ons-toolbar-button>
+                        <ons-icon icon="ion-checkmark-circled" fixed-width="false" style="font-size: 26px; vertical-align: -4px" ng-click="submitCost()"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+            </ons-toolbar>
+            <div>
+                <ul class="list ">
+                    <li class="list__header">Informacje o koszcie</li>
+                    <li class="list__item">
+                        <ons-row align="center" class="row ons-row-inner row-center">
+                            <ons-col class="col ons-col-inner">Nazwa*</ons-col>
+                            <ons-col class="col ons-col-inner flex2">
+                                <input type="text" class="text-input text-input--transparent inputWithLabel" id="nazwaKosztu" placeholder="Nowy koszt">
+                            </ons-col>
+                        </ons-row>
+                    </li>
+                    <li class="list__item">
+                        <ons-row align="center" class="row ons-row-inner row-center">
+                            <ons-col class="col ons-col-inner">Kwota*</ons-col>
+                            <ons-col class="col ons-col-inner">
+                                <select id="itemCost" class="inputClear optionGenerator" data-count="1000" data-step="10" data-unit="zł" data-min="10" data-select="10">
+                                </select>
+                            </ons-col>
+                        </ons-row>
+                    </li>
+
+                </ul>
+                <p class="infoBox">Administrator projektu może zaakceptować, lub odrzucić koszt. Zostaniesz poinformowany o podjętej decyzji.</p>
+            </div>
         </ons-page>
     </ons-template>
 
