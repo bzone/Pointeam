@@ -16,44 +16,55 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
 @import url("//hello.myfonts.net/count/2e0e4f");
+@font-face {
+    font-family: 'Hurme Geometric Sans 4 Bold';
+    src: url('webfonts/2E0E4F_0_0.eot');
+    src: url('webfonts/2E0E4F_0_0.eot?#iefix') format('embedded-opentype'), url('webfonts/2E0E4F_0_0.woff2') format('woff2'), url('webfonts/2E0E4F_0_0.woff') format('woff'), url('webfonts/2E0E4F_0_0.ttf') format('truetype'), url('webfonts/2E0E4F_0_0.svg#wf') format('svg');
+}
 
-  
-@font-face {font-family: 'Hurme Geometric Sans 4 Bold';src: url('webfonts/2E0E4F_0_0.eot');src: url('webfonts/2E0E4F_0_0.eot?#iefix') format('embedded-opentype'),url('webfonts/2E0E4F_0_0.woff2') format('woff2'),url('webfonts/2E0E4F_0_0.woff') format('woff'),url('webfonts/2E0E4F_0_0.ttf') format('truetype'),url('webfonts/2E0E4F_0_0.svg#wf') format('svg');}
- 
-  
-@font-face {font-family: 'Hurme Geometric Sans 4';src: url('webfonts/2E0E4F_1_0.eot');src: url('webfonts/2E0E4F_1_0.eot?#iefix') format('embedded-opentype'),url('webfonts/2E0E4F_1_0.woff2') format('woff2'),url('webfonts/2E0E4F_1_0.woff') format('woff'),url('webfonts/2E0E4F_1_0.ttf') format('truetype'),url('webfonts/2E0E4F_1_0.svg#wf') format('svg');}
- 
-  
-@font-face {font-family: 'Hurme Geometric Sans 4 SemiBold';src: url('webfonts/2E0E4F_2_0.eot');src: url('webfonts/2E0E4F_2_0.eot?#iefix') format('embedded-opentype'),url('webfonts/2E0E4F_2_0.woff2') format('woff2'),url('webfonts/2E0E4F_2_0.woff') format('woff'),url('webfonts/2E0E4F_2_0.ttf') format('truetype'),url('webfonts/2E0E4F_2_0.svg#wf') format('svg');}
- 
+@font-face {
+    font-family: 'Hurme Geometric Sans 4';
+    src: url('webfonts/2E0E4F_1_0.eot');
+    src: url('webfonts/2E0E4F_1_0.eot?#iefix') format('embedded-opentype'), url('webfonts/2E0E4F_1_0.woff2') format('woff2'), url('webfonts/2E0E4F_1_0.woff') format('woff'), url('webfonts/2E0E4F_1_0.ttf') format('truetype'), url('webfonts/2E0E4F_1_0.svg#wf') format('svg');
+}
 
+@font-face {
+    font-family: 'Hurme Geometric Sans 4 SemiBold';
+    src: url('webfonts/2E0E4F_2_0.eot');
+    src: url('webfonts/2E0E4F_2_0.eot?#iefix') format('embedded-opentype'), url('webfonts/2E0E4F_2_0.woff2') format('woff2'), url('webfonts/2E0E4F_2_0.woff') format('woff'), url('webfonts/2E0E4F_2_0.ttf') format('truetype'), url('webfonts/2E0E4F_2_0.svg#wf') format('svg');
+}
 
 * {
-    -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    /* make transparent link selection, adjust last value opacity 0 to 1.0 */
 }
-
 
 body {
-    -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
-    -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
-    -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
-    background-color:#FAFAFD;
-    font-family:sans-serif;
-    font-size:12px;
-    height:100%;
-    margin:0px;
-    padding:0px;
-    width:100%;
-  -ms-content-zooming: none; 
-   
+    -webkit-touch-callout: none;
+    /* prevent callout to copy image, etc when tap to hold */
+    -webkit-text-size-adjust: none;
+    /* prevent webkit from resizing text to fit */
+    -webkit-user-select: none;
+    /* prevent copy paste, to allow, change 'none' to 'text' */
+    background-color: #FAFAFD;
+    font-family: sans-serif;
+    font-size: 12px;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+    -ms-content-zooming: none;
 }
+
 .page__background {
-     background:url(background.png) !important;
+    background: url(background.png) !important;
     background-size: cover;
 }
+
 .page__background.simpleBG {
-     background:#291B65 !important;
+    background: #291B65 !important;
     background-size: cover;
 }
 
@@ -61,13 +72,12 @@ body {
     font-family: 'Hurme Geometric Sans 4 SemiBold' !important;
 }
 
-
 span.logo {
     display: block;
     margin: auto;
     background: url(logo.png);
-   width: 116px;
-    height:26px;
+    width: 116px;
+    height: 26px;
     background-size: 116px 26px;
     margin-top: 7px;
 }
@@ -79,20 +89,18 @@ span.logo {
     text-align: center;
 }
 
-
 .relativeBox .projectFooter {
     position: absolute;
     width: 100%;
     padding: 15px;
     background-color: #1E1052;
     bottom: 0px;
-    color:#FFF;
+    color: #FFF;
     text-align: center;
     box-sizing: border-box;
     left: 0px;
     font-size: 15px;
 }
-
 
 .relativeBox .projectFooter .infoElements .icon {
     height: 18px;
@@ -103,21 +111,21 @@ span.logo {
     background-repeat: no-repeat;
     display: inline-block;
     padding-right: 15px;
-      color: #FFD100;
+    color: #FFD100;
     font-size: 16px;
 }
 
 .relativeBox .ownerInfo .person {
-     width:42px;
+    width: 42px;
     height: 42px;
-    border-radius:50%;
+    border-radius: 50%;
     background-size: cover;
     position: relative;
     margin-right: 18px;
     margin-left: 6px;
     display: block;
     float: left;
-      background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(0, 0, 0, 0.2);
 }
 
 .relativeBox .ownerInfo {
@@ -129,7 +137,7 @@ span.logo {
 
 .relativeBox .ownerInfo .projectTitleAuthor {
     display: block;
-    color:#FFF;
+    color: #FFF;
     text-align: left;
     float: left;
 }
@@ -152,35 +160,35 @@ span.logo {
 
 .relativeBox .projectFooter .infoElements .icon.promo {
     background-image: url(promoB.png);
-     padding-right: 0px;
+    padding-right: 0px;
 }
 
 .relativeBox .projectFooter .infoElements .icon.cost {
     background-image: url(costB.png);
 }
 
-
 .relativeBox .projectFooter .infoElements .icon.completionHalf {
     background-image: url(completionHalfB.png);
 }
 
 .projectFooter .projectPeople .person {
-    width:42px;
+    width: 42px;
     height: 42px;
-    border-radius:50%;
+    border-radius: 50%;
     background-size: cover;
     position: relative;
     margin-right: 18px;
     margin-left: 6px;
     display: inline-block;
-      background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(0, 0, 0, 0.2);
+    background-size: cover;
 }
 
 .projectFooter .projectPeople .person .badge {
     position: absolute;
     width: 24px;
     height: 24px;
-    border-radius:50%;
+    border-radius: 50%;
     background-color: #FFD100;
     top: -2px;
     right: -12px;
@@ -188,7 +196,6 @@ span.logo {
     text-align: center;
     color: #FFF !important;
     text-decoration: none;
-    
 }
 
 .colorYellow {
@@ -209,48 +216,51 @@ span.number {
 }
 
 .chart {
-  position: relative;
-  display: block;
-  width: 230px;
-  height: 230px;
-  margin: auto;                                                        
-  text-align: center;
-  color: #FFF;
+    position: relative;
+    display: block;
+    width: 230px;
+    height: 230px;
+    margin: auto;
+    text-align: center;
+    color: #FFF;
 }
 
 .chartMini {
-  position: relative;
-  display: block;
-  width: 38px;
-  height: 38px;
-  margin: auto;                                                        
-  text-align: center;
-  color: #000;
+    position: relative;
+    display: block;
+    width: 38px;
+    height: 38px;
+    margin: auto;
+    text-align: center;
+    color: #000;
 }
 
-.chartHours, .chartMoney, .chartTask {
-  position: relative;
-  display: block;
-  width: 148px;
-  height: 148px;
-  margin: auto;                                                        
-  text-align: center;
-  color: #000;
+.chartHours,
+.chartMoney,
+.chartTask {
+    position: relative;
+    display: block;
+    width: 148px;
+    height: 148px;
+    margin: auto;
+    text-align: center;
+    color: #000;
 }
 
-.chartMini2,.chartMini3,.chartMini4 {
-  position: relative;
-  display: block;
-  width: 38px;
-  height: 38px;
-  margin: auto;                                                        
-  text-align: center;
-  color: #000;
-float: left;
+.chartMini2,
+.chartMini3,
+.chartMini4 {
+    position: relative;
+    display: block;
+    width: 38px;
+    height: 38px;
+    margin: auto;
+    text-align: center;
+    color: #000;
+    float: left;
     margin-left: -8px;
     margin-right: 12px;
 }
-
 
 .chartHolder {
     position: absolute;
@@ -259,23 +269,33 @@ float: left;
     z-index: 9;
 }
 
-.chart canvas, .chartMini canvas, .chartMini2 canvas, .chartMini3 canvas, .chartMini4 canvas, .chartHours canvas, .chartMoney canvas, .chartTask canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
+.chart canvas,
+.chartMini canvas,
+.chartMini2 canvas,
+.chartMini3 canvas,
+.chartMini4 canvas,
+.chartHours canvas,
+.chartMoney canvas,
+.chartTask canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .percent {
-  display: inline-block;
-  line-height: 72px;
-  z-index: 2;
-font-size: 68px;
+    display: inline-block;
+    line-height: 72px;
+    z-index: 2;
+    font-size: 68px;
     color: #FFF;
     font-family: 'Hurme Geometric Sans 4 SemiBold';
     margin-top: 58px;
 }
 
-.chartMini .percent, .chartMini2 .percent, .chartMini3 .percent, .chartMini4 .percent {
+.chartMini .percent,
+.chartMini2 .percent,
+.chartMini3 .percent,
+.chartMini4 .percent {
     display: inline-block;
     line-height: 50px;
     z-index: 2;
@@ -288,7 +308,9 @@ font-size: 68px;
     margin-left: 10px;
 }
 
-.chartHours .percent, .chartMoney .percent, .chartTask .percent  {
+.chartHours .percent,
+.chartMoney .percent,
+.chartTask .percent {
     display: inline-block;
     line-height: 50px;
     z-index: 2;
@@ -302,11 +324,9 @@ font-size: 68px;
     margin-top: 40px;
 }
 
-
-
 .percent:after {
-  content: '%';
-  margin-left: 0.1em;
+    content: '%';
+    margin-left: 0.1em;
 }
 
 .tabDashboard .item {
@@ -318,7 +338,7 @@ font-size: 68px;
 }
 
 .list__header {
-    background-color:#462BA5 !important;
+    background-color: #462BA5 !important;
     color: #FFF !important;
     text-align: center !important;
 }
@@ -328,39 +348,41 @@ font-size: 68px;
     line-height: 30px !Important;
     float: right;
 }
+
+
 /* Portrait layout (default) */
+
 .app {
-    width:100%;
-    overflow: hidden;/* text area width */
+    width: 100%;
+    overflow: hidden;
+    /* text area width */
 }
-
-
 
 #mainHolder {
     position: relative;
 }
 
 .pageHeader {
-background: #31198B;
-font-size: 17px;
-color: #FFFFFF;
-padding-top: 10px;
+    background: #31198B;
+    font-size: 17px;
+    color: #FFFFFF;
+    padding-top: 10px;
     position: fixed;
     width: 100%;
-    top:0px;
+    top: 0px;
     left: 0px;
     z-index: 99;
 }
 
 .pageHeader h1 {
     font-family: 'Hurme Geometric Sans 4 SemiBold';
-    font-size:18px;
+    font-size: 18px;
     line-height: 28px;
-    font-weight:normal;
-    margin:0px;
-    overflow:visible;
-    padding:0px;
-    text-align:center;
+    font-weight: normal;
+    margin: 0px;
+    overflow: visible;
+    padding: 0px;
+    text-align: center;
 }
 
 .headerTabs ul {
@@ -372,8 +394,8 @@ padding-top: 10px;
 .headerTabs ul li {
     display: block;
     float: left;
-    border-top:solid 5px transparent;
-    border-bottom:solid 5px transparent;
+    border-top: solid 5px transparent;
+    border-bottom: solid 5px transparent;
     text-align: center;
     line-height: 40px;
     color: rgba(255, 255, 255, 0.6);
@@ -383,14 +405,16 @@ padding-top: 10px;
 
 .headerTabs ul li.active {
     color: rgba(255, 255, 255, 1.0);
-    border-bottom:solid 5px #FFD100;
+    border-bottom: solid 5px #FFD100;
 }
 
 .headerTabs ul.twoTabs li {
     width: 50%;
 }
 
+
 /* List */
+
 .basicItem {
     position: relative;
     height: 120px;
@@ -399,7 +423,6 @@ padding-top: 10px;
     padding-top: 15px;
     padding-bottom: 15px;
 }
-
 
 .basicItem.project {
     position: relative;
@@ -432,53 +455,57 @@ padding-top: 10px;
     background-color: #7ABC32;
     width: 33px;
     position: absolute;
-    left:0px;
-    top:0px;
+    left: 0px;
+    top: 0px;
     height: 99px;
     text-align: center;
     color: #FFF;
     padding-top: 15px;
 }
+
 .basicItem .dateHolder .day {
     font-size: 22px;
     font-weight: bold;
 }
+
 .basicItem .dateHolder .mounth {
     font-size: 12px;
     margin-bottom: 3px;
 }
+
 .basicItem .dateHolder .hour {
     padding-top: 3px;
     font-size: 10px;
-    border-top:solid 2px #FFF;
+    border-top: solid 2px #FFF;
     width: 25px;
     margin: auto;
 }
-.basicItem .statusHolder { 
+
+.basicItem .statusHolder {
     width: 22px;
     position: absolute;
-    right:9px;
-    top:15px;
+    right: 9px;
+    top: 15px;
 }
 
 .basicItem .avatarHolder {
     position: absolute;
-    left:9px;
-    top:15px;
+    left: 9px;
+    top: 15px;
     text-align: center;
 }
 
 .basicItem.subtask .avatarHolder {
     position: absolute;
-    left:39px;
-    top:15px;
-     text-align: center;
+    left: 39px;
+    top: 15px;
+    text-align: center;
 }
 
 .basicItem .avatarHolder .person {
-    width:42px;
+    width: 42px;
     height: 42px;
-    border-radius:50%;
+    border-radius: 50%;
     background-size: cover;
     position: relative;
     margin-right: 6px;
@@ -504,7 +531,7 @@ padding-top: 10px;
     text-align: center;
     line-height: 22px;
     font-size: 12px;
-    color: #FFF; 
+    color: #FFF;
     display: none;
 }
 
@@ -533,15 +560,15 @@ padding-top: 10px;
     margin-top: 10px;
 }
 
-
 .basicItem .taskTitle {
     font-size: 17px;
-    font-family: 'Hurme Geometric Sans 4 SemiBold';   padding-bottom: 8px;
+    font-family: 'Hurme Geometric Sans 4 SemiBold';
+    padding-bottom: 8px;
 }
 
 .basicItem .projectTitle {
     color: #4A4A4A;
-     font-size: 12px;
+    font-size: 12px;
 }
 
 .infoElements {
@@ -567,13 +594,12 @@ padding-top: 10px;
 
 .infoElements .icon.promo {
     background-image: url(promo.png);
-     padding-right: 0px;
+    padding-right: 0px;
 }
 
 .infoElements .icon.cost {
     background-image: url(cost.png);
 }
-
 
 .infoElements .icon.completionHalf {
     background-image: url(completionHalf.png);
@@ -581,13 +607,15 @@ padding-top: 10px;
 
 
 /* Settings */
+
 .text-center {
     text-align: center;
 }
+
 #capturePhoto {
-    color:#FFF;
+    color: #FFF;
     font-size: 17px;
-    font-family: 'Hurme Geometric Sans 4 SemiBold'; 
+    font-family: 'Hurme Geometric Sans 4 SemiBold';
     padding-left: 45px;
     line-height: 38px;
     background-image: url('change.png');
@@ -597,73 +625,92 @@ padding-top: 10px;
     background-size: 38px 38px;
 }
 
-
 .event {
-    border-radius:4px;
-    -webkit-border-radius:4px;
-    color:#FFFFFF;
-    font-size:12px;
-    margin:0px 30px;
-    padding:2px 0px;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    color: #FFFFFF;
+    font-size: 12px;
+    margin: 0px 30px;
+    padding: 2px 0px;
 }
 
 .event.listening {
-    background-color:#333333;
-    display:block;
+    background-color: #333333;
+    display: block;
 }
 
 .event.received {
-    background-color:#4B946A;
-    display:none;
+    background-color: #4B946A;
+    display: none;
 }
-
 
 @keyframes fade {
-    from { opacity: 1.0; }
-    50% { opacity: 0.4; }
-    to { opacity: 1.0; }
+    from {
+        opacity: 1.0;
+    }
+    50% {
+        opacity: 0.4;
+    }
+    to {
+        opacity: 1.0;
+    }
 }
- 
+
 @-webkit-keyframes fade {
-    from { opacity: 1.0; }
-    50% { opacity: 0.4; }
-    to { opacity: 1.0; }
+    from {
+        opacity: 1.0;
+    }
+    50% {
+        opacity: 0.4;
+    }
+    to {
+        opacity: 1.0;
+    }
 }
 
 @keyframes fadeIn {
-    from { opacity: 0.0; }
-    to { opacity: 1.0; }
+    from {
+        opacity: 0.0;
+    }
+    to {
+        opacity: 1.0;
+    }
 }
- 
+
 @-webkit-keyframes fadeIn {
-    from { opacity: 0.0; }
-    to { opacity: 1.0; }
+    from {
+        opacity: 0.0;
+    }
+    to {
+        opacity: 1.0;
+    }
 }
- 
+
 .blink {
-    animation:fade 500ms 1;
-    -webkit-animation:fade 500ms 1;
+    animation: fade 500ms 1;
+    -webkit-animation: fade 500ms 1;
 }
 
 .blink2 {
-    animation:fade 500ms 1;
-    -webkit-animation:fade 500ms 1;
+    animation: fade 500ms 1;
+    -webkit-animation: fade 500ms 1;
 }
 
- #avatar {
-            width: 130px;
-            height: 130px;
-            background-size: cover;
-            border-radius:50%;
-            margin: auto;
-            margin-top: 30px;
-            margin-bottom: 30px;
-            background-position: center center;
-     background-color: rgba(0, 0, 0, 0.2);
-        }
+#avatar {
+    width: 130px;
+    height: 130px;
+    background-size: cover;
+    border-radius: 50%;
+    margin: auto;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    background-position: center center;
+    background-color: rgba(0, 0, 0, 0.2);
+}
 
 
 /* Nowy projekt */
+
 .switchHolder {
     text-align: right;
     margin-top: 7px;
@@ -671,18 +718,19 @@ padding-top: 10px;
 }
 
 .inputClear {
-    width:100%;
+    width: 100%;
     text-align: right;
-    border:0px;
+    border: 0px;
     height: 20px;
     display: block;
-      -webkit-appearance: none;
+    -webkit-appearance: none;
     font-size: 17px;
     background-color: transparent;
     margin-right: 15px;
 }
 
-.pojedynczyTermin, .pojedynczyTerminNowy {
+.pojedynczyTermin,
+.pojedynczyTerminNowy {
     padding-left: 50px !important;
     border-bottom: solid 1px #462BA5 !important;
     background-image: url(stripes.png) !important;
@@ -693,21 +741,26 @@ padding-top: 10px;
 
 .noOverscroll {
     overflow-x: hidden;
-      -webkit-overflow-scrolling: none;
+    -webkit-overflow-scrolling: none;
 }
+
 .list__item {
     -webkit-transition: all 0.5s ease-in-out;
     transition: all 0.5s ease-in-out;
 }
+
 .inactive {
     opacity: 0.3;
     pointer-events: none;
 }
 
-#dodajTermin, #dodajTerminNowy, #dodajOsobe, #dodajSiebie {
-    color:#000;
+#dodajTermin,
+#dodajTerminNowy,
+#dodajOsobe,
+#dodajSiebie {
+    color: #000;
     font-size: 17px;
-    font-family: 'Hurme Geometric Sans 4 SemiBold'; 
+    font-family: 'Hurme Geometric Sans 4 SemiBold';
     padding-left: 45px;
     line-height: 38px;
     background-image: url('add.png');
@@ -718,7 +771,9 @@ padding-top: 10px;
     margin-top: 30px;
 }
 
+
 /* Login */
+
 .bigLogo {
     width: 265px;
     height: 59px;
@@ -745,32 +800,32 @@ padding-top: 10px;
     margin-bottom: 25px;
     border: 0px;
     background: transparent;
-    border-bottom:solid 2px #FFF;
+    border-bottom: solid 2px #FFF;
     text-align: center;
     font-size: 18px;
-    color:#FFF;
+    color: #FFF;
     box-sizing: border-box;
-     -webkit-appearance: none;
+    -webkit-appearance: none;
     border-radius: 0px !important;
 }
 
 .submitButton {
-     -webkit-appearance: none;
+    -webkit-appearance: none;
     display: block;
     width: 100%;
     padding: 15px;
-box-sizing: border-box;
+    box-sizing: border-box;
     border: 0px;
     background: #FFD100;
     text-align: center;
     font-size: 18px;
-    color:#402791;
+    color: #402791;
 }
 
 span.lub {
     width: 100%;
     display: block;
-    color:#FFF;
+    color: #FFF;
     text-align: center;
     margin-bottom: 23px;
 }
@@ -778,26 +833,32 @@ span.lub {
 a.passwordReset {
     width: 100%;
     display: block;
-    color:#FFD100;
+    color: #FFD100;
     text-align: center;
     margin-bottom: 23px;
     margin-top: 20px;
 }
-    
 
-.loginInputStyle::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-    color:    #CBC5E1;
+.loginInputStyle::-webkit-input-placeholder {
+    /* WebKit, Blink, Edge */
+    color: #CBC5E1;
 }
-.loginInputStyle:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-   color:    #CBC5E1;
-   opacity:  1;
+
+.loginInputStyle:-moz-placeholder {
+    /* Mozilla Firefox 4 to 18 */
+    color: #CBC5E1;
+    opacity: 1;
 }
-.loginInputStyle::-moz-placeholder { /* Mozilla Firefox 19+ */
-   color:    #CBC5E1;
-   opacity:  1;
+
+.loginInputStyle::-moz-placeholder {
+    /* Mozilla Firefox 19+ */
+    color: #CBC5E1;
+    opacity: 1;
 }
-.loginInputStyle:-ms-input-placeholder { /* Internet Explorer 10-11 */
-   color:    #CBC5E1;
+
+.loginInputStyle:-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: #CBC5E1;
 }
 
 p.recover {
@@ -806,9 +867,11 @@ p.recover {
     color: #FFF;
 }
 
+
 /* Lista zadań */
+
 .milestoneElement {
-     background-image: url(stripes.png) !important;
+    background-image: url(stripes.png) !important;
     background-repeat: repeat-y !important;
     background-size: 33px 90px !important;
     background-position: top left !important;
@@ -820,16 +883,18 @@ p.recover {
 .milestoneHeader {
     font-size: 17px;
     font-family: 'Hurme Geometric Sans 4 SemiBold';
-    color:#31198B;
+    color: #31198B;
 }
-.milerstoneDate  {
+
+.milerstoneDate {
     font-size: 36px;
     font-family: 'Hurme Geometric Sans 4 SemiBold';
-    color:#000;
+    color: #000;
 }
+
 .milerstoneDes {
     font-size: 12px;
-    color:#4A4A4A;
+    color: #4A4A4A;
 }
 
 .charMiniLabel {
@@ -842,15 +907,15 @@ p.recover {
 }
 
 .prioFinished {
-    background-color:#513897 !important;
+    background-color: #513897 !important;
 }
 
 .prioImportant {
-    background-color:#E32C35 !important;
+    background-color: #E32C35 !important;
 }
 
 .prioNormal {
-    background-color:#FFD100 !important;
+    background-color: #FFD100 !important;
 }
 
 .dodatkoweOsoby {
@@ -864,7 +929,6 @@ p.recover {
     line-height: 12px;
     font-size: 12px;
     color: #4A4A4A;
-    
 }
 
 .emptyState {
@@ -878,9 +942,9 @@ p.recover {
 }
 
 #newTask {
-    color:#000;
+    color: #000;
     font-size: 17px;
-    font-family: 'Hurme Geometric Sans 4 SemiBold'; 
+    font-family: 'Hurme Geometric Sans 4 SemiBold';
     padding-left: 45px;
     line-height: 38px;
     background-image: url('add.png');
@@ -890,7 +954,7 @@ p.recover {
     background-size: 38px 38px;
     margin-top: 30px;
     position: fixed;
-    bottom:20px;
+    bottom: 20px;
     margin-left: -83px;
     left: 50%;
 }
@@ -905,10 +969,11 @@ p.recover {
     padding-bottom: 30px;
     background: #FFF;
 }
+
 .chartsBig .half {
     width: 50%;
     float: left;
-    border-right:solid 1px #CCC;
+    border-right: solid 1px #CCC;
     box-sizing: border-box;
 }
 
@@ -918,11 +983,11 @@ p.recover {
     position: absolute;
     width: 100%;
     left: 0px;
-     font-family: 'Hurme Geometric Sans 4 SemiBold'; 
+    font-family: 'Hurme Geometric Sans 4 SemiBold';
 }
 
 .chartLabel {
-    font-family: 'Hurme Geometric Sans 4 SemiBold'; 
+    font-family: 'Hurme Geometric Sans 4 SemiBold';
     text-align: center;
     color: #000;
     font-size: 12px;
@@ -930,23 +995,26 @@ p.recover {
     margin-bottom: 9px;
 }
 
-.chartHours .detail, .chartMoney .detail, .chartTask .detail {
+.chartHours .detail,
+.chartMoney .detail,
+.chartTask .detail {
     font-weight: 100;
     text-align: center;
     color: #4A4A4A;
-    font-size: 10px;*
+    font-size: 10px;
+    *
 }
 
 .statBigElement {
     width: 90%;
     margin: auto;
-    font-family: 'Hurme Geometric Sans 4 SemiBold'; 
-    font-size: 22px; 
+    font-family: 'Hurme Geometric Sans 4 SemiBold';
+    font-size: 22px;
     text-align: center;
 }
 
 .statBigElement.borderBottom {
-    border-bottom:solid 1px #CCC;
+    border-bottom: solid 1px #CCC;
     padding-bottom: 5px;
 }
 
@@ -958,7 +1026,7 @@ p.recover {
     padding-left: 70px;
     height: auto;
     width: 100%;
-        box-sizing: border-box;
+    box-sizing: border-box;
     padding-right: 60px;
 }
 
@@ -975,15 +1043,15 @@ p.recover {
     background-size: 59px 189px;
 }
 
-
 .icon.none {
     padding-left: 0px;
     background-image: none;
 }
+
 .actionButtonHolder {
     position: absolute;
     right: 8px;
-    top:15px;
+    top: 15px;
 }
 
 .actionButtonHolder .addPromo {
@@ -1005,14 +1073,14 @@ p.recover {
 }
 
 .actionInfo {
-    padding:8px;
+    padding: 8px;
     margin-top: 8px;
     border: solid 1px #FFD100;
-    color:#FFD100;
+    color: #FFD100;
     width: 100%;
     font-size: 12px;
-    animation:fadeIn 500ms 1;
-    -webkit-animation:fadeIn 500ms 1;
+    animation: fadeIn 500ms 1;
+    -webkit-animation: fadeIn 500ms 1;
 }
 
 textarea.text-input {
@@ -1051,7 +1119,7 @@ textarea.text-input {
 
 .searchbar input {
     width: 100%;
-    border:0px;
+    border: 0px;
     padding: 10px;
     background-color: #FFF;
     box-sizing: border-box;
@@ -1059,12 +1127,12 @@ textarea.text-input {
 
 #pac-input {
     width: 100%;
-    border:solid 13px #000;
+    border: solid 13px #000;
     background-color: #FFF;
     box-sizing: border-box;
     position: relative;
     padding: 10px;
-    border-radius:0px !Important;
+    border-radius: 0px !Important;
 }
 
 .searchbar .loopIcon {
@@ -1074,15 +1142,14 @@ textarea.text-input {
     background: url(serchicon.png);
     background-size: 24px 24px;
     right: 13px;
-    top:50%;
+    top: 50%;
     margin-top: -12px;
 }
-
 
 h3 {
     font-size: 17px !important;
     margin-left: 15px;
-    font-family: 'Hurme Geometric Sans 4 SemiBold'; 
+    font-family: 'Hurme Geometric Sans 4 SemiBold';
     margin-bottom: 5px;
     margin-top: 20px;
 }
@@ -1090,7 +1157,6 @@ h3 {
 .pac-container {
     display: none !important;
 }
-
 
 .locationBig {
     padding: 15px;
@@ -1111,7 +1177,7 @@ h3 {
 .locationBig h3 {
     margin: 0px;
     margin-bottom: 5px;
-    color:#000;
+    color: #000;
 }
 
 span#lokalizacjaZadania {
@@ -1119,7 +1185,7 @@ span#lokalizacjaZadania {
     line-height: 16px !important;
     padding-top: 15px;
     text-align: left !important;
-        width: 100%;
+    width: 100%;
 }
 
 textarea#opisZadania {
@@ -1132,7 +1198,7 @@ textarea#opisZadania {
 .flex2 {
     -webkit-box-flex: 2 !important;
     flex: 2 !important;
-    text-align:left !important;
+    text-align: left !important;
 }
 
 input#nazwaProjektu {
@@ -1149,7 +1215,6 @@ input#nazwaProjektu {
     height: 100%;
 }
 
-
 .more {
     height: auto !Important;
     min-height: 500px;
@@ -1162,7 +1227,6 @@ input#nazwaProjektu {
     height: 100%;
 }
 
-
 p.opis {
     padding: 15px;
     padding-right: 50px;
@@ -1172,7 +1236,7 @@ p.opis {
 
 .singleSection {
     padding-bottom: 15px;
-    border-top:solid 1px #979797;
+    border-top: solid 1px #979797;
 }
 
 .singleSection .locationBig {
@@ -1186,7 +1250,7 @@ p.opis {
 
 .priorytet {
     font-size: 17px;
-    font-family: 'Hurme Geometric Sans 4 SemiBold'; 
+    font-family: 'Hurme Geometric Sans 4 SemiBold';
     margin-top: 10px;
     display: block;
 }
@@ -1207,42 +1271,36 @@ p.opis {
     color: #1E0E54;
 }
 
-
 @-webkit-keyframes fadeInDown {
-  from {
-    opacity: 0;
-    -webkit-transform: translate3d(0, -100%, 0);
-    transform: translate3d(0, -100%, 0);
-  }
-
-  to {
-    opacity: 1;
-    -webkit-transform: none;
-    transform: none;
-  }
+    from {
+        opacity: 0;
+        -webkit-transform: translate3d(0, -100%, 0);
+        transform: translate3d(0, -100%, 0);
+    }
+    to {
+        opacity: 1;
+        -webkit-transform: none;
+        transform: none;
+    }
 }
 
 @keyframes fadeInDown {
-  from {
-    opacity: 0;
-    -webkit-transform: translate3d(0, -100%, 0);
-    transform: translate3d(0, -100%, 0);
-  }
-
-  to {
-    opacity: 1;
-    -webkit-transform: none;
-    transform: none;
-  }
+    from {
+        opacity: 0;
+        -webkit-transform: translate3d(0, -100%, 0);
+        transform: translate3d(0, -100%, 0);
+    }
+    to {
+        opacity: 1;
+        -webkit-transform: none;
+        transform: none;
+    }
 }
-
-
 
 .komentarz {
     padding: 15px;
     background-color: #FFF;
     position: relative;
-
 }
 
 .komentarz .lewy .tooltip {
@@ -1250,7 +1308,7 @@ p.opis {
     padding: 15px;
     border: solid 1px #E9E9E9;
     background-color: #FFFFFF;
-    color:#4B4B4B;
+    color: #4B4B4B;
     font-size: 14px;
     line-height: 16px;
 }
@@ -1260,11 +1318,10 @@ p.opis {
     padding: 15px;
     border: solid 1px #513897;
     background-color: #513897;
-    color:#FFFFFF;
+    color: #FFFFFF;
     font-size: 14px;
     line-height: 16px;
 }
-
 
 .komentarz .tooltip p {
     margin: 0px;
@@ -1274,7 +1331,7 @@ p.opis {
     width: 10px;
     height: 10px;
     position: absolute;
-    background:url(arrow-commentWhite.png);
+    background: url(arrow-commentWhite.png);
     background-size: 10px 10px;
     background-repeat: no-repeat;
     left: 68px;
@@ -1285,7 +1342,7 @@ p.opis {
     width: 10px;
     height: 10px;
     position: absolute;
-    background:url(arrow-commentPurple.png);
+    background: url(arrow-commentPurple.png);
     background-size: 10px 10px;
     background-repeat: no-repeat;
     right: 68px;
@@ -1294,22 +1351,22 @@ p.opis {
 
 .komentarz .lewy .avatarHolder {
     position: absolute;
-    left:15px;
-    top:15px;
-     text-align: center;
+    left: 15px;
+    top: 15px;
+    text-align: center;
 }
 
 .komentarz .prawy .avatarHolder {
     position: absolute;
-    right:15px;
-    top:15px;
+    right: 15px;
+    top: 15px;
     text-align: right;
 }
 
 .komentarz .avatarHolder .person {
-    width:42px;
+    width: 42px;
     height: 42px;
-    border-radius:50%;
+    border-radius: 50%;
     background-size: cover;
     position: relative;
     display: inline-block;
@@ -1335,7 +1392,7 @@ p.opis {
 
 .commentForm .inputHolder {
     padding-right: 69px;
-    position:relative;
+    position: relative;
     width: 100%;
     box-sizing: border-box;
 }
@@ -1346,7 +1403,7 @@ p.opis {
     box-sizing: border-box;
     position: relative;
     padding: 10px;
-    border-radius:0px !Important;
+    border-radius: 0px !Important;
 }
 
 .commentForm .inputHolder .acceptButton {
@@ -1360,45 +1417,45 @@ p.opis {
     font-weight: bold;
 }
 
-/* timer */
-@-webkit-keyframes slideInUp {
-  from {
-    -webkit-transform: translate3d(0, 100%, 0);
-    transform: translate3d(0, 100%, 0);
-    visibility: visible;
-  }
 
-  to {
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-  }
+/* timer */
+
+@-webkit-keyframes slideInUp {
+    from {
+        -webkit-transform: translate3d(0, 100%, 0);
+        transform: translate3d(0, 100%, 0);
+        visibility: visible;
+    }
+    to {
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+    }
 }
 
 @keyframes slideInUp {
-  from {
-    -webkit-transform: translate3d(0, 100%, 0);
-    transform: translate3d(0, 100%, 0);
-    visibility: visible;
-  }
-
-  to {
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-  }
+    from {
+        -webkit-transform: translate3d(0, 100%, 0);
+        transform: translate3d(0, 100%, 0);
+        visibility: visible;
+    }
+    to {
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+    }
 }
 
-  .over {
-            position: fixed;
-            bottom: 0px;
-            left: 0px;
-            width: 100%;
-            padding: 15px;
-            box-sizing: border-box;
-            background-color: #E32C35;
-            z-index: 9998;
-            animation:slideInUp 500ms 1;
-            -webkit-animation:slideInUp 500ms 1;
-            border-top: solid 1px #A72026;
+.over {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    padding: 15px;
+    box-sizing: border-box;
+    background-color: #E32C35;
+    z-index: 9998;
+    animation: slideInUp 500ms 1;
+    -webkit-animation: slideInUp 500ms 1;
+    border-top: solid 1px #A72026;
 }
 
 .timerHolder {
@@ -1412,97 +1469,95 @@ p.opis {
     height: 32px;
     position: absolute;
     left: 0px;
-    top:0px;
-    background:url(timerBg.png);
-    background-size:32px 32px;
+    top: 0px;
+    background: url(timerBg.png);
+    background-size: 32px 32px;
     background-repeat: no-repeat;
 }
 
+@-webkit-keyframes rotating
+/* Safari and Chrome */
 
-@-webkit-keyframes rotating /* Safari and Chrome */ {
-  from {
-    -ms-transform: rotate(0deg);
-    -moz-transform: rotate(0deg);
-    -webkit-transform: rotate(0deg);
-    -o-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  to {
-    -ms-transform: rotate(360deg);
-    -moz-transform: rotate(360deg);
-    -webkit-transform: rotate(360deg);
-    -o-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
+{
+    from {
+        -ms-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    to {
+        -ms-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
 }
+
 @keyframes rotating {
-  from {
-    -ms-transform: rotate(0deg);
-    -moz-transform: rotate(0deg);
-    -webkit-transform: rotate(0deg);
-    -o-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  to {
-    -ms-transform: rotate(360deg);
-    -moz-transform: rotate(360deg);
-    -webkit-transform: rotate(360deg);
-    -o-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
+    from {
+        -ms-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    to {
+        -ms-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
 }
 
 @-webkit-keyframes zoomIn {
-  from {
-    opacity: 0;
-    transform: scale3d(.3, .3, .3);
-  }
-
-  50% {
-    opacity: 1;
-  }
+    from {
+        opacity: 0;
+        transform: scale3d(.3, .3, .3);
+    }
+    50% {
+        opacity: 1;
+    }
 }
 
 @keyframes zoomIn {
-  from {
-    opacity: 0;
-    transform: scale3d(.3, .3, .3);
-  }
-
-  50% {
-    opacity: 1;
-  }
+    from {
+        opacity: 0;
+        transform: scale3d(.3, .3, .3);
+    }
+    50% {
+        opacity: 1;
+    }
 }
-
-
 
 .timerHolder .clockAnimation {
     width: 32px;
-    
     height: 32px;
     position: absolute;
     left: 0px;
-    top:0px;
-    background:url(timerarrow.png);
-    background-size:32px 32px;
+    top: 0px;
+    background: url(timerarrow.png);
+    background-size: 32px 32px;
     background-repeat: no-repeat;
 }
 
 .animateClock {
     -webkit-animation: rotating 15s linear infinite;
-  -moz-animation: rotating 15s linear infinite;
-  -ms-animation: rotating 15s linear infinite;
-  -o-animation: rotating 15s linear infinite;
-  animation: rotating 15s linear infinite;
+    -moz-animation: rotating 15s linear infinite;
+    -ms-animation: rotating 15s linear infinite;
+    -o-animation: rotating 15s linear infinite;
+    animation: rotating 15s linear infinite;
 }
 
 #spinnerIcon {
     -webkit-animation: rotating 2s linear infinite;
-  -moz-animation: rotating 2s linear infinite;
-  -ms-animation: rotating 2s linear infinite;
-  -o-animation: rotating 2s linear infinite;
-  animation: rotating 2s linear infinite;
-   background:url(spinner.png);
+    -moz-animation: rotating 2s linear infinite;
+    -ms-animation: rotating 2s linear infinite;
+    -o-animation: rotating 2s linear infinite;
+    animation: rotating 2s linear infinite;
+    background: url(spinner.png);
     background-size: 32px 32px;
     width: 100px;
     height: 100px;
@@ -1513,25 +1568,25 @@ p.opis {
 #spinnerOk {
     width: 100px;
     height: 100px;
-    color:#FFF;
+    color: #FFF;
     text-align: center;
     line-height: 100px;
     font-size: 30px;
-       -webkit-animation: zoomIn 1s linear 1;
-  -moz-animation: zoomIn 1s linear 1;
-  -ms-animation: zoomIn 1s linear 1;
-  -o-animation: zoomIn 1s linear 1;
-  animation: zoomIn 1s linear 1;
+    -webkit-animation: zoomIn 1s linear 1;
+    -moz-animation: zoomIn 1s linear 1;
+    -ms-animation: zoomIn 1s linear 1;
+    -o-animation: zoomIn 1s linear 1;
+    animation: zoomIn 1s linear 1;
 }
 
 #spinner {
     width: 100px;
     height: 100px;
     position: fixed;
-    border-radius:20px;
+    border-radius: 20px;
     background-color: rgba(0, 0, 0, 0.9);
     left: 50%;
-    top:50%;
+    top: 50%;
     margin-left: -50px;
     margin-top: -50px;
     text-align: center;
@@ -1543,7 +1598,7 @@ div#clockdiv {
     color: #FFF;
     font-size: 16px;
     font-weight: bold;
-      font-family: 'Hurme Geometric Sans 4 SemiBold'; 
+    font-family: 'Hurme Geometric Sans 4 SemiBold';
 }
 
 div#clockTaskName {
@@ -1555,11 +1610,11 @@ div#clockTaskName {
     font-size: 32px;
     color: #FFF;
     right: 0px;
-    top:-2px;
+    top: -2px;
 }
 
 .nfcImage {
-    width:192px;
+    width: 192px;
     height: 192px;
     margin: auto;
     display: block;
@@ -1568,8 +1623,8 @@ div#clockTaskName {
 }
 
 .nfcHeader {
-    color:#FFF;
+    color: #FFF;
     text-align: center;
-    font-family: 'Hurme Geometric Sans 4 SemiBold'; 
-    font-size:22px;
+    font-family: 'Hurme Geometric Sans 4 SemiBold';
+    font-size: 22px;
 }

@@ -154,10 +154,10 @@
                 </div>
             </ons-toolbar>
             <div>
-              <form class="loginStyle">
-              <h2 class="nfcHeader">Przypisz użytkownika/ów do tego zadania wykorzystując NFC</h2>
-               <img src="css/NFC.png" class="nfcImage"/>
-                <a class="submitButton" id="shareNFC">rozpocznij udospępnianie</a>
+                <form class="loginStyle">
+                    <h2 class="nfcHeader">Przypisz użytkownika/ów do tego zadania wykorzystując NFC</h2>
+                    <img src="css/NFC.png" class="nfcImage" />
+                    <a class="submitButton" id="shareNFC">rozpocznij udospępnianie</a>
                 </form>
             </div>
 
@@ -185,7 +185,7 @@
                     <ons-toolbar-button onclick="projectCreated++;navi.pushPage('newproject.html', { animation : 'slide' } );">
                         <ons-icon icon="ion-plus-round" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
                     </ons-toolbar-button>
-                    
+
                 </div>
             </ons-toolbar>
             <ons-carousel swipeable overscrollable auto-scroll auto-refresh fullscreen var="carousel" ng-controller="MasterController" class="tabDashboard" style="overflow:hidden; height:0px;">
@@ -252,7 +252,7 @@
                     </label>
                 </div>
             </ons-tapbar>
-            <ons-list ng-controller="MasterController" style="display:block;" class="tabProjekty">
+            <ons-list ng-controller="MasterController" style="display:block;" class="tabProjekty" id="tabProjektyHome">
                 <ons-list-item modifier="chevron" class="item" ng-repeat="item in items" ng-click="showDetail($index)">
                     <ons-row>
                         <ons-col>
@@ -324,7 +324,7 @@
     </ons-template>
     //FUTURE: Ekran pojedyncze zadania
     <ons-template id="singleTask.html">
-        <ons-page ng-controller="SingleTask" ng-init="RebuildTerms()">
+        <ons-page ng-controller="SingleTask">
 
             <ons-toolbar>
                 <div class="left">
@@ -334,13 +334,13 @@
                 </div>
                 <div class="center">{{shortname}}</div>
                 <div class="right">
-                    <ons-toolbar-button ng-if="item.ukonczoneDisplay=='none' && isUserIn(item.idZadania, projekt.idProjekt, currentuser[0].idUser)">
+                    <ons-toolbar-button ng-if="item.ukonczoneDisplay=='none' && isUserIn(item.idZadania, projekt.idProjekt, currentuser[0].idUser) ">
                         <ons-icon icon="ion-android-time" fixed-width="false" style="font-size: 26px; vertical-align: -4px" ng-click="startTimer(item.idZadania, projekt.idProjekt, currentuser[0].idUser)"></ons-icon>
                     </ons-toolbar-button>
-                    <ons-toolbar-button ng-if="item.ukonczoneDisplay=='none' && isUserIn(item.idZadania, projekt.idProjekt, currentuser[0].idUser)">
+                    <ons-toolbar-button ng-if="item.ukonczoneDisplay=='none' && (isUserIn(item.idZadania, projekt.idProjekt, currentuser[0].idUser) || projekt.idUser == currentuser[0].idUser)">
                         <ons-icon icon="ion-checkmark-circled" fixed-width="false" style="font-size: 26px; vertical-align: -4px" ng-click="markAsComplete(item.idZadania, projekt.idProjekt)"></ons-icon>
                     </ons-toolbar-button>
-                    <ons-toolbar-button ng-if="isAndroidTest() && item.ukonczoneDisplay=='none'">
+                    <ons-toolbar-button ng-if="isAndroidTest() && item.ukonczoneDisplay=='none' && projekt.idUser == currentuser[0].idUser">
                         <ons-icon icon="ion-android-wifi" fixed-width="false" style="font-size: 26px; vertical-align: -4px" ng-click="startNFC(item.idZadania, projekt.idProjekt)"></ons-icon>
                     </ons-toolbar-button>
 
@@ -364,7 +364,7 @@
                 </div>
             </ons-tapbar>
             <div id="informacjeTab">
-                <ons-col ng-click="showTask(item.idZadania)">
+                <ons-col>
                     <div class="basicItem subtask single" style="display:{{item.basicItem}};">
                         <div class="avatarHolder">
                             <div class="person" style="background-image:url({{item.avatarPierwszejOsoby}})"></div>
@@ -1596,7 +1596,7 @@
 
 
             function shareNFC() {
-               
+
             }
 
 
@@ -1621,6 +1621,26 @@
                     }
 
                     $('#tabZadania .chartMini2').each(function (e) {
+                        if ($(this).find('canvas').length) {
+                            newpercent = $(this).attr('data-percent');
+                            $(this).data('easyPieChart').update(newpercent);
+                        } else {
+                            $(this).easyPieChart({
+                                size: 50,
+                                lineWidth: 3,
+                                barColor: '#25007C',
+                                trackColor: '#F7F7F7',
+                                scaleColor: '#FAFAFD',
+                                lineCap: 'square',
+                                easing: 'easeOutBounce',
+                                onStep: function (from, to, percent) {
+                                    $(this.el).find('.percent').text(Math.round(percent));
+                                }
+                            });
+                        }
+                    });
+
+                    $('#tabProjektyHome .chartMini').each(function (e) {
                         if ($(this).find('canvas').length) {
                             newpercent = $(this).attr('data-percent');
                             $(this).data('easyPieChart').update(newpercent);
@@ -2096,26 +2116,26 @@
                     $('#capturePhoto').click(function () {
                         captureImage();
                     });
-                    
-                    var share=0;
 
-                   $('#shareNFC2').click(function () {
-                        if(share==0) {
-                        share=1;
-                        shareNFC();
+                    var share = 0;
+
+                    $('#shareNFC2').click(function () {
+                        if (share == 0) {
+                            share = 1;
+                            shareNFC();
                             $(this).text('zakończ udostępnianie');
                         } else {
-                            share=0;
+                            share = 0;
                             $(this).text('rozpocznij udostępnianie');
                         }
-                        
-                       
-                    }); 
-                    
-                    
-                    var lisen=0;
-                    $('#lisenNFC').click(function() {
-                        lisen=1;
+
+
+                    });
+
+
+                    var lisen = 0;
+                    $('#lisenNFC').click(function () {
+                        lisen = 1;
                         lisenNFC();
                         alert('slucham');
                     })

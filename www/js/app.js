@@ -427,28 +427,28 @@
             navi.pushPage('nfcShare.html', {
                 animation: 'slide'
             });
-             var mimeType = 'text/pg';
-                var payload = 'Hello Bzone';
-                var record = ndef.mimeMediaRecord(mimeType, nfc.stringToBytes(payload));
+            var mimeType = 'text/pg';
+            var payload = 'Hello Bzone';
+            var record = ndef.mimeMediaRecord(mimeType, nfc.stringToBytes(payload));
 
-                nfc.share(
+            nfc.share(
             [record],
-                    function () {
-                        if (bb10) {
+                function () {
+                    if (bb10) {
 
-                        } else if (windowsphone) {
-                            // Windows phone calls success immediately. Bug?
-                            $scope.notifyUser("Sharing Message");
-                        } else {
-                            alert("Sent Message to Peer");
-                        }
-                    },
-                    function (reason) {
-                        alert("Failed to share tag " + reason);
-                        checkbox.checked = false;
+                    } else if (windowsphone) {
+                        // Windows phone calls success immediately. Bug?
+                        $scope.notifyUser("Sharing Message");
+                    } else {
+                        alert("Sent Message to Peer");
                     }
-                );
-            
+                },
+                function (reason) {
+                    alert("Failed to share tag " + reason);
+                    checkbox.checked = false;
+                }
+            );
+
         }
 
         $scope.stopNFC = function (zadanie, projekt) {
@@ -462,14 +462,15 @@
             );
             navi.popPage();
         }
-        
-        
+
+
         $scope.lisenNFC = function () {
             alert('słucham');
-             function parseTag(nfcEvent) {
+
+            function parseTag(nfcEvent) {
                 alert('pobrano');
                 var records = nfcEvent.tag;
-                var record='';
+                var record = '';
                 alert(records.id);
                 alert(records.ndefMessage[0].payload[1]);
                 for (var i = 0; i < records.ndefMessage[0].payload.length; i++) {
@@ -477,8 +478,8 @@
                 }
                 alert(record);
             }
-            
-            
+
+
             nfc.addMimeTypeListener(
                 'text/pg', parseTag,
                 function () {
@@ -489,7 +490,7 @@
                 }
             );
         }
-        
+
 
         var timeinterval;
 
@@ -558,8 +559,7 @@
                 clearInterval(timeinterval);
                 $('.clockAnimation').removeClass('animateClock');
                 $('#timer').fadeOut();
-                alert(minutes - czasStartu);
-                alert(kasagr - kasaStartu);
+
                 foundTask[0].budzetGodzinowyWykorzystanie += (minutes - czasStartu);
                 foundTask[0].budzetPienieznyWykorzystanie += (kasagr - kasaStartu);
                 foundUserProject[0].czasUzytkownika += (minutes - czasStartu);
@@ -614,215 +614,9 @@
             }
 
         }
-        $scope.isUserIn = function (zadanie, projekt, user) {
-            var found;
-            var foundTask;
-            var foundUser;
-            console.log(projekt);
-            console.log(zadanie);
-
-            found = $filter('filter')($projekty.items, {
-                idProjekt: projekt
-            }, true);
-
-            console.log(found[0].tytul);
-
-            foundTask = $filter('filter')(found[0].zadania, {
-                idZadania: zadanie
-            }, true);
 
 
 
-            //FUCK!
-            var przypisany = true;
-            angular.forEach(foundTask[0].przypisaneOsoby, function (userp, index) {
-                if (userp.idUser == user) {
-                    przypisany = true;
-                }
-            });
-
-            console.log(przypisany);
-
-
-
-
-
-
-            return przypisany;
-
-        }
-
-
-        //FUTURE: Mark Task As Complete
-        $scope.markAsComplete = function (zadanie, projekt) {
-            //NOTE: AS complete
-            var currentLocationLat;
-            var currentLocationLong;
-            var tmpLocation;
-            var found;
-            var foundTask;
-
-            var onSuccess = function (position) {
-                currentLocationLat = position.coords.latitude;
-                currentLocationLong = position.coords.longitude;
-                tmpLocation = tmpLocation.replace('(', '');
-                tmpLocation = tmpLocation.replace(')', '');
-                tmpLocation = tmpLocation.split(',');
-                var tmpLat = tmpLocation[0];
-                var tmpLong = tmpLocation[1];
-                var distance = getDistanceFromLatLonInKm(currentLocationLat, currentLocationLong, tmpLat, tmpLong);
-                alert(distance);
-
-                if (distance < 0.3) {
-
-                    var today = new Date();
-                    var dd = today.getDate();
-                    var mm = today.getMonth() + 1;
-                    var yyyy = today.getFullYear();
-                    var gg = today.getHours();
-                    var min = today.getMinutes();
-                    var orderKey = orderKeyGen(dd, mm, yyyy, gg, min, 0);
-                    if (dd < 10) {
-                        dd = '0' + dd
-                    }
-                    if (mm < 10) {
-                        mm = '0' + mm
-                    }
-                    if (gg < 10) {
-                        gg = '0' + gg
-                    }
-                    if (min < 10) {
-                        min = '0' + min
-                    }
-                    today = dd + '.' + mm + '.' + yyyy + ' ' + gg + ':' + min;
-
-
-
-                    var newLog = $scope.addLogElement(projekt, $scope.user.idUser, 'koniecZadania', '', $scope.user.imienazwisko, $scope.user.avatar, today, 0);
-
-                    var item = {
-                        idLog: newLog,
-                        typ: 'koniecZadania',
-                        data: today,
-                        dataPrezentacja: 'Dziś - ' + gg + ':' + min,
-                        odczytane: 0
-                    }
-                    found[0].log.push(item);
-
-
-
-                    foundTask[0].ukonczoneDisplay = 'block';
-                    foundTask[0].priorytet = 'prioFinished';
-                    $.ajax({
-                        type: "POST",
-                        url: url,
-                        data: {
-                            idZadania: foundTask[0].idZadania,
-                            finishTask: ''
-                        },
-                        crossDomain: true,
-                        cache: false,
-                        beforeSend: function () {},
-                        success: function () {}
-                    });
-                    $scope.$apply();
-                    $scope.$root.$broadcast("updateTerms");
-                } else {
-                    ons.notification.alert({
-                        message: 'Musisz być w odpowiedniej lokalizacji, by zakonczyć to zadanie',
-                        title: 'Za daleko',
-                        buttonLabel: 'OK',
-                        animation: 'default',
-                        callback: function () {}
-                    });
-                }
-            };
-
-            function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
-                var R = 6371; // Radius of the earth in km
-                var dLat = deg2rad(lat2 - lat1); // deg2rad below
-                var dLon = deg2rad(lon2 - lon1);
-                var a =
-                    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
-                    Math.sin(dLon / 2) * Math.sin(dLon / 2);
-                var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-                var d = R * c; // Distance in km
-                return d;
-            }
-
-            function deg2rad(deg) {
-                return deg * (Math.PI / 180)
-            }
-
-            found = $filter('filter')($projekty.items, {
-                idProjekt: projekt
-            }, true);
-            foundTask = $filter('filter')(found[0].zadania, {
-                idZadania: zadanie
-            }, true);
-            if (foundTask[0].latLngPosition == '' || !foundTask[0].latLngPosition) {
-                foundTask[0].ukonczoneDisplay = 'block';
-                foundTask[0].priorytet = 'prioFinished';
-
-
-                var today = new Date();
-                var dd = today.getDate();
-                var mm = today.getMonth() + 1;
-                var yyyy = today.getFullYear();
-                var gg = today.getHours();
-                var min = today.getMinutes();
-                var orderKey = orderKeyGen(dd, mm, yyyy, gg, min, 0);
-                if (dd < 10) {
-                    dd = '0' + dd
-                }
-                if (mm < 10) {
-                    mm = '0' + mm
-                }
-                if (gg < 10) {
-                    gg = '0' + gg
-                }
-                if (min < 10) {
-                    min = '0' + min
-                }
-                today = dd + '.' + mm + '.' + yyyy + ' ' + gg + ':' + min;
-
-
-
-                var newLog = $scope.addLogElement(projekt, $scope.user.idUser, 'koniecZadania', '', $scope.user.imienazwisko, $scope.user.avatar, today, 0);
-
-                var item = {
-                    idLog: newLog,
-                    typ: 'koniecZadania',
-                    data: today,
-                    dataPrezentacja: 'Dziś - ' + gg + ':' + min,
-                    odczytane: 0
-                }
-                found[0].log.push(item);
-
-
-
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: {
-                        idZadania: foundTask[0].idZadania,
-                        finishTask: ''
-                    },
-                    crossDomain: true,
-                    cache: false,
-                    beforeSend: function () {},
-                    success: function () {}
-                });
-                $scope.$root.$broadcast("updateTerms");
-            } else {
-                alert('sprawdzanie poprawności lokalizacji');
-                var options = {};
-                tmpLocation = foundTask[0].latLngPosition;
-                navigator.geolocation.getCurrentPosition(onSuccess, null, options);
-            }
-
-        }
 
 
         $scope.goToDashboard = function () {
@@ -1126,13 +920,207 @@
         }
 
 
+        //FUTURE: Mark Task As Complete
+        $scope.markAsComplete = function (zadanie, projekt) {
+            //NOTE: AS complete
+
+            var currentLocationLat;
+            var currentLocationLong;
+            var tmpLocation;
+            var found;
+            var foundTask;
+
+            var onSuccess = function (position) {
+                currentLocationLat = position.coords.latitude;
+                currentLocationLong = position.coords.longitude;
+                tmpLocation = tmpLocation.replace('(', '');
+                tmpLocation = tmpLocation.replace(')', '');
+                tmpLocation = tmpLocation.split(',');
+                var tmpLat = tmpLocation[0];
+                var tmpLong = tmpLocation[1];
+                var distance = getDistanceFromLatLonInKm(currentLocationLat, currentLocationLong, tmpLat, tmpLong);
+                alert(distance);
+
+                if (distance < 0.3) {
+
+                    var today = new Date();
+                    var dd = today.getDate();
+                    var mm = today.getMonth() + 1;
+                    var yyyy = today.getFullYear();
+                    var gg = today.getHours();
+                    var min = today.getMinutes();
+                    var orderKey = orderKeyGen(dd, mm, yyyy, gg, min, 0);
+                    if (dd < 10) {
+                        dd = '0' + dd
+                    }
+                    if (mm < 10) {
+                        mm = '0' + mm
+                    }
+                    if (gg < 10) {
+                        gg = '0' + gg
+                    }
+                    if (min < 10) {
+                        min = '0' + min
+                    }
+                    today = dd + '.' + mm + '.' + yyyy + ' ' + gg + ':' + min;
+
+
+
+                    var newLog = $scope.addLogElement(projekt, $scope.user.idUser, 'koniecZadania', '', $scope.user.imienazwisko, $scope.user.avatar, today, 0);
+
+                    var item = {
+                        idLog: newLog,
+                        typ: 'koniecZadania',
+                        data: today,
+                        dataPrezentacja: 'Dziś - ' + gg + ':' + min,
+                        odczytane: 0
+                    }
+
+
+                    $scope.projekt.log.push(item);
+
+
+
+
+                    $scope.item.ukonczoneDisplay = 'block';
+                    $scope.item.priorytet = 'prioFinished';
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: {
+                            idZadania: $scope.item.idZadania,
+                            finishTask: ''
+                        },
+                        crossDomain: true,
+                        cache: false,
+                        beforeSend: function () {},
+                        success: function () {}
+                    });
+                    $scope.$apply();
+                    $scope.$root.$broadcast("updateTerms");
+                } else {
+                    ons.notification.alert({
+                        message: 'Musisz być w odpowiedniej lokalizacji, by zakonczyć to zadanie',
+                        title: 'Za daleko',
+                        buttonLabel: 'OK',
+                        animation: 'default',
+                        callback: function () {}
+                    });
+                }
+            };
+
+            function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+                var R = 6371; // Radius of the earth in km
+                var dLat = deg2rad(lat2 - lat1); // deg2rad below
+                var dLon = deg2rad(lon2 - lon1);
+                var a =
+                    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+                    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+                var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                var d = R * c; // Distance in km
+                return d;
+            }
+
+            function deg2rad(deg) {
+                return deg * (Math.PI / 180)
+            }
+
+
+            if ($scope.item.latLngPosition == '' || !$scope.item.latLngPosition) {
+                $scope.item.ukonczoneDisplay = 'block';
+                $scope.item.priorytet = 'prioFinished';
+                $scope.$apply;
+
+                var today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth() + 1;
+                var yyyy = today.getFullYear();
+                var gg = today.getHours();
+                var min = today.getMinutes();
+                var orderKey = orderKeyGen(dd, mm, yyyy, gg, min, 0);
+                if (dd < 10) {
+                    dd = '0' + dd
+                }
+                if (mm < 10) {
+                    mm = '0' + mm
+                }
+                if (gg < 10) {
+                    gg = '0' + gg
+                }
+                if (min < 10) {
+                    min = '0' + min
+                }
+                today = dd + '.' + mm + '.' + yyyy + ' ' + gg + ':' + min;
+
+
+
+                var newLog = $scope.addLogElement(projekt, $scope.user.idUser, 'koniecZadania', '', $scope.user.imienazwisko, $scope.user.avatar, today, 0);
+
+                var item = {
+                    idLog: newLog,
+                    typ: 'koniecZadania',
+                    data: today,
+                    dataPrezentacja: 'Dziś - ' + gg + ':' + min,
+                    odczytane: 0
+                }
+
+
+
+                $scope.projekt.log.push(item);
+
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: {
+                        idZadania: $scope.item.idZadania,
+                        finishTask: ''
+                    },
+                    crossDomain: true,
+                    cache: false,
+                    beforeSend: function () {},
+                    success: function () {}
+                });
+                $scope.$root.$broadcast("updateTerms");
+            } else {
+                alert('sprawdzanie poprawności lokalizacji');
+                var options = {};
+                tmpLocation = $scope.item.latLngPosition;
+                navigator.geolocation.getCurrentPosition(onSuccess, null, options);
+            }
+
+        }
+
+
+        $scope.isUserIn = function (zadanie, projekt, user) {
+
+
+
+
+
+            //FUCK!
+            var przypisany = false;
+            angular.forEach($scope.item.przypisaneOsoby, function (userp, index) {
+                if (userp.idUser == user) {
+                    przypisany = true;
+                }
+            });
+
+
+            return przypisany;
+
+        }
+
+
+
         $scope.closeSingleTask = function () {
             navi.popPage();
             $scope.$root.$broadcast("updateTerms");
             $('#commentForm').css('display', 'none');
         }
 
-        $scope.shortname = $scope.item.nazwa.substring(0, 15) + '...',
+        $scope.shortname = String($scope.item.nazwa).substring(0, 15) + '...',
 
             $scope.addComment = function () {
 
@@ -1602,10 +1590,9 @@
                     cache: false,
                     beforeSend: function () {},
                     success: function (data) {
-                        var idZadania = data;
-
+                        var idZadania = parseInt(data);
                         var zadanie = {
-                            idZadania: data,
+                            idZadania: parseInt(data),
                             orderKey: orderKey,
                             basicItem: 'block',
                             data: dataGlobal,
@@ -1939,10 +1926,31 @@
             $scope.item.budzetGodzinowyWykorzystanie = budzetGodzinowyWykorzystanieGlobal;
             $scope.item.ukonczoneZadania = iloscZadanUkonczonychGlobal;
             $scope.item.wszystkieZadania = iloscZadanGlobal;
+
+            var ukonczenieProjektu = Math.floor(iloscZadanUkonczonychGlobal / iloscZadanGlobal * 100);
+            $scope.item.procentUkonczeniaProjektu = ukonczenieProjektu;
+
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: {
+                    idProjekt: $scope.item.idProjekt,
+                    procentUkonczeniaProjektu: $scope.item.procentUkonczeniaProjektu,
+                    updateProjectCompletion: ''
+                },
+                crossDomain: true,
+                cache: false,
+                beforeSend: function () {},
+                success: function (data) {}
+            });
+
+
             $scope.item.zadaniaPrzypisaneDoUzytkownika = 0;
             $scope.item.zadaniaNieprzypisane = nieprzypisaneGlobal;
             $scope.item.zadaniaPoTerminie = zadaniaPoTerminieGlobal;
             $scope.item.zadaniaPrzekroczonyBudzet = zadaniaZPrzekroczonymBudzetemGlobal;
+            $scope.$apply;
 
 
         }
@@ -2720,7 +2728,7 @@
                     idUser: userID
                 }, true);
 
-                alert(found);
+
 
                 //project.kasaUzytkownika=found[0].kasaUzytkownika;
 
@@ -2781,4 +2789,3 @@
     });
 
 })();
-
