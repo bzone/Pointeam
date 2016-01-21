@@ -1955,11 +1955,18 @@
 
         }
 
+
+        $scope.dodajZasob = function () {
+            navi.pushPage('addZasob.html', {
+                animation: 'slide'
+            });
+        }
+
         $scope.projectOptions = function () {
             ons.notification.confirm({
                 title: 'Opcje projektu',
                 message: "co chcesz zrobić?",
-                buttonLabels: ['Dodaj zadanie', 'Zarządzaj osobami', 'Zarządzaj terminami', 'Zarządzaj budżetem', 'Zakończ projekt'],
+                buttonLabels: ['Dodaj zadanie', 'Zarządzaj osobami', 'Zarządzaj terminami', 'Zarządzaj budżetem', 'Dodaj zasób', 'Zakończ projekt', 'Anuluj'],
                 primaryButtonIndex: 0,
                 callback: function (index) {
                     if (index == 0) {
@@ -1983,6 +1990,14 @@
                         });
                     }
                     if (index == 4) {
+                        navi.pushPage('addZasob.html', {
+                            animation: 'slide'
+                        });
+                    }
+                    if (index == 6) {
+
+                    }
+                    if (index == 5) {
                         $scope.item.zamkniety = 'tak';
                         var today = new Date();
                         var dd = today.getDate();
@@ -2014,6 +2029,31 @@
                         }
                         $scope.item.log.push(item);
                         $scope.$apply();
+                    }
+                }
+            });
+        };
+
+
+        $scope.projectOptionsUser = function () {
+            ons.notification.confirm({
+                title: 'Opcje projektu',
+                message: "co chcesz zrobić?",
+                buttonLabels: ['Zgłoś koszt', 'Zgłoś wykorzystanie zasobu', 'Anuluj'],
+                primaryButtonIndex: 0,
+                callback: function (index) {
+                    if (index == 0) {
+                        navi.pushPage('addCost.html', {
+                            animation: 'slide'
+                        });
+                    }
+                    if (index == 1) {
+                        navi.pushPage('addUse.html', {
+                            animation: 'slide'
+                        });
+                    }
+                    if (index == 2) {
+
                     }
                 }
             });

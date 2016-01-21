@@ -536,6 +536,9 @@
                     <ons-toolbar-button id="projectOptions" ng-if="!item.zamkniety && isAdmin(item.idProjekt)">
                         <ons-icon icon="ion-more" fixed-width="false" style="font-size: 26px; vertical-align: -4px" ng-click="projectOptions()"></ons-icon>
                     </ons-toolbar-button>
+                    <ons-toolbar-button id="projectOptions" ng-if="!item.zamkniety && !isAdmin(item.idProjekt)">
+                        <ons-icon icon="ion-more" fixed-width="false" style="font-size: 26px; vertical-align: -4px" ng-click="projectOptionsUser()"></ons-icon>
+                    </ons-toolbar-button>
                 </div>
             </ons-toolbar>
             <ons-tapbar position="top" class="homeTabs" ng-if="isAdmin(item.idProjekt)">
@@ -550,6 +553,12 @@
                         <input type="radio" name="top-tab-bar-b">
                         <button class="tab-bar__button tab-bar--top-border__button">
                             Budżet
+                        </button>
+                    </label>
+                    <label class="tab-bar__item tab-bar--top-border__item" id="goToZasoby">
+                        <input type="radio" name="top-tab-bar-b">
+                        <button class="tab-bar__button tab-bar--top-border__button">
+                            Zasoby
                         </button>
                     </label>
                     <label class="tab-bar__item tab-bar--top-border__item" id="goToPostep">
@@ -572,6 +581,12 @@
                         <input type="radio" name="top-tab-bar-b">
                         <button class="tab-bar__button tab-bar--top-border__button">
                             Statystyki
+                        </button>
+                    </label>
+                    <label class="tab-bar__item tab-bar--top-border__item" id="goToZasoby" ng-if="item.zasoby">
+                        <input type="radio" name="top-tab-bar-b">
+                        <button class="tab-bar__button tab-bar--top-border__button">
+                            Zasoby
                         </button>
                     </label>
                 </div>
@@ -653,6 +668,12 @@
                     </ons-row>
                 </ons-list-item>
             </ons-list>
+            <div style="display:none;" class="tabZasoby" id="tabZasoby">
+
+                <div class="emptyState"></div>
+                <div id="newTask" style="display:none;" ng-if="isAdmin(item.idProjekt)" ng-click="dodajZasob()">Dodaj zasób</div>
+
+            </div>
             <div style="display:none;" class="tabBudzet" id="tabBudzet">
                 <div class="chartsBig">
                     <div class="half" ng-if="item.budzetGodzinowy=='tak'">
@@ -1546,6 +1567,48 @@
     </ons-template>
 
 
+
+    <ons-template id="addZasob.html">
+        <ons-page ng-controller="DetailController">
+            <ons-toolbar>
+                <div class="left">
+                    <ons-toolbar-button onclick="navi.popPage();">
+                        <ons-icon icon="ion-chevron-left" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+                <div class="center">Dodaj zasób</div>
+                <div class="right">
+                    <ons-toolbar-button>
+                        <ons-icon icon="ion-checkmark-circled" fixed-width="false" style="font-size: 26px; vertical-align: -4px" ng-click="updateBudget()"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+            </ons-toolbar>
+
+            <ul class="list ">
+                <li class="list__header">Budżet</li>
+                <li class="list__item" ng-if="item.budzetPieniezny=='tak'">
+                    <ons-row align="center" class="row ons-row-inner row-center">
+                        <ons-col class="col ons-col-inner">Pieniądze</ons-col>
+                        <ons-col class="col ons-col-inner">
+                            <select id="newMoneyBudget" class="inputClear optionGenerator" data-count="1000" data-step="250" data-unit="zł" data-min="{{item.budzetPienieznyWykorzystanie}}" data-select="{{item.budzetPienieznyWartosc}}">
+                            </select>
+                        </ons-col>
+                    </ons-row>
+                </li>
+                <li class="list__item" ng-if="item.budzetGodzinowy=='tak'">
+                    <ons-row align="center" class="row ons-row-inner row-center">
+                        <ons-col class="col ons-col-inner">Godziny</ons-col>
+                        <ons-col class="col ons-col-inner">
+                            <select id="newHourBudget" class="inputClear optionGenerator" data-count="5000" data-step="1" data-unit="h" data-min="{{item.budzetGodzinowyWykorzystanie}}" data-select="{{item.budzetGodzinowyWartosc}}">
+                            </select>
+                        </ons-col>
+                    </ons-row>
+                </li>
+            </ul>
+        </ons-page>
+    </ons-template>
+
+
     <script>
         var projectCreated = 0;
         jQuery(document).ready(function ($) {
@@ -1771,6 +1834,7 @@
                     $('#goToBudzet').click(function () {
                         $('.tabZadania').css('display', 'none');
                         $('.tabPostep').css('display', 'none');
+                        $('.tabZasoby').css('display', 'none');
                         $('.tabBudzet').css('display', 'block');
                         $('.emptyAll').css('display', 'none');
                         $('.chartHours').easyPieChart({
@@ -1881,11 +1945,36 @@
                     });
 
 
+                    $('#goToZasoby').click(function () {
+                        $('.tabZadania').css('display', 'none');
+                        $('.tabPostep').css('display', 'none');
+                        $('.tabStatystyki').css('display', 'none');
+                        $('.tabBudzet').css('display', 'none');
+                        $('.tabZasoby').css('display', 'none');
+                        $('.emptyAll').css('display', 'none');
+                        $('.tabZasoby').css('display', 'block');
+                        $('.chartTask').easyPieChart({
+                            size: 148,
+                            lineWidth: 5,
+                            barColor: '#25007C',
+                            trackColor: '#F7F7F7',
+                            scaleColor: '#FAFAFD',
+                            lineCap: 'square',
+                            easing: 'easeOutBounce',
+                            onStep: function (from, to, percent) {
+                                $(this.el).find('.percent').text(Math.round(percent));
+                            }
+                        });
+                    });
+
+
                     $('#goToPostep').click(function () {
                         $('.tabZadania').css('display', 'none');
                         $('.tabPostep').css('display', 'block');
                         $('.tabBudzet').css('display', 'none');
+                        $('.tabZasoby').css('display', 'none');
                         $('.emptyAll').css('display', 'none');
+                        $('.tabZasoby').css('display', 'none');
                         $('.chartTask').easyPieChart({
                             size: 148,
                             lineWidth: 5,
@@ -1904,6 +1993,7 @@
                         $('.tabZadania').css('display', 'none');
                         $('.tabPostep').css('display', 'none');
                         $('.tabStatystyki').css('display', 'block');
+                        $('.tabZasoby').css('display', 'none');
                         $('.tabBudzet').css('display', 'none');
                         $('.emptyAll').css('display', 'none');
                         $('.chartTask').easyPieChart({
