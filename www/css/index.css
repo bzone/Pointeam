@@ -1657,7 +1657,8 @@ p.infoBox {
     width: 42px;
     height: 42px;
     border-radius: 50%;
-    background-size: cover;position: absolute;
+    background-size: cover;
+    position: absolute;
     left: 10px;
     display: block;
     float: left;
@@ -1671,7 +1672,7 @@ p.infoBox {
 
 .notificationBox span.imie {
     font-size: 12px;
-      display:block;
+    display: block;
 }
 
 .notificationBox .infoBox {
@@ -1683,4 +1684,75 @@ p.infoBox {
     background-color: transparent;
     border-color: #4A4A4A;
     font-size: 12px;
+}
+
+.acceptNotification {
+    display: block;
+    position: absolute;
+    right: 5px;
+    width: 37px;
+    height: 37px;
+    background-image: url(remove.png);
+    background-size: contain;
+    top: 50%;
+    background-repeat: no-repeat;
+    margin-top: -19px;
+}
+
+.answereNotification {
+    display: block;
+    position: absolute;
+    right: 5px;
+    width: 37px;
+    height: 37px;
+    background-image: url(answere.png);
+    background-size: contain;
+    top: 50%;
+    background-repeat: no-repeat;
+    margin-top: -19px;
+}
+
+.zasob {
+    border-bottom: solid 1px #E8E5E5;
+}
+
+.zasobHeader {
+    padding: 15px;
+    background-color: #FFF;
+    line-height: 13px;
+    color: #4A4A4A;
+    font-size: 12px;
+    position: relative;
+    padding-right: 60px;
+    border-bottom: solid 1px #E8E5E5;
+}
+
+.zasobHeader .nazwaZasobu {
+    font-size: 17px;
+    font-family: 'Hurme Geometric Sans 4 SemiBold';
+    padding-bottom: 8px;
+}
+
+.zasobHeader .iloscRezerwacji {
+    color: #32188F;
+    margin-top: 5px;
+}
+
+.zasob .reserve {
+    color: #000;
+    background-image: url('add.png');
+    background-repeat: no-repeat;
+    display: block;
+    background-size: 38px 38px;
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    width: 38px;
+    height: 38px;
+    margin-top: -19px;
+}
+
+.brakRezerwacji {
+    padding: 10px;
+    text-align: center;
 }

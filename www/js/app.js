@@ -362,7 +362,7 @@
                                     project.zadania = angular.fromJson(data).zadania;
                                     project.terminy = angular.fromJson(data).terminy;
                                     project.koszty = angular.fromJson(data).koszty;
-
+                                    project.zasoby = angular.fromJson(data).zasoby;
 
                                     var found = $filter('filter')(project.przypisaneOsoby, {
                                         idUser: $scope.user.idUser
@@ -1349,25 +1349,224 @@
 
     });
 
+    module.controller('ZasobController', function ($scope, $projekty, $filter, $bazauzytkownikow, $currentUser) {
+        $scope.item = $projekty.selectedZasob;
+        $scope.currentuser = $currentUser.items;
+        $scope.currentuser = $scope.currentuser[0];
+
+        $scope.reserveZasobNow = function (idZasobu) {
+            var dataOd = $('#rezerwacjaOd input').val();
+            var dataDo = $('#rezerwacjaDo input').val();
+
+            if (dataOd == '' || dataDo == '') {
+                ons.notification.alert({
+                    message: 'Podaj wszystkie dane',
+                    title: 'Brak daty',
+                    buttonLabel: 'OK',
+                    animation: 'default',
+                    callback: function () {}
+                });
+            } else {
+                var dd = dataOd.substring(8, 10);
+                var mm = dataOd.substring(5, 7);
+                var yyyy = dataOd.substring(0, 4);
+                var gg = dataOd.substring(11, 13);
+                var min = dataOd.substring(14, 16);
+                var data = dd + '.' + mm + '.' + yyyy + ' ' + gg + ':' + min;
+                var orderKey = orderKeyGen(dd, mm, yyyy, gg, min, 0);
+
+                var dd2 = dataDo.substring(8, 10);
+                var mm2 = dataDo.substring(5, 7);
+                var yyyy2 = dataDo.substring(0, 4);
+                var gg2 = dataDo.substring(11, 13);
+                var min2 = dataDo.substring(14, 16);
+                var data2 = dd2 + '.' + mm2 + '.' + yyyy2 + ' ' + gg2 + ':' + min2;
+                var orderKey2 = orderKeyGen(dd2, mm2, yyyy2, gg2, min2, 0);
+
+
+                if (mm == '01') {
+                    mm = 'STY';
+                }
+                if (mm == '02') {
+                    mm = 'LUT';
+                }
+                if (mm == '03') {
+                    mm = 'MAR';
+                }
+                if (mm == '04') {
+                    mm = 'KWI';
+                }
+                if (mm == '05') {
+                    mm = 'MAJ';
+                }
+                if (mm == '06') {
+                    mm = 'CZE';
+                }
+                if (mm == '07') {
+                    mm = 'LIP';
+                }
+                if (mm == '08') {
+                    mm = 'SIE';
+                }
+                if (mm == '09') {
+                    mm = 'WRZ';
+                }
+                if (mm == '10') {
+                    mm = 'PAZ';
+                }
+                if (mm == '11') {
+                    mm = 'LIS';
+                }
+                if (mm == '12') {
+                    mm = 'GRU';
+                }
+
+
+                if (orderKey >= orderKey2) {
+                    ons.notification.alert({
+                        message: 'Data końcowa nie może być mniejsza niż data początku',
+                        title: 'Niepoprawne daty',
+                        buttonLabel: 'OK',
+                        animation: 'default',
+                        callback: function () {}
+                    });
+                } else {
+                    if (!$scope.item.rezerwacje) {
+                        alert('dodaje');
+                        $.ajax({
+                            type: "POST",
+                            url: url,
+                            data: {
+                                idZasob: $scope.item.idZasob,
+                                imie: $scope.currentuser.imie,
+                                avatar: $scope.currentuser.avatar,
+                                dzien: dd,
+                                miesiac: mm,
+                                dataOd: data,
+                                dataDo: data2,
+                                odOrder: orderKey,
+                                doOrder: orderKey2,
+                                submitReservationToBase: ''
+                            },
+                            crossDomain: true,
+                            cache: false,
+                            beforeSend: function () {},
+                            success: function (idRezerwacji) {
+                                var item = {
+                                    idRezerwacji: idRezerwacji,
+                                    idZasob: $scope.item.idZasob,
+                                    imie: $scope.currentuser.imie,
+                                    avatar: $scope.currentuser.avatar,
+                                    dzien: dd,
+                                    miesiac: mm,
+                                    dataOd: data,
+                                    dataDo: data2,
+                                    odOrder: orderKey,
+                                    doOrder: orderKey2,
+                                }
+                                if ($scope.item.rezerwacje) {
+                                    $scope.item.rezerwacje.push(item);
+                                } else {
+                                    $scope.item.rezerwacje = [];
+                                    $scope.item.rezerwacje.push(item);
+                                }
+                                navi.popPage();
+                            }
+                        });
+                    } else {
+                        var error = false;
+                        angular.forEach($scope.item.rezerwacje, function (rezerwacja, index) {
+                            0
+                            alert(rezerwacja.idRezerwacji);
+                            if (orderKey >= rezerwacja.odOrder && orderKey <= rezerwacja.doOrder) {
+                                error = true;
+                            }
+                            if (orderKey2 >= rezerwacja.odOrder && orderKey2 <= rezerwacja.doOrder) {
+                                error = true;
+                            }
+                            if (rezerwacja.odOrder >= orderKey && rezerwacja.doOrder <= orderKey2) {
+                                error = true;
+                            }
+                        });
+                        if (error) {
+                            ons.notification.alert({
+                                message: 'Okres rezerwacji nie może pokrywać się z inną rezerwacją',
+                                title: 'Niepoprawne daty',
+                                buttonLabel: 'OK',
+                                animation: 'default',
+                                callback: function () {}
+                            });
+                        } else {
+                            alert('dodaje');
+                            $.ajax({
+                                type: "POST",
+                                url: url,
+                                data: {
+                                    idZasob: $scope.item.idZasob,
+                                    imie: $scope.currentuser.imie,
+                                    avatar: $scope.currentuser.avatar,
+                                    dzien: dd,
+                                    miesiac: mm,
+                                    dataOd: data,
+                                    dataDo: data2,
+                                    odOrder: orderKey,
+                                    doOrder: orderKey2,
+                                    submitReservationToBase: ''
+                                },
+                                crossDomain: true,
+                                cache: false,
+                                beforeSend: function () {},
+                                success: function (idRezerwacji) {
+                                    var item = {
+                                        idRezerwacji: idRezerwacji,
+                                        idZasob: $scope.item.idZasob,
+                                        imie: $scope.currentuser.imie,
+                                        avatar: $scope.currentuser.avatar,
+                                        dzien: dd,
+                                        miesiac: mm,
+                                        dataOd: data,
+                                        dataDo: data2,
+                                        odOrder: orderKey,
+                                        doOrder: orderKey2,
+                                    }
+                                    if ($scope.item.rezerwacje) {
+                                        $scope.item.rezerwacje.push(item);
+                                    } else {
+                                        $scope.item.rezerwacje = [];
+                                        $scope.item.rezerwacje.push(item);
+                                    }
+                                    navi.popPage();
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+
     module.controller('DetailController', function ($scope, $projekty, $filter, $bazauzytkownikow, $currentUser) {
         $scope.item = $projekty.selectedItem;
         $scope.baza = $bazauzytkownikow.items;
+        $scope.rezerwacja = "";
+        var rezerwacja = 0;
         $scope.currentuser = $currentUser.items;
         var dodatkowePunkty = 0;
-
 
         $scope.item.krotkitytul = $scope.item.tytul.substring(0, 15) + '...';
         $scope.$on("updateTerms", function (event) {
             $scope.RebuildTerms();
         });
 
-
         $scope.acceptNotification = function (idKoszt) {
             var found = $filter('filter')($scope.item.koszty, {
                 idKoszt: idKoszt
             }, true);
 
-            found[0].zaakceptowanyUser = 1;
+            $('.notificationBox[data-koszt="' + idKoszt + '"]').fadeOut("fast", function () {
+                found[0].zaakceptowanyUser = 1;
+            });
 
             $.ajax({
                 type: "POST",
@@ -1381,7 +1580,60 @@
                 beforeSend: function () {},
                 success: function (data) {}
             });
+        }
 
+        $scope.acceptCost = function (idKoszt) {
+            var found = $filter('filter')($scope.item.koszty, {
+                idKoszt: idKoszt
+            }, true);
+
+            ons.notification.confirm({
+                title: 'Akceptacja kosztu',
+                message: "Czy chcesz zaakceptować koszt?",
+                buttonLabels: ['Tak', 'Nie', 'Anuluj'],
+                primaryButtonIndex: 0,
+                callback: function (index) {
+                    if (index == 0) {
+                        $('.notificationBox[data-koszt="' + idKoszt + '"]').fadeOut("fast", function () {
+                            found[0].zaakceptowanyAdmin = 1;
+                        });
+
+                        $.ajax({
+                            type: "POST",
+                            url: url,
+                            data: {
+                                idKoszt: idKoszt,
+                                zaakceptowanyAdmin: 1,
+                                answereNotification: ''
+                            },
+                            crossDomain: true,
+                            cache: false,
+                            beforeSend: function () {},
+                            success: function (data) {}
+                        });
+                    }
+                    if (index == 1) {
+                        $('.notificationBox[data-koszt="' + idKoszt + '"]').fadeOut("fast", function () {
+                            found[0].zaakceptowanyAdmin = 2;
+                        });
+
+                        $.ajax({
+                            type: "POST",
+                            url: url,
+                            data: {
+                                idKoszt: idKoszt,
+                                zaakceptowanyAdmin: 2,
+                                answereNotification: ''
+                            },
+                            crossDomain: true,
+                            cache: false,
+                            beforeSend: function () {},
+                            success: function (data) {}
+                        });
+                    }
+                    if (index == 2) {}
+                }
+            });
         }
 
 
@@ -1533,9 +1785,7 @@
                     min = data.substring(14, 16);
 
                 } else {
-                    alert(data);
                     dd = data.substring(8, 10);
-                    alert(dd)
                     mm = data.substring(5, 7);
                     yyyy = data.substring(0, 4);
                     gg = data.substring(11, 13);
@@ -2002,6 +2252,12 @@
                 }
             });
 
+            angular.forEach($scope.item.koszty, function (koszt, index) {
+                if (koszt.zaakceptowanyAdmin == 1) {
+                    budzetPienieznyWykorzystanieGlobal += koszt.kwota;
+                }
+            });
+
             $scope.item.budzetPienieznyWykorzystanie = budzetPienieznyWykorzystanieGlobal;
             $scope.item.budzetGodzinowyWykorzystanie = budzetGodzinowyWykorzystanieGlobal;
             $scope.item.ukonczoneZadania = iloscZadanUkonczonychGlobal;
@@ -2035,11 +2291,71 @@
 
         }
 
-
         $scope.dodajZasob = function () {
             navi.pushPage('addZasob.html', {
                 animation: 'slide'
             });
+        }
+
+        $scope.reserveZasob = function (idZasobu) {
+            var foundCheck = $filter('filter')($scope.item.zasoby, {
+                idZasob: idZasobu
+            }, true);
+
+            $projekty.selectedZasob = foundCheck[0];
+            navi.pushPage('reserveZasob.html', {
+                animation: 'slide'
+            });
+        }
+
+
+        $scope.addZasob = function () {
+            var idProjekt = $scope.item.idProjekt;
+            var opis = $('#opisZasob').val();
+            var nazwa = $('#nazwaZasob').val();
+            var idUser = $scope.currentuser[0].idUser;
+            var imie = $scope.currentuser[0].imie;
+            var avatar = $scope.currentuser[0].avatar;
+
+            if (nazwa == '') {
+                ons.notification.alert({
+                    message: 'Podaj nazwę zasobu',
+                    title: 'Brak nazwy',
+                    buttonLabel: 'OK',
+                    animation: 'default',
+                    callback: function () {}
+                });
+            } else {
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: {
+                        idProjekt: idProjekt,
+                        nazwa: nazwa,
+                        opis: opis,
+                        submitZasobToBase: ''
+                    },
+                    crossDomain: true,
+                    cache: false,
+                    beforeSend: function () {},
+                    success: function (data) {
+                        var item = {
+                            idZasob: data,
+                            idProjekt: idProjekt,
+                            nazwa: nazwa,
+                            opis: opis,
+                        }
+                        if ($scope.item.zasoby) {
+                            $scope.item.zasoby.push(item);
+                        } else {
+                            $scope.item.zasoby = [];
+                            $scope.item.zasoby.push(item);
+                        }
+                        navi.popPage();
+                    }
+                });
+            }
         }
 
         $scope.projectOptions = function () {
@@ -2119,7 +2435,7 @@
             ons.notification.confirm({
                 title: 'Opcje projektu',
                 message: "co chcesz zrobić?",
-                buttonLabels: ['Zgłoś koszt', 'Zgłoś wykorzystanie zasobu', 'Anuluj'],
+                buttonLabels: ['Zgłoś koszt', 'Anuluj'],
                 primaryButtonIndex: 0,
                 callback: function (index) {
                     if (index == 0) {
@@ -2128,11 +2444,6 @@
                         });
                     }
                     if (index == 1) {
-                        navi.pushPage('addUse.html', {
-                            animation: 'slide'
-                        });
-                    }
-                    if (index == 2) {
 
                     }
                 }
@@ -2584,11 +2895,7 @@
                                 }
                                 $scope.item.zadania.push(zadanie);
                                 $scope.item.terminy.push(termin);
-
-
                                 $scope.$apply();
-
-
                             }
                         });
                     }
@@ -2808,6 +3115,30 @@
 
             var ilosczadan = 0;
             var iterator = 0;
+
+
+
+            if (selectedItem.zasoby) {
+                angular.forEach(selectedItem.zasoby, function (zasob, index) {
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: {
+                            idZasob: zasob.idZasob,
+                            getReservations: ''
+                        },
+                        crossDomain: true,
+                        cache: false,
+                        beforeSend: function () {},
+                        success: function (data) {
+                            zasob.rezerwacje = angular.fromJson(data).rezerwacje;
+                        }
+                    });
+                });
+            }
+
+
+
             if (selectedItem.zadania) {
                 ilosczadan = selectedItem.zadania.length;
 
@@ -2838,6 +3169,11 @@
                     });
                 });
             }
+
+
+
+
+
         };
 
         $scope.projectDetails = function () {

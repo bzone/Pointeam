@@ -592,21 +592,28 @@
                 </div>
             </ons-tapbar>
             <div class="notifications" ng-if="!isAdmin(item.idProjekt)">
-                <div class="notificationBox" ng-repeat="koszt in item.koszty | orderBy:'idKoszt'" ng-if="koszt.zaakceptowanyAdmin==1 && koszt.zaakceptowanyUser==0 && currentuser[0].idUser == koszt.idUser">
+                <div class="notificationBox" data-koszt="{{koszt.idKoszt}}" ng-repeat="koszt in item.koszty | orderBy:'idKoszt'" ng-if="koszt.zaakceptowanyAdmin==1 && koszt.zaakceptowanyUser==0 && currentuser[0].idUser == koszt.idUser">
                     <div class="person" style="background-image:url({{koszt.avatar}})"></div>
                     <span class="nazwa">Zgłoszony koszt: {{koszt.nazwa}} - </span><span class="cena">{{koszt.kwota/100 | number:2}}zł</span>
                     <!-- <span class="imie">{{koszt.imie}}</span>-->
                     <p class="infoBox">koszt zaakceptowany</p>
-                    <a class="acceptNotification" ng-click="acceptNotification(koszt.idKoszt)">akcept</a>
+                    <a class="acceptNotification" ng-click="acceptNotification(koszt.idKoszt)"></a>
                 </div>
-                <div class="notificationBox" ng-repeat="koszt in item.koszty | orderBy:'idKoszt'" ng-if="koszt.zaakceptowanyAdmin==2 && koszt.zaakceptowanyUser==0 && currentuser[0].idUser == koszt.idUser">
+                <div class="notificationBox" data-koszt="{{koszt.idKoszt}}" ng-repeat="koszt in item.koszty | orderBy:'idKoszt'" ng-if="koszt.zaakceptowanyAdmin==2 && koszt.zaakceptowanyUser==0 && currentuser[0].idUser == koszt.idUser">
                     <div class="person" style="background-image:url({{koszt.avatar}})"></div>
                     <span class="nazwa">Zgłoszony koszt: {{koszt.nazwa}} - </span><span class="cena">{{koszt.kwota/100 | number:2}}zł</span>
                     <!-- <span class="imie">{{koszt.imie}}</span>-->
                     <p class="infoBox">koszt odrzucony</p>
-                    <a class="acceptNotification" ng-click="acceptNotification(koszt.idKoszt)">akcept</a>
+                    <a class="acceptNotification" ng-click="acceptNotification(koszt.idKoszt)"></a>
                 </div>
-
+            </div>
+            <div class="notifications" ng-if="isAdmin(item.idProjekt)">
+                <div class="notificationBox" data-koszt="{{koszt.idKoszt}}" ng-repeat="koszt in item.koszty | orderBy:'idKoszt'" ng-if="koszt.zaakceptowanyAdmin==0">
+                    <div class="person" style="background-image:url({{koszt.avatar}})"></div>
+                    <span class="nazwa">Zgłoszony koszt: {{koszt.nazwa}} - </span><span class="cena">{{koszt.kwota/100 | number:2}}zł</span>
+                    <!-- <span class="imie">{{koszt.imie}}</span>-->
+                    <a class="answereNotification" ng-click="acceptCost(koszt.idKoszt)"></a>
+                </div>
             </div>
             <div ng-if="!item.zadania" class="emptyAll">
                 <div class="emptyState"></div>
@@ -686,10 +693,40 @@
                 </ons-list-item>
             </ons-list>
             <div style="display:none;" class="tabZasoby" id="tabZasoby">
+                <div ng-if="!item.zasoby">
+                    <div class="emptyState"></div>
+                    <div id="newTask" style="display:none;" ng-if="isAdmin(item.idProjekt)" ng-click="dodajZasob()">Dodaj zasób</div>
+                </div>
+                <div ng-if="item.zasoby.length>0">
+                    <div ng-repeat="zasob in item.zasoby | orderBy:'idZasob'" class="zasob">
+                        <div class="zasobHeader">
+                            <div class="nazwaZasobu">{{zasob.nazwa}}</div>
+                            <div class="opisZasobu">{{zasob.opis}}</div>
+                            <div ng-if="!zasob.rezerwacje" class="iloscRezerwacji">brak rezerwacji</div>
+                            <div ng-if="zasob.rezerwacje" class="iloscRezerwacji">rezerwacje: {{zasob.rezerwacje.length}}</div>
+                            <div class="reserve" ng-click="reserveZasob(zasob.idZasob)"></div>
+                        </div>
+                        <div class="rezerwacja" ng-repeat="rezerwacja in zasob.rezerwacje | orderBy:'orderKey'">
+                            <div class="basicItem subtask" style="height: 52px; border-bottom: solid 1px #E8E5E5;">
+                                <div class="avatarHolder">
+                                    <div class="person" style="background-image:url({{rezerwacja.avatar}})"></div>
+                                    <div class="clear"></div>
 
-                <div class="emptyState"></div>
-                <div id="newTask" style="display:none;" ng-if="isAdmin(item.idProjekt)" ng-click="dodajZasob()">Dodaj zasób</div>
+                                </div>
+                                <div class="dateHolder prioFinished" style="height: 67px;">
+                                    <div class="day">{{rezerwacja.dzien}}</div>
+                                    <div class="mounth">{{rezerwacja.miesiac}}</div>
+                                </div>
+                                <div class="taskTitle" style="margin-bottom:-17px;">{{rezerwacja.imie}}</div>
+                                <div class="infoElements">
+                                    <div class="icon time"> {{rezerwacja.dataOd}} - {{rezerwacja.dataDo}}</div>
 
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
             </div>
             <div style="display:none;" class="tabBudzet" id="tabBudzet">
                 <div class="chartsBig">
@@ -734,7 +771,7 @@
                 <ul class="list ">
                     <li class="list__header" id="budgetType">Koszty - zmień <i class="icon ion-android-arrow-dropdown"></i>
                     </li>
-                    <ons-list-item modifier="chevron" class="item typeAll typeKoszt" ng-repeat="osoba in item.przypisaneOsoby | orderBy:'-kasaUzytkownika'" ng-click="showDetail($index)">
+                    <ons-list-item modifier="chevron" class="item typeAll typeKoszt" ng-repeat="osoba in item.przypisaneOsoby | orderBy:'-kasaUzytkownika'">
                         <ons-row>
                             <ons-col>
                                 <div class="basicItem subtask" style="display:{{zadanie.basicItem}};">
@@ -758,7 +795,28 @@
                             </ons-col>
                         </ons-row>
                     </ons-list-item>
-                    <ons-list-item modifier="chevron" class="item typeAll typeCzas" style="display:none;" ng-repeat="osoba in item.przypisaneOsoby | orderBy:'-czasUzytkownika'" ng-click="showDetail($index)">
+                    <ons-list-item modifier="chevron" class="item typeAll typeKosztyDodatkowe" ng-repeat="osoba in item.koszty | orderBy:'-kwota'" ng-if="osoba.zaakceptowanyAdmin==1">
+                        <ons-row>
+                            <ons-col>
+                                <div class="basicItem subtask" style="display:{{zadanie.basicItem}};">
+                                    <div class="avatarHolder">
+                                        <div class="person" style="background-image:url({{osoba.avatar}})"></div>
+                                        <div class="clear"></div>
+
+                                    </div>
+                                    <div class="dateHolder prioFinished">
+                                        <div class="day">0{{$index+1}}</div>
+                                    </div>
+                                    <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.nazwa}}</div>
+                                    <div class="taskTitle" style="margin-bottom:-10px;">{{osoba.kwota/100 | number:2}}zł</div>
+                                    <div class="infoElements">
+                                        <div class='icon none'>{{osoba.imie}}</div>
+                                    </div>
+                                </div>
+                            </ons-col>
+                        </ons-row>
+                    </ons-list-item>
+                    <ons-list-item modifier="chevron" class="item typeAll typeCzas" style="display:none;" ng-repeat="osoba in item.przypisaneOsoby | orderBy:'-czasUzytkownika'">
                         <ons-row>
                             <ons-col>
                                 <div class="basicItem subtask" style="display:{{zadanie.basicItem}};">
@@ -1596,31 +1654,86 @@
                 <div class="center">Dodaj zasób</div>
                 <div class="right">
                     <ons-toolbar-button>
-                        <ons-icon icon="ion-checkmark-circled" fixed-width="false" style="font-size: 26px; vertical-align: -4px" ng-click="updateBudget()"></ons-icon>
+                        <ons-icon icon="ion-checkmark-circled" fixed-width="false" style="font-size: 26px; vertical-align: -4px" ng-click="addZasob()"></ons-icon>
                     </ons-toolbar-button>
                 </div>
             </ons-toolbar>
+            <ul class="list">
+                <li class="list__header">Informacje o zasobie</li>
+                <li class="list__item">
+                    <ons-row align="center" class="row ons-row-inner row-center">
+                        <ons-col class="col ons-col-inner">Nazwa*</ons-col>
+                        <ons-col class="col ons-col-inner flex2">
+                            <input type="text" class="text-input text-input--transparent inputWithLabel" id="nazwaZasob" placeholder="Nowy zasób">
+                        </ons-col>
+                    </ons-row>
+                </li>
+                <li class="list__item">
+                    <ons-row class="row ons-row-inner">
+                        <ons-col class="col ons-col-inner">Opis</ons-col>
+                        <ons-col class="col ons-col-inner flex2">
+                            <textarea class="text-input text-input--transparent inputWithLabel" id="opisZasob" placeholder="Dodatkowe informacje"></textarea>
+                        </ons-col>
+                    </ons-row>
+                </li>
+            </ul>
+        </ons-page>
+    </ons-template>
 
-            <ul class="list ">
-                <li class="list__header">Budżet</li>
-                <li class="list__item" ng-if="item.budzetPieniezny=='tak'">
-                    <ons-row align="center" class="row ons-row-inner row-center">
-                        <ons-col class="col ons-col-inner">Pieniądze</ons-col>
-                        <ons-col class="col ons-col-inner">
-                            <select id="newMoneyBudget" class="inputClear optionGenerator" data-count="1000" data-step="250" data-unit="zł" data-min="{{item.budzetPienieznyWykorzystanie}}" data-select="{{item.budzetPienieznyWartosc}}">
-                            </select>
+    <ons-template id="reserveZasob.html">
+        <ons-page ng-controller="ZasobController">
+            <ons-toolbar>
+                <div class="left">
+                    <ons-toolbar-button onclick="navi.popPage();">
+                        <ons-icon icon="ion-chevron-left" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+                <div class="center">Zarezerwuj zasób</div>
+                <div class="right">
+                    <ons-toolbar-button>
+                        <ons-icon icon="ion-checkmark-circled" fixed-width="false" style="font-size: 26px; vertical-align: -4px" ng-click="reserveZasobNow(item.idZasob)"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+            </ons-toolbar>
+            <ul class="list">
+                <li class="list__header">Wybierz okres rezerwacji</li>
+                <li class="list__item" id="rezerwacjaOd">
+                    <ons-row align="center" class="row ons-row-inner row-center" style="padding-right:8px;">
+                        <ons-col class="col ons-col-inner">Od</ons-col>
+                        <ons-col class="col ons-col-inner flex2" style="padding-right:20px;">
+                            <input type="datetime-local" value="2015-12-00T12:00:00" step="1" class="inputClear" style="margin-right:20px;">
                         </ons-col>
                     </ons-row>
                 </li>
-                <li class="list__item" ng-if="item.budzetGodzinowy=='tak'">
-                    <ons-row align="center" class="row ons-row-inner row-center">
-                        <ons-col class="col ons-col-inner">Godziny</ons-col>
-                        <ons-col class="col ons-col-inner">
-                            <select id="newHourBudget" class="inputClear optionGenerator" data-count="5000" data-step="1" data-unit="h" data-min="{{item.budzetGodzinowyWykorzystanie}}" data-select="{{item.budzetGodzinowyWartosc}}">
-                            </select>
+                <li class="list__item" id="rezerwacjaDo">
+                    <ons-row align="center" class="row ons-row-inner row-center" style="padding-right:8px;">
+                        <ons-col class="col ons-col-inner">Do</ons-col>
+                        <ons-col class="col ons-col-inner flex2" style="padding-right:20px;">
+                            <input type="datetime-local" value="2015-12-00T12:00:00" step="1" class="inputClear" style="margin-right:20px;">
                         </ons-col>
                     </ons-row>
                 </li>
+                <li class="list__header">Aktualne rezerwacje</li>
+                <div class="brakRezerwacji" ng-if="!item.rezerwacje">brak rezerwacji</div>
+                <div class="rezerwacja" ng-repeat="rezerwacja in item.rezerwacje | orderBy:'orderKey'">
+                    <div class="basicItem subtask" style="height: 52px; border-bottom: solid 1px #E8E5E5;">
+                        <div class="avatarHolder">
+                            <div class="person" style="background-image:url({{rezerwacja.avatar}})"></div>
+                            <div class="clear"></div>
+
+                        </div>
+                        <div class="dateHolder prioFinished" style="height: 67px;">
+                            <div class="day">{{rezerwacja.dzien}}</div>
+                            <div class="mounth">{{rezerwacja.miesiac}}</div>
+                        </div>
+                        <div class="taskTitle" style="margin-bottom:-17px;">{{rezerwacja.imie}}</div>
+                        <div class="infoElements">
+                            <div class="icon time"> {{rezerwacja.dataOd}} - {{rezerwacja.dataDo}}</div>
+
+                        </div>
+                    </div>
+
+                </div>
             </ul>
         </ons-page>
     </ons-template>
@@ -2198,7 +2311,8 @@
       'Koszty',
       'Przepracowane godziny',
       'Przypisane zadania',
-        'Punkty premiowe'
+        'Punkty premiowe',
+       'Zgłoszone koszty'
     ],
                             primaryButtonIndex: 0,
                             callback: function (index) {
@@ -2225,6 +2339,12 @@
                                     $('.typePunkty').css('display', 'block');
                                     $('.typePunkty').addClass('blink');
                                     $('#budgetType').html('Punkty premiowe - zmień <i class="icon ion-android-arrow-dropdown"></i>');
+                                }
+                                if (index == 4) {
+                                    $('.typeAll').css('display', 'none');
+                                    $('.typeKosztyDodatkowe').css('display', 'block');
+                                    $('.typeKosztyDodatkowe').addClass('blink');
+                                    $('#budgetType').html('Zgłoszone koszty - zmień <i class="icon ion-android-arrow-dropdown"></i>');
                                 }
                             }
                         });
