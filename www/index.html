@@ -1104,6 +1104,22 @@
                         </ons-col>
                     </ons-row>
                 </li>
+                  <li class="list__item">
+                    <ons-row align="center" class="row ons-row-inner row-center">
+                        <ons-col class="col ons-col-inner">Powiadomienia</ons-col>
+                        <ons-col class="col ons-col-inner" ng-if="user.powiadomienia==0">
+                            <div class="switchHolder">
+                                <ons-switch id="powiadomieniaOption"></ons-switch>
+                            </div>
+                        </ons-col>
+                        <ons-col class="col ons-col-inner" ng-if="user.powiadomienia==1">
+                            <div class="switchHolder">
+                                <ons-switch id="powiadomieniaOption" checked></ons-switch>
+                            </div>
+                        </ons-col>
+                    </ons-row>
+                </li>
+                <p class="infoBox">Aktywując powiadomienia, otrzymasz dwa razy dziennie e-mail z podsumowaniem Twoich zadań.</p>
             </ul>
         </ons-page>
     </ons-template>

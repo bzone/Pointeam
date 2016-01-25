@@ -193,6 +193,12 @@
             var imie = $scope.user.imie;
             var nazwisko = $scope.user.nazwisko;
             var email = $scope.user.email;
+            var powiadomienia = $("#powiadomieniaOption input").prop('checked');
+            if (powiadomienia) {
+                powiadomienia = 1;
+            } else {
+                powiadomienia = 0;
+            }
             var avatar = $('#capturePhoto').attr('data-avatar');
             if (typeof avatar == typeof undefined) {
                 avatar = $scope.user.avatar;
@@ -208,6 +214,7 @@
                     nazwisko: nazwisko,
                     email: email,
                     avatar: avatar,
+                    powiadomienia: powiadomienia,
                     updateUser: ''
                 },
                 crossDomain: true,
@@ -215,7 +222,8 @@
                 beforeSend: function () {},
                 success: function (data) {
                     if (data == "success") {
-
+                        $scope.user.powiadomienia = powiadomienia;
+                        $scope.$apply();
                         navi.popPage();
                     } else if (data = "failed") {
                         ons.notification.alert({
@@ -775,7 +783,7 @@
 
 
                         $projekty.items.push(item);
-                        $scope.$apply;
+                        $scope.$apply();
                         var index = $scope.items.length;
                         var selectedItem = $projekty.items[index - 1];
 
@@ -1032,7 +1040,7 @@
             if ($scope.item.latLngPosition == '' || !$scope.item.latLngPosition) {
                 $scope.item.ukonczoneDisplay = 'block';
                 $scope.item.priorytet = 'prioFinished';
-                $scope.$apply;
+                $scope.$apply();
 
                 var today = new Date();
                 var dd = today.getDate();
@@ -1466,9 +1474,11 @@
                                 }
                                 if ($scope.item.rezerwacje) {
                                     $scope.item.rezerwacje.push(item);
+                                    $scope.$apply();
                                 } else {
                                     $scope.item.rezerwacje = [];
                                     $scope.item.rezerwacje.push(item);
+                                    $scope.$apply();
                                 }
                                 navi.popPage();
                             }
@@ -1531,9 +1541,11 @@
                                     }
                                     if ($scope.item.rezerwacje) {
                                         $scope.item.rezerwacje.push(item);
+                                        $scope.$apply();
                                     } else {
                                         $scope.item.rezerwacje = [];
                                         $scope.item.rezerwacje.push(item);
+                                        $scope.$apply();
                                     }
                                     navi.popPage();
                                 }
@@ -2286,7 +2298,7 @@
             $scope.item.zadaniaNieprzypisane = nieprzypisaneGlobal;
             $scope.item.zadaniaPoTerminie = zadaniaPoTerminieGlobal;
             $scope.item.zadaniaPrzekroczonyBudzet = zadaniaZPrzekroczonymBudzetemGlobal;
-            $scope.$apply;
+            $scope.$apply();
 
 
         }
@@ -2348,9 +2360,11 @@
                         }
                         if ($scope.item.zasoby) {
                             $scope.item.zasoby.push(item);
+                            $scope.$apply();
                         } else {
                             $scope.item.zasoby = [];
                             $scope.item.zasoby.push(item);
+                            $scope.$apply();
                         }
                         navi.popPage();
                     }
