@@ -223,7 +223,9 @@
                 success: function (data) {
                     if (data == "success") {
                         $scope.user.powiadomienia = powiadomienia;
-                        $scope.$apply();
+                        if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                            $scope.$apply();
+                        }
                         navi.popPage();
                     } else if (data = "failed") {
                         ons.notification.alert({
@@ -388,7 +390,9 @@
                                         project.statusClass = "completionHalf";
                                     }
 
-                                    $scope.$apply();
+                                    if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                                        $scope.$apply();
+                                    }
 
                                 }
                             });
@@ -502,113 +506,7 @@
         }
 
 
-        var timeinterval;
 
-        $scope.startTimer = function (zadanie, projekt, user) {
-            var found;
-            var foundTask;
-            var foundUser;
-            var foundUserProject;
-
-            found = $filter('filter')($projekty.items, {
-                idProjekt: projekt
-            }, true);
-
-            foundTask = $filter('filter')(found[0].zadania, {
-                idZadania: zadanie
-            }, true);
-            var nazwa = foundTask[0].nazwa;
-            $('#clockTaskName').text(nazwa);
-
-            foundUser = $filter('filter')(foundTask[0].przypisaneOsoby, {
-                idUser: user
-            }, true);
-
-            foundUserProject = $filter('filter')(found[0].przypisaneOsoby, {
-                idUser: user
-            }, true);
-
-
-
-            //NOTE: New now point
-            var stawka = foundUser[0].stawka;
-            var czasStartu = foundUser[0].czasUzytkownika;
-            var kasaStartu = foundUser[0].kasaUzytkownika;
-
-            $('#timer').css('display', 'block');
-            var minutes = czasStartu;
-            var hours = (minutes - (minutes % 60)) / 60;
-            var kasa = ((minutes / 60) * stawka / 100).toFixed(2);
-            var kasagr = Math.floor((minutes / 60) * stawka);
-            var clock = document.getElementById('clockdiv');
-            $('.clockAnimation').addClass('animateClock');
-
-            if ((minutes - (hours * 60)) < 10) {
-                clock.innerHTML = hours + ':0' + (minutes - (hours * 60)) + ' | ' + kasa + 'zł';
-            } else {
-                clock.innerHTML = hours + ':' + (minutes - (hours * 60)) + ' | ' + kasa + 'zł';
-            }
-
-            timeinterval = setInterval(function () {
-                minutes++;
-                kasa = ((minutes / 60) * stawka / 100).toFixed(2);
-                kasagr = Math.floor((minutes / 60) * stawka);
-                hours = (minutes - (minutes % 60)) / 60;
-                if ((minutes - (hours * 60)) < 10) {
-                    clock.innerHTML = hours + ':0' + (minutes - (hours * 60)) + ' | ' + kasa + 'zł';
-                } else {
-                    clock.innerHTML = hours + ':' + (minutes - (hours * 60)) + ' | ' + kasa + 'zł';
-                }
-                foundUser[0].czasUzytkownika = minutes;
-                foundUser[0].kasaUzytkownika = kasagr;
-            }, 1000);
-
-
-
-            $('.stopTimer').one("click", function () {
-                clearInterval(timeinterval);
-                $('.clockAnimation').removeClass('animateClock');
-                $('#timer').fadeOut();
-
-                foundTask[0].budzetGodzinowyWykorzystanie += (minutes - czasStartu);
-                foundTask[0].budzetPienieznyWykorzystanie += (kasagr - kasaStartu);
-                foundUserProject[0].czasUzytkownika += (minutes - czasStartu);
-                foundUserProject[0].kasaUzytkownika += (kasagr - kasaStartu);
-
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: {
-                        idZadania: zadanie,
-                        idProjekt: projekt,
-                        idUser: user,
-                        czasZadanie: foundUser[0].czasUzytkownika,
-                        kasaZadanie: foundUser[0].kasaUzytkownika,
-                        czasProjekt: foundUserProject[0].czasUzytkownika,
-                        kasaProjekt: foundUserProject[0].kasaUzytkownika,
-                        updateTime: ''
-                    },
-                    crossDomain: true,
-                    cache: false,
-                    beforeSend: function () {},
-                    success: function () {}
-                });
-
-
-                $scope.$apply();
-                $('#taskCharts .chartHours')
-
-                if ($('#taskCharts .chartHours').find('canvas').length) {
-                    var newpercent = $('#taskCharts .chartHours').attr('data-percent');
-                    $('#taskCharts .chartHours').data('easyPieChart').update(newpercent);
-                    newpercent = $('#taskCharts .chartMoney').attr('data-percent');
-                    $('#taskCharts .chartMoney').data('easyPieChart').update(newpercent);
-                }
-
-                $scope.$root.$broadcast("updateTerms");
-            });
-
-        }
 
         $scope.isAdmin = function (projekt) {
 
@@ -783,7 +681,9 @@
 
 
                         $projekty.items.push(item);
-                        $scope.$apply();
+                        if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                            $scope.$apply();
+                        }
                         var index = $scope.items.length;
                         var selectedItem = $projekty.items[index - 1];
 
@@ -891,7 +791,7 @@
                                             $projekty.items[index - 1].terminy.push(termin);
 
                                             $projekty.selectedItem = selectedItem;
-                                            $scope.$apply();
+
                                             $scope.navi.pushPage('procjectview.html', {
                                                 title: selectedItem.tytul
                                             });
@@ -928,6 +828,118 @@
         if (found.length > 0) {
             $scope.milestoneName = found[0];
         }
+        var timeinterval;
+
+        $scope.startTimer = function (zadanie, projekt, user) {
+            user = $scope.currentuser.idUser;
+            var found;
+            var foundTask;
+            var foundUser;
+            var foundUserProject;
+
+            found = $filter('filter')($projekty.items, {
+                idProjekt: projekt
+            }, true);
+
+            foundTask = $filter('filter')(found[0].zadania, {
+                idZadania: zadanie
+            }, true);
+            var nazwa = foundTask[0].nazwa;
+            console.log($scope.item);
+            $('#clockTaskName').text($scope.item.nazwa);
+
+            foundUser = $filter('filter')($scope.item.przypisaneOsoby, {
+                idUser: user
+            }, true);
+
+            foundUserProject = $filter('filter')(found[0].przypisaneOsoby, {
+                idUser: user
+            }, true);
+
+
+
+            //NOTE: New now point
+            var stawka = foundUser[0].stawka;
+            var czasStartu = foundUser[0].czasUzytkownika;
+            var kasaStartu = foundUser[0].kasaUzytkownika;
+
+            $('#timer').css('display', 'block');
+            var minutes = czasStartu;
+            var hours = (minutes - (minutes % 60)) / 60;
+            var kasa = ((minutes / 60) * stawka / 100).toFixed(2);
+            var kasagr = Math.floor((minutes / 60) * stawka);
+            var clock = document.getElementById('clockdiv');
+            $('.clockAnimation').addClass('animateClock');
+
+            if ((minutes - (hours * 60)) < 10) {
+                clock.innerHTML = hours + ':0' + (minutes - (hours * 60)) + ' | ' + kasa + 'zł';
+            } else {
+                clock.innerHTML = hours + ':' + (minutes - (hours * 60)) + ' | ' + kasa + 'zł';
+            }
+
+            timeinterval = setInterval(function () {
+                minutes++;
+                kasa = ((minutes / 60) * stawka / 100).toFixed(2);
+                kasagr = Math.floor((minutes / 60) * stawka);
+                hours = (minutes - (minutes % 60)) / 60;
+                if ((minutes - (hours * 60)) < 10) {
+                    clock.innerHTML = hours + ':0' + (minutes - (hours * 60)) + ' | ' + kasa + 'zł';
+                } else {
+                    clock.innerHTML = hours + ':' + (minutes - (hours * 60)) + ' | ' + kasa + 'zł';
+                }
+                foundUser[0].czasUzytkownika = minutes;
+                foundUser[0].kasaUzytkownika = kasagr;
+            }, 1000);
+
+
+
+            $('.stopTimer').one("click", function () {
+                clearInterval(timeinterval);
+                $('.clockAnimation').removeClass('animateClock');
+                $('#timer').fadeOut();
+
+                foundTask[0].budzetGodzinowyWykorzystanie += (minutes - czasStartu);
+                foundTask[0].budzetPienieznyWykorzystanie += (kasagr - kasaStartu);
+                foundUserProject[0].czasUzytkownika += (minutes - czasStartu);
+                foundUserProject[0].kasaUzytkownika += (kasagr - kasaStartu);
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: {
+                        idZadania: zadanie,
+                        idProjekt: projekt,
+                        idUser: user,
+                        czasZadanie: foundUser[0].czasUzytkownika,
+                        kasaZadanie: foundUser[0].kasaUzytkownika,
+                        czasProjekt: foundUserProject[0].czasUzytkownika,
+                        kasaProjekt: foundUserProject[0].kasaUzytkownika,
+                        updateTime: ''
+                    },
+                    crossDomain: true,
+                    cache: false,
+                    beforeSend: function () {},
+                    success: function () {}
+                });
+
+
+                if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                    $scope.$apply();
+                }
+                $('#taskCharts .chartHours')
+
+                if ($('#taskCharts .chartHours').find('canvas').length) {
+                    var newpercent = $('#taskCharts .chartHours').attr('data-percent');
+                    $('#taskCharts .chartHours').data('easyPieChart').update(newpercent);
+                    newpercent = $('#taskCharts .chartMoney').attr('data-percent');
+                    $('#taskCharts .chartMoney').data('easyPieChart').update(newpercent);
+                }
+
+                $scope.$root.$broadcast("updateTerms");
+            });
+
+        }
+
 
 
         //FUTURE: Mark Task As Complete
@@ -1006,7 +1018,9 @@
                         beforeSend: function () {},
                         success: function () {}
                     });
-                    $scope.$apply();
+                    if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                        $scope.$apply();
+                    }
                     $scope.$root.$broadcast("updateTerms");
                 } else {
                     ons.notification.alert({
@@ -1040,7 +1054,9 @@
             if ($scope.item.latLngPosition == '' || !$scope.item.latLngPosition) {
                 $scope.item.ukonczoneDisplay = 'block';
                 $scope.item.priorytet = 'prioFinished';
-                $scope.$apply();
+                if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                    $scope.$apply();
+                }
 
                 var today = new Date();
                 var dd = today.getDate();
@@ -1213,7 +1229,9 @@
 
 
                                 }
-                                $scope.$apply();
+                                if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                                    $scope.$apply();
+                                }
                             }
                         });
 
@@ -1259,7 +1277,9 @@
                         $scope.item.komentarze = angular.fromJson(data).komentarze;
 
                     }
-                    $scope.$apply();
+                    if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                        $scope.$apply();
+                    }
                 }
             });
 
@@ -1287,7 +1307,9 @@
                             $scope.item.komentarze = angular.fromJson(data).komentarze;
 
                         }
-                        $scope.$apply();
+                        if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                            $scope.$apply();
+                        }
                     }
                 });
 
@@ -1474,11 +1496,15 @@
                                 }
                                 if ($scope.item.rezerwacje) {
                                     $scope.item.rezerwacje.push(item);
-                                    $scope.$apply();
+                                    if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                                        $scope.$apply();
+                                    }
                                 } else {
                                     $scope.item.rezerwacje = [];
                                     $scope.item.rezerwacje.push(item);
-                                    $scope.$apply();
+                                    if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                                        $scope.$apply();
+                                    }
                                 }
                                 navi.popPage();
                             }
@@ -1541,11 +1567,15 @@
                                     }
                                     if ($scope.item.rezerwacje) {
                                         $scope.item.rezerwacje.push(item);
-                                        $scope.$apply();
+                                        if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                                            $scope.$apply();
+                                        }
                                     } else {
                                         $scope.item.rezerwacje = [];
                                         $scope.item.rezerwacje.push(item);
-                                        $scope.$apply();
+                                        if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                                            $scope.$apply();
+                                        }
                                     }
                                     navi.popPage();
                                 }
@@ -2045,7 +2075,9 @@
 
 
                         $scope.item.log.push(logItem);
-                        $scope.$apply();
+                        if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                            $scope.$apply();
+                        }
                         $scope.RebuildTerms();
                         navi.popPage();
 
@@ -2298,7 +2330,9 @@
             $scope.item.zadaniaNieprzypisane = nieprzypisaneGlobal;
             $scope.item.zadaniaPoTerminie = zadaniaPoTerminieGlobal;
             $scope.item.zadaniaPrzekroczonyBudzet = zadaniaZPrzekroczonymBudzetemGlobal;
-            $scope.$apply();
+            if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                $scope.$apply();
+            }
 
 
         }
@@ -2360,11 +2394,15 @@
                         }
                         if ($scope.item.zasoby) {
                             $scope.item.zasoby.push(item);
-                            $scope.$apply();
+                            if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                                $scope.$apply();
+                            }
                         } else {
                             $scope.item.zasoby = [];
                             $scope.item.zasoby.push(item);
-                            $scope.$apply();
+                            if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                                $scope.$apply();
+                            }
                         }
                         navi.popPage();
                     }
@@ -2438,7 +2476,9 @@
                             odczytane: 0
                         }
                         $scope.item.log.push(item);
-                        $scope.$apply();
+                        if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                            $scope.$apply();
+                        }
                     }
                 }
             });
@@ -2705,7 +2745,9 @@
                             $scope.currentuser[0].ostatnieOsoby = [];
                             $scope.currentuser[0].ostatnieOsoby.push(osoba);
                         }
-                        $scope.$apply();
+                        if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                            $scope.$apply();
+                        }
                     }
                 });
 
@@ -2909,7 +2951,9 @@
                                 }
                                 $scope.item.zadania.push(zadanie);
                                 $scope.item.terminy.push(termin);
-                                $scope.$apply();
+                                if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                                    $scope.$apply();
+                                }
                             }
                         });
                     }
@@ -2960,23 +3004,33 @@
                 callback: function (index) {
                     if (index == 0) {
                         logType = "wszystkie";
-                        $scope.$apply();
+                        if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                            $scope.$apply();
+                        }
                     }
                     if (index == 1) {
                         logType = "przekroczonyTermin";
-                        $scope.$apply();
+                        if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                            $scope.$apply();
+                        }
                     }
                     if (index == 2) {
                         logType = "przekroczonyBudzet";
-                        $scope.$apply();
+                        if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                            $scope.$apply();
+                        }
                     }
                     if (index == 3) {
                         logType = "koniecZadania";
-                        $scope.$apply();
+                        if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                            $scope.$apply();
+                        }
                     }
                     if (index == 4) {
                         logType = "noweZadanie";
-                        $scope.$apply();
+                        if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                            $scope.$apply();
+                        }
                     }
                 }
             });
@@ -3068,7 +3122,9 @@
                     var currentPoints = $scope.item.przypisaneOsoby[$scope.item.log[indexid].idOsoby].punktyUzytkownika;
                     $scope.item.przypisaneOsoby[$scope.item.log[indexid].idOsoby].punktyUzytkownika = currentPoints + dodatkowePunkty;
                     $('.actionInfo[data-id="' + indexid + '"]').fadeIn();
-                    $scope.$apply();
+                    if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                        $scope.$apply();
+                    }
                 }
             });
         };
@@ -3172,7 +3228,9 @@
                         success: function (data) {
 
                             zadanie.przypisaneOsoby = angular.fromJson(data).osoby;
-
+                            if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                                $scope.$apply();
+                            }
 
                             if (index == (ilosczadan - 1)) {
                                 $scope.navi.pushPage('procjectview.html', {
