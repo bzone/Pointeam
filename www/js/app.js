@@ -1507,7 +1507,7 @@
                                 callback: function () {}
                             });
                         } else {
-                            alert('dodaje');
+                            //alert('dodaje');
                             $.ajax({
                                 type: "POST",
                                 url: url,
@@ -1881,7 +1881,7 @@
                 if (iloscOsob > 1) {
                     dodatkoweOsobyDisplay = 'inline-block';
                 }
-                alert(iloscOsob);
+                //alert(iloscOsob);
                 var idProjekt = $scope.item.idProjekt;
 
 
