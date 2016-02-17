@@ -41,6 +41,21 @@
     /* make transparent link selection, adjust last value opacity 0 to 1.0 */
 }
 
+@-o-viewport {
+    width: 450px;
+}
+
+@viewport {
+    width: 450px;
+}
+
+@-ms-viewport {
+    width: 450px;
+    zoom-user: fixed;
+    max-zoom: 1;
+    min-zoom: 1;
+}
+
 body {
     -webkit-touch-callout: none;
     /* prevent callout to copy image, etc when tap to hold */

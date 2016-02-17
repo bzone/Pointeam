@@ -2568,14 +2568,12 @@
                     });
 
                     var markers = [];
-
                     searchBox.addListener('places_changed', function () {
                         var places = searchBox.getPlaces();
 
                         if (places.length == 0) {
                             return;
                         }
-
 
 
                         // For each place, get the icon, name and location.
@@ -2588,8 +2586,6 @@
                                 anchor: new google.maps.Point(17, 34),
                                 scaledSize: new google.maps.Size(25, 25)
                             };
-
-
 
                             if (place.geometry.viewport) {
                                 // Only geocodes have viewport.
