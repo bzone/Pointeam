@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.thickmug.Pointeam" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+    <name>Pointeam</name>
+    <description>To the point.</description>
+    <author email="support@pointeam.com" href="http://pointeam.com">Pointeam</author>
+    <content src="index.html" />
+    <preference name="permissions" value="none" />
+    <preference name="orientation" value="portrait" />
+    <preference name="target-device" value="handset" />
+    <preference name="deployment-target" value="9.0" />
+    <preference name="fullscreen" value="false" />
+    <preference name="webviewbounce" value="true" />
+    <preference name="prerendered-icon" value="true" />
+    <preference name="stay-in-webview" value="false" />
+    <preference name="ios-statusbarstyle" value="default" />
+    <preference name="StatusBarOverlaysWebView" value="true" />
+    <preference name="StatusBarStyle" value="default" />
+    <preference name="DisallowOverscroll" value="true" />
+    <preference name="detect-data-types" value="true" />
+    <preference name="exit-on-suspend" value="false" />
+    <preference name="show-splash-screen-spinner" value="true" />
+    <preference name="auto-hide-splash-screen" value="true" />
+    <preference name="disable-cursor" value="false" />
+    <preference name="android-minSdkVersion" value="14" />
+    <preference name="android-installLocation" value="auto" />
+    <gap:plugin name="org.apache.cordova.battery-status" />
+    <gap:plugin name="org.apache.cordova.camera" />
+    <gap:plugin name="com.performanceactive.plugins.camera" />
+    <gap:plugin name="org.apache.cordova.media-capture" />
+    <gap:plugin name="org.apache.cordova.console" />
+    <gap:plugin name="org.apache.cordova.contacts" />
+    <gap:plugin name="org.apache.cordova.device" />
+    <gap:plugin name="org.apache.cordova.device-motion" />
+    <gap:plugin name="org.apache.cordova.device-orientation" />
+    <gap:plugin name="org.apache.cordova.dialogs" />
+    <gap:plugin name="org.apache.cordova.file" />
+    <gap:plugin name="org.apache.cordova.file-transfer" />
+    <gap:plugin name="org.apache.cordova.geolocation" />
+    <gap:plugin name="org.apache.cordova.globalization" />
+    <gap:plugin name="org.apache.cordova.inappbrowser" />
+    <gap:plugin name="org.apache.cordova.media" />
+    <gap:plugin name="org.apache.cordova.network-information" />
+    <gap:plugin name="org.apache.cordova.splashscreen" />
+    <gap:plugin name="org.apache.cordova.vibration" />
+    <gap:plugin name="phonegap-nfc" source="npm" />
+    <gap:plugin name="com.phonegap.plugin.statusbar" />
+    <icon src="icon.png" />
+    <icon gap:platform="android" gap:qualifier="ldpi" src="www/res/icon/android/icon-36-ldpi.png" />
+    <icon gap:platform="android" gap:qualifier="mdpi" src="www/res/icon/android/icon-48-mdpi.png" />
+    <icon gap:platform="android" gap:qualifier="hdpi" src="www/res/icon/android/icon-72-hdpi.png" />
+    <icon gap:platform="android" gap:qualifier="xhdpi" src="www/res/icon/android/icon-96-xhdpi.png" />
+    <icon gap:platform="blackberry" src="www/res/icon/blackberry/icon-80.png" />
+    <icon gap:platform="blackberry" gap:state="hover" src="www/res/icon/blackberry/icon-80.png" />
+    <icon gap:platform="webos" src="www/res/icon/webos/icon-64.png" />
+    <icon gap:platform="winphone" src="www/res/icon/windows-phone/icon-48.png" />
+    <icon gap:platform="winphone" gap:role="background" src="www/res/icon/windows-phone/icon-173-tile.png" />
+    <gap:splash gap:platform="android" gap:qualifier="port-ldpi" src="www/res/screen/android/screen-ldpi-portrait.png" />
+    <gap:splash gap:platform="android" gap:qualifier="port-mdpi" src="www/res/screen/android/screen-mdpi-portrait.png" />
+    <gap:splash gap:platform="android" gap:qualifier="port-hdpi" src="www/res/screen/android/screen-hdpi-portrait.png" />
+    <gap:splash gap:platform="android" gap:qualifier="port-xhdpi" src="www/res/screen/android/screen-xhdpi-portrait.png" />
+    <gap:splash gap:platform="blackberry" src="www/res/screen/blackberry/screen-225.png" />
+    <gap:splash gap:platform="winphone" src="www/res/screen/windows-phone/screen-portrait.jpg" />
+    <icon gap:platform="ios" height="60" src="www/res/icon/ios/icon-60.png" width="60" />
+    <icon gap:platform="ios" height="120" src="www/res/icon/ios/icon-60@2x.png" width="120" />
+    <icon gap:platform="ios" height="180" src="www/res/icon/ios/icon-60@3x.png" width="180" />
+    <icon gap:platform="ios" height="29" src="www/res/icon/ios/icon-small.png" width="29" />
+    <icon gap:platform="ios" height="58" src="www/res/icon/ios/icon-small@2x.png" width="58" />
+    <icon gap:platform="ios" height="40" src="www/res/icon/ios/icon-40.png" width="40" />
+    <icon gap:platform="ios" height="80" src="www/res/icon/ios/icon-40@2x.png" width="80" />
+    <splash height="480" platform="ios" src="www/res/screen/ios/Default.png" width="320" />
+    <splash height="960" platform="ios" src="www/res/screen/ios/Default@2x.png" width="640" />
+    <splash height="1136" platform="ios" src="www/res/screen/ios/Default-568h-2x.png" width="640" />
+    <splash height="1334" platform="ios" src="www/res/screen/ios/Default-667h@2x.png" width="750" />
+    <splash height="2208" platform="ios" src="www/res/screen/ios/Default-Portrait-736h@3x.png" width="1242" />
+<!--    <gap:config-file overwrite="true" parent="UILaunchImages" platform="ios">
+        <array>
+            <dict>
+                <key>UILaunchImageMinimumOSVersion</key>
+                <string>8.0</string>
+                <key>UILaunchImageName</key>
+                <string>Default</string>
+                <key>UILaunchImageOrientation</key>
+                <string>Portrait</string>
+                <key>UILaunchImageSize</key>
+                <string>{320, 480}</string>
+            </dict>
+            <dict>
+                <key>UILaunchImageMinimumOSVersion</key>
+                <string>8.0</string>
+                <key>UILaunchImageName</key>
+                <string>Default-568h</string>
+                <key>UILaunchImageOrientation</key>
+                <string>Portrait</string>
+                <key>UILaunchImageSize</key>
+                <string>{320, 568}</string>
+            </dict>
+            <dict>
+                <key>UILaunchImageMinimumOSVersion</key>
+                <string>8.0</string>
+                <key>UILaunchImageName</key>
+                <string>Default-667h</string>
+                <key>UILaunchImageOrientation</key>
+                <string>Portrait</string>
+                <key>UILaunchImageSize</key>
+                <string>{375, 667}</string>
+            </dict>
+            <dict>
+                <key>UILaunchImageMinimumOSVersion</key>
+                <string>8.0</string>
+                <key>UILaunchImageName</key>
+                <string>Default-736h</string>
+                <key>UILaunchImageOrientation</key>
+                <string>Portrait</string>
+                <key>UILaunchImageSize</key>
+                <string>{414, 736}</string>
+            </dict>
+        </array>
+    </gap:config-file> -->
+    <access origin="*" />
+    <plugin name="cordova-plugin-whitelist" version="1" />
+    <allow-navigation href="http://*/*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    <platform name="android">
+        <allow-intent href="market:*" />
+    </platform>
+    <platform name="ios">
+        <allow-intent href="itms:*" />
+        <allow-intent href="itms-apps:*" />
+    </platform>
+    <platform name="winphone" />
+    <engine name="ios" spec="~3.9.2" />
+</widget>
