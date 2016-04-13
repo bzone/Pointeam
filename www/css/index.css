@@ -1899,3 +1899,8 @@ ons-icon.ng-scope.ons-icon.ons-icon--ion.ion-android-time.fa-lg:before {
     margin: auto;
     margin-bottom: 30px;
 }
+
+input#fileU {
+    width: 0px;
+    overflow: hidden;
+}
