@@ -286,7 +286,7 @@
                 </ons-list-item>
             </ons-list>
             <ons-list ng-controller="MasterController" style="display:none;" class="tabMojeZadania">
-                <ons-list-item modifier="chevron" class="item" ng-repeat="zadanie in user.tasks | orderBy:'orderKey'" ng-click="showDetail($index)" ng-if="zadanie.priorytet!='prioFinished'">
+                <ons-list-item modifier="chevron" class="item" ng-repeat="zadanie in user.tasks | orderBy:'orderKey'" ng-click="showDetail(zadanie.idProjekt)" ng-if="zadanie.priorytet!='prioFinished'">
                     <ons-row>
                         <ons-col>
                             <div class="basicItem myTask" style="display:{{zadanie.basicItem}};">
@@ -1235,7 +1235,7 @@
                 </div>
             </ons-toolbar>
             <ul class="list">
-                <li class="list__header">{{lang.basic_information</li>
+                <li class="list__header">{{lang.basic_information}}</li>
                 <li class="list__item">
                     <ons-row align="center" class="row ons-row-inner row-center">
                         <ons-col class="col ons-col-inner">{{lang.name_asterix}}</ons-col>
@@ -1256,12 +1256,12 @@
                     <ons-row class="row ons-row-inner">
                         <ons-col class="col ons-col-inner">{{lang.add_file}}</ons-col>
                         <ons-col class="col ons-col-inner flex2">
-                            <form enctype="multipart/form-data" action="http://pointeam.com/upload.php" method="POST">
-    Send this file: <input name="file" type="file" />
-    <input type="submit" value="Send File" />
+                            
+    Send this file: <input name="file" type="file" file-model="myFile" id="fileU" />
+    <input type="submit" value="Send File"  ng-click="uploadFile()" />
     
     <input type="hidden" name="akuku" value="laksjf9s8d7ftasiydfgashdfoa8sd7ftasdfgy!siduya8sd7!!s" />
-</form>
+{{fileName}}
                         </ons-col>
                     </ons-row>
                 </li>

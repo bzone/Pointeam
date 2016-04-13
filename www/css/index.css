@@ -1773,8 +1773,8 @@ p.infoBox {
 }
 
 ons-icon.ng-scope.ons-icon.ons-icon--ion.ion-gear-a.fa-lg {
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center center;
@@ -1786,8 +1786,8 @@ ons-icon.ng-scope.ons-icon.ons-icon--ion.ion-gear-a.fa-lg:before {
 }
 
 ons-icon.ng-scope.ons-icon.ons-icon--ion.ion-speedometer.fa-lg {
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center center;
@@ -1799,8 +1799,8 @@ ons-icon.ng-scope.ons-icon.ons-icon--ion.ion-speedometer.fa-lg:before {
 }
 
 ons-icon.ng-scope.ons-icon.ons-icon--ion.ion-plus-round.fa-lg{
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center center;
@@ -1812,8 +1812,8 @@ ons-icon.ng-scope.ons-icon.ons-icon--ion.ion-plus-round.fa-lg:before {
 }
 
 ons-icon.ng-scope.ons-icon.ons-icon--ion.ion-navicon-round.fa-lg{
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center center;
@@ -1826,8 +1826,8 @@ ons-icon.ng-scope.ons-icon.ons-icon--ion.ion-navicon-round.fa-lg:before {
 }
 
 ons-icon.ng-scope.ons-icon.ons-icon--ion.ion-chevron-left.fa-lg{
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center center;
@@ -1839,8 +1839,8 @@ ons-icon.ng-scope.ons-icon.ons-icon--ion.ion-chevron-left.fa-lg:before {
 }
 
 ons-icon.ng-scope.ons-icon.ons-icon--ion.ion-more.fa-lg{
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center center;
@@ -1852,8 +1852,8 @@ ons-icon.ng-scope.ons-icon.ons-icon--ion.ion-more.fa-lg:before {
 }
 
 ons-icon.ng-scope.ons-icon.ons-icon--ion.ion-checkmark-circled.fa-lg{
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center center;
@@ -1863,6 +1863,20 @@ ons-icon.ng-scope.ons-icon.ons-icon--ion.ion-checkmark-circled.fa-lg{
 ons-icon.ng-scope.ons-icon.ons-icon--ion.ion-checkmark-circled.fa-lg:before {
     content: "" !important;
 }
+
+ons-icon.ng-scope.ons-icon.ons-icon--ion.ion-android-time.fa-lg {
+     width: 22px;
+    height: 22px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center center;
+    background-image: url(icon_clock.png);
+}
+
+ons-icon.ng-scope.ons-icon.ons-icon--ion.ion-android-time.fa-lg:before {
+    content: "" !important;
+}
+
 
 .text-right {
     text-align: right;

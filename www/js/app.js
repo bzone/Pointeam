@@ -6,8 +6,49 @@
     var url = "http://pointeam.com/auth.php?callback=?";
     //var url = "http://rabidata.kylos.pl/pointeam/auth.php?callback=?";
     var commentRefresh;
-    
-    
+
+
+    module.directive('fileModel', ['$parse', function ($parse) {
+        return {
+            restrict: 'A',
+            link: function (scope, element, attrs) {
+                var model = $parse(attrs.fileModel);
+                var modelSetter = model.assign;
+                
+
+                element.bind('change', function () {
+                    scope.$apply(function () {
+                        modelSetter(scope, element[0].files[0]);
+                    });
+                });
+            }
+        };
+}]);
+
+    module.service('fileUpload', ['$http', function ($http) {
+        this.uploadFileToUrl = function (file, uploadUrl) {
+            var fd = new FormData();
+            fd.append('file', file);
+            fd.append("akuku", "laksjf9s8d7ftasiydfgashdfoa8sd7ftasdfgy!siduya8sd7!!s");
+            $http.post(uploadUrl, fd, {
+                    transformRequest: angular.identity,
+                    headers: {
+                        'Content-Type': undefined
+                    }
+                })
+                .success(function (data) {
+                window.console && console.log(data);
+                alert(data.filename);
+                //$scope.$apply();
+                
+            })
+                .error(function (data) {
+                window.console && console.log(data);
+            });
+        }
+}]);
+
+
     var l_lang;
     if (navigator.userLanguage) // Explorer
         l_lang = navigator.userLanguage;
@@ -54,7 +95,7 @@
         };
     });
 
-    module.controller('AppController', function ($scope, $projekty, $currentUser, $bazauzytkownikow, $filter) {
+    module.controller('AppController', function ($scope, $http, $projekty, $currentUser, $bazauzytkownikow, $filter, fileUpload) {
         $scope.user = $currentUser.items[0];
         $scope.doSomething = function () {
             setTimeout(function () {
@@ -63,36 +104,36 @@
                 });
             }, 100);
         };
-        
-         $scope.detectLang = l_lang;
-        alert($scope.detectLang);
-        
-         $scope.langpl={
-            sign_in:"Zaloguj się",
-            password:"hasło",
-            or:'lub',
-            create_new_account:'Utwórz nowe konto',
-            forgot_password:'zapomniałeś hasła?',
-            name:'imię',
-            surname:'nazwisko',
-            create_account_and_sign_in:'Utwórz konto i zaloguj',
-            email_connected_to_account:'Podaj adres e-mail powiązany z Twoim kontem.',
-            recovery_on_email:'Na podany adres otrzymasz przypomnienia swojego hasła.',
-            your_email:'Twój e-mail',
-            reset_password:'zresetuj hasło',
-            add_user_with_nfc:'Przypisz użytkownika/ów do tego zadania wykorzystując NFC',
-            start_nfc:'rozpocznij udostępnianie',
-            finished_multi:'ukończonych',
-            task_multi:'zadań',
-            tasks_assigned_to_you:'Zadania przypisane do Ciebie: ',
-            recover_your_email:'Podaj adres e-mail powiązany z Twoim kontem.',
-            recover_your_email_description:'Na podany adres otrzymasz przypomnienia swojego hasła.',
-            your_email_lower_case:'twój e-mail',
+
+        $scope.detectLang = l_lang;
+        //alert($scope.detectLang);
+
+        $scope.langpl = {
+            sign_in: "Zaloguj się",
+            password: "hasło",
+            or: 'lub',
+            create_new_account: 'Utwórz nowe konto',
+            forgot_password: 'zapomniałeś hasła?',
+            name: 'imię',
+            surname: 'nazwisko',
+            create_account_and_sign_in: 'Utwórz konto i zaloguj',
+            email_connected_to_account: 'Podaj adres e-mail powiązany z Twoim kontem.',
+            recovery_on_email: 'Na podany adres otrzymasz przypomnienia swojego hasła.',
+            your_email: 'Twój e-mail',
+            reset_password: 'zresetuj hasło',
+            add_user_with_nfc: 'Przypisz użytkownika/ów do tego zadania wykorzystując NFC',
+            start_nfc: 'rozpocznij udostępnianie',
+            finished_multi: 'ukończonych',
+            task_multi: 'zadań',
+            tasks_assigned_to_you: 'Zadania przypisane do Ciebie: ',
+            recover_your_email: 'Podaj adres e-mail powiązany z Twoim kontem.',
+            recover_your_email_description: 'Na podany adres otrzymasz przypomnienia swojego hasła.',
+            your_email_lower_case: 'twój e-mail',
             nfc_description: 'Przypisz użytkownika/ów do tego zadania wykorzystując NFC',
-            nfc_share:'rozpocznij udostępnianie',
-            task_not_assigned:' Zadania nieprzypisane: ',
-            closest_date:'  Najbliższy termin: ',
-            tasks_assigned_to_other_people:'zadania przypisane do innych osób',
+            nfc_share: 'rozpocznij udostępnianie',
+            task_not_assigned: ' Zadania nieprzypisane: ',
+            closest_date: '  Najbliższy termin: ',
+            tasks_assigned_to_other_people: 'zadania przypisane do innych osób',
             projects: 'Projekty',
             my_tasks: 'Moje zadania',
             informations: 'Informacje',
@@ -189,8 +230,8 @@
             select_reservation_date: 'Wybierz okres rezerwacji',
             from: 'Od',
             to: 'Do',
-            current_reservations: 'Aktualne rezerwacje', 
-            report_cost:'Zgłoś koszt',
+            current_reservations: 'Aktualne rezerwacje',
+            report_cost: 'Zgłoś koszt',
             cost_information: 'Informacje o koszcie',
             cost_asterix: 'Kwota*',
             cost_description: 'Administrator projektu może zaakceptować, lub odrzucić koszt. Zostaniesz poinformowany o podjętej decyzji.',
@@ -199,9 +240,9 @@
             new_resource: 'Nowy zasób',
             extra_information: 'Dodatkowe informacje',
             new_cost: 'Nowy koszt',
-            account_type:'Typ konta',
-            add_file:'Dodaj plik',
-            text_premium:'Osiągnięto limit osób w projekcie, aby dodać więcej osób zmień konto na Premium.',
+            account_type: 'Typ konta',
+            add_file: 'Dodaj plik',
+            text_premium: 'Osiągnięto limit osób w projekcie, aby dodać więcej osób zmień konto na Premium.',
             js_change_cost: 'Koszty - zmień ',
             js_worked_hours: 'Przepracowane godziny - zmień ',
             js_bonus_points: 'Punkty premiowe - zmień ',
@@ -214,33 +255,33 @@
             js_budget_type_title: 'Opcje projektu',
             js_budget_type_message: 'co chcesz zrobić?'
         };
-        
-        $scope.langen={
-            sign_in:"Sign in",
-            password:"password",
-            or:'or',
-            create_new_account:'Create new account',
-            forgot_password:'forgot password?',
-            name:'first name',
-            surname:'last name',
-            create_account_and_sign_in:'Create account and login',
-            email_connected_to_account:'Type in e-mail connected to your account',
-            recovery_on_email:'You will recieve an e-mail with reset password link in just a minute',
-            your_email:'Your e-mail',
-            reset_password:'reset password',
-            add_user_with_nfc:'Assigned users via NFC',
-            start_nfc:'start sharing',
-            finished_multi:'completed',
-            task_multi:'tasks',
-            tasks_assigned_to_you:'Tasks assigned to you: ',
-            recover_your_email:'Type in e-mail connected to your account.',
-            recover_your_email_description:'You will recieve an e-mail with reset password link in just a minute',
-            your_email_lower_case:'your e-mail',
+
+        $scope.langen = {
+            sign_in: "Sign in",
+            password: "password",
+            or: 'or',
+            create_new_account: 'Create new account',
+            forgot_password: 'forgot password?',
+            name: 'first name',
+            surname: 'last name',
+            create_account_and_sign_in: 'Create account and login',
+            email_connected_to_account: 'Type in e-mail connected to your account',
+            recovery_on_email: 'You will recieve an e-mail with reset password link in just a minute',
+            your_email: 'Your e-mail',
+            reset_password: 'reset password',
+            add_user_with_nfc: 'Assigned users via NFC',
+            start_nfc: 'start sharing',
+            finished_multi: 'completed',
+            task_multi: 'tasks',
+            tasks_assigned_to_you: 'Tasks assigned to you: ',
+            recover_your_email: 'Type in e-mail connected to your account.',
+            recover_your_email_description: 'You will recieve an e-mail with reset password link in just a minute',
+            your_email_lower_case: 'your e-mail',
             nfc_description: 'Assigned users via NFC',
-            nfc_share:'start sharing',
-            task_not_assigned:' Unassigned tasks: ',
-            closest_date:'  Closest deadline: ',
-            tasks_assigned_to_other_people:'tasks assigned to other users',
+            nfc_share: 'start sharing',
+            task_not_assigned: ' Unassigned tasks: ',
+            closest_date: '  Closest deadline: ',
+            tasks_assigned_to_other_people: 'tasks assigned to other users',
             projects: 'Projects',
             my_tasks: 'My tasks',
             informations: 'Information',
@@ -337,8 +378,8 @@
             select_reservation_date: 'Select reservation date',
             from: 'From',
             to: 'To',
-            current_reservations: 'Current reservations', 
-            report_cost:'Report cost',
+            current_reservations: 'Current reservations',
+            report_cost: 'Report cost',
             cost_information: 'Cost information',
             cost_asterix: 'Cost*',
             cost_description: 'Project administrator can accept or reject reported cost. You will be notified about the decision.',
@@ -347,9 +388,9 @@
             new_resource: 'New resource',
             extra_information: 'Extra information',
             new_cost: 'New cost',
-            account_type:'Account type',
-            add_file:'Add file',
-            text_premium:'Users assigned to project limit has been reached. If you want to add more users change account type to Premium.',
+            account_type: 'Account type',
+            add_file: 'Add file',
+            text_premium: 'Users assigned to project limit has been reached. If you want to add more users change account type to Premium.',
             js_change_cost: 'Cost - change ',
             js_worked_hours: 'Worked hours - change ',
             js_bonus_points: 'Bonus points - change ',
@@ -362,13 +403,13 @@
             js_budget_type_title: 'Project options',
             js_budget_type_message: 'what are you up to?'
         }
-     
-        if ($scope.detectLang == 'pl' || $scope.detectLang == 'pl-PL'  || $scope.detectLang == 'pl-pl' ) {
+
+        if ($scope.detectLang == 'pl' || $scope.detectLang == 'pl-PL' || $scope.detectLang == 'pl-pl') {
             $scope.lang = $scope.langpl;
         } else {
             $scope.lang = $scope.langen;
         }
-        
+
 
 
         $scope.isAndroidTest = function () {
@@ -380,29 +421,19 @@
                 return false;
             }
         }
-        
-        $scope.uploadFile = function() {
-            $.ajax({
-                type: "POST",
-                url: "http://pointeam.com/upload.php",
-                data: {
-                    idProjekt: idProjekt,
-                    idUser: idUser,
-                    typ: typ,
-                    nazwa: nazwa,
-                    osoba: osoba,
-                    avatar: avatar,
-                    data: data,
-                    odczytany: odczytany,
-                    insertNewLog: ''
-                },
-                crossDomain: true,
-                cache: false,
-                beforeSend: function () {},
-                success: function (data) {
-                    return data;
-                }
-            });
+
+        $scope.uploadFile = function () {
+            alert('test');
+            var file = $scope.myFile;
+            file=$('#fileU').prop('files');
+            file=file[0];
+            console.log('file is ');
+            console.dir(file);
+            var uploadUrl = "http://pointeam.com/upload.php";
+            fileUpload.uploadFileToUrl(file, uploadUrl);
+
+
+
         }
 
         $scope.addLogElement = function (idProjekt, idUser, typ, nazwa, osoba, avatar, data, odczytany) {
