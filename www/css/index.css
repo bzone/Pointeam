@@ -1771,3 +1771,117 @@ p.infoBox {
     padding: 10px;
     text-align: center;
 }
+
+ons-icon.ng-scope.ons-icon.ons-icon--ion.ion-gear-a.fa-lg {
+    width: 24px;
+    height: 24px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center center;
+    background-image: url(icon_settings.png);
+}
+
+ons-icon.ng-scope.ons-icon.ons-icon--ion.ion-gear-a.fa-lg:before {
+    content: "" !important;
+}
+
+ons-icon.ng-scope.ons-icon.ons-icon--ion.ion-speedometer.fa-lg {
+    width: 24px;
+    height: 24px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center center;
+    background-image: url(icon_dashboard.png);
+}
+
+ons-icon.ng-scope.ons-icon.ons-icon--ion.ion-speedometer.fa-lg:before {
+    content: "" !important;
+}
+
+ons-icon.ng-scope.ons-icon.ons-icon--ion.ion-plus-round.fa-lg{
+    width: 24px;
+    height: 24px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center center;
+    background-image: url(icon_add.png);
+}
+
+ons-icon.ng-scope.ons-icon.ons-icon--ion.ion-plus-round.fa-lg:before {
+    content: "" !important;
+}
+
+ons-icon.ng-scope.ons-icon.ons-icon--ion.ion-navicon-round.fa-lg{
+    width: 24px;
+    height: 24px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center center;
+    background-image: url(icon_list.png);
+}
+
+
+ons-icon.ng-scope.ons-icon.ons-icon--ion.ion-navicon-round.fa-lg:before {
+    content: "" !important;
+}
+
+ons-icon.ng-scope.ons-icon.ons-icon--ion.ion-chevron-left.fa-lg{
+    width: 24px;
+    height: 24px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center center;
+    background-image: url(icon_back.png);
+}
+
+ons-icon.ng-scope.ons-icon.ons-icon--ion.ion-chevron-left.fa-lg:before {
+    content: "" !important;
+}
+
+ons-icon.ng-scope.ons-icon.ons-icon--ion.ion-more.fa-lg{
+    width: 24px;
+    height: 24px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center center;
+    background-image: url(icon_more.png);
+}
+
+ons-icon.ng-scope.ons-icon.ons-icon--ion.ion-more.fa-lg:before {
+    content: "" !important;
+}
+
+ons-icon.ng-scope.ons-icon.ons-icon--ion.ion-checkmark-circled.fa-lg{
+    width: 24px;
+    height: 24px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center center;
+    background-image: url(icon_check.png);
+}
+
+ons-icon.ng-scope.ons-icon.ons-icon--ion.ion-checkmark-circled.fa-lg:before {
+    content: "" !important;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.emptyPremium {
+    background: #FFF;
+    padding: 30px;
+    text-align: center;
+    font-size: 18px;
+}
+
+.lock {
+    width: 250px;
+    height: 250px;
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-image: url(lock.png);
+    margin: auto;
+    margin-bottom: 30px;
+}

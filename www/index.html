@@ -87,20 +87,19 @@
             <div class="bigLogo"></div>
             <form class="loginStyle">
                 <input type="email" id="loginEmail" class="loginInputStyle" placeholder="e-mail" />
-                <input type="password" id="loginPassword" class="loginInputStyle" placeholder="hasło" />
-                <a class="submitButton" ng-click="loginUser()">Zaloguj się</a>
+                <input type="password" id="loginPassword" class="loginInputStyle" placeholder="{{lang.password}}" />
+                <a class="submitButton" ng-click="loginUser()">{{lang.sign_in}}</a>
                 <br/>
-                <span class="lub">lub</span>
-                <a class="submitButton" onclick="navi.pushPage('register.html', { animation : 'slide' } )">Utwórz nowe konto</a>
+                <span class="lub">{{lang.or}}</span>
+                <a class="submitButton" onclick="navi.pushPage('register.html', { animation : 'slide' } )">{{lang.create_new_account}}</a>
                 <br/>
-                <a class="passwordReset" onclick="navi.pushPage('recovery.html', { animation : 'slide' } )">zapomniałeś hasła?</a>
+                <a class="passwordReset" onclick="navi.pushPage('recovery.html', { animation : 'slide' } )">{{lang.forgot_password}}</a>
             </form>
         </ons-page>
     </ons-navigator>
 
 
     <ons-template id="register.html">
-
         <ons-page style="background:#31198B !Important;">
             <ons-toolbar>
                 <div class="left">
@@ -111,11 +110,11 @@
             </ons-toolbar>
             <div class="bigLogo logoMargin"></div>
             <form class="loginStyle">
-                <input type="text" id="newUserName" class="loginInputStyle" placeholder="imię" />
-                <input type="text" id="newUserSurName" class="loginInputStyle" placeholder="nazwisko" />
+                <input type="text" id="newUserName" class="loginInputStyle" placeholder="{{lang.name}}" />
+                <input type="text" id="newUserSurName" class="loginInputStyle" placeholder="{{lang.surname}}" />
                 <input type="email" id="newUserEmail" class="loginInputStyle" placeholder="e-mail" />
-                <input type="password" id="newUserPassword" class="loginInputStyle" placeholder="hasło" />
-                <a class="submitButton" ng-click="registerUser()">Utwórz konto i zaloguj</a>
+                <input type="password" id="newUserPassword" class="loginInputStyle" placeholder="{{lang.password}}" />
+                <a class="submitButton" ng-click="registerUser()">{{lang.password}}</a>
                 <br/>
             </form>
         </ons-page>
@@ -133,11 +132,11 @@
             </ons-toolbar>
             <div class="bigLogo logoMargin"></div>
             <form class="loginStyle">
-                <p class="recover">Podaj adres e-mail powiązany z Twoim kontem.
-                    <br/>Na podany adres otrzymasz przypomnienia swojego hasła.</p>
+                <p class="recover">{{lang.recover_your_email}}
+                    <br/>{{lang.recover_your_email_description}}</p>
                 <br/>
-                <input type="email" id="recoverEmail" class="loginInputStyle" placeholder="twój e-mail" />
-                <a class="submitButton" ng-click="recoverPassword()">zresetuj hasło</a>
+                <input type="email" id="recoverEmail" class="loginInputStyle" placeholder="{{lang.your_email_lower_case}}" />
+                <a class="submitButton" ng-click="recoverPassword()">{{lang.reset_password}}</a>
                 <br/>
             </form>
         </ons-page>
@@ -155,9 +154,9 @@
             </ons-toolbar>
             <div>
                 <form class="loginStyle">
-                    <h2 class="nfcHeader">Przypisz użytkownika/ów do tego zadania wykorzystując NFC</h2>
+                    <h2 class="nfcHeader">{{lang.nfc_description}}</h2>
                     <img src="css/NFC.png" class="nfcImage" />
-                    <a class="submitButton" id="shareNFC">rozpocznij udospępnianie</a>
+                    <a class="submitButton" id="shareNFC">{{lang.nfc_share}}</a>
                 </form>
             </div>
 
@@ -214,13 +213,13 @@
                             <div class="clear"></div>
                             <br/>
                             <div class="yourStats">
-                                Zadania przypisane do Ciebie: <span class="colorYellow">{{item.zadaniaPrzypisaneDoUzytkownika}}</span>
-                                <br/> Zadania nieprzypisane: <span class="colorYellow">{{item.zadaniaNieprzypisane}}</span>
-                                <br/> Najbliższy termin: <span class="colorYellow">{{item.terminy[0].data}}</span>
+                                {{lang.task_assigned_to_you}}<span class="colorYellow">{{item.zadaniaPrzypisaneDoUzytkownika}}</span>
+                                <br/>{{lang.task_not_assigned}}<span class="colorYellow">{{item.zadaniaNieprzypisane}}</span>
+                                <br/>{{lang.closest_date}}<span class="colorYellow">{{item.terminy[0].data}}</span>
                                 <br/>
                             </div>
                             <br/>
-                            <h4>zadania przypisane do inncyh osób</h4>
+                            <h4>{{lang.tasks_assigned_to_other_people}}</h4>
                             <div class="projectPeople">
                                 <meta name="format-detection" content="telephone=no">
 
@@ -240,14 +239,14 @@
                     <label class="tab-bar__item tab-bar--top-border__item" ng-click="goToProjekty()">
                         <input type="radio" name="top-tab-bar-b" checked="checked">
                         <button class="tab-bar__button tab-bar--top-border__button">
-                            Projekty
+                            {{lang.projects}}
                         </button>
                     </label>
 
                     <label class="tab-bar__item tab-bar--top-border__item" ng-click="goToMojeZadania()">
                         <input type="radio" name="top-tab-bar-b">
                         <button class="tab-bar__button tab-bar--top-border__button">
-                            Moje zadania
+                            {{lang.my_tasks}}
                         </button>
                     </label>
                 </div>
@@ -277,9 +276,9 @@
                                     <div class='icon promo'>{{item.punktyUzytkownika}}</div>
                                 </div>
                                 <div class="normalStats">
-                                    Zadania przypisane do Ciebie: {{item.zadaniaPrzypisaneDoUzytkownika}}
-                                    <br/> Zadania nieprzypisane: {{item.zadaniaNieprzypisane}}
-                                    <br/> Najbliższy termin: {{item.terminy[0].data}}
+                                    {{lang.task_assigned_to_you}} {{item.zadaniaPrzypisaneDoUzytkownika}}
+                                    <br/>{{lang.task_not_assigned}} {{item.zadaniaNieprzypisane}}
+                                    <br/>{{lang.closest_date}} {{item.terminy[0].data}}
                                 </div>
                             </div>
                         </ons-col>
@@ -352,13 +351,13 @@
                     <label class="tab-bar__item tab-bar--top-border__item" ng-click="goToInformacje()">
                         <input type="radio" name="top-tab-bar-b" checked="checked">
                         <button class="tab-bar__button tab-bar--top-border__button">
-                            Informacje
+                            {{lang.informations}}
                         </button>
                     </label>
                     <label class="tab-bar__item tab-bar--top-border__item" ng-click="goToKomentarze()">
                         <input type="radio" name="top-tab-bar-b">
                         <button class="tab-bar__button tab-bar--top-border__button">
-                            Komentarze
+                            {{lang.comments}}
                         </button>
                     </label>
                 </div>
@@ -400,28 +399,28 @@
                         </div>
                         <div class="singleSection" ng-if="item.opis.length>1 || item.lokalizacja!='Wybierz lokalizację'">
                             <div ng-if="item.opis">
-                                <h3>Opis zadania</h3>
+                                <h3>{{lang.task_description}}</h3>
                                 <p class="opis">{{item.opis}}</p>
                             </div>
                             <div class="locationBig" ng-if="item.lokalizacja!='Wybierz lokalizację'">
-                                <h3>Lokalizacja:</h3>
+                                <h3>{{lang.localization}}</h3>
                                 <div id="adressPreview" data-ng-bind-html="someSafeContent"></div>
                             </div>
                         </div>
                         <div class="singleSection">
-                            <h3>Data ukończenia i priorytet</h3>
+                            <h3>{{lang.end_date_and_priority}}</h3>
                             <div class="singleRow">
                                 <div class="milestoneHeader" ng-if="milestoneName.mileStoneNaglowek">{{milestoneName.mileStoneNaglowek}}</div>
                                 <div class="milerstoneDate">{{item.data}}</div>
                                 <div class="milerstoneDes">{{item.nazwa}}</div>
-                                <span class="priorytet done" ng-if="item.priorytet=='prioFinished'">Zadanie zakończone</span>
-                                <span class="priorytet low" ng-if="item.priorytet=='prioLow'">Priorytet niski</span>
-                                <span class="priorytet normal" ng-if="item.priorytet=='prioNormal'">Priorytet normalny</span>
-                                <span class="priorytet important" ng-if="item.priorytet=='prioImportant'">Priorytet wysoki</span>
+                                <span class="priorytet done" ng-if="item.priorytet=='prioFinished'">{{lang.task_finished}}</span>
+                                <span class="priorytet low" ng-if="item.priorytet=='prioLow'">{{lang.priority_low}}</span>
+                                <span class="priorytet normal" ng-if="item.priorytet=='prioNormal'">{{lang.priority_medium}}</span>
+                                <span class="priorytet important" ng-if="item.priorytet=='prioImportant'">{{lang.priority_high}}</span>
                             </div>
                         </div>
                         <div class="singleSection">
-                            <h3>Budżet zadania</h3>
+                            <h3>{{lang.task_budget}}</h3>
                             <div class="chartsBig" id="taskCharts">
                                 <div class="half" ng-if="item.budzetGodzinowy=='tak'">
                                     <span class="chartHours" data-percent="{{item.budzetGodzinowyWykorzystanie/item.budzetGodzinowyWartosc*100}}">
@@ -429,8 +428,8 @@
                                     <div class="clear"></div>
                                     <span class="detail">{{item.budzetGodzinowyWykorzystanie/60 | number: 2}}/{{item.budzetGodzinowyWartosc/60 | number: 0}}</span>
                                     </span>
-                                    <div class="chartLabel">przepracowanych
-                                        <br/>godzin</div>
+                                    <div class="chartLabel">{{lang.done_hours1}}
+                                        <br/>{{lang.done_hours2}}</div>
                                 </div>
                                 <div class="half" ng-if="item.budzetGodzinowy!='tak'">
                                     <span class="chartHours" data-percent="0">
@@ -438,8 +437,8 @@
                                     <div class="clear"></div>
 
                                     </span>
-                                    <div class="chartLabel">przepracowanych
-                                        <br/>godzin</div>
+                                    <div class="chartLabel">{{lang.done_hours1}}
+                                        <br/>{{lang.done_hours2}}</div>
                                 </div>
                                 <div class="half" ng-if="item.budzetPieniezny=='tak'">
                                     <span class="chartMoney" data-percent="{{item.budzetPienieznyWykorzystanie/item.budzetPienieznyWartosc*100}}">
@@ -447,26 +446,26 @@
                                     <div class="clear"></div>
                                     <span class="detail">{{item.budzetPienieznyWykorzystanie/100 | number :2}}/{{item.budzetPienieznyWartosc/100 | number: 0}}</span>
                                     </span>
-                                    <div class="chartLabel">wykorzystane
-                                        <br/>pieniądze</div>
+                                    <div class="chartLabel">{{lang.used_money1}}
+                                        <br/>{{lang.used_money2}}</div>
                                 </div>
                                 <div class="half" ng-if="item.budzetPieniezny!='tak'">
                                     <span class="chartMoney" data-percent="0">
 		                    <span class="value">{{item.budzetPienieznyWykorzystanie/100 | number: 2}}zł</span>
                                     <div class="clear"></div>
                                     </span>
-                                    <div class="chartLabel">wykorzystane
-                                        <br/>pieniądze</div>
+                                    <div class="chartLabel">{{lang.used_money1}}
+                                        <br/>{{lang.used_money2}}</div>
                                 </div>
                                 <div class="clear"></div>
                             </div>
                         </div>
                         <div class="singleSection">
-                            <h3 ng-if="!item.przypisaneOsoby || item.przypisaneOsoby.length==0">Przypisane osoby: brak</h3>
+                            <h3 ng-if="!item.przypisaneOsoby || item.przypisaneOsoby.length==0">{{lang.assigned_people_none}}</h3>
                             <div class="text-center" ng-if="!item.przypisaneOsoby || item.przypisaneOsoby.length==0">
-                                <div id="dodajSiebie" ng-click="addUserToTask(currentuser[0].idUser,item.idZadania)"> przyjmij zadanie {{currentuser[0].idUser}}</div>
+                                <div id="dodajSiebie" ng-click="addUserToTask(currentuser[0].idUser,item.idZadania)"> {{lang.get_task}} {{currentuser[0].idUser}}</div>
                             </div>
-                            <h3 ng-if="item.przypisaneOsoby && item.przypisaneOsoby.length>0">Przypisane osoby: {{item.przypisaneOsoby.length}}</h3>
+                            <h3 ng-if="item.przypisaneOsoby && item.przypisaneOsoby.length>0">{{lang.assigned_poeple}} {{item.przypisaneOsoby.length}}</h3>
                             <ons-list-item ng-if="item.przypisaneOsoby && item.przypisaneOsoby.length>0" modifier="chevron" class="item osoba" ng-repeat="osoba in item.przypisaneOsoby | orderBy:'-imie'" data-person="{{osoba.idUser}}">
                                 <ons-row>
                                     <ons-col>
@@ -546,25 +545,25 @@
                     <label class="tab-bar__item tab-bar--top-border__item" id="goToZadania">
                         <input type="radio" name="top-tab-bar-b" checked="checked">
                         <button class="tab-bar__button tab-bar--top-border__button">
-                            Zadania
+                            {{lang.tasks}}
                         </button>
                     </label>
                     <label class="tab-bar__item tab-bar--top-border__item" id="goToBudzet">
                         <input type="radio" name="top-tab-bar-b">
                         <button class="tab-bar__button tab-bar--top-border__button">
-                            Budżet
+                            {{lang.budget}}
                         </button>
                     </label>
                     <label class="tab-bar__item tab-bar--top-border__item" id="goToZasoby">
                         <input type="radio" name="top-tab-bar-b">
                         <button class="tab-bar__button tab-bar--top-border__button">
-                            Zasoby
+                            {{lang.resources}}
                         </button>
                     </label>
                     <label class="tab-bar__item tab-bar--top-border__item" id="goToPostep">
                         <input type="radio" name="top-tab-bar-b">
                         <button class="tab-bar__button tab-bar--top-border__button">
-                            Postęp
+                            {{lang.progress}}
                         </button>
                     </label>
                 </div>
@@ -574,19 +573,19 @@
                     <label class="tab-bar__item tab-bar--top-border__item" id="goToZadania">
                         <input type="radio" name="top-tab-bar-b" checked="checked">
                         <button class="tab-bar__button tab-bar--top-border__button">
-                            Zadania
+                            {{lang.tasks}}
                         </button>
                     </label>
                     <label class="tab-bar__item tab-bar--top-border__item" id="goToStatystyki">
                         <input type="radio" name="top-tab-bar-b">
                         <button class="tab-bar__button tab-bar--top-border__button">
-                            Statystyki
+                            {{lang.statistics}}
                         </button>
                     </label>
                     <label class="tab-bar__item tab-bar--top-border__item" id="goToZasoby" ng-if="item.zasoby">
                         <input type="radio" name="top-tab-bar-b">
                         <button class="tab-bar__button tab-bar--top-border__button">
-                            Zasoby
+                            {{lang.resources}}
                         </button>
                     </label>
                 </div>
@@ -594,30 +593,30 @@
             <div class="notifications" ng-if="!isAdmin(item.idProjekt)">
                 <div class="notificationBox" data-koszt="{{koszt.idKoszt}}" ng-repeat="koszt in item.koszty | orderBy:'idKoszt'" ng-if="koszt.zaakceptowanyAdmin==1 && koszt.zaakceptowanyUser==0 && currentuser[0].idUser == koszt.idUser">
                     <div class="person" style="background-image:url({{koszt.avatar}})"></div>
-                    <span class="nazwa">Zgłoszony koszt: {{koszt.nazwa}} - </span><span class="cena">{{koszt.kwota/100 | number:2}}zł</span>
+                    <span class="nazwa">{{lang.reported_cost}} {{koszt.nazwa}} - </span><span class="cena">{{koszt.kwota/100 | number:2}}zł</span>
                     <!-- <span class="imie">{{koszt.imie}}</span>-->
-                    <p class="infoBox">koszt zaakceptowany</p>
+                    <p class="infoBox">{{lang.cost_accepted}}</p>
                     <a class="acceptNotification" ng-click="acceptNotification(koszt.idKoszt)"></a>
                 </div>
                 <div class="notificationBox" data-koszt="{{koszt.idKoszt}}" ng-repeat="koszt in item.koszty | orderBy:'idKoszt'" ng-if="koszt.zaakceptowanyAdmin==2 && koszt.zaakceptowanyUser==0 && currentuser[0].idUser == koszt.idUser">
                     <div class="person" style="background-image:url({{koszt.avatar}})"></div>
-                    <span class="nazwa">Zgłoszony koszt: {{koszt.nazwa}} - </span><span class="cena">{{koszt.kwota/100 | number:2}}zł</span>
+                    <span class="nazwa">{{lang.reported_cost}} {{koszt.nazwa}} - </span><span class="cena">{{koszt.kwota/100 | number:2}}zł</span>
                     <!-- <span class="imie">{{koszt.imie}}</span>-->
-                    <p class="infoBox">koszt odrzucony</p>
+                    <p class="infoBox">{{lang.cost_rejected}}</p>
                     <a class="acceptNotification" ng-click="acceptNotification(koszt.idKoszt)"></a>
                 </div>
             </div>
             <div class="notifications" ng-if="isAdmin(item.idProjekt)">
                 <div class="notificationBox" data-koszt="{{koszt.idKoszt}}" ng-repeat="koszt in item.koszty | orderBy:'idKoszt'" ng-if="koszt.zaakceptowanyAdmin==0">
                     <div class="person" style="background-image:url({{koszt.avatar}})"></div>
-                    <span class="nazwa">Zgłoszony koszt: {{koszt.nazwa}} - </span><span class="cena">{{koszt.kwota/100 | number:2}}zł</span>
+                    <span class="nazwa">{{lang.reported_cost}} {{koszt.nazwa}} - </span><span class="cena">{{koszt.kwota/100 | number:2}}zł</span>
                     <!-- <span class="imie">{{koszt.imie}}</span>-->
                     <a class="answereNotification" ng-click="acceptCost(koszt.idKoszt)"></a>
                 </div>
             </div>
             <div ng-if="!item.zadania" class="emptyAll">
                 <div class="emptyState"></div>
-                <div id="newTask" style="display:none;">Dodaj zadanie</div>
+                <div id="newTask" style="display:none;">{[lang.add_task]}</div>
             </div>
             <ons-list style="display:block;" class="tabZadania" id="tabZadania">
                 <ons-list-item modifier="chevron" class="item" ng-repeat="zadanie in item.zadania | orderBy:'orderKey'">
@@ -647,7 +646,7 @@
                                 <div class="taskTitle" style="margin-bottom:-10px;">{{zadanie.nazwa}}</div>
                                 <div class="infoElements" ng-if="isAdmin(item.idProjekt)">
                                     <div class='icon {{zadanie.statusClass}}' ng-if="zadanie.priorytet!='prioFinished'">{{zadanie.statusUzytkownika}}</div>
-                                    <div class='icon {{zadanie.statusClass}}' ng-if="zadanie.priorytet=='prioFinished'">zakończone</div>
+                                    <div class='icon {{zadanie.statusClass}}' ng-if="zadanie.priorytet=='prioFinished'">{{lang.finished}}</div>
                                     <div class='icon time'>{{zadanie.budzetGodzinowyWykorzystanie}}</div>
                                     <div class="clear" style="margin-bottom:5px;"></div>
                                     <div class='icon cost'>{{zadanie.budzetPienieznyWykorzystanie}}</div>
@@ -655,7 +654,7 @@
                                 </div>
                                 <div class="infoElements" ng-if="!isAdmin(item.idProjekt)">
                                     <div class='icon {{zadanie.statusClass}}' ng-if="zadanie.priorytet!='prioFinished'">{{zadanie.statusUzytkownika}}</div>
-                                    <div class='icon {{zadanie.statusClass}}' ng-if="zadanie.priorytet=='prioFinished'">zakończone</div>
+                                    <div class='icon {{zadanie.statusClass}}' ng-if="zadanie.priorytet=='prioFinished'">{{lang.finished}}</div>
                                     <div class='icon time' ng-if="zadanie.osobaCzasTF==1">{{zadanie.osobaCzas}}</div>
                                     <div class="clear" style="margin-bottom:5px;"></div>
                                     <div class='icon cost' ng-if="zadanie.osobaKasaTF==1">{{zadanie.osobaKasa}}</div>
@@ -672,18 +671,18 @@
                                     <span class="chartMini2" data-percent="{{zadanie.milestoneUkonczoneZadaniaProcent}}">
 		                    <span class="percent"></span>
                                     </span>
-                                    <div class="charMiniLabel">ukończone
-                                        <br/>zadania</div>
+                                    <div class="charMiniLabel">{{lang.finished_tasks1}}
+                                        <br/>{{lang.finished_tasks2}}</div>
                                     <span class="chartMini3" data-percent="{{zadanie.milestoneWykorzystanyBudzetPieniadze}}">
 		                    <span class="percent"></span>
                                     </span>
-                                    <div class="charMiniLabel">budżet
-                                        <br/>pieniądze</div>
+                                    <div class="charMiniLabel">{{lang.budget_cost1}}
+                                        <br/>{{lang.budget_cost2}}</div>
                                     <span class="chartMini4" data-percent="{{zadanie.milestoneWykorzystanyBudzetGodziny}}">
 		                    <span class="percent"></span>
                                     </span>
-                                    <div class="charMiniLabel">budżet
-                                        <br/>godziny</div>
+                                    <div class="charMiniLabel">{{lang.budget_hours1}}
+                                        <br/>{{lang.budget_hours2}}</div>
                                     <div class="clear"></div>
                                 </div>
                                 <div class="clear"></div>
@@ -695,15 +694,15 @@
             <div style="display:none;" class="tabZasoby" id="tabZasoby">
                 <div ng-if="!item.zasoby">
                     <div class="emptyState"></div>
-                    <div id="newTask" style="display:none;" ng-if="isAdmin(item.idProjekt)" ng-click="dodajZasob()">Dodaj zasób</div>
+                    <div id="newTask" style="display:none;" ng-if="isAdmin(item.idProjekt)" ng-click="dodajZasob()">{{lang.add_resource}}</div>
                 </div>
                 <div ng-if="item.zasoby.length>0">
                     <div ng-repeat="zasob in item.zasoby | orderBy:'idZasob'" class="zasob">
                         <div class="zasobHeader">
                             <div class="nazwaZasobu">{{zasob.nazwa}}</div>
                             <div class="opisZasobu">{{zasob.opis}}</div>
-                            <div ng-if="!zasob.rezerwacje" class="iloscRezerwacji">brak rezerwacji</div>
-                            <div ng-if="zasob.rezerwacje" class="iloscRezerwacji">rezerwacje: {{zasob.rezerwacje.length}}</div>
+                            <div ng-if="!zasob.rezerwacje" class="iloscRezerwacji">{{lang.no_reservations}}</div>
+                            <div ng-if="zasob.rezerwacje" class="iloscRezerwacji">{{lang.reservations}} {{zasob.rezerwacje.length}}</div>
                             <div class="reserve" ng-click="reserveZasob(zasob.idZasob)"></div>
                         </div>
                         <div class="rezerwacja" ng-repeat="rezerwacja in zasob.rezerwacje | orderBy:'orderKey'">
@@ -736,8 +735,8 @@
                         <div class="clear"></div>
                         <span class="detail">{{item.budzetGodzinowyWykorzystanie/60 | number : 2}}/{{item.budzetGodzinowyWartosc/60 | number : 0}}</span>
                         </span>
-                        <div class="chartLabel">przepracowanych
-                            <br/>godzin</div>
+                        <div class="chartLabel">{{lang.done_hours1}}
+                            <br/>{{lang.done_hours2}}</div>
                     </div>
                     <div class="half" ng-if="item.budzetGodzinowy!='tak'">
                         <span class="chartHours" data-percent="0">
@@ -745,8 +744,8 @@
                         <div class="clear"></div>
 
                         </span>
-                        <div class="chartLabel">przepracowanych
-                            <br/>godzin</div>
+                        <div class="chartLabel">{{lang.done_hours1}}
+                            <br/>{{lang.done_hours2}}</div>
                     </div>
                     <div class="half" ng-if="item.budzetPieniezny=='tak'">
                         <span class="chartMoney" data-percent="{{item.budzetPienieznyWykorzystanie/item.budzetPienieznyWartosc*100}}">
@@ -754,22 +753,22 @@
                         <div class="clear"></div>
                         <span class="detail">{{item.budzetPienieznyWykorzystanie/100 | number : 2}}/{{item.budzetPienieznyWartosc/100 | number : 0}}</span>
                         </span>
-                        <div class="chartLabel">wykorzystane
-                            <br/>pieniądze</div>
+                        <div class="chartLabel">{{lang.used_money1}}
+                            <br/>{{lang.used_money2}}</div>
                     </div>
                     <div class="half" ng-if="item.budzetPieniezny!='tak'">
                         <span class="chartMoney" data-percent="{{item.budzetPienieznyWykorzystanie/item.budzetPienieznyWartosc*100}}">
 		                    <span class="value">{{item.budzetPienieznyWykorzystanie/60 | number : 2}}zł</span>
                         <div class="clear"></div>
                         </span>
-                        <div class="chartLabel">wykorzystane
-                            <br/>pieniądze</div>
+                        <div class="chartLabel">{{lang.used_money1}}
+                            <br/>{{lang.used_money2}}</div>
                     </div>
                     <div class="clear"></div>
                 </div>
                 <div class="clear"></div>
                 <ul class="list ">
-                    <li class="list__header" id="budgetType">Koszty - zmień <i class="icon ion-android-arrow-dropdown"></i>
+                    <li class="list__header" id="budgetType">{{lang.change_cost}}<i class="icon ion-android-arrow-dropdown"></i>
                     </li>
                     <ons-list-item modifier="chevron" class="item typeAll typeKoszt" ng-repeat="osoba in item.przypisaneOsoby | orderBy:'-kasaUzytkownika'">
                         <ons-row>
@@ -903,22 +902,22 @@
                         <div class="clear"></div>
                         <span class="detail">{{item.ukonczoneZadania}}/{{item.wszystkieZadania}}</span>
                         </span>
-                        <div class="chartLabel">wykonanych
-                            <br/>zadań</div>
+                        <div class="chartLabel">{{lang.tasks_done1}}
+                            <br/>{{lang.tasks_done2}}</div>
                     </div>
                     <div class="half">
                         <div class="statBigElement borderBottom">
-                            <span class="stat-title">nieprzypisane zadania</span>
+                            <span class="stat-title">{[lang.not_assigned_tasks]}</span>
                             <div class="clear"></div>
                             {{item.zadaniaNieprzypisane}}
                         </div>
                         <div class="statBigElement borderBottom">
-                            <span class="stat-title">zadania po terminie</span>
+                            <span class="stat-title">{{lang.tasks_over_deadline}}</span>
                             <div class="clear"></div>
                             {{item.zadaniaPoTerminie}}
                         </div>
                         <div class="statBigElement">
-                            <span class="stat-title">zadania z przekroczonym budżetem</span>
+                            <span class="stat-title">{{lang.tasks_over_budget}}</span>
                             <div class="clear"></div>
                             {{item.zadaniaPrzekroczonyBudzet}}
                         </div>
@@ -927,7 +926,7 @@
                 </div>
                 <div class="clear"></div>
                 <ul class="list ">
-                    <li class="list__header" ng-click="logType()">Wszystko - zmień <i class="icon ion-android-arrow-dropdown"></i>
+                    <li class="list__header" ng-click="logType()">{{lang.all_change}}<i class="icon ion-android-arrow-dropdown"></i>
                     </li>
                     <ons-list-item modifier="chevron" class="item typeLogAll typeKoszt" ng-repeat="logItem in item.log | orderBy:'-idLog' | logfilter:search">
                         <ons-row>
@@ -941,14 +940,14 @@
                                         <div class="actionButtonHolder" ng-if="!logItem.przyznanePunkty" data-id="{{logItem.idLog}}">
                                             <div class="addPromo" ng-click="addPromoPoints(logItem.idLog)"></div>
                                         </div>
-                                        <div class="taskTitle" style="margin-bottom:-10px;">Zakończenie zadania:</div>
+                                        <div class="taskTitle" style="margin-bottom:-10px;">{{lang.finished_tasks}}</div>
                                         <div class="taskTitle" style="margin-bottom:-10px;">{{logItem.nazwa}}</div>
                                         <div class="infoElements">
                                             <div class='icon none'>{{logItem.osoba}}</div>
                                             <div class='icon time'>{{logItem.data}}</div>
                                         </div>
                                         <div ng-if="logItem.przyznanePunkty" class="actionInfo" data-id="{{logItem.idLog}}">
-                                            Przyznano punkty premiowe: <strong>{{logItem.przyznanePunkty}}</strong>
+                                            {{lang.premium_points_assigned}}<strong>{{logItem.przyznanePunkty}}</strong>
                                         </div>
                                     </div>
                                 </ons-col>
@@ -960,7 +959,7 @@
                                             <div class="person" style="background-image:url({{logItem.avatarOsoby}})"></div>
                                             <div class="clear"></div>
                                         </div>
-                                        <div class="taskTitle" style="margin-bottom:-10px;">Nowe zadanie:</div>
+                                        <div class="taskTitle" style="margin-bottom:-10px;">{{lang.new_task}}</div>
                                         <div class="taskTitle" style="margin-bottom:-10px;">{{logItem.nazwa}}</div>
                                         <div class="infoElements">
                                             <div class='icon none'>{{logItem.osoba}}</div>
@@ -973,7 +972,7 @@
                             <div ng-if="logItem.typ=='zakonczenieProjektu'" class="width100">
                                 <ons-col>
                                     <div class="basicItem logItem purple">
-                                        <div class="taskTitle" style="margin-bottom:-10px;">Zakończenie projektu</div>
+                                        <div class="taskTitle" style="margin-bottom:-10px;">{{lang.project_ending}}</div>
                                         <div class="infoElements">
                                             <div class='icon time'>{{logItem.data}}</div>
                                         </div>
@@ -983,7 +982,7 @@
                             <div ng-if="logItem.typ=='rozpoczecieProjektu'" class="width100">
                                 <ons-col>
                                     <div class="basicItem logItem purple">
-                                        <div class="taskTitle" style="margin-bottom:-10px;">Rozpoczęcie projektu</div>
+                                        <div class="taskTitle" style="margin-bottom:-10px;">{{lang.project_start}}</div>
                                         <div class="infoElements">
                                             <div class='icon time'>{{logItem.data}}</div>
                                         </div>
@@ -993,7 +992,7 @@
                             <div ng-if="logItem.typ=='zakonczenieMilestone'" class="width100">
                                 <ons-col>
                                     <div class="basicItem logItem grey">
-                                        <div class="taskTitle" style="margin-bottom:-10px;">Zakończenie milestone</div>
+                                        <div class="taskTitle" style="margin-bottom:-10px;">{{lang.milestone_finish}}</div>
                                         <div class="taskTitle" style="margin-bottom:-10px;">{{logItem.nazwa}}</div>
                                         <div class="infoElements">
                                             <div class='icon time'>{{logItem.data}}</div>
@@ -1018,22 +1017,22 @@
                         <div class="clear"></div>
                         <span class="detail">{{item.ukonczoneZadania}}/{{item.wszystkieZadania}}</span>
                         </span>
-                        <div class="chartLabel">wykonanych
-                            <br/>zadań</div>
+                        <div class="chartLabel">{{lang.tasks_done1}}
+                            <br/>{{lang.tasks_done2}}</div>
                     </div>
                     <div class="half">
                         <div class="statBigElement borderBottom">
-                            <span class="stat-title">nieprzypisane zadania</span>
+                            <span class="stat-title">{{lang.not_assigned_tasks}}</span>
                             <div class="clear"></div>
                             {{item.zadaniaNieprzypisane}}
                         </div>
                         <div class="statBigElement borderBottom">
-                            <span class="stat-title">zadania po terminie</span>
+                            <span class="stat-title">{{lang.tasks_over_deadline}}</span>
                             <div class="clear"></div>
                             {{item.zadaniaPoTerminie}}
                         </div>
                         <div class="statBigElement">
-                            <span class="stat-title">zadania z przekroczonym budżetem</span>
+                            <span class="stat-title">{{lang.tasks_over_budget}}</span>
                             <div class="clear"></div>
                             {{item.zadaniaPrzekroczonyBudzet}}
                         </div>
@@ -1042,7 +1041,7 @@
                 </div>
                 <div class="clear"></div>
                 <ul class="list ">
-                    <li class="list__header">Punkty premiowe</li>
+                    <li class="list__header">{{lang.bonus_points}}</li>
                     <ons-list-item modifier="chevron" class="item typeAll typePunkty" ng-repeat="osoba in item.przypisaneOsoby | orderBy:'-punktyUzytkownika'" ng-click="showDetail($index)">
                         <ons-row>
                             <ons-col>
@@ -1075,7 +1074,7 @@
                         <ons-icon icon="ion-chevron-left" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
                     </ons-toolbar-button>
                 </div>
-                <div class="center">Ustawienia</div>
+                <div class="center">{{lang.settings}}</div>
                 <div class="right">
                     <ons-toolbar-button ng-click="logOut()">
                         <ons-icon icon="ion-log-out" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
@@ -1084,29 +1083,40 @@
             </ons-toolbar>
             <div class="text-center" style="background-color:#32188f;">
                 <div id="avatar" class="avatarUser" style="background-image:url('{{user.avatar}}');"></div>
-                <a id="capturePhoto" data-attr="{{user.avatar}}">zmień awatar</a>
+                <a id="capturePhoto" data-attr="{{user.avatar}}">{{lang.change_avatar}}</a>
             </div>
             <ul class="list">
-                <li class="list__header">Modyfikuj dane osobowe</li>
+                <li class="list__header">{{lang.modify_personal_data}}</li>
                 <li class="list__item">
                     <ons-row align="center" class="row ons-row-inner row-center">
-                        <ons-col class="col ons-col-inner">Imię</ons-col>
+                        <ons-col class="col ons-col-inner">{{lang.first_name}}</ons-col>
                         <ons-col class="col ons-col-inner">
-                            <input type="text" class="text-input text-input--transparent inputWithLabel" placeholder="Imię" ng-model="user.imie" ng-init="user.imie">
+                            <input type="text" class="text-input text-input--transparent inputWithLabel" placeholder="{{lang.first_name}}" ng-model="user.imie" ng-init="user.imie">
                         </ons-col>
                     </ons-row>
                 </li>
                 <li class="list__item">
                     <ons-row align="center" class="row ons-row-inner row-center">
-                        <ons-col class="col ons-col-inner">Nazwisko</ons-col>
+                        <ons-col class="col ons-col-inner">{{lang.last_name}}</ons-col>
                         <ons-col class="col ons-col-inner">
-                            <input type="text" class="text-input text-input--transparent inputWithLabel" placeholder="Nazwisko" ng-model="user.nazwisko" ng-init="user.nazwisko">
+                            <input type="text" class="text-input text-input--transparent inputWithLabel" placeholder="{{lang.last_name}}" ng-model="user.nazwisko" ng-init="user.nazwisko">
+                        </ons-col>
+                    </ons-row>
+                </li>
+                   <li class="list__item">
+                    <ons-row align="center" class="row ons-row-inner row-center">
+                        <ons-col class="col ons-col-inner">{{lang.account_type}}</ons-col>
+                        <ons-col class="col ons-col-inner text-right" ng-if="user.premium==1">
+                            Premium
+                        </ons-col>
+                        <ons-col class="col ons-col-inner text-right" ng-if="user.premium==0">
+                            Free
                         </ons-col>
                     </ons-row>
                 </li>
                   <li class="list__item">
                     <ons-row align="center" class="row ons-row-inner row-center">
-                        <ons-col class="col ons-col-inner">Powiadomienia</ons-col>
+                        <ons-col class="col ons-col-inner">{{lang.notifications}}</ons-col>
                         <ons-col class="col ons-col-inner" ng-if="user.powiadomienia==0">
                             <div class="switchHolder">
                                 <ons-switch id="powiadomieniaOption"></ons-switch>
@@ -1119,7 +1129,7 @@
                         </ons-col>
                     </ons-row>
                 </li>
-                <p class="infoBox">Aktywując powiadomienia, otrzymasz dwa razy dziennie e-mail z podsumowaniem Twoich zadań.</p>
+                <p class="infoBox">{{lang.notifications_description}}</p>
             </ul>
         </ons-page>
     </ons-template>
@@ -1132,7 +1142,7 @@
                         <ons-icon icon="ion-chevron-left" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
                     </ons-toolbar-button>
                 </div>
-                <div class="center">Nowy projekt</div>
+                <div class="center">{{lang.new_project}}</div>
                 <div class="right">
                     <ons-toolbar-button>
                         <ons-icon icon="ion-checkmark-circled" fixed-width="false" style="font-size: 26px; vertical-align: -4px" data-ng-click="addProject()"></ons-icon>
@@ -1140,27 +1150,27 @@
                 </div>
             </ons-toolbar>
             <ul class="list">
-                <li class="list__header">Informacje podstawowe</li>
+                <li class="list__header">{{lang.basic_information}}</li>
                 <li class="list__item">
                     <ons-row align="center" class="row ons-row-inner row-center">
-                        <ons-col class="col ons-col-inner">Nazwa*</ons-col>
+                        <ons-col class="col ons-col-inner">{{lang.name_asterix}}</ons-col>
                         <ons-col class="col ons-col-inner">
-                            <input type="text" class="text-input text-input--transparent inputWithLabel" id="nazwaProjektu" placeholder="Nowy projekt">
+                            <input type="text" class="text-input text-input--transparent inputWithLabel" id="nazwaProjektu" placeholder="{{lang.new_project">
                         </ons-col>
                     </ons-row>
                 </li>
             </ul>
             <ul class="list noOverscroll" id="terminy">
-                <li class="list__header">Terminy</li>
+                <li class="list__header">{{lang.deadlines}}</li>
             </ul>
             <div class="text-center">
-                <div id="dodajTermin">dodaj termin</div>
+                <div id="dodajTermin">{{lang.add_deadline}}</div>
             </div>
             <ul class="list ">
-                <li class="list__header">Budżet</li>
+                <li class="list__header">{{lang.budget}}</li>
                 <li class="list__item" id="twojaStawkaGodzinowa">
                     <ons-row align="center" class="row ons-row-inner row-center">
-                        <ons-col class="col ons-col-inner">Twoja stawka/h</ons-col>
+                        <ons-col class="col ons-col-inner">{{lang.your_rate_hour}}</ons-col>
                         <ons-col class="col ons-col-inner">
                             <select class="inputClear optionGenerator" data-count="1000" data-step="5" data-unit="zł">
                             </select>
@@ -1169,7 +1179,7 @@
                 </li>
                 <li class="list__item">
                     <ons-row align="center" class="row ons-row-inner row-center">
-                        <ons-col class="col ons-col-inner">Budżet pieniężny</ons-col>
+                        <ons-col class="col ons-col-inner">{{lang.money_budget}}</ons-col>
                         <ons-col class="col ons-col-inner">
                             <div class="switchHolder">
                                 <ons-switch id="budzetPieniadze"></ons-switch>
@@ -1179,7 +1189,7 @@
                 </li>
                 <li class="list__item inactive" id="wartoscBudzetPieniadze">
                     <ons-row align="center" class="row ons-row-inner row-center">
-                        <ons-col class="col ons-col-inner">Wartość</ons-col>
+                        <ons-col class="col ons-col-inner">{{lang.value}}</ons-col>
                         <ons-col class="col ons-col-inner">
                             <select class="inputClear optionGenerator" data-count="5000" data-step="250" data-unit="zł">
                             </select>
@@ -1188,7 +1198,7 @@
                 </li>
                 <li class="list__item">
                     <ons-row align="center" class="row ons-row-inner row-center">
-                        <ons-col class="col ons-col-inner">Budżet godzinowy</ons-col>
+                        <ons-col class="col ons-col-inner">{{lang.hours_budget}}</ons-col>
                         <ons-col class="col ons-col-inner">
                             <div class="switchHolder">
                                 <ons-switch id="budzetGodzinowy"></ons-switch>
@@ -1198,7 +1208,7 @@
                 </li>
                 <li class="list__item inactive" id="wartoscBudzetGodziny">
                     <ons-row align="center" class="row ons-row-inner row-center">
-                        <ons-col class="col ons-col-inner">Wartość</ons-col>
+                        <ons-col class="col ons-col-inner">{{lang.value}}</ons-col>
                         <ons-col class="col ons-col-inner">
                             <select class="inputClear optionGenerator" data-count="1000" data-step="1" data-unit="h">
                             </select>
@@ -1217,7 +1227,7 @@
                         <ons-icon icon="ion-chevron-left" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
                     </ons-toolbar-button>
                 </div>
-                <div class="center">Nowe zadanie</div>
+                <div class="center">{{lang.new_task2}}</div>
                 <div class="right">
                     <ons-toolbar-button>
                         <ons-icon icon="ion-checkmark-circled" fixed-width="false" style="font-size: 26px; vertical-align: -4px" ng-click="addNewTask()"></ons-icon>
@@ -1225,41 +1235,54 @@
                 </div>
             </ons-toolbar>
             <ul class="list">
-                <li class="list__header">Informacje podstawowe</li>
+                <li class="list__header">{{lang.basic_information</li>
                 <li class="list__item">
                     <ons-row align="center" class="row ons-row-inner row-center">
-                        <ons-col class="col ons-col-inner">Nazwa*</ons-col>
+                        <ons-col class="col ons-col-inner">{{lang.name_asterix}}</ons-col>
                         <ons-col class="col ons-col-inner flex2">
-                            <input type="text" class="text-input text-input--transparent inputWithLabel" id="nazwaZadania" placeholder="Nowe zadanie">
+                            <input type="text" class="text-input text-input--transparent inputWithLabel" id="nazwaZadania" placeholder="{{lang.new_task}}">
                         </ons-col>
                     </ons-row>
                 </li>
                 <li class="list__item">
                     <ons-row class="row ons-row-inner">
-                        <ons-col class="col ons-col-inner">Opis</ons-col>
+                        <ons-col class="col ons-col-inner">{{lang.description}}</ons-col>
                         <ons-col class="col ons-col-inner flex2">
-                            <textarea class="text-input text-input--transparent inputWithLabel" id="opisZadania" placeholder="Dodatkowe informacje"></textarea>
+                            <textarea class="text-input text-input--transparent inputWithLabel" id="opisZadania" placeholder="{{lang.extra_information}}"></textarea>
+                        </ons-col>
+                    </ons-row>
+                </li>
+                 <li class="list__item">
+                    <ons-row class="row ons-row-inner">
+                        <ons-col class="col ons-col-inner">{{lang.add_file}}</ons-col>
+                        <ons-col class="col ons-col-inner flex2">
+                            <form enctype="multipart/form-data" action="http://pointeam.com/upload.php" method="POST">
+    Send this file: <input name="file" type="file" />
+    <input type="submit" value="Send File" />
+    
+    <input type="hidden" name="akuku" value="laksjf9s8d7ftasiydfgashdfoa8sd7ftasdfgy!siduya8sd7!!s" />
+</form>
                         </ons-col>
                     </ons-row>
                 </li>
                 <li class="list__item">
                     <ons-row class="row ons-row-inner">
-                        <ons-col class="col ons-col-inner">Miejsce</ons-col>
+                        <ons-col class="col ons-col-inner">{{lang.place}}</ons-col>
                         <ons-col class="col ons-col-inner flex2">
-                            <span class="text-input text-input--transparent inputWithLabel" id="lokalizacjaZadania" onclick="navi.pushPage('map.html', { animation : 'slide' } )">Wybierz lokalizację</span><span id="lokalizacjaZadaniaLatLng" style="display:none;"></span>
+                            <span class="text-input text-input--transparent inputWithLabel" id="lokalizacjaZadania" onclick="navi.pushPage('map.html', { animation : 'slide' } )">{{place.select_localization}}</span><span id="lokalizacjaZadaniaLatLng" style="display:none;"></span>
                         </ons-col>
                     </ons-row>
                 </li>
             </ul>
             // TODO: Termin i priorytet
             <ul class="list noOverscroll" id="terminy">
-                <li class="list__header">Termin i priorytet</li>
+                <li class="list__header">{{lang.deadline_and_priority}}</li>
                 <li class="list__item" id="wybranyTermin">
                     <ons-row align="center" class="row ons-row-inner row-center">
-                        <ons-col class="col ons-col-inner">Termin</ons-col>
+                        <ons-col class="col ons-col-inner">{{lang.deadline}}</ons-col>
                         <ons-col class="col ons-col-inner flex2">
                             <select class="inputClear" id="wyborTerminu">
-                                <option value="inny">Inna data</option>
+                                <option value="inny">{{lang.other_date}}/option>
                                 <option ng-repeat="termin in item.terminy" value="{{termin.idTerminu}}">{{termin.data}} ({{termin.nazwa}})</option>
                             </select>
                         </ons-col>
@@ -1267,7 +1290,7 @@
                 </li>
                 <li class="list__item inacive" id="innaData">
                     <ons-row align="center" class="row ons-row-inner row-center" style="padding-right:8px;">
-                        <ons-col class="col ons-col-inner">Wartość</ons-col>
+                        <ons-col class="col ons-col-inner">{{lang.value}}</ons-col>
                         <ons-col class="col ons-col-inner flex2" style="padding-right:20px;">
                             <input type="datetime-local" value="2015-12-00T12:00:00" step="1" class="inputClear" style="margin-right:20px;">
                         </ons-col>
@@ -1277,12 +1300,12 @@
 
                 <li class="list__item" id="wybranyPriorytet">
                     <ons-row align="center" class="row ons-row-inner row-center">
-                        <ons-col class="col ons-col-inner">Priorytet</ons-col>
+                        <ons-col class="col ons-col-inner">{{lang.priority}}</ons-col>
                         <ons-col class="col ons-col-inner flex2">
                             <select class="inputClear">
-                                <option value="niski">Niski</option>
-                                <option value="normalny">Normalny</option>
-                                <option value="wysoki">Wysoki</option>
+                                <option value="niski">{{lang.low}}</option>
+                                <option value="normalny">{{lang.normal}}</option>
+                                <option value="wysoki">{{lang.high}}</option>
                             </select>
                         </ons-col>
                     </ons-row>
@@ -1290,10 +1313,10 @@
             </ul>
             // TODO: Budzet
             <ul class="list">
-                <li class="list__header">Budżet</li>
+                <li class="list__header">{{lang.budget}}</li>
                 <li class="list__item">
                     <ons-row align="center" class="row ons-row-inner row-center">
-                        <ons-col class="col ons-col-inner">Budżet pieniężny</ons-col>
+                        <ons-col class="col ons-col-inner">{{lang.money_budget}}</ons-col>
                         <ons-col class="col ons-col-inner">
                             <div class="switchHolder">
                                 <ons-switch id="zadanieCzyPieniadze" ng-click="switch('zadanieWartoscBudzetPieniadze')"></ons-switch>
@@ -1303,7 +1326,7 @@
                 </li>
                 <li class="list__item inactive" id="zadanieWartoscBudzetPieniadze">
                     <ons-row align="center" class="row ons-row-inner row-center">
-                        <ons-col class="col ons-col-inner">Wartość</ons-col>
+                        <ons-col class="col ons-col-inner">{{lang.value}}</ons-col>
                         <ons-col class="col ons-col-inner">
                             <select class="inputClear optionGenerator" data-count="1000" data-step="50" data-unit="zł" data-min="0" data-max="{{item.budzetPienieznyWartosc-item.budzetPienieznyWykorzystanie}}" data-select="50">
                             </select>
@@ -1312,7 +1335,7 @@
                 </li>
                 <li class="list__item">
                     <ons-row align="center" class="row ons-row-inner row-center">
-                        <ons-col class="col ons-col-inner">Budżet godzinowy</ons-col>
+                        <ons-col class="col ons-col-inner">{{lang.hours_budget}}</ons-col>
                         <ons-col class="col ons-col-inner">
                             <div class="switchHolder">
                                 <ons-switch id="zadanieCzyGodziny" ng-click="switch('zadanieWartoscBudzetGodziny')"></ons-switch>
@@ -1322,7 +1345,7 @@
                 </li>
                 <li class="list__item inactive" id="zadanieWartoscBudzetGodziny">
                     <ons-row align="center" class="row ons-row-inner row-center">
-                        <ons-col class="col ons-col-inner">Wartość</ons-col>
+                        <ons-col class="col ons-col-inner">{{lang.value}}</ons-col>
                         <ons-col class="col ons-col-inner">
                             <select class="inputClear optionGenerator" data-count="1000" data-step="1" data-unit="h" data-max="{{item.budzetGodzinowyWartosc-item.budzetGodzinowyWykorzystanie}}">
                             </select>
@@ -1331,7 +1354,7 @@
                 </li>
                 <li class="list__item">
                     <ons-row align="center" class="row ons-row-inner row-center">
-                        <ons-col class="col ons-col-inner">Punkty premiowe</ons-col>
+                        <ons-col class="col ons-col-inner">{{lang.bonus_points}}</ons-col>
                         <ons-col class="col ons-col-inner">
                             <div class="switchHolder">
                                 <ons-switch id="czyPunktyPremiowe" ng-click="switch('zadanieWartoscPunktyPremiowe')"></ons-switch>
@@ -1341,7 +1364,7 @@
                 </li>
                 <li class="list__item inactive" id="zadanieWartoscPunktyPremiowe">
                     <ons-row align="center" class="row ons-row-inner row-center">
-                        <ons-col class="col ons-col-inner">Wartość</ons-col>
+                        <ons-col class="col ons-col-inner">{{lang.value}}</ons-col>
                         <ons-col class="col ons-col-inner">
                             <select class="inputClear optionGenerator" data-count="5" data-step="1" data-unit="">
                             </select>
@@ -1350,7 +1373,7 @@
                 </li>
             </ul>
             <ul class="list" id="personList">
-                <li class="list__header">Osoby</li>
+                <li class="list__header">{{lang.people}}</li>
                 <ons-list-item modifier="chevron" class="item osoba" ng-repeat="osoba in currentuser[0].tmp | orderBy:'-imie'" data-person="{{osoba.idUser}}" ng-click="removePersonFromTask(osoba.idUser)">
                     <ons-row>
                         <ons-col>
@@ -1371,7 +1394,7 @@
             </ul>
 
             <div class="text-center">
-                <div id="dodajOsobe" onclick="navi.pushPage('addperson.html', { animation : 'slide' } )">dodaj osobę</div>
+                <div id="dodajOsobe" onclick="navi.pushPage('addperson.html', { animation : 'slide' } )">{{lang.add_user}}</div>
             </div>
         </ons-page>
     </ons-template>
@@ -1384,7 +1407,7 @@
                         <ons-icon icon="ion-chevron-left" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
                     </ons-toolbar-button>
                 </div>
-                <div class="center">Dodaj osobę</div>
+                <div class="center">{{lang.add_user_title}}</div>
                 <div class="right">
                 </div>
             </ons-toolbar>
@@ -1418,18 +1441,18 @@
                         <ons-icon icon="ion-chevron-left" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
                     </ons-toolbar-button>
                 </div>
-                <div class="center">Lokalizacja</div>
+                <div class="center">{{lang.localization_title}}</div>
                 <div class="right">
                 </div>
             </ons-toolbar>
             <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDt3cHxEr4IhF8HFs7cgjvl7qnRD9hmGso&libraries=places"></script>
             <link href="http://code.google.com/apis/maps/documentation/javascript/examples/default.css" rel="stylesheet" type="text/css" />
-            <input id="pac-input" class="controls" type="text" placeholder="Wyśrodkuj mapę na...">
+            <input id="pac-input" class="controls" type="text" placeholder="{{lang.map_center_at}}">
             <div id="map_canvas" style="width:100%; height:450px;">
             </div>
             <div class="locationBig">
-                <h3>Lokalizacja:</h3>
-                <div id="adressPreview">Kliknij na mapie, by wybrać lokalizację</div>
+                <h3>{{lang.localization}}</h3>
+                <div id="adressPreview">{{lang.localization_description}}</div>
             </div>
         </ons-page>
     </ons-template>
@@ -1443,7 +1466,7 @@
                         <ons-icon icon="ion-chevron-left" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
                     </ons-toolbar-button>
                 </div>
-                <div class="center">Osoby</div>
+                <div class="center">{{lang.people}}</div>
                 <div class="right">
                 </div>
             </ons-toolbar>
@@ -1452,14 +1475,14 @@
                     <label class="tab-bar__item tab-bar--top-border__item" ng-click="goToPersonListTab()">
                         <input type="radio" name="top-tab-bar-b" checked="checked">
                         <button class="tab-bar__button tab-bar--top-border__button">
-                            Dodane
+                            {{lang.added}}
                         </button>
                     </label>
 
                     <label class="tab-bar__item tab-bar--top-border__item" ng-click="goToAddNewPersonTab()">
                         <input type="radio" name="top-tab-bar-b">
                         <button class="tab-bar__button tab-bar--top-border__button">
-                            Dodaj nową
+                            {{lang.add_new}}
                         </button>
                     </label>
                 </div>
@@ -1489,13 +1512,19 @@
                 </div>
 
                 <div id="addNewPersonTab" style="display:none;">
+                
+                <div ng-if="user.premium==0&&item.przypisaneOsoby.length>=3" class="emptyPremium">
+                    <div class="lock"></div>
+                   {{lang.text_premium}}
+                    </div>
+                <div ng-if="user.premium==1||item.przypisaneOsoby.length<3">
                     <div class="searchbar">
                         <div class="loopIcon"></div>
-                        <input ng-model="searchText" id="searchPerson" placeholder="Wyszukaj przez e-mail">
+                        <input ng-model="searchText" id="searchPerson" placeholder="{{lang.search_by_email}}">
                     </div>
 
                     <div id="lastUsedPeople">
-                        <h3>Ostatnio pracowałeś z:</h3>
+                        <h3>{{lang.earlier_worked_with}}</h3>
                         <ons-list-item modifier="chevron" class="item osoba" ng-repeat="osoba in currentuser[0].ostatnieOsoby | orderBy:'imie' " data-person="{{osoba.idUser}}" ng-click="addPersonLast(osoba.idUser)" style="background:#FFF;">
                             <ons-row>
                                 <ons-col>
@@ -1533,6 +1562,7 @@
                         </ons-row>
                     </ons-list-item>
                 </div>
+                </div>
             </div>
             </div>
 
@@ -1548,7 +1578,7 @@
                         <ons-icon icon="ion-chevron-left" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
                     </ons-toolbar-button>
                 </div>
-                <div class="center">Terminy</div>
+                <div class="center">{{lang.deadlines}}</div>
                 <div class="right">
                     <ons-toolbar-button>
                         <ons-icon icon="ion-checkmark-circled" fixed-width="false" style="font-size: 26px; vertical-align: -4px" ng-click="updateTerms()"></ons-icon>
@@ -1559,11 +1589,11 @@
             <li ng-repeat="termin in item.terminy" class="list__item pojedynczyTermin" style="padding-right:8px; background-color:#FFF;" data-termid="{{termin.idTerminu}} ">
                 <div class="removeTerm" ng-click="removeTerm(termin.idTerminu)"><i class="icon ion-android-cancel"></i></div>
                 <ons-row align="center" class="row ons-row-inner row-center" style="padding-right:1px;">
-                    <ons-col class="col ons-col-inner">Data</ons-col>
+                    <ons-col class="col ons-col-inner">{{lang.date}}</ons-col>
                     <ons-col class="col ons-col-inner" style="padding-right:8px;">{{termin.data}}</ons-col>
                 </ons-row>
                 <ons-row align="center" class="row ons-row-inner row-center">
-                    <ons-col class="col ons-col-inner">Nazwa</ons-col>
+                    <ons-col class="col ons-col-inner">{{lang.name_title}}</ons-col>
                     <ons-col class="col ons-col-inner">{{termin.nazwa}} </ons-col>
                 </ons-row>
             </li>
@@ -1573,7 +1603,7 @@
             <ul class="list noOverscroll" id="terminyNowe">
             </ul>
             <div class="text-center">
-                <div id="dodajTerminNowy" ng-click="addTermTemplate()">dodaj termin</div>
+                <div id="dodajTerminNowy" ng-click="addTermTemplate()">{{lang.add_deadline}}</div>
             </div>
 
         </ons-page>
@@ -1588,7 +1618,7 @@
                         <ons-icon icon="ion-chevron-left" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
                     </ons-toolbar-button>
                 </div>
-                <div class="center">Budżet</div>
+                <div class="center">{{lang.budget}}</div>
                 <div class="right">
                     <ons-toolbar-button>
                         <ons-icon icon="ion-checkmark-circled" fixed-width="false" style="font-size: 26px; vertical-align: -4px" ng-click="updateBudget()"></ons-icon>
@@ -1602,8 +1632,8 @@
                     <div class="clear"></div>
                     <span class="detail">{{item.budzetGodzinowyWykorzystanie/60 | number:0}}/<span id="newHourBudgetText">{{item.budzetGodzinowyWartosc/60 | number:0}}</span></span>
                     </span>
-                    <div class="chartLabel">przepracowanych
-                        <br/>godzin</div>
+                    <div class="chartLabel">{{lang.done_hours1}}
+                        <br/>{{lang.done_hours2}}</div>
                 </div>
                 <div class="half" ng-if="item.budzetGodzinowy!='tak'">
                     <span class="chartHours" data-percent="0">
@@ -1611,8 +1641,8 @@
                     <div class="clear"></div>
 
                     </span>
-                    <div class="chartLabel">przepracowanych
-                        <br/>godzin</div>
+                    <div class="chartLabel">{{lang.done_hours1}}
+                        <br/>{{lang.done_hours2}}</div>
                 </div>
                 <div class="half" ng-if="item.budzetPieniezny=='tak'">
                     <span class="chartMoney" data-percent="{{item.budzetPienieznyWykorzystanie/item.budzetPienieznyWartosc*100}}">
@@ -1620,24 +1650,24 @@
                     <div class="clear"></div>
                     <span class="detail">{{item.budzetPienieznyWykorzystanie/100 | number:0}}/<span id="newMoneyBudgetText">{{item.budzetPienieznyWartosc/100 | number:0}}</span></span>
                     </span>
-                    <div class="chartLabel">wykorzystane
-                        <br/>pieniądze</div>
+                    <div class="chartLabel">{{lang.used_money1}}
+                        <br/>{{lang.used_money2}}</div>
                 </div>
                 <div class="half" ng-if="item.budzetPieniezny!='tak'">
                     <span class="chartMoney" data-percent="{{item.budzetPienieznyWykorzystanie/item.budzetPienieznyWartosc*100}}">
 		                    <span class="value">{{item.budzetPienieznyWykorzystanie/100 | number:0}}zł</span>
                     <div class="clear"></div>
                     </span>
-                    <div class="chartLabel">wykorzystane
-                        <br/>pieniądze</div>
+                    <div class="chartLabel">{{lang.used_money1}}
+                        <br/>{{lang.used_money2}}</div>
                 </div>
                 <div class="clear"></div>
             </div>
             <ul class="list ">
-                <li class="list__header">Budżet</li>
+                <li class="list__header">{{lang.budget}}</li>
                 <li class="list__item" ng-if="item.budzetPieniezny=='tak'">
                     <ons-row align="center" class="row ons-row-inner row-center">
-                        <ons-col class="col ons-col-inner">Pieniądze</ons-col>
+                        <ons-col class="col ons-col-inner">{{lang.money_title}}</ons-col>
                         <ons-col class="col ons-col-inner">
                             <select id="newMoneyBudget" class="inputClear optionGenerator" data-count="1000" data-step="250" data-unit="zł" data-min="{{item.budzetPienieznyWykorzystanie}}" data-select="{{item.budzetPienieznyWartosc}}">
                             </select>
@@ -1646,7 +1676,7 @@
                 </li>
                 <li class="list__item" ng-if="item.budzetGodzinowy=='tak'">
                     <ons-row align="center" class="row ons-row-inner row-center">
-                        <ons-col class="col ons-col-inner">Godziny</ons-col>
+                        <ons-col class="col ons-col-inner">{{lang.hours_title}}</ons-col>
                         <ons-col class="col ons-col-inner">
                             <select id="newHourBudget" class="inputClear optionGenerator" data-count="5000" data-step="1" data-unit="h" data-min="{{item.budzetGodzinowyWykorzystanie}}" data-select="{{item.budzetGodzinowyWartosc}}">
                             </select>
@@ -1667,7 +1697,7 @@
                         <ons-icon icon="ion-chevron-left" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
                     </ons-toolbar-button>
                 </div>
-                <div class="center">Dodaj zasób</div>
+                <div class="center">{{lang.add_resource}}</div>
                 <div class="right">
                     <ons-toolbar-button>
                         <ons-icon icon="ion-checkmark-circled" fixed-width="false" style="font-size: 26px; vertical-align: -4px" ng-click="addZasob()"></ons-icon>
@@ -1675,20 +1705,20 @@
                 </div>
             </ons-toolbar>
             <ul class="list">
-                <li class="list__header">Informacje o zasobie</li>
+                <li class="list__header">{{lang.resource_information}}</li>
                 <li class="list__item">
                     <ons-row align="center" class="row ons-row-inner row-center">
-                        <ons-col class="col ons-col-inner">Nazwa*</ons-col>
+                        <ons-col class="col ons-col-inner">{{lang.name_asterix}}</ons-col>
                         <ons-col class="col ons-col-inner flex2">
-                            <input type="text" class="text-input text-input--transparent inputWithLabel" id="nazwaZasob" placeholder="Nowy zasób">
+                            <input type="text" class="text-input text-input--transparent inputWithLabel" id="nazwaZasob" placeholder="{{lang.new_resource}}">
                         </ons-col>
                     </ons-row>
                 </li>
                 <li class="list__item">
                     <ons-row class="row ons-row-inner">
-                        <ons-col class="col ons-col-inner">Opis</ons-col>
+                        <ons-col class="col ons-col-inner">{{lang.description}}</ons-col>
                         <ons-col class="col ons-col-inner flex2">
-                            <textarea class="text-input text-input--transparent inputWithLabel" id="opisZasob" placeholder="Dodatkowe informacje"></textarea>
+                            <textarea class="text-input text-input--transparent inputWithLabel" id="opisZasob" placeholder="{{lang.extra_information}}"></textarea>
                         </ons-col>
                     </ons-row>
                 </li>
@@ -1704,7 +1734,7 @@
                         <ons-icon icon="ion-chevron-left" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
                     </ons-toolbar-button>
                 </div>
-                <div class="center">Zarezerwuj zasób</div>
+                <div class="center">{{lang.reserve_resource}}</div>
                 <div class="right">
                     <ons-toolbar-button>
                         <ons-icon icon="ion-checkmark-circled" fixed-width="false" style="font-size: 26px; vertical-align: -4px" ng-click="reserveZasobNow(item.idZasob)"></ons-icon>
@@ -1712,10 +1742,10 @@
                 </div>
             </ons-toolbar>
             <ul class="list">
-                <li class="list__header">Wybierz okres rezerwacji</li>
+                <li class="list__header">{{lang.select_reservation_date}}</li>
                 <li class="list__item" id="rezerwacjaOd">
                     <ons-row align="center" class="row ons-row-inner row-center" style="padding-right:8px;">
-                        <ons-col class="col ons-col-inner">Od</ons-col>
+                        <ons-col class="col ons-col-inner">{{lang.from}}</ons-col>
                         <ons-col class="col ons-col-inner flex2" style="padding-right:20px;">
                             <input type="datetime-local" value="2015-12-00T12:00:00" step="1" class="inputClear" style="margin-right:20px;">
                         </ons-col>
@@ -1723,14 +1753,14 @@
                 </li>
                 <li class="list__item" id="rezerwacjaDo">
                     <ons-row align="center" class="row ons-row-inner row-center" style="padding-right:8px;">
-                        <ons-col class="col ons-col-inner">Do</ons-col>
+                        <ons-col class="col ons-col-inner">{{lang.to}}</ons-col>
                         <ons-col class="col ons-col-inner flex2" style="padding-right:20px;">
                             <input type="datetime-local" value="2015-12-00T12:00:00" step="1" class="inputClear" style="margin-right:20px;">
                         </ons-col>
                     </ons-row>
                 </li>
-                <li class="list__header">Aktualne rezerwacje</li>
-                <div class="brakRezerwacji" ng-if="!item.rezerwacje">brak rezerwacji</div>
+                <li class="list__header">{{lang.current_reservations}}</li>
+                <div class="brakRezerwacji" ng-if="!item.rezerwacje">{{lang.no_reservations}}</div>
                 <div class="rezerwacja" ng-repeat="rezerwacja in item.rezerwacje | orderBy:'orderKey'">
                     <div class="basicItem subtask" style="height: 52px; border-bottom: solid 1px #E8E5E5;">
                         <div class="avatarHolder">
@@ -1762,7 +1792,7 @@
                         <ons-icon icon="ion-chevron-left" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
                     </ons-toolbar-button>
                 </div>
-                <div class="center">Zgłoś koszt</div>
+                <div class="center">{{lang.report_cost}}</div>
                 <div class="right">
                     <ons-toolbar-button>
                         <ons-icon icon="ion-checkmark-circled" fixed-width="false" style="font-size: 26px; vertical-align: -4px" ng-click="submitCost()"></ons-icon>
@@ -1771,18 +1801,18 @@
             </ons-toolbar>
             <div>
                 <ul class="list ">
-                    <li class="list__header">Informacje o koszcie</li>
+                    <li class="list__header">{{lang.cost_information}}</li>
                     <li class="list__item">
                         <ons-row align="center" class="row ons-row-inner row-center">
-                            <ons-col class="col ons-col-inner">Nazwa*</ons-col>
+                            <ons-col class="col ons-col-inner">{{lang.name_asterix}}</ons-col>
                             <ons-col class="col ons-col-inner flex2">
-                                <input type="text" class="text-input text-input--transparent inputWithLabel" id="nazwaKosztu" placeholder="Nowy koszt">
+                                <input type="text" class="text-input text-input--transparent inputWithLabel" id="nazwaKosztu" placeholder="{{lang.new_cost}}">
                             </ons-col>
                         </ons-row>
                     </li>
                     <li class="list__item">
                         <ons-row align="center" class="row ons-row-inner row-center">
-                            <ons-col class="col ons-col-inner">Kwota*</ons-col>
+                            <ons-col class="col ons-col-inner">{{lang.cost_asterix}}</ons-col>
                             <ons-col class="col ons-col-inner">
                                 <select id="itemCost" class="inputClear optionGenerator" data-count="1000" data-step="10" data-unit="zł" data-min="10" data-select="10">
                                 </select>
@@ -1791,7 +1821,7 @@
                     </li>
 
                 </ul>
-                <p class="infoBox">Administrator projektu może zaakceptować, lub odrzucić koszt. Zostaniesz poinformowany o podjętej decyzji.</p>
+                <p class="infoBox">{{lang.cost_description}}</p>
             </div>
         </ons-page>
     </ons-template>
