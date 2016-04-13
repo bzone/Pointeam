@@ -363,7 +363,7 @@
             js_budget_type_message: 'what are you up to?'
         }
      
-        if ($scope.detectLang == 'pl') {
+        if ($scope.detectLang == 'pl' || $scope.detectLang == 'pl-PL' ) {
             $scope.lang = $scope.langpl;
         } else {
             $scope.lang = $scope.langen;
