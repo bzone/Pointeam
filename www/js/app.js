@@ -7,6 +7,9 @@
         //var url = "http://rabidata.kylos.pl/pointeam/auth.php?callback=?";
         var commentRefresh;
         var globalZadanieUpload = 0;
+    
+    
+
 
         module.directive('fileModel', ['$parse', function ($parse) {
             return {
@@ -101,6 +104,12 @@
                 }
             };
         });
+    
+        module.filter('trustAsResourceUrl', ['$sce', function($sce) {
+    return function(val) {
+        return $sce.trustAsResourceUrl(val);
+    };
+}])
 
         module.filter('searchText', function () {
             return function (items, search) {
@@ -487,13 +496,18 @@
                     }
                 });
             }
-
+            
+            $scope.showFile=function(fileurl) {
+                $scope.fileUrl=fileurl;
+                navi.pushPage('filedetails.html', {
+                                    animation: 'slide'
+                });
+            }
 
             $scope.switch = function (nazwa) {
                 nazwa = '#' + nazwa;
                 $(nazwa).toggleClass('inactive');
             }
-
 
             $scope.checkLogin = function () {
                 if (localStorage.login == "true") {
