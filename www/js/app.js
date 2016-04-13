@@ -65,6 +65,7 @@
         };
         
          $scope.detectLang = l_lang;
+        alert($scope.detectLang);
         
          $scope.langpl={
             sign_in:"Zaloguj się",
