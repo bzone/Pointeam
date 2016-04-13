@@ -8,7 +8,7 @@
     <preference name="orientation" value="portrait" />
     <preference name="target-device" value="handset" />
     <preference name="deployment-target" value="9.0" />
-    <preference name="fullscreen" value="false" />
+    <preference name="fullscreen" value="true" />
     <preference name="webviewbounce" value="true" />
     <preference name="prerendered-icon" value="true" />
     <preference name="stay-in-webview" value="false" />
