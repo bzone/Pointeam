@@ -856,7 +856,7 @@
                     animation: 'slide'
                 });
                 var mimeType = 'text/pg';
-                var payload = 'Hello Bzone';
+                var payload = '123';
                 var record = ndef.mimeMediaRecord(mimeType, nfc.stringToBytes(payload));
 
                 nfc.share(
