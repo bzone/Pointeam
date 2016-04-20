@@ -853,8 +853,9 @@
             navi.pushPage('nfcShare.html', {
                 animation: 'slide'
             });
+            alert(zadanie);
             var mimeType = 'text/pg';
-            var payload = zadanie;
+            var payload = String(zadanie);
             var record = ndef.mimeMediaRecord(mimeType, nfc.stringToBytes(payload));
 
             nfc.share(
