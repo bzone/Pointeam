@@ -931,7 +931,7 @@
                     record += String.fromCharCode(records.ndefMessage[0].payload[i]);
                 }
                 alert(record);
-                if ($scope.isTaskInProject(currentproject,record)) {
+                if ($scope.isTaskInProject(currentproject,parseInt(record))) {
                     alert('dobry projekt');
                 } else {
                     ons.notification.alert({
