@@ -917,7 +917,7 @@
                         alert(data);
                         if(parseInt(data)==1){
                             //alert('dobry projekt');
-                            $scope.addUserToTaskGlobal($currentUser.idUser,task);
+                            $scope.addUserToTaskGlobal($scope.user.idUser,task);
                             ons.notification.alert({
                     message: 'Przypisano Cię do nowego zadania.'
                 });
