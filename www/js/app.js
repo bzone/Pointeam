@@ -832,10 +832,12 @@
             $scope.$root.$broadcast("addCommentEvent");
         }
 
-
+        
+        $scope.addUserToTaskGlobal = function (task,user) {
+            $scope.$root.$broadcast("addUserToTaskEvent",{taskid:task,userid:user});
+        }
 
         var android = true;
-
 
         $scope.notifyUser = function (message) {
             if (android) {
@@ -893,7 +895,7 @@
 
         
         $scope.isTaskInProject=function(projekt, task) {
-             alert('projekt:'+projekt+' task:'+task);
+             //alert('projekt:'+projekt+' task:'+task);
              $.ajax({
                     type: "POST",
                     url: url,
@@ -908,10 +910,15 @@
                     success: function (data) {
                         alert(data);
                         if(parseInt(data)==1){
-                            alert('dobry projekt');
-                            return true;
+                            //alert('dobry projekt');
+                            $scope.addUserToTaskGlobal($currentUser.idUser,task);
+                            ons.notification.alert({
+                    message: 'Przypisano Cię do nowego zadania.'
+                });
                         } else {
-                            return false;
+                                 ons.notification.alert({
+                    message: 'Odebrane zadanie nie jest powiązane z projektem, który masz właśnie otwarty.'
+                });
                         }
                     }
                 });
@@ -922,9 +929,6 @@
             //alert('słucham');
             navi.pushPage('nfcLi.html');
             //alert(currentproject);
-            
-            
-
             function parseTag(nfcEvent) {
                 //alert('pobrano');
                 var records = nfcEvent.tag;
@@ -934,22 +938,15 @@
                 for (var i = 0; i < records.ndefMessage[0].payload.length; i++) {
                     record += String.fromCharCode(records.ndefMessage[0].payload[i]);
                 }
-                alert(record);
-                
-                if ($scope.isTaskInProject(currentproject,parseInt(record))) {
-                    alert('dobry projekt');
-                } else {
-                    ons.notification.alert({
-                    message: 'Odebrane zadanie nie jest powiązane z projektem, który masz właśnie otwarty.'
-                });
-                }
+                //alert(record);
+                $scope.isTaskInProject(currentproject,parseInt(record)); 
             }
 
 
             nfc.addMimeTypeListener(
                 'text/pg', parseTag,
                 function () {
-                    alert("Success.");
+                    //alert("Success.");
                 },
                 function () {
                     alert("Fail.");
@@ -1693,6 +1690,10 @@
 
         $scope.$on("addCommentEvent", function (event) {
             $scope.addComment();
+        });
+        
+        $scope.$on("addUserToTaskEvent", function (event,args) {
+            $scope.addUserToTask(args.userid,args.taskid);
         });
 
 
