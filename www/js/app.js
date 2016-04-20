@@ -893,8 +893,8 @@
 
         
         $scope.isTaskInProject=function(projekt, task) {
+             alert('projekt:'+projekt+' task:'+task);
              $.ajax({
-                 alert('projekt:'+projekt+' task:'+task);
                     type: "POST",
                     url: url,
                     data: {
