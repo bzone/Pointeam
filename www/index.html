@@ -171,7 +171,25 @@
                     <a class="submitButton" id="shareNFC">{{lang.nfc_share}}</a>
                 </form>
             </div>
-
+        </ons-page>
+    </ons-template>
+    
+        <ons-template id="nfcLi.html">
+        <ons-page style="background:#31198B !Important;">
+            <ons-toolbar>
+                <div class="left">
+                    <ons-toolbar-button ng-click="navi.popPage()">
+                        <ons-icon icon="ion-chevron-left" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+            </ons-toolbar>
+            <div>
+                <form class="loginStyle">
+                    <h2 class="nfcHeader">{{lang.nfc_description}}</h2>
+                    <img src="css/NFC.png" class="nfcImage" />
+                    slucham 
+                </form>
+            </div>
         </ons-page>
     </ons-template>
 
@@ -184,7 +202,7 @@
                         <ons-icon icon="ion-gear-a" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
                     </ons-toolbar-button>
                 </div>
-                <div class="center"><span class="logo" ng-click="lisenNFC()"></span>
+                <div class="center"><span class="logo"></span>
                 </div>
                 <div class="right">
                     <ons-toolbar-button id="goToDashboard">
@@ -196,7 +214,6 @@
                     <ons-toolbar-button onclick="projectCreated++;navi.pushPage('newproject.html', { animation : 'slide' } );">
                         <ons-icon icon="ion-plus-round" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
                     </ons-toolbar-button>
-
                 </div>
             </ons-toolbar>
             <ons-carousel swipeable overscrollable auto-scroll auto-refresh fullscreen var="carousel" ng-controller="MasterController" class="tabDashboard" style="overflow:hidden; height:0px;">
@@ -234,8 +251,6 @@
                             <h4>{{lang.tasks_assigned_to_other_people}}</h4>
                             <div class="projectPeople">
                                 <meta name="format-detection" content="telephone=no">
-
-
                                 <span ng-repeat="osoba in item.przypisaneOsoby | limitTo: 5">
                                 <div class="person" style="background-image:url('{{ osoba.avatar }}');">
                                     <div class="badge">{{ osoba.iloscZadan }}</div>
@@ -354,8 +369,6 @@
                     <ons-toolbar-button ng-if="isAndroidTest() && item.ukonczoneDisplay=='none' && projekt.idUser == currentuser[0].idUser">
                         <ons-icon icon="ion-android-wifi" fixed-width="false" style="font-size: 26px; vertical-align: -4px" ng-click="startNFC(item.idZadania, projekt.idProjekt)"></ons-icon>
                     </ons-toolbar-button>
-
-
                 </div>
             </ons-toolbar>
             <ons-tapbar position="top" class="homeTabs">
@@ -409,14 +422,14 @@
                     <div class="basicItem subtask more" style="display:{{item.basicItem}};">
                         <div class="dateHolder {{item.priorytet}}">
                         </div>
-                        <div class="singleSection" ng-if="item.opis.length>1 || item.lokalizacja!='Wybierz lokalizację'">
+                        <div class="singleSection" ng-if="item.opis.length>1 || item.lokalizacja">
                             <div ng-if="item.opis">
                                 <h3>{{lang.task_description}}</h3>
                                 <p class="opis">{{item.opis}}</p>
                             </div>
-                            <div class="locationBig" ng-if="item.lokalizacja!='Wybierz lokalizację'&&item.lokalizacja!=''">
+                            <div class="locationBig" ng-if="item.lokalizacja!='Wybierz lokalizację'&&item.lokalizacja">
                                 <h3>{{lang.localization}}</h3>
-                                <div id="adressPreview" data-ng-bind-html="someSafeContent"></div>
+                                <div id="adressPreview" ng-bind-html="someSafeContent"></div>
                             </div>
                         </div>
                         <div class="singleSection" ng-if="item.plik.length>1">
@@ -424,7 +437,6 @@
                                 <h3>{{lang.added_file}}</h3>
                                 <p class="opis"><a ng-click="showFile(item.plik)" style="color: #32188F; text-decoration: none; font-size: 34px; margin-bottom: -20px; font-family: 'Hurme Geometric Sans 4 SemiBold';" target="_blank">Zobacz plik</a></p>
                             </div>
-
                         </div>
                         <div class="singleSection">
                             <h3>{{lang.end_date_and_priority}}</h3>
