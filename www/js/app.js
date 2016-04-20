@@ -908,6 +908,7 @@
                     success: function (data) {
                         alert(data);
                         if(parseInt(data)==1){
+                            alert('dobry projekt');
                             return true;
                         } else {
                             return false;
