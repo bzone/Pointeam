@@ -907,7 +907,7 @@
                     beforeSend: function () {},
                     success: function (data) {
                         alert(data);
-                        if(data==1){
+                        if(parseInt(data)==1){
                             return true;
                         } else {
                             return false;
