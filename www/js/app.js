@@ -833,8 +833,14 @@
         }
 
         
-        $scope.addUserToTaskGlobal = function (task,user) {
-            $scope.$root.$broadcast("addUserToTaskEvent",{taskid:task,userid:user});
+        $scope.addUserToTaskGlobal = function (user,task) {
+            alert(user);
+            alert(task);
+            var args={
+                userid:user,
+                taskid:task
+            }
+            $scope.$root.$broadcast("addUserToTaskEvent",args);
         }
 
         var android = true;
@@ -923,9 +929,13 @@
                     }
                 });
         }
+    
         
 
         $scope.lisenNFC = function () {
+            alert($scope.user.idUser);
+            //$scope.addUserToTaskGlobal($scope.user.idUser,77);
+            
             //alert('słucham');
             navi.pushPage('nfcLi.html');
             //alert(currentproject);
@@ -941,7 +951,6 @@
                 //alert(record);
                 $scope.isTaskInProject(currentproject,parseInt(record)); 
             }
-
 
             nfc.addMimeTypeListener(
                 'text/pg', parseTag,
@@ -1692,9 +1701,7 @@
             $scope.addComment();
         });
         
-        $scope.$on("addUserToTaskEvent", function (event,args) {
-            $scope.addUserToTask(args.userid,args.taskid);
-        });
+      
 
 
         $scope.goToKomentarze = function () {
@@ -1795,9 +1802,6 @@
                 foundZadanie[0].przypisaneOsoby = [];
                 foundZadanie[0].przypisaneOsoby.push(data2);
             }
-
-
-
 
             foundZadanie[0].avatarPierwszejOsoby = found[0].avatar;
             foundZadanie[0].brakOsobyDisplay = 'none';
@@ -2069,11 +2073,70 @@
                 success: function (data) {}
             });
         }
+        
+        
+        
+          $scope.$on("addUserToTaskEvent", function (event,args) {
+            alert(args.userid);
+            alert(args.taskid);
+            $scope.addUserToTaskGlobalF(args.userid,args.taskid);
+        });
+        
+          $scope.addUserToTaskGlobalF = function (user, zadanie) {
+            var found = $filter('filter')($scope.item.przypisaneOsoby, {
+                idUser: user
+            }, true);
+
+            var foundZadanie = $filter('filter')($scope.item.zadania, {
+                idZadania: zadanie
+            }, true);
+
+
+            var data2 = {
+                idZadania: foundZadanie[0].idZadania,
+                idUser: found[0].idUser,
+                imie: found[0].imie,
+                avatar: found[0].avatar,
+                stawka: found[0].stawka,
+                punktyUzytkownika: foundZadanie[0].punktyPremioweWartosc,
+                kasaUzytkownika: 0,
+                czasUzytkownika: 0,
+            }
+            if (foundZadanie[0].przypisaneOsoby) {
+                foundZadanie[0].przypisaneOsoby.push(data2);
+            } else {
+                foundZadanie[0].przypisaneOsoby = [];
+                foundZadanie[0].przypisaneOsoby.push(data2);
+            }
+
+            foundZadanie[0].avatarPierwszejOsoby = found[0].avatar;
+            foundZadanie[0].brakOsobyDisplay = 'none';
+            $scope.$root.$broadcast("updateTerms");
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: {
+                    idZadania: foundZadanie[0].idZadania,
+                    idUser: found[0].idUser,
+                    imie: found[0].imie,
+                    avatar: found[0].avatar,
+                    stawka: found[0].stawka,
+                    punktyUzytkownika: foundZadanie[0].punktyPremioweWartosc,
+                    addUserToTask: ''
+                },
+                crossDomain: true,
+                cache: false,
+                beforeSend: function () {},
+                success: function (data) {}
+            });
+        }
 
         $scope.acceptCost = function (idKoszt) {
             var found = $filter('filter')($scope.item.koszty, {
                 idKoszt: idKoszt
             }, true);
+            
 
             ons.notification.confirm({
                 title: 'Akceptacja kosztu',
