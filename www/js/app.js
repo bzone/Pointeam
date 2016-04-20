@@ -902,7 +902,7 @@
                     alert(records.id);
                     alert(records.ndefMessage[0].payload[1]);
                     for (var i = 0; i < records.ndefMessage[0].payload.length; i++) {
-                        record += records.ndefMessage[0].payload[i];
+                        record += String.fromCharCode(records.ndefMessage[0].payload[i]);
                     }
                     alert(record);
                 }
