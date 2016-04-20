@@ -856,6 +856,7 @@
             alert(zadanie);
             var mimeType = 'text/pg';
             var payload = String(zadanie);
+            alert(currentproject);
             var record = ndef.mimeMediaRecord(mimeType, nfc.stringToBytes(payload));
 
             nfc.share(
@@ -893,6 +894,7 @@
         
         $scope.isTaskInProject=function(projekt, task) {
              $.ajax({
+                 alert('projekt:'+projekt+' task:'+task);
                     type: "POST",
                     url: url,
                     data: {
@@ -904,6 +906,7 @@
                     cache: false,
                     beforeSend: function () {},
                     success: function (data) {
+                        alert(data);
                         if(data==1){
                             return true;
                         } else {
@@ -931,6 +934,7 @@
                     record += String.fromCharCode(records.ndefMessage[0].payload[i]);
                 }
                 alert(record);
+                
                 if ($scope.isTaskInProject(currentproject,parseInt(record))) {
                     alert('dobry projekt');
                 } else {
