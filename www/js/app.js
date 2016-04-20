@@ -861,7 +861,7 @@
             navi.pushPage('nfcShare.html', {
                 animation: 'slide'
             });
-            alert(zadanie);
+            //alert(zadanie);
             var mimeType = 'text/pg';
             var payload = String(zadanie);
             alert(currentproject);
@@ -933,7 +933,7 @@
         
 
         $scope.lisenNFC = function () {
-            alert($scope.user.idUser);
+            //alert($scope.user.idUser);
             //$scope.addUserToTaskGlobal($scope.user.idUser,77);
             
             //alert('słucham');
@@ -2074,8 +2074,6 @@
             });
         }
         
-        
-        
           $scope.$on("addUserToTaskEvent", function (event,args) {
             alert(args.userid);
             alert(args.taskid);
@@ -2254,13 +2252,13 @@
             $scope.navi.pushPage('singleTask.html', {
                 title: selectedItem.nazwa
             });
-
         };
 
 
         //NOTE: Dodawanie zadania
         $scope.addNewTask = function () {
             var nazwa = $('#nazwaZadania').val();
+            var connectID=$('#wybranyPolaczony select').val();
 
             var data = $('#wybranyTermin select').val();
             var innaData = 0;
@@ -2465,6 +2463,7 @@
                         budzetGodzinowyWykorzystanie: 0,
                         punktyPremiowe: punktyPremiowe,
                         punktyPremioweWartosc: punktyPremioweWartosc,
+                        polaczone:connectID,
                         addTaskToProject: ''
                     },
                     crossDomain: true,

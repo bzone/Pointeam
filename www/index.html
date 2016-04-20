@@ -1357,6 +1357,17 @@
                         </ons-col>
                     </ons-row>
                 </li>
+                <li class="list__item" id="wybranyPolaczony">
+                    <ons-row align="center" class="row ons-row-inner row-center">
+                        <ons-col class="col ons-col-inner">Zadanie powiązane</ons-col>
+                        <ons-col class="col ons-col-inner flex2">
+                            <select class="inputClear">
+                                <option value="0">brak</option>
+                                <option ng-repeat="zadanie in item.zadania" value="{{zadanie.idZadania}}" ng-if="zadanie.basicItem=='block'">{{zadanie.nazwa}}</option>
+                            </select>
+                        </ons-col>
+                    </ons-row>
+                </li>
             </ul>
             // TODO: Budzet
             <ul class="list">
