@@ -1269,29 +1269,50 @@
         $scope.projekt = $projekty.selectedItem;
         
         
-        $scope.taskOptions= function(android,ukonczony,userIn,zadanie,projekt,user){
+        $scope.taskOptions= function(android,ukonczony,userIn,zadanie,projekt,user,nazwa){
             if(ukonczony=="none") { ukonczony=false; } else { ukonczony=true; }
             window.console && console.log('android: '+android+' ukoncozny: '+ukonczony+' userOwner: '+userIn);
             
-            if (android&&!ukonczony&&userIn)
+            if (android&&!ukonczony&&userIn) {
              ons.notification.confirm({
-                title: 'Opcje projektu',
+                title: 'Opcje zadania',
                 message: "co chcesz zrobić?",
-                buttonLabels: ['Przypisz zadanie przez NFC', 'Udostępnij', 'Timer'],
+                buttonLabels: ['Przypisz zadanie przez NFC', 'Udostępnij', 'Timer','Anuluj'],
                 primaryButtonIndex: 0,
                 callback: function (index) {
                     if (index == 0) {
                         $scope.startNFC(zadanie, projekt);
                     }
                     if (index == 1) {
-                       window.plugins.socialsharing.share('Message, image and link', null, 'https://www.google.nl/images/srpr/logo4w.png', 'http://www.pointeam.com');
+                       window.plugins.socialsharing.share('Właśnie pracuję nad przydzielonym mi zadaniem: '+nazwa, null, 'http://pointeam.com/pointeamshare.jpg', 'http://www.pointeam.com');
                     }
                     if (index == 2) {
                         $scope.startTimer(zadanie, projekt, user);
                     }
+                     if (index == 3) {
+                     }
                 }
             });
-            
+            } else if (!ukonczony&&userIn) {
+             ons.notification.confirm({
+                title: 'Opcje zadania',
+                message: "co chcesz zrobić?",
+                buttonLabels: ['Udostępnij', 'Timer','Anuluj'],
+                primaryButtonIndex: 0,
+                callback: function (index) {
+                    if (index == 0) {
+                       window.plugins.socialsharing.share('Właśnie pracuję nad przydzielonym mi zadaniem: '+nazwa, null, 'http://pointeam.com/pointeamshare.jpg', 'http://www.pointeam.com');
+                    }
+                    if (index == 1) {
+                        $scope.startTimer(zadanie, projekt, user);
+                    }
+                     if (index == 2) {
+                     }
+                }
+            });
+            } else {
+                 window.plugins.socialsharing.share('Właśnie pracuję nad przydzielonym mi zadaniem: '+nazwa, null, 'http://pointeam.com/pointeamshare.jpg', 'http://www.pointeam.com');
+            }
         }
         
         
