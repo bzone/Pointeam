@@ -190,6 +190,7 @@
             reported_cost: 'Zgłoszony koszt:',
             cost_accepted: 'koszt zaakceptowany',
             cost_rejected: 'koszt odrzucony',
+            cost_rejected: 'koszt odrzucony',
             add_task: 'Dodaj zadanie',
             finished: 'zakończone',
             finished_tasks1: 'ukończone',
@@ -1266,10 +1267,53 @@
     module.controller('SingleTask', function ($scope, $projekty, $filter, $bazauzytkownikow, $currentUser, $sce) {
         $scope.item = $projekty.selectedTask;
         $scope.projekt = $projekty.selectedItem;
+        
+        
+        $scope.taskOptions= function(android,ukonczony,userIn,zadanie,projekt,user){
+            if(ukonczony=="none") { ukonczony=false; } else { ukonczony=true; }
+            window.console && console.log('android: '+android+' ukoncozny: '+ukonczony+' userOwner: '+userIn);
+            
+            if (android&&!ukonczony&&userIn)
+             ons.notification.confirm({
+                title: 'Opcje projektu',
+                message: "co chcesz zrobić?",
+                buttonLabels: ['Przypisz zadanie przez NFC', 'Udostępnij', 'Timer'],
+                primaryButtonIndex: 0,
+                callback: function (index) {
+                    if (index == 0) {
+                        $scope.startNFC(zadanie, projekt);
+                    }
+                    if (index == 1) {
+                       window.plugins.socialsharing.share('Message, image and link', null, 'https://www.google.nl/images/srpr/logo4w.png', 'http://www.pointeam.com');
+                    }
+                    if (index == 2) {
+                        $scope.startTimer(zadanie, projekt, user);
+                    }
+                }
+            });
+            
+        }
+        
+        
+        $scope.item.candone=true;
+        var connectTaskDetails=$scope.item.polaczone;
+        if(connectTaskDetails!=1&&connectTaskDetails!=0){
+         connectTaskDetails = $filter('filter')($scope.projekt.zadania, {
+                idZadania: connectTaskDetails
+            }, true);
+        window.console && console.log('polaczone: '+connectTaskDetails[0].nazwa);
+        if(connectTaskDetails[0].ukonczoneDisplay=="none") {
+            $scope.item.candone=false;
+        }
+        }
+        window.console && console.log($scope.item.candone);
+        
         $scope.baza = $bazauzytkownikow.items;
         $scope.currentuser = $currentUser.items;
         var htmlContent = $scope.item.lokalizacja;
+        if(htmlContent){
         htmlContent = htmlContent.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+        }
         $scope.someSafeContent = $sce.trustAsHtml(htmlContent);
         var found = $filter('filter')($scope.projekt.zadania, {
             data: $scope.item.data
@@ -1412,7 +1456,7 @@
                 var tmpLat = tmpLocation[0];
                 var tmpLong = tmpLocation[1];
                 var distance = getDistanceFromLatLonInKm(currentLocationLat, currentLocationLong, tmpLat, tmpLong);
-                alert(distance);
+                //alert(distance);
 
                 if (distance < 0.3) {
 
@@ -2291,8 +2335,9 @@
 
                 var pokazLokalizacje = 'none';
                 var lokalizacja = $('#lokalizacjaZadania').html();
+                //window.console && console.log(lokalizacja);
                 var lokalizacjaZadaniaLatLng = $('#lokalizacjaZadaniaLatLng').html();
-                if (lokalizacja != "Wybierz lokalizację") {
+                if (lokalizacja != "Wybierz lokalizację"&&lokalizacja) {
                     pokazLokalizacje = 'block';
                 }
 
@@ -2508,6 +2553,7 @@
                             budzetGodzinowyWykorzystanie: 0,
                             punktyPremiowe: punktyPremiowe,
                             punktyPremioweWartosc: punktyPremioweWartosc,
+                            polaczone:connectID,
                             przypisaneOsoby: angular.copy($scope.currentuser[0].tmp),
                             komentarze: []
                         }
@@ -2541,6 +2587,7 @@
                             $scope.item.zadania = [];
                         }
                         $scope.item.zadania.push(zadanie);
+                        $scope.$apply();
                         if ($scope.currentuser[0].tmp) {
                             $scope.currentuser[0].tmp.splice(0, iloscOsob);
                         }

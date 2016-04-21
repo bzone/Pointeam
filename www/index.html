@@ -86,18 +86,8 @@
         <ons-page style="background:#31198B !Important;" ng-init="checkLogin()">
             <div class="bigLogo"></div>
             <form class="loginStyle">
-                <button onclick="window.plugins.socialsharing.share('Message only')">message only</button>
-<button onclick="window.plugins.socialsharing.share('Message and subject', 'The subject')">message and subject</button>
-<button onclick="window.plugins.socialsharing.share(null, null, null, 'http://www.x-services.nl')">link only</button>
-<button onclick="window.plugins.socialsharing.share('Message and link', null, null, 'http://www.x-services.nl')">message and link</button>
-<button onclick="window.plugins.socialsharing.share(null, null, 'https://www.google.nl/images/srpr/logo4w.png', null)">image only</button>
-// Beware: passing a base64 file as 'data:' is not supported on Android 2.x: https://code.google.com/p/android/issues/detail?id=7901#c43
-// Hint: when sharing a base64 encoded file on Android you can set the filename by passing it as the subject (second param)
-<button onclick="window.plugins.socialsharing.share(null, 'Android filename', 'data:image/png;base64,R0lGODlhDAAMALMBAP8AAP///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAUKAAEALAAAAAAMAAwAQAQZMMhJK7iY4p3nlZ8XgmNlnibXdVqolmhcRQA7', null)">base64 image only</button>
-// Hint: you can share multiple files by using an array as thirds param: ['file 1','file 2', ..], but beware of this Android Kitkat Facebook issue: [#164]
-<button onclick="window.plugins.socialsharing.share('Message and image', null, 'https://www.google.nl/images/srpr/logo4w.png', null)">message and image</button>
-<button onclick="window.plugins.socialsharing.share('Message, image and link', null, 'https://www.google.nl/images/srpr/logo4w.png', 'http://www.x-services.nl')">message, image and link</button>
-<button onclick="window.plugins.socialsharing.share('Message, subject, image and link', 'The subject', 'https://www.google.nl/images/srpr/logo4w.png', 'http://www.x-services.nl')">message, subject, image and link</button>
+
+
                 <input type="email" id="loginEmail" class="loginInputStyle" placeholder="e-mail" />
                 <input type="password" id="loginPassword" class="loginInputStyle" placeholder="{{lang.password}}" />
                 <a class="submitButton" ng-click="loginUser()">{{lang.sign_in}}</a>
@@ -359,15 +349,26 @@
                 </div>
                 <div class="center">{{shortname}}</div>
                 <div class="right">
-                    <ons-toolbar-button ng-if="item.ukonczoneDisplay=='none' && isUserIn(item.idZadania, projekt.idProjekt, currentuser[0].idUser) ">
-                        <ons-icon icon="ion-android-time" fixed-width="false" style="font-size: 26px; vertical-align: -4px" ng-click="startTimer(item.idZadania, projekt.idProjekt, currentuser[0].idUser)"></ons-icon>
-                    </ons-toolbar-button>
-                    <ons-toolbar-button ng-if="item.ukonczoneDisplay=='none' && (isUserIn(item.idZadania, projekt.idProjekt, currentuser[0].idUser) || projekt.idUser == currentuser[0].idUser)">
+                    
+                    <ons-toolbar-button ng-if="item.candone && item.ukonczoneDisplay=='none' && (isUserIn(item.idZadania, projekt.idProjekt, currentuser[0].idUser) || projekt.idUser == currentuser[0].idUser)">
                         <ons-icon icon="ion-checkmark-circled" fixed-width="false" style="font-size: 26px; vertical-align: -4px" ng-click="markAsComplete(item.idZadania, projekt.idProjekt)"></ons-icon>
+                    </ons-toolbar-button>
+                    
+                    <ons-toolbar-button>
+                        <ons-icon icon="ion-more" fixed-width="false" style="font-size: 26px; vertical-align: -4px" ng-click="taskOptions(isAndroidTest(),item.ukonczoneDisplay,isUserIn(item.idZadania, projekt.idProjekt, currentuser[0].idUser),item.idZadania,projekt.idProjekt,currentuser[0].idUser)"></ons-icon>
+                    </ons-toolbar-button>
+                    
+                    <!--
+                     <ons-toolbar-button ng-if="item.ukonczoneDisplay=='none' && isUserIn(item.idZadania, projekt.idProjekt, currentuser[0].idUser) ">
+                        <ons-icon icon="ion-android-time" fixed-width="false" style="font-size: 26px; vertical-align: -4px" ng-click="startTimer(item.idZadania, projekt.idProjekt, currentuser[0].idUser)"></ons-icon>
                     </ons-toolbar-button>
                     <ons-toolbar-button ng-if="isAndroidTest() && item.ukonczoneDisplay=='none' && projekt.idUser == currentuser[0].idUser">
                         <ons-icon icon="ion-android-wifi" fixed-width="false" style="font-size: 26px; vertical-align: -4px" ng-click="startNFC(item.idZadania, projekt.idProjekt)"></ons-icon>
                     </ons-toolbar-button>
+                    <ons-toolbar-button ng-if="item.ukonczoneDisplay=='none' && projekt.idUser != currentuser[0].idUser">
+                        <ons-icon icon="ion-android-wifi" fixed-width="false" style="font-size: 26px; vertical-align: -4px" ng-click="startNFC(item.idZadania, projekt.idProjekt)"></ons-icon>
+                    </ons-toolbar-button>-->
+                    
                 </div>
             </ons-toolbar>
             <ons-tapbar position="top" class="homeTabs">
@@ -447,6 +448,10 @@
                                 <span class="priorytet low" ng-if="item.priorytet=='prioLow'">{{lang.priority_low}}</span>
                                 <span class="priorytet normal" ng-if="item.priorytet=='prioNormal'">{{lang.priority_medium}}</span>
                                 <span class="priorytet important" ng-if="item.priorytet=='prioImportant'">{{lang.priority_high}}</span>
+                                <div ng-if="item.polaczone!=0&&item.polaczone!=1&&!item.candone">
+                                    <p class="infoBox">Aby wykonać to zadanie muszisz najpierw ukończyć inne zadanie</p>
+                                
+                            </div>
                             </div>
                         </div>
                         <div class="singleSection">
@@ -493,7 +498,7 @@
                         <div class="singleSection">
                             <h3 ng-if="!item.przypisaneOsoby || item.przypisaneOsoby.length==0">{{lang.assigned_people_none}}</h3>
                             <div class="text-center" ng-if="!item.przypisaneOsoby || item.przypisaneOsoby.length==0">
-                                <div id="dodajSiebie" ng-click="addUserToTask(currentuser[0].idUser,item.idZadania)"> {{lang.get_task}} {{currentuser[0].idUser}}</div>
+                                <div id="dodajSiebie" ng-click="addUserToTask(currentuser[0].idUser,item.idZadania)"> {{lang.get_task}}</div>
                             </div>
                             <h3 ng-if="item.przypisaneOsoby && item.przypisaneOsoby.length>0">{{lang.assigned_poeple}} {{item.przypisaneOsoby.length}}</h3>
                             <ons-list-item ng-if="item.przypisaneOsoby && item.przypisaneOsoby.length>0" modifier="chevron" class="item osoba" ng-repeat="osoba in item.przypisaneOsoby | orderBy:'-imie'" data-person="{{osoba.idUser}}">
@@ -1329,8 +1334,9 @@
                         <ons-col class="col ons-col-inner">{{lang.deadline}}</ons-col>
                         <ons-col class="col ons-col-inner flex2">
                             <select class="inputClear" id="wyborTerminu">
-                                <option value="inny">{{lang.other_date}}</option>
+                                
                                 <option ng-repeat="termin in item.terminy" value="{{termin.idTerminu}}">{{termin.data}} ({{termin.nazwa}})</option>
+                                <option value="inny">{{lang.other_date}}</option>
                             </select>
                         </ons-col>
                     </ons-row>
@@ -1363,7 +1369,7 @@
                         <ons-col class="col ons-col-inner flex2">
                             <select class="inputClear">
                                 <option value="0">brak</option>
-                                <option ng-repeat="zadanie in item.zadania" value="{{zadanie.idZadania}}" ng-if="zadanie.basicItem=='block'">{{zadanie.nazwa}}</option>
+                                <option ng-repeat="zadanie in item.zadania" value="{{zadanie.idZadania}}" ng-if="zadanie.basicItem=='block'&&zadanie.ukonczoneDisplay=='none'">{{zadanie.nazwa}}</option>
                             </select>
                         </ons-col>
                     </ons-row>
