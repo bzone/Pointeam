@@ -185,14 +185,14 @@
 
 
     <ons-template id="home.html">
-        <ons-page>
+        <ons-page ng-controller="MasterController">
             <ons-toolbar>
                 <div class="left">
                     <ons-toolbar-button onclick="navi.pushPage('settings.html', { animation : 'lift' } )">
                         <ons-icon icon="ion-gear-a" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
                     </ons-toolbar-button>
                 </div>
-                <div class="center"><span class="logo"></span>
+                <div class="center" ng-click="reloadProjects()"><span class="logo"></span>
                 </div>
                 <div class="right">
                     <ons-toolbar-button id="goToDashboard">
@@ -206,7 +206,7 @@
                     </ons-toolbar-button>
                 </div>
             </ons-toolbar>
-            <ons-carousel swipeable overscrollable auto-scroll auto-refresh fullscreen var="carousel" ng-controller="MasterController" class="tabDashboard" style="overflow:hidden; height:0px;">
+            <ons-carousel swipeable overscrollable auto-scroll auto-refresh fullscreen var="carousel"  class="tabDashboard" style="overflow:hidden; height:0px;">
                 <ons-carousel-item style="background-color: #32188f;" class="item" ng-repeat="item in items" ng-click="showDetail($index)">
                     <div class="relativeBox">
                         <div class="ownerInfo">
@@ -251,7 +251,7 @@
                     </div>
                 </ons-carousel-item>
             </ons-carousel>
-            <ons-tapbar position="top" class="homeTabs" ng-controller="MasterController">
+            <ons-tapbar position="top" class="homeTabs">
                 <div class="tab-bar tab-bar--top tab-bar--top-border">
                     <label class="tab-bar__item tab-bar--top-border__item" ng-click="goToProjekty()">
                         <input type="radio" name="top-tab-bar-b" checked="checked">
@@ -268,7 +268,7 @@
                     </label>
                 </div>
             </ons-tapbar>
-            <ons-list ng-controller="MasterController" style="display:block;" class="tabProjekty" id="tabProjektyHome">
+            <ons-list  style="display:block;" class="tabProjekty" id="tabProjektyHome">
                 <ons-list-item modifier="chevron" class="item" ng-repeat="item in items" ng-click="showDetail($index)">
                     <ons-row>
                         <ons-col>
@@ -561,9 +561,12 @@
         <ons-page ng-controller="DetailController" ng-init="RebuildTerms()">
             <ons-toolbar>
                 <div class="left">
-                    <ons-toolbar-button onclick="if(projectCreated==1){projectCreated=0;navi.getPages()[3].destroy();navi.popPage();} else { navi.popPage(); }">
+                    <ons-toolbar-button ng-click="reloadUserData()">
                         <ons-icon icon="ion-chevron-left" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
                     </ons-toolbar-button>
+                    <!--<ons-toolbar-button ng-click="if(projectCreated==1){projectCreated=0;navi.getPages()[3].destroy();navi.popPage();} else { reloadUserData() }">
+                        <ons-icon icon="ion-chevron-left" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
+                    </ons-toolbar-button>-->
                 </div>
                 <div class="center">{{item.krotkitytul}}</div>
                 <div class="right">

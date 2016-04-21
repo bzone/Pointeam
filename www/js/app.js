@@ -766,9 +766,10 @@
                             $currentUser.items[0].tasks = angular.fromJson(data).usertasks;
                             var iloscProjektow = $projekty.items.length;
                         }
-
+window.console && console.log('pobrano dane uzytkownika');
+                        $scope.$apply();
                         angular.forEach($projekty.items, function (project, index) {
-
+console.log(project.tytul);
                             $.ajax({
                                 type: "POST",
                                 url: url,
@@ -780,6 +781,7 @@
                                 cache: false,
                                 beforeSend: function () {},
                                 success: function (data) {
+                                    
                                     project.log = angular.fromJson(data).log;
                                     project.przypisaneOsoby = angular.fromJson(data).osoby;
                                     project.zadania = angular.fromJson(data).zadania;
@@ -819,13 +821,27 @@
                             navi.pushPage('home.html', {
                                 animation: 'slide'
                             });
+                            $scope.reloadProjectsGlobal();
                         }
-
+                        if (go==2) {
+                            navi.popPage();
+                            $scope.reloadProjectsGlobal();
+                        }
+$scope.reloadProjectsGlobal();
                         next();
                     });
 
                 }
             });
+        }
+        
+        $scope.reloadUserData = function() {
+            var email = localStorage.email;
+            $scope.getUserData(email,2);
+        }
+        
+         $scope.reloadProjectsGlobal = function () {
+            $scope.$root.$broadcast("reloadProjectsEvent");
         }
 
 
@@ -3730,7 +3746,16 @@ $scope.lisenNFC();
         $scope.items = $projekty.items;
         $scope.user = $currentUser.items[0];
         var userID = $scope.user.idUser;
-
+        
+        $scope.reloadProjects = function() {
+            window.console && console.log('test');
+            $scope.items = $projekty.items;
+            $scope.user = $currentUser.items[0];
+        }
+        
+        $scope.$on("reloadProjectsEvent", function (event) {
+            $scope.reloadProjects();
+        });
         //userID = "1";
 
 
