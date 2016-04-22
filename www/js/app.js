@@ -599,8 +599,7 @@
         } else {
             $scope.lang = $scope.langen;
         }
-
-
+        
 
         $scope.isAndroidTest = function () {
             var ua = navigator.userAgent.toLowerCase();
@@ -623,8 +622,8 @@
             if (file == null) {
                 console.dir(file);
             } else {
-                console.log('file is ');
-                console.dir(file);
+                //console.log('file is ');
+                //console.dir(file);
                 var uploadUrl = "http://pointeam.com/upload.php";
                 fileUpload.uploadFileToUrl(file, uploadUrl);
             }
@@ -929,7 +928,7 @@
                         window.console && console.log('pobrano dane uzytkownika');
                         $scope.$apply();
                         angular.forEach($projekty.items, function (project, index) {
-                            console.log(project.tytul);
+                            //console.log(project.tytul);
                             $.ajax({
                                 type: "POST",
                                 url: url,
@@ -1365,7 +1364,7 @@
 
 
                             var dataTermin = $(this).find('input[type="datetime-local"]').val();
-                            console.log(dataTermin);
+                            //console.log(dataTermin);
                             dd = dataTermin.substring(8, 10);
                             mm = dataTermin.substring(5, 7);
                             yyyy = dataTermin.substring(0, 4);
@@ -1588,7 +1587,7 @@
                 idZadania: zadanie
             }, true);
             var nazwa = foundTask[0].nazwa;
-            console.log($scope.item);
+            //console.log($scope.item);
             $('#clockTaskName').text($scope.item.nazwa);
 
             foundUser = $filter('filter')($scope.item.przypisaneOsoby, {
