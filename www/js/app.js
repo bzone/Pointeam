@@ -450,7 +450,7 @@
             if (isAndroid) {
                 return true;
             } else {
-                return true;  //change
+                return false;  //change
             }
         }
 
@@ -1259,23 +1259,14 @@ $scope.reloadProjectsGlobal();
                                             $scope.navi.pushPage('procjectview.html', {
                                                 title: selectedItem.tytul
                                             });
-
                                         }
                                     });
                                 }
                             });
                         });
-
-
-
                     }
                 });
-
-
             }
-
-
-
         }
     });
 
@@ -1283,13 +1274,11 @@ $scope.reloadProjectsGlobal();
     module.controller('SingleTask', function ($scope, $projekty, $filter, $bazauzytkownikow, $currentUser, $sce) {
         $scope.item = $projekty.selectedTask;
         $scope.projekt = $projekty.selectedItem;
-        
-        
-        $scope.taskOptions= function(android,ukonczony,userIn,zadanie,projekt,user,nazwa){
+        $scope.taskOptions= function(android,ukonczony,userIn,zadanie,projekt,user,nazwa,admin){
             if(ukonczony=="none") { ukonczony=false; } else { ukonczony=true; }
             window.console && console.log('android: '+android+' ukoncozny: '+ukonczony+' userOwner: '+userIn);
-            
-            if (android&&!ukonczony&&userIn) {
+            if (admin==user) { admin=true; } else {admin=false}
+            if (android&&!ukonczony&&admin) {
              ons.notification.confirm({
                 title: 'Opcje zadania',
                 message: "co chcesz zrobić?",
