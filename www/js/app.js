@@ -7,9 +7,9 @@
     //var url = "http://rabidata.kylos.pl/pointeam/auth.php?callback=?";
     var commentRefresh;
     var globalZadanieUpload = 0;
-    var currentproject=0;
-    var selectedItem="";
-    var userGlobalId=0;
+    var currentproject = 0;
+    var selectedItem = "";
+    var userGlobalId = 0;
 
     module.directive('fileModel', ['$parse', function ($parse) {
         return {
@@ -286,7 +286,86 @@
             js_bonus_points_label: 'Punkty premiowe',
             js_reported_cost_label: 'Zgłoszone koszty',
             js_budget_type_title: 'Opcje projektu',
-            js_budget_type_message: 'co chcesz zrobić?'
+            js_budget_type_message: 'co chcesz zrobić?',
+            nfc_share: 'Przyłóż Swój telefon do drugiego telefonu aby udostępnić zadanie',
+            nfc_share2: 'By przyjąć zadanie przez NFC, musisz przyłożyć swój telefon do telefonu użytkownika, który udostępnia zadanie. W momencie nawiązania łączności, użytkownik udostępniający musi dotknąć ekran, by przesłać Ci zadanie.',
+            show_file: 'Zobacz plik',
+            task_connected: 'Zadanie powiązane',
+            empty: 'brak',
+            file_selected: 'Wybrano plik',
+            password_forgotten: 'Podane dane są niepoprawne. Zapomniałeś hasła?',
+            data_incorrect: 'Podane dane są niepoprawne.',
+            email_incorrect: 'Podany adres e-mail jest niepoprawny',
+            account_already: 'Hey! Już masz konto! Możesz się zalogować!',
+            error_wrong: 'Coś poszło nie tak',
+            no_such_account: 'Brak konta powiązanego z tym adresem e-mail',
+            pass_sent: 'Twoje hasło zostało wysłane na podany adres e-mail',
+            pending: 'oczekuje',
+            in_progress: 'w trakcie',
+            sharing_message: 'Przesyłanie wiadomości',
+            share_failed: 'Niepowodzenie przesyłania ',
+            user_assigned: 'Przypisano Cię do nowego zadania.',
+            user_cannot_assign: 'Odebrane zadanie nie jest powiązane z projektem, który masz właśnie otwarty.',
+            type_name_project: 'Musisz podać nazwę projektu',
+            at_least_one_date: 'Musisz dodać minimum jeden termin',
+            task_title: 'Opcje zadania',
+            task_message: 'co chcesz zrobić?',
+            share_nfc: 'Przypisz zadanie przez NFC',
+            share: 'Udostępnij',
+            timer: 'Timer',
+            task_cancel: 'Anuluj',
+            currently_working_at: 'Właśnie pracuję nad przydzielonym mi zadaniem: ',
+            connected_with: 'połączone z: ',
+            time: 'czas: ',
+            cash: 'kasa: ',
+            task: 'zadanie: ',
+            project: 'projekt: ',
+            user: 'użytkownik: ',
+            location_warning: 'Musisz być w odpowiedniej lokalizacji, by zakonczyć to zadanie',
+            location_warning_title: 'Za daleko',
+            location_check: 'Sprawdzanie poprawności lokalizacji...',
+            message_data: 'Podaj wszystkie dane',
+            message_title: 'Brak daty',
+            wrong_date: 'Data końcowa nie może być mniejsza niż data początku',
+            wrong_date_title: 'Niepoprawne daty',
+            reservation_already_made: 'Okres rezerwacji nie może pokrywać się z inną rezerwacją',
+            reservation_title: 'Niepoprawne daty',
+            cost_title: 'Akceptacja kosztu',
+            cost_message: 'Czy chcesz zaakceptować koszt?',
+            yes_answer: 'Tak',
+            no_answer: 'Nie',
+            canel_answer: 'Anuluj',
+            cost_message2: 'Podaj nazwę kosztu',
+            cost_title2: 'Brak nazwy',
+            new_task_message: 'Podaj nazwę zadania',
+            new_task_title: 'Brak nazwy',
+            new_date_message: 'Podaj termin wykonania zadania',
+            new_date_title: 'Brak daty',
+            res_message: 'Podaj nazwę zasobu',
+            res_title: 'Brak nazwy',
+            project_title: 'Opcje projektu',
+            project_message: 'co chcesz zrobić',
+            project_add_task: 'Dodaj zadanie',
+            project_manage_users: 'Zarządzaj osobami',
+            project_manage_dates: 'Zarządzaj terminami',
+            project_manage_budget: 'Zarządzaj budżetem',
+            project_add_res: 'Dodaj zasób',
+            project_finish: 'Zakończ projekt',
+            project_cancel: 'Anuluj',
+            nfc_assign: 'Przyjmij zadanie przez NFC',
+            cancel_nfc: 'Anuluj',
+            location_click: 'Kliknij na mapie, by wybrać lokalizację',
+            no_such_address: 'Nie znaleziono adresu',
+            user_already_assigned: 'Ta osoba jest już dodana do tego projektu',
+            hour_rate: 'Wpisz stawkę godzinową',
+            project_all: 'Wszystkie',
+            project_deadlines_crossed: 'Przekroczone terminy',
+            project_budget_crossed: 'Przekroczone budżety',
+            project_finished_tasks: 'Ukończone zadania',
+            project_created_tasks: 'Utworzone zadania',
+            how_many_bonus_points: 'Ile punktów chcesz dodać?'
+
+
         };
 
         $scope.langen = {
@@ -435,7 +514,84 @@
             js_bonus_points_label: 'Bonus points',
             js_reported_cost_label: 'Reported costs',
             js_budget_type_title: 'Project options',
-            js_budget_type_message: 'what are you up to?'
+            js_budget_type_message: 'what are you up to?',
+            nfc_share: 'Touch your phone with other phone to share a task',
+            nfc_share2: 'To get the task via NFC, you have to touch your phone with other user phone, who shares the task. When the connection is made, sharing user has to tap the screen to share the task.',
+            show_file: 'Show file',
+            task_connected: 'Connected task',
+            empty: 'none',
+            file_selected: 'File selected',
+            password_forgotten: 'Data incorrect! Have you forgot your password?',
+            data_incorrect: 'Data incorrect.',
+            email_incorrect: 'E-mail address incorrect!',
+            account_already: 'Hey! You have an account. You can sign in!',
+            error_wrong: 'Something went wrong',
+            no_such_account: 'No account linked to this e-mail address.',
+            pass_sent: 'Your password has been sent to your e-mail address!',
+            pending: 'pending',
+            in_progress: 'in progress',
+            sharing_message: 'Sharing message',
+            share_failed: 'Sharing failed ',
+            user_assigned: 'You have been assigned to new task.',
+            user_cannot_assign: 'Recieved task is not part of project that you have opened.',
+            type_name_project: 'You must fill in project name',
+            at_least_one_date: 'You must add at least one date',
+            task_title: 'Task options',
+            task_message: 'what do you want to do?',
+            share_nfc: 'Assign task via NFC',
+            share: 'Share',
+            timer: 'Timer',
+            task_cancel: 'Cancel',
+            currently_working_at: 'Currently working at: ',
+            connected_with: 'linked with: ',
+            time: 'time: ',
+            cash: 'cash: ',
+            task: 'task: ',
+            project: 'project: ',
+            user: 'user: ',
+            location_warning: 'You have to be at exact location to finish this task!',
+            location_warning_title: 'Too far',
+            location_check: 'Verifying location...',
+            message_data: 'All fields required',
+            message_title: 'No date',
+            wrong_date: 'End date cannot be before start date!',
+            wrong_date_title: 'Incorrect dates',
+            reservation_already_made: 'Reservation date cannot overlap other reservations',
+            reservation_title: 'Incorrect dates',
+            cost_title: 'Cost verify',
+            cost_message: 'Do you accept this cost?',
+            yes_answer: 'Yes',
+            no_answer: 'No',
+            canel_answer: 'Cancel',
+            cost_message2: 'Cost name',
+            cost_title2: 'No name',
+            new_task_message: 'Type task name',
+            new_task_title: 'No name',
+            new_date_message: 'Specify deadline',
+            new_date_title: 'No date',
+            res_message: 'Specify resource name',
+            res_title: 'No name',
+            project_title: 'Project options',
+            project_message: 'what do you want to do?',
+            project_add_task: 'Add a task',
+            project_manage_users: 'Manage users',
+            project_manage_dates: 'Manage deadlines',
+            project_manage_budget: 'Manage budgets',
+            project_add_res: 'Add a resource',
+            project_finish: 'Finish project',
+            project_cancel: 'Cancel',
+            nfc_assign: 'Get task via NFC',
+            cancel_nfc: 'Cancel',
+            location_click: 'Click on the map to select location',
+            no_such_address: 'Address not found',
+            user_already_assigned: 'User is already assigned to this task!',
+            hour_rate: 'Specify hour rate',
+            project_all: 'All',
+            project_deadlines_crossed: 'Deadlines crossed',
+            project_budget_crossed: 'Budgets crossed',
+            project_finished_tasks: 'Finished tasks',
+            project_created_tasks: 'Created tasks',
+            how_many_bonus_points: 'How many points would you like to assign?'
         }
 
         if ($scope.detectLang == 'pl' || $scope.detectLang == 'pl-PL' || $scope.detectLang == 'pl-pl') {
@@ -452,12 +608,12 @@
             if (isAndroid) {
                 return true;
             } else {
-                return false;  //change
+                return false; //change
             }
         }
 
         $scope.fileSelect = function () {
-            $('label[for="fileU"]').text('Wybrano plik');
+            $('label[for="fileU"]').text($scope.lang.file_selected);
         }
 
         $scope.uploadFile = function () {
@@ -590,7 +746,7 @@
                         } else if (data = "failed") {
                             $("#spinner").fadeOut(1000);
                             ons.notification.alert({
-                                message: 'Podane dane są niepoprawne. Zapomniałeś hasła ?'
+                                message: $scope.lang.password_forgotten
                             });
                         }
                     }
@@ -644,7 +800,7 @@
                         navi.popPage();
                     } else if (data = "failed") {
                         ons.notification.alert({
-                            message: 'Podane dane są niepoprawne.'
+                            message: $scope.lang.data_incorrect
                         });
                     }
                 }
@@ -668,7 +824,7 @@
             if (!validateEmail(email)) {
 
                 ons.notification.alert({
-                    message: 'Podany adres e-mail jest niepoprawny'
+                    message: $scope.lang.email_incorrect
                 });
 
             } else {
@@ -704,12 +860,12 @@
                             } else if (data == "exist") {
 
                                 ons.notification.alert({
-                                    message: 'Hey! Już masz konto! możesz się zalogować'
+                                    message: $scope.lang.account_already
                                 });
                                 $("#spinner").fadeOut(1000);
                                 navi.popPage();
                             } else if (data == "failed") {
-                                alert("Something Went wrong");
+                                alert($scope.lang.error_wrong);
                             }
                         }
                     });
@@ -733,11 +889,11 @@
                     success: function (data) {
                         if (data == "invalid") {
                             ons.notification.alert({
-                                message: 'Brak konta powiązanego z tym adresem e-mail'
+                                message: $scope.lang.no_such_account
                             });
                         } else if (data = "success") {
                             ons.notification.alert({
-                                message: 'Twoje hasło zostało wysłane na podany adres e-mail'
+                                message: $scope.lang.pass_sent
                             });
                             navi.popPage();
                         }
@@ -764,16 +920,16 @@
                     $('#spinner').delay(1500).queue(function (next) {
                         $scope.user = angular.fromJson(data).user[0];
                         $currentUser.items[0] = angular.fromJson(data).user[0];
-                        userGlobalId=$currentUser.items[0].idUser;
+                        userGlobalId = $currentUser.items[0].idUser;
                         if (angular.fromJson(data).project) {
                             $projekty.items = angular.fromJson(data).project;
                             $currentUser.items[0].tasks = angular.fromJson(data).usertasks;
                             var iloscProjektow = $projekty.items.length;
                         }
-window.console && console.log('pobrano dane uzytkownika');
+                        window.console && console.log('pobrano dane uzytkownika');
                         $scope.$apply();
                         angular.forEach($projekty.items, function (project, index) {
-console.log(project.tytul);
+                            console.log(project.tytul);
                             $.ajax({
                                 type: "POST",
                                 url: url,
@@ -785,7 +941,7 @@ console.log(project.tytul);
                                 cache: false,
                                 beforeSend: function () {},
                                 success: function (data) {
-                                    
+
                                     project.log = angular.fromJson(data).log;
                                     project.log = angular.fromJson(data).log;
                                     project.przypisaneOsoby = angular.fromJson(data).osoby;
@@ -803,10 +959,10 @@ console.log(project.tytul);
                                     project.punktyUzytkownika = found[0].punktyUzytkownika;
                                     var czas = parseInt(project.czasUzytkownika);
                                     if (czas == 0) {
-                                        project.statusUzytkownika = "oczekuje";
+                                        project.statusUzytkownika = $scope.lang.pending;
                                         project.statusClass = "completionHalf";
                                     } else {
-                                        project.statusUzytkownika = "w trakcie";
+                                        project.statusUzytkownika = $scope.lang.in_progress
                                         project.statusClass = "completionHalf";
                                     }
 
@@ -828,36 +984,36 @@ console.log(project.tytul);
                             });
                             $scope.reloadProjectsGlobal();
                         }
-                        if (go==2) {
+                        if (go == 2) {
                             navi.popPage();
                             $scope.reloadProjectsGlobal();
                         }
-                        if (go==3) {
+                        if (go == 3) {
                             $scope.reloadProjectsGlobal();
                             $scope.navi.replacePage('procjectview.html', {
-                                                title: selectedItem.tytul
+                                title: selectedItem.tytul
                             });
                         }
                         $("#spinner").fadeOut(1000);
-$scope.reloadProjectsGlobal();
+                        $scope.reloadProjectsGlobal();
                         next();
                     });
 
                 }
             });
         }
-        
-        $scope.reloadUserData = function() {
+
+        $scope.reloadUserData = function () {
             var email = localStorage.email;
-            $scope.getUserData(email,2);
+            $scope.getUserData(email, 2);
         }
-        
-        $scope.reloadUserDataGoToProject = function() {
+
+        $scope.reloadUserDataGoToProject = function () {
             var email = localStorage.email;
-            $scope.getUserData(email,3);
+            $scope.getUserData(email, 3);
         }
-        
-         $scope.reloadProjectsGlobal = function () {
+
+        $scope.reloadProjectsGlobal = function () {
             $scope.$root.$broadcast("reloadProjectsEvent");
         }
 
@@ -866,15 +1022,15 @@ $scope.reloadProjectsGlobal();
             $scope.$root.$broadcast("addCommentEvent");
         }
 
-        
-        $scope.addUserToTaskGlobal = function (user,task) {
+
+        $scope.addUserToTaskGlobal = function (user, task) {
             alert(user);
             alert(task);
-            var args={
-                userid:user,
-                taskid:task
+            var args = {
+                userid: user,
+                taskid: task
             }
-            $scope.$root.$broadcast("addUserToTaskEvent",args);
+            $scope.$root.$broadcast("addUserToTaskEvent", args);
         }
 
         var android = true;
@@ -908,13 +1064,13 @@ $scope.reloadProjectsGlobal();
 
                     } else if (windowsphone) {
                         // Windows phone calls success immediately. Bug?
-                        $scope.notifyUser("Sharing Message");
+                        $scope.notifyUser($scope.lang.sharing_message);
                     } else {
                         //alert("Sent Message to Peer");
                     }
                 },
                 function (reason) {
-                    alert("Failed to share tag " + reason);
+                    alert($scope.lang.share_failed + reason);
                     checkbox.checked = false;
                 }
             );
@@ -933,43 +1089,43 @@ $scope.reloadProjectsGlobal();
             navi.popPage();
         }
 
-        
-        $scope.isTaskInProject=function(projekt, task) {
-             //alert('projekt:'+projekt+' task:'+task);
-             $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: {
-                        idZadania: task,
-                        idProjekt: projekt,
-                        isTaskInProject: ''
-                    },
-                    crossDomain: true,
-                    cache: false,
-                    beforeSend: function () {},
-                    success: function (data) {
-                        //alert(data);
-                        if(parseInt(data)==1){
-                            //alert('dobry projekt');
-                            $scope.addUserToTaskGlobal($scope.user.idUser,task);
-                            ons.notification.alert({
-                    message: 'Przypisano Cię do nowego zadania.'
-                });
-                        } else {
-                                 ons.notification.alert({
-                    message: 'Odebrane zadanie nie jest powiązane z projektem, który masz właśnie otwarty.'
-                });
-                        }
+
+        $scope.isTaskInProject = function (projekt, task) {
+            //alert('projekt:'+projekt+' task:'+task);
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: {
+                    idZadania: task,
+                    idProjekt: projekt,
+                    isTaskInProject: ''
+                },
+                crossDomain: true,
+                cache: false,
+                beforeSend: function () {},
+                success: function (data) {
+                    //alert(data);
+                    if (parseInt(data) == 1) {
+                        //alert('dobry projekt');
+                        $scope.addUserToTaskGlobal($scope.user.idUser, task);
+                        ons.notification.alert({
+                            message: $scope.lang.user_assigned
+                        });
+                    } else {
+                        ons.notification.alert({
+                            message: $scope.lang.user_cannot_assign
+                        });
                     }
-                });
+                }
+            });
         }
-    
-        
+
+
 
         $scope.lisenNFC = function () {
             //alert($scope.user.idUser);
             //$scope.addUserToTaskGlobal($scope.user.idUser,77);
-            
+
             //alert('słucham');
             navi.pushPage('nfcLi.html');
             //alert(currentproject);
@@ -983,7 +1139,7 @@ $scope.reloadProjectsGlobal();
                     record += String.fromCharCode(records.ndefMessage[0].payload[i]);
                 }
                 //alert(record);
-                $scope.isTaskInProject(currentproject,parseInt(record)); 
+                $scope.isTaskInProject(currentproject, parseInt(record));
             }
 
             nfc.addMimeTypeListener(
@@ -998,39 +1154,39 @@ $scope.reloadProjectsGlobal();
         }
 
         $scope.isAdmin = function (projekt) {
-            
-            var isadmin=false;
+
+            var isadmin = false;
             $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: {
-                        idProjekt: projekt,
-                        idUser:$scope.user.idUser,
-                        isProjectAdmin: ''
-                    },
-                    async: false,
-                    crossDomain: true,
-                    cache: false,
-                    beforeSend: function () {},
-                    success: function (data) {
-                        //alert(data);
-                        if(parseInt(data)==1){
-                            isadmin=true;
-                        } else {
-                            isadmin=false;
-                        }
+                type: "POST",
+                url: url,
+                data: {
+                    idProjekt: projekt,
+                    idUser: $scope.user.idUser,
+                    isProjectAdmin: ''
+                },
+                async: false,
+                crossDomain: true,
+                cache: false,
+                beforeSend: function () {},
+                success: function (data) {
+                    //alert(data);
+                    if (parseInt(data) == 1) {
+                        isadmin = true;
+                    } else {
+                        isadmin = false;
                     }
-                });
-        return isadmin;
-            
-            
+                }
+            });
+            return isadmin;
+
+
             //var found = $filter('filter')($projekty.items, {
-              //  idProjekt: projekt
+            //  idProjekt: projekt
             //}, true);
             //if (found[0].idUser == $scope.user.idUser) {
             //    return true;
             //} else {
-           //     return false;
+            //     return false;
             //}
         }
 
@@ -1056,22 +1212,19 @@ $scope.reloadProjectsGlobal();
         }
 
         $scope.addProject = function () {
-             var iteratorTerminow=0;
-            var terminyIlosc=$('.pojedynczyTermin').length;
-            window.console && console.log('ilosc terminow:' +terminyIlosc);
+            var iteratorTerminow = 0;
+            var terminyIlosc = $('.pojedynczyTermin').length;
+            window.console && console.log('ilosc terminow:' + terminyIlosc);
             var nazwa = $('#nazwaProjektu').val();
             if (nazwa == '') {
                 ons.notification.alert({
-                    message: 'Musisz podać nazwę projektu'
+                    message: $scope.lang.type_name_project
                 });
-            } 
-            else if(terminyIlosc==0) {
+            } else if (terminyIlosc == 0) {
                 ons.notification.alert({
-                    message: 'Musisz dodać minimum jeden termin'
+                    message: $scope.lang.at_least_one_date
                 });
-            }
-           
-            else {
+            } else {
                 $scope.items = $projekty.items;
                 var today = new Date();
                 var dd = today.getDate();
@@ -1080,7 +1233,7 @@ $scope.reloadProjectsGlobal();
                 var gg = today.getHours();
                 var min = today.getMinutes();
                 var orderKey = orderKeyGen(dd, mm, yyyy, gg, min, 0);
-                window.console && console.log('orderKeyToday:'+orderKey);
+                window.console && console.log('orderKeyToday:' + orderKey);
                 if (dd < 10) {
                     dd = '0' + dd
                 }
@@ -1247,7 +1400,7 @@ $scope.reloadProjectsGlobal();
                                         url: url,
                                         data: {
                                             idProjekt: projektID,
-                                            idTerminu: idTerminu,
+                                            idTerminu: parseInt(idTerminu),
                                             nazwa: nazwaTermin,
                                             opis: '',
                                             data: dataTermin,
@@ -1288,8 +1441,8 @@ $scope.reloadProjectsGlobal();
                                             var idZadania = data;
 
                                             var zadanie = {
-                                                idZadania: idZadania,
-                                                idTerminu: idTerminu,
+                                                idZadania: parseInt(idZadania),
+                                                idTerminu: parseInt(idTerminu),
                                                 orderKey: orderKey2,
                                                 basicItem: 'none',
                                                 milestone: 'block',
@@ -1301,7 +1454,7 @@ $scope.reloadProjectsGlobal();
                                                 nazwa: nazwaTermin
                                             }
                                             var termin = {
-                                                idTerminu: idTerminu,
+                                                idTerminu: parseInt(idTerminu),
                                                 orderKey: orderKey2,
                                                 mileStoneNaglowek: 'Milestone ' + (x + 1),
                                                 data: dataTermin,
@@ -1310,13 +1463,13 @@ $scope.reloadProjectsGlobal();
                                             $projekty.items[index - 1].zadania.push(zadanie);
                                             $projekty.items[index - 1].terminy.push(termin);
 
-                                            
+
                                             iteratorTerminow++;
-                                            if(iteratorTerminow==terminyIlosc){
-                                            $projekty.selectedItem = selectedItem;
-                                            $scope.reloadUserDataGoToProject();
+                                            if (iteratorTerminow == terminyIlosc) {
+                                                $projekty.selectedItem = selectedItem;
+                                                $scope.reloadUserDataGoToProject();
                                             }
-                                            
+
                                         }
                                     });
                                 }
@@ -1330,80 +1483,86 @@ $scope.reloadProjectsGlobal();
 
 
     module.controller('SingleTask', function ($scope, $projekty, $filter, $bazauzytkownikow, $currentUser, $sce) {
-        
+
         a
-        
+
         $scope.item = $projekty.selectedTask;
         $scope.projekt = $projekty.selectedItem;
-        $scope.taskOptions= function(android,ukonczony,userIn,zadanie,projekt,user,nazwa,admin){
-            if(ukonczony=="none") { ukonczony=false; } else { ukonczony=true; }
-            window.console && console.log('android: '+android+' ukoncozny: '+ukonczony+' userOwner: '+userIn);
-            if (admin==user) { admin=true; } else {admin=false}
-            if (android&&!ukonczony&&admin) {
-             ons.notification.confirm({
-                title: 'Opcje zadania',
-                message: "co chcesz zrobić?",
-                buttonLabels: ['Przypisz zadanie przez NFC', 'Udostępnij', 'Timer','Anuluj'],
-                primaryButtonIndex: 0,
-                callback: function (index) {
-                    if (index == 0) {
-                        $scope.startNFC(zadanie, projekt);
-                    }
-                    if (index == 1) {
-                       window.plugins.socialsharing.share('Właśnie pracuję nad przydzielonym mi zadaniem: '+nazwa, null, 'http://pointeam.com/pointeamshare.jpg', 'http://www.pointeam.com');
-                    }
-                    if (index == 2) {
-                        $scope.startTimer(zadanie, projekt, user);
-                    }
-                     if (index == 3) {
-                     }
-                }
-            });
-            } else if (!ukonczony&&userIn) {
-             ons.notification.confirm({
-                title: 'Opcje zadania',
-                message: "co chcesz zrobić?",
-                buttonLabels: ['Udostępnij', 'Timer','Anuluj'],
-                primaryButtonIndex: 0,
-                callback: function (index) {
-                    if (index == 0) {
-                       window.plugins.socialsharing.share('Właśnie pracuję nad przydzielonym mi zadaniem: '+nazwa, null, 'http://pointeam.com/pointeamshare.jpg', 'http://www.pointeam.com');
-                    }
-                    if (index == 1) {
-                        $scope.startTimer(zadanie, projekt, user);
-                    }
-                     if (index == 2) {
-                     }
-                }
-            });
+        $scope.taskOptions = function (android, ukonczony, userIn, zadanie, projekt, user, nazwa, admin) {
+            if (ukonczony == "none") {
+                ukonczony = false;
             } else {
-                 window.plugins.socialsharing.share('Właśnie pracuję nad przydzielonym mi zadaniem: '+nazwa, null, 'http://pointeam.com/pointeamshare.jpg', 'http://www.pointeam.com');
+                ukonczony = true;
+            }
+            window.console && console.log('android: ' + android + ' ukoncozny: ' + ukonczony + ' userOwner: ' + userIn);
+            if (admin == user) {
+                admin = true;
+            } else {
+                admin = false
+            }
+            if (android && !ukonczony && admin) {
+                ons.notification.confirm({
+                    title: $scope.lang.task_title,
+                    message: $scope.lang.task_message,
+                    buttonLabels: [$scope.lang.share_nfc, $scope.lang.share, $scope.lang.timer, $scope.lang.task_cancel],
+                    primaryButtonIndex: 0,
+                    callback: function (index) {
+                        if (index == 0) {
+                            $scope.startNFC(zadanie, projekt);
+                        }
+                        if (index == 1) {
+                            window.plugins.socialsharing.share($scope.lang.currently_working_at + nazwa, null, 'http://pointeam.com/pointeamshare.jpg', 'http://www.pointeam.com');
+                        }
+                        if (index == 2) {
+                            $scope.startTimer(zadanie, projekt, user);
+                        }
+                        if (index == 3) {}
+                    }
+                });
+            } else if (!ukonczony && userIn) {
+                ons.notification.confirm({
+                    title: $scope.lang.task_title,
+                    message: $scope.lang.task_message,
+                    buttonLabels: [$scope.lang.share, $scope.lang.timer, $scope.lang.task_cancel],
+                    primaryButtonIndex: 0,
+                    callback: function (index) {
+                        if (index == 0) {
+                            window.plugins.socialsharing.share($scope.lang.currently_working_at + nazwa, null, 'http://pointeam.com/pointeamshare.jpg', 'http://www.pointeam.com');
+                        }
+                        if (index == 1) {
+                            $scope.startTimer(zadanie, projekt, user);
+                        }
+                        if (index == 2) {}
+                    }
+                });
+            } else {
+                window.plugins.socialsharing.share($scope.lang.currently_working_at + nazwa, null, 'http://pointeam.com/pointeamshare.jpg', 'http://www.pointeam.com');
             }
         }
         $("#spinner").fadeOut(1000);
-        
-        
-        $scope.item.candone=true;
-        var connectTaskDetails=parseInt($scope.item.polaczone);
-         window.console && console.log('poloczone z: '+connectTaskDetails);
-        
-        if(connectTaskDetails!=1&&connectTaskDetails!=0){
-         connectTaskDetails = $filter('filter')($scope.projekt.zadania, {
+
+
+        $scope.item.candone = true;
+        var connectTaskDetails = parseInt($scope.item.polaczone);
+        window.console && console.log($scope.lang.connected_with + connectTaskDetails);
+
+        if (connectTaskDetails != 1 && connectTaskDetails != 0) {
+            connectTaskDetails = $filter('filter')($scope.projekt.zadania, {
                 idZadania: connectTaskDetails
             }, true);
-        window.console && console.log('polaczone: '+connectTaskDetails[0].nazwa);
-            $scope.item.nazwapolaczonego=connectTaskDetails[0].nazwa;
-        if(connectTaskDetails[0].ukonczoneDisplay=="none") {
-            $scope.item.candone=false;
-        }
+            window.console && console.log($scope.lang.connected_with + connectTaskDetails[0].nazwa);
+            $scope.item.nazwapolaczonego = connectTaskDetails[0].nazwa;
+            if (connectTaskDetails[0].ukonczoneDisplay == "none") {
+                $scope.item.candone = false;
+            }
         }
         window.console && console.log($scope.item.candone);
-        
+
         $scope.baza = $bazauzytkownikow.items;
         $scope.currentuser = $currentUser.items;
         var htmlContent = $scope.item.lokalizacja;
-        if(htmlContent){
-        htmlContent = htmlContent.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+        if (htmlContent) {
+            htmlContent = htmlContent.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
         }
         $scope.someSafeContent = $sce.trustAsHtml(htmlContent);
         var found = $filter('filter')($scope.projekt.zadania, {
@@ -1486,12 +1645,12 @@ $scope.reloadProjectsGlobal();
                 foundTask[0].budzetPienieznyWykorzystanie += (kasagr - kasaStartu);
                 foundUserProject[0].czasUzytkownika += (minutes - czasStartu);
                 foundUserProject[0].kasaUzytkownika += (kasagr - kasaStartu);
-                
-                window.console && console.log('czas:'+foundUser[0].czasUzytkownika+ 'kasa: '+foundUser[0].kasaUzytkownika);
-                window.console && console.log('zadanie:'+zadanie+ 'projekt: '+projekt);
-                window.console && console.log('user:'+userGlobalId+ 'projekt: '+projekt);
-                
-                
+
+                window.console && console.log($scope.lang.time + foundUser[0].czasUzytkownika + $scope.lang.cash + foundUser[0].kasaUzytkownika);
+                window.console && console.log($scope.lang.task + zadanie + $scope.lang.project + projekt);
+                window.console && console.log($scope.lang.user + userGlobalId + $scope.lang.project + projekt);
+
+
                 $.ajax({
                     type: "POST",
                     url: url,
@@ -1615,8 +1774,8 @@ $scope.reloadProjectsGlobal();
                     $scope.$root.$broadcast("updateTerms");
                 } else {
                     ons.notification.alert({
-                        message: 'Musisz być w odpowiedniej lokalizacji, by zakonczyć to zadanie',
-                        title: 'Za daleko',
+                        message: $scope.lang.location_warning,
+                        title: $scope.lang.location_warning_title,
                         buttonLabel: 'OK',
                         animation: 'default',
                         callback: function () {}
@@ -1701,7 +1860,7 @@ $scope.reloadProjectsGlobal();
                 });
                 $scope.$root.$broadcast("updateTerms");
             } else {
-                alert('sprawdzanie poprawności lokalizacji');
+                alert($scope.lang.location_check);
                 var options = {};
                 tmpLocation = $scope.item.latLngPosition;
                 navigator.geolocation.getCurrentPosition(onSuccess, null, options);
@@ -1840,8 +1999,8 @@ $scope.reloadProjectsGlobal();
         $scope.$on("addCommentEvent", function (event) {
             $scope.addComment();
         });
-        
-      
+
+
 
 
         $scope.goToKomentarze = function () {
@@ -1980,8 +2139,8 @@ $scope.reloadProjectsGlobal();
 
             if (dataOd == '' || dataDo == '') {
                 ons.notification.alert({
-                    message: 'Podaj wszystkie dane',
-                    title: 'Brak daty',
+                    message: $scope.lang.message_data,
+                    title: $scope.lang.message_title,
                     buttonLabel: 'OK',
                     animation: 'default',
                     callback: function () {}
@@ -2044,8 +2203,8 @@ $scope.reloadProjectsGlobal();
 
                 if (orderKey >= orderKey2) {
                     ons.notification.alert({
-                        message: 'Data końcowa nie może być mniejsza niż data początku',
-                        title: 'Niepoprawne daty',
+                        message: $scope.lang.wrong_date,
+                        title: $scope.lang.wrong_date_title,
                         buttonLabel: 'OK',
                         animation: 'default',
                         callback: function () {}
@@ -2116,8 +2275,8 @@ $scope.reloadProjectsGlobal();
                         });
                         if (error) {
                             ons.notification.alert({
-                                message: 'Okres rezerwacji nie może pokrywać się z inną rezerwacją',
-                                title: 'Niepoprawne daty',
+                                message: $scope.lang.reservation_already_made,
+                                title: $scope.lang.reservation_title,
                                 buttonLabel: 'OK',
                                 animation: 'default',
                                 callback: function () {}
@@ -2180,14 +2339,14 @@ $scope.reloadProjectsGlobal();
 
     module.controller('DetailController', function ($scope, $projekty, $filter, $bazauzytkownikow, $currentUser) {
         $scope.item = $projekty.selectedItem;
-        
-        $scope.updateItem=function(){
+
+        $scope.updateItem = function () {
             $scope.item = $projekty.selectedItem;
         }
-        $scope.$on('updateItemEvent', function() { 
-          $scope.updateItem();
+        $scope.$on('updateItemEvent', function () {
+            $scope.updateItem();
         });
-        
+
         $scope.baza = $bazauzytkownikow.items;
         $scope.rezerwacja = "";
         var rezerwacja = 0;
@@ -2221,14 +2380,14 @@ $scope.reloadProjectsGlobal();
                 success: function (data) {}
             });
         }
-        
-          $scope.$on("addUserToTaskEvent", function (event,args) {
+
+        $scope.$on("addUserToTaskEvent", function (event, args) {
             alert(args.userid);
             alert(args.taskid);
-            $scope.addUserToTaskGlobalF(args.userid,args.taskid);
+            $scope.addUserToTaskGlobalF(args.userid, args.taskid);
         });
-        
-          $scope.addUserToTaskGlobalF = function (user, zadanie) {
+
+        $scope.addUserToTaskGlobalF = function (user, zadanie) {
             var found = $filter('filter')($scope.item.przypisaneOsoby, {
                 idUser: user
             }, true);
@@ -2282,12 +2441,12 @@ $scope.reloadProjectsGlobal();
             var found = $filter('filter')($scope.item.koszty, {
                 idKoszt: idKoszt
             }, true);
-            
+
 
             ons.notification.confirm({
-                title: 'Akceptacja kosztu',
-                message: "Czy chcesz zaakceptować koszt?",
-                buttonLabels: ['Tak', 'Nie', 'Anuluj'],
+                title: $scope.lang.cost_title,
+                message: $scope.lang.cost_message,
+                buttonLabels: [$scope.lang.yes_answer, $scope.lang.no_answer, $scope.lang.canel_answer],
                 primaryButtonIndex: 0,
                 callback: function (index) {
                     if (index == 0) {
@@ -2344,8 +2503,8 @@ $scope.reloadProjectsGlobal();
 
             if (nazwa == '') {
                 ons.notification.alert({
-                    message: 'Podaj nazwę kosztu',
-                    title: 'Brak nazwy',
+                    message: $scope.lang.cost_message2,
+                    title: $scope.lang.cost_title2,
                     buttonLabel: 'OK',
                     animation: 'default',
                     callback: function () {}
@@ -2407,7 +2566,7 @@ $scope.reloadProjectsGlobal();
         //NOTE: Dodawanie zadania
         $scope.addNewTask = function () {
             var nazwa = $('#nazwaZadania').val();
-            var connectID=$('#wybranyPolaczony select').val();
+            var connectID = $('#wybranyPolaczony select').val();
 
             var data = $('#wybranyTermin select').val();
             var innaData = 0;
@@ -2418,16 +2577,16 @@ $scope.reloadProjectsGlobal();
 
             if (nazwa == '') {
                 ons.notification.alert({
-                    message: 'Podaj nazwę zadania',
-                    title: 'Brak nazwy',
+                    message: $scope.lang.new_task_message,
+                    title: $scope.lang.new_task_title,
                     buttonLabel: 'OK',
                     animation: 'default',
                     callback: function () {}
                 });
             } else if (data == '') {
                 ons.notification.alert({
-                    message: 'Podaj termin wykonania zadania',
-                    title: 'Brak daty',
+                    message: $scope.lang.new_date_message,
+                    title: $scope.lang.new_date_title,
                     buttonLabel: 'OK',
                     animation: 'default',
                     callback: function () {}
@@ -2442,7 +2601,7 @@ $scope.reloadProjectsGlobal();
                 var lokalizacja = $('#lokalizacjaZadania').html();
                 //window.console && console.log(lokalizacja);
                 var lokalizacjaZadaniaLatLng = $('#lokalizacjaZadaniaLatLng').html();
-                if (lokalizacja != "Wybierz lokalizację"&&lokalizacja) {
+                if (lokalizacja != "Wybierz lokalizację" && lokalizacja) {
                     pokazLokalizacje = 'block';
                 }
 
@@ -2613,7 +2772,7 @@ $scope.reloadProjectsGlobal();
                         budzetGodzinowyWykorzystanie: 0,
                         punktyPremiowe: punktyPremiowe,
                         punktyPremioweWartosc: punktyPremioweWartosc,
-                        polaczone:connectID,
+                        polaczone: connectID,
                         addTaskToProject: ''
                     },
                     crossDomain: true,
@@ -2658,7 +2817,7 @@ $scope.reloadProjectsGlobal();
                             budzetGodzinowyWykorzystanie: 0,
                             punktyPremiowe: punktyPremiowe,
                             punktyPremioweWartosc: punktyPremioweWartosc,
-                            polaczone:connectID,
+                            polaczone: connectID,
                             przypisaneOsoby: angular.copy($scope.currentuser[0].tmp),
                             komentarze: []
                         }
@@ -3029,8 +3188,8 @@ $scope.reloadProjectsGlobal();
 
             if (nazwa == '') {
                 ons.notification.alert({
-                    message: 'Podaj nazwę zasobu',
-                    title: 'Brak nazwy',
+                    message: $scope.lang.res_message,
+                    title: $scope.lang.res_title,
                     buttonLabel: 'OK',
                     animation: 'default',
                     callback: function () {}
@@ -3076,9 +3235,9 @@ $scope.reloadProjectsGlobal();
 
         $scope.projectOptions = function () {
             ons.notification.confirm({
-                title: 'Opcje projektu',
-                message: "co chcesz zrobić?",
-                buttonLabels: ['Dodaj zadanie', 'Zarządzaj osobami', 'Zarządzaj terminami', 'Zarządzaj budżetem', 'Dodaj zasób', 'Zakończ projekt', 'Anuluj'],
+                title: $scope.lang.project_title,
+                message: $scope.lang.project_message,
+                buttonLabels: [$scope.lang.project_add_task, $scope.lang.project_manage_users, $scope.lang.project_manage_dates, $scope.lang.project_manage_budget, $scope.lang.project_add_res, $scope.lang.project_finish, $scope.lang.project_cancel],
                 primaryButtonIndex: 0,
                 callback: function (index) {
                     if (index == 0) {
@@ -3152,9 +3311,9 @@ $scope.reloadProjectsGlobal();
         $scope.projectOptionsUser = function () {
             if ($scope.isAndroidTest()) {
                 ons.notification.confirm({
-                    title: 'Opcje projektu',
-                    message: "co chcesz zrobić?",
-                    buttonLabels: [$scope.lang.report_cost, 'Przyjmij zadanie przez NFC', 'Anuluj'],
+                    title: $scope.lang.project_title,
+                    message: $scope.lang.project_message,
+                    buttonLabels: [$scope.lang.report_cost, $scope.lang.nfc_assign, $scope.lang.cancel_nfc],
                     primaryButtonIndex: 0,
                     callback: function (index) {
                         if (index == 0) {
@@ -3163,7 +3322,7 @@ $scope.reloadProjectsGlobal();
                             });
                         }
                         if (index == 1) {
-$scope.lisenNFC();
+                            $scope.lisenNFC();
                         }
                         if (index == 2) {
 
@@ -3172,9 +3331,9 @@ $scope.lisenNFC();
                 });
             } else {
                 ons.notification.confirm({
-                    title: 'Opcje projektu',
-                    message: "co chcesz zrobić?",
-                    buttonLabels: [$scope.lang.report_cost, 'Anuluj'],
+                    title: $scope.lang.project_title,
+                    message: $scope.lang.project_message,
+                    buttonLabels: [$scope.lang.report_cost, $scope.lang.cancel_nfc],
                     primaryButtonIndex: 0,
                     callback: function (index) {
                         if (index == 0) {
@@ -3194,7 +3353,7 @@ $scope.lisenNFC();
         //NOTE: Google Maps function
         $scope.applyLocation = function () {
             var location = $('#adressPreview').html();
-            if (location != 'Kliknij na mapie, by wybrać lokalizację') {
+            if (location != $scope.lang.location_click) {
                 $('#lokalizacjaZadania').html(location);
                 var latLngTmp = $('#adressPreview small').html();
                 $('#lokalizacjaZadaniaLatLng').html(latLngTmp);
@@ -3343,7 +3502,7 @@ $scope.lisenNFC();
                                 }
 
                             } else {
-                                $('#adressPreview').html("Nie znaleziono adresu");
+                                $('#adressPreview').html($scope.lang.no_such_address);
                             }
                         } else {
                             $('#adressPreview').html(status);
@@ -3372,11 +3531,11 @@ $scope.lisenNFC();
             }, true);
             if (foundCheck.length > 0) {
                 ons.notification.alert({
-                    message: 'Ta osoba jest już dodana do tego projektu'
+                    message: $scope.lang.user_already_assigned
                 });
             } else {
                 ons.notification.prompt({
-                    message: "Wpisz stawkę godzinową",
+                    message: $scope.lang.hour_rate,
                     callback: function (age) {
                         var found = $filter('filter')($scope.baza, {
                             idUser: userToAddId
@@ -3471,7 +3630,7 @@ $scope.lisenNFC();
             }, true);
             if (foundCheck.length > 0) {
                 ons.notification.alert({
-                    message: 'Ta osoba jest już dodana do tego projektu'
+                    message: $scope.lang.user_already_assigned
                 });
             } else {
                 var found = $filter('filter')($scope.currentuser[0].ostatnieOsoby, {
@@ -3570,7 +3729,7 @@ $scope.lisenNFC();
                             url: url,
                             data: {
                                 idProjekt: projektID,
-                                idTerminu: idTerminu,
+                                idTerminu: parseInt(idTerminu),
                                 nazwa: nazwaTermin,
                                 opis: '',
                                 data: dataTermin,
@@ -3611,8 +3770,8 @@ $scope.lisenNFC();
                                 var idZadania = data;
 
                                 var zadanie = {
-                                    idZadania: idZadania,
-                                    idTerminu: idTerminu,
+                                    idZadania: parseInt(idZadania),
+                                    idTerminu: parseInt(idTerminu),
                                     orderKey: orderKey,
                                     basicItem: 'none',
                                     milestone: 'block',
@@ -3624,7 +3783,7 @@ $scope.lisenNFC();
                                     nazwa: nazwaTermin
                                 }
                                 var termin = {
-                                    idTerminu: idTerminu,
+                                    idTerminu: parseInt(idTerminu),
                                     orderKey: orderKey,
                                     mileStoneNaglowek: 'Milestone ' + (iloscTerminow + x + 1),
                                     data: dataTermin,
@@ -3678,9 +3837,9 @@ $scope.lisenNFC();
 
         $scope.logType = function () {
             ons.notification.confirm({
-                title: 'Opcje projektu',
-                message: "co chcesz zrobić?",
-                buttonLabels: ['Wszystkie', 'Przekroczone terminy', 'Przekroczone budżety', 'Ukończone zadania', 'Utworzone zadania'],
+                title: $scope.lang.project_title,
+                message: $scope.lang.project_message,
+                buttonLabels: [$scope.lang.project_all, $scope.lang.project_deadlines_crossed, $scope.lang.project_budget_crossed, $scope.lang.finished_tasks, $scope.lang.project_created_tasks],
                 primaryButtonIndex: 0,
                 callback: function (index) {
                     if (index == 0) {
@@ -3724,7 +3883,7 @@ $scope.lisenNFC();
                 }, true);
                 if (foundCheck.length > 0) {
                     ons.notification.alert({
-                        message: 'Ta osoba jest już dodana do tego zadania'
+                        message: $scope.lang.user_already_assigned
                     });
                 } else {
                     var found = $filter('filter')($scope.item.przypisaneOsoby, {
@@ -3792,8 +3951,8 @@ $scope.lisenNFC();
 
         $scope.addPromoPoints = function (indexid) {
             ons.notification.confirm({
-                title: 'Punkty premiowe',
-                message: "ile punktów chcesz dodać?",
+                title: $scope.lang.bonus_points,
+                message: $scope.lang.how_many_bonus_points,
                 buttonLabels: ['1', '2', '3', '4', '5'],
                 primaryButtonIndex: 0,
                 callback: function (index) {
@@ -3815,13 +3974,13 @@ $scope.lisenNFC();
         $scope.items = $projekty.items;
         $scope.user = $currentUser.items[0];
         var userID = $scope.user.idUser;
-        
-        $scope.reloadProjects = function() {
+
+        $scope.reloadProjects = function () {
             window.console && console.log('test');
             $scope.items = $projekty.items;
             $scope.user = $currentUser.items[0];
         }
-        
+
         $scope.$on("reloadProjectsEvent", function (event) {
             $scope.reloadProjects();
         });
@@ -3882,7 +4041,7 @@ $scope.lisenNFC();
         $scope.showDetail = function (index) {
             var selectedItem = $projekty.items[index];
             $projekty.selectedItem = selectedItem;
-            currentproject=$projekty.selectedItem.idProjekt;
+            currentproject = $projekty.selectedItem.idProjekt;
 
             var ilosczadan = 0;
             var iterator = 0;

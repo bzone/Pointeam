@@ -156,7 +156,7 @@
                 <form class="loginStyle">
                     <h2 class="nfcHeader">{{lang.nfc_description}}</h2>
                     <img src="css/NFC.png" class="nfcImage" />
-                    <p style="margin-top:30px; width:auto; text-align:center;  color:#FFF;">Przyłóż Swój telefon do drugiego telefonu aby udostępnić zadanie</p>
+                    <p style="margin-top:30px; width:auto; text-align:center;  color:#FFF;">{{lang.nfc_share}}</p>
                 </form>
             </div>
         </ons-page>
@@ -175,7 +175,7 @@
                 <form class="loginStyle">
                     <h2 class="nfcHeader">NFC</h2>
                     <img src="css/NFC.png" class="nfcImage" />
-                   <p style="margin-top:30px;  width:auto; text-align:center; color:#FFF;">By przyjąć zadanie przez NFC, musisz przyłożyć swój telefon do telefonu użytkownika, który udostępnia zadanie. W momencie nawiązania łączności, użytkownik udostępniający musi dotknąć ekran, by przesłać Ci zadanie.</p>
+                   <p style="margin-top:30px;  width:auto; text-align:center; color:#FFF;">{{lang.nfc_share2}}</p>
                 </form>
             </div>
         </ons-page>
@@ -218,7 +218,7 @@
 		                    <span class="percent"></span>
                         <br/>
                         <span class="number">{{item.ukonczoneZadania}}/{{item.wszystkieZadania}}</span>
-                        <h4>ukończonych<br/>zadań</h4>
+                        <h4>{{lang.finished_multi}}<br/>{{lang.task_multi}}</h4>
                         </span>
                         <div class="projectFooter">
                             <div class="infoElements">
@@ -433,7 +433,7 @@
                         <div class="singleSection" ng-if="item.plik.length>1">
                             <div>
                                 <h3>{{lang.added_file}}</h3>
-                                <p class="opis"><a ng-click="showFile(item.plik)" style="color: #32188F; text-decoration: none; font-size: 34px; margin-bottom: -20px; font-family: 'Hurme Geometric Sans 4 SemiBold';" target="_blank">Zobacz plik</a></p>
+                                <p class="opis"><a ng-click="showFile(item.plik)" style="color: #32188F; text-decoration: none; font-size: 34px; margin-bottom: -20px; font-family: 'Hurme Geometric Sans 4 SemiBold';" target="_blank">{{lang.show_file}}</a></p>
                             </div>
                         </div>
                         <div class="singleSection">
@@ -1309,7 +1309,7 @@
                     <ons-row class="row ons-row-inner">
                         <ons-col class="col ons-col-inner">{{lang.add_file}}</ons-col>
                         <ons-col class="col ons-col-inner flex2">
-                            <label for="fileU" ng-click="fileSelect()">Wybierz plik</label>
+                            <label for="fileU" ng-click="fileSelect()">{{lang.show_file}}</label>
                             <input name="file" type="file" file-model="myFile" id="fileU" />
 
 
@@ -1366,10 +1366,10 @@
                 </li>
                 <li class="list__item" id="wybranyPolaczony">
                     <ons-row align="center" class="row ons-row-inner row-center">
-                        <ons-col class="col ons-col-inner" style="line-height: 19px; margin-top: 10px; margin-bottom: 10px;">Zadanie powiązane</ons-col>
+                        <ons-col class="col ons-col-inner" style="line-height: 19px; margin-top: 10px; margin-bottom: 10px;">{{lang.task_connected}}</ons-col>
                         <ons-col class="col ons-col-inner flex2">
                             <select class="inputClear">
-                                <option value="0">brak</option>
+                                <option value="0">{{lang.empty}}</option>
                                 <option ng-repeat="zadanie in item.zadania" value="{{zadanie.idZadania}}" ng-if="zadanie.basicItem=='block'&&zadanie.ukonczoneDisplay=='none'">{{zadanie.nazwa}}</option>
                             </select>
                         </ons-col>
