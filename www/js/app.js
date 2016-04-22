@@ -1482,9 +1482,6 @@
 
 
     module.controller('SingleTask', function ($scope, $projekty, $filter, $bazauzytkownikow, $currentUser, $sce) {
-
-        a
-
         $scope.item = $projekty.selectedTask;
         $scope.projekt = $projekty.selectedItem;
         $scope.taskOptions = function (android, ukonczony, userIn, zadanie, projekt, user, nazwa, admin) {
