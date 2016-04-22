@@ -9,6 +9,7 @@
     var globalZadanieUpload = 0;
     var currentproject=0;
     var selectedItem="";
+    var userGlobalId=0;
 
     module.directive('fileModel', ['$parse', function ($parse) {
         return {
@@ -513,11 +514,11 @@
             if (localStorage.login == "true") {
                 $("#spinner").css('display', 'block');
                 $('#spinnerIcon').delay(1500).queue(function (next) {
-                    $(this).hide();
+                    //$(this).hide();
                     next();
                 });
                 $('#spinnerOk').delay(1500).queue(function (next) {
-                    $(this).show();
+                    //$(this).show();
                     next();
                 });
                 var email = localStorage.email;
@@ -575,11 +576,11 @@
                             localStorage.email = email;
 
                             $('#spinnerIcon').delay(1500).queue(function (next) {
-                                $(this).hide();
+                                //$(this).hide();
                                 next();
                             });
                             $('#spinnerOk').delay(1500).queue(function (next) {
-                                $(this).show();
+                                //$(this).show();
                                 next();
                             });
                             $scope.updateUsersBase();
@@ -689,11 +690,11 @@
                                 localStorage.login = "true";
                                 localStorage.email = email;
                                 $('#spinnerIcon').delay(1500).queue(function (next) {
-                                    $(this).hide();
+                                    //$(this).hide();
                                     next();
                                 });
                                 $('#spinnerOk').delay(1500).queue(function (next) {
-                                    $(this).show();
+                                    //$(this).show();
                                     next();
                                 });
 
@@ -747,6 +748,7 @@
         }
 
         $scope.getUserData = function (email, go) {
+            $("#spinner").css('display', 'block');
             var dataString = "email=" + email + "&getUserData=";
             $.ajax({
                 type: "POST",
@@ -762,6 +764,7 @@
                     $('#spinner').delay(1500).queue(function (next) {
                         $scope.user = angular.fromJson(data).user[0];
                         $currentUser.items[0] = angular.fromJson(data).user[0];
+                        userGlobalId=$currentUser.items[0].idUser;
                         if (angular.fromJson(data).project) {
                             $projekty.items = angular.fromJson(data).project;
                             $currentUser.items[0].tasks = angular.fromJson(data).usertasks;
@@ -835,6 +838,7 @@ console.log(project.tytul);
                                                 title: selectedItem.tytul
                             });
                         }
+                        $("#spinner").fadeOut(1000);
 $scope.reloadProjectsGlobal();
                         next();
                     });
@@ -1326,6 +1330,9 @@ $scope.reloadProjectsGlobal();
 
 
     module.controller('SingleTask', function ($scope, $projekty, $filter, $bazauzytkownikow, $currentUser, $sce) {
+        
+        a
+        
         $scope.item = $projekty.selectedTask;
         $scope.projekt = $projekty.selectedItem;
         $scope.taskOptions= function(android,ukonczony,userIn,zadanie,projekt,user,nazwa,admin){
@@ -1373,15 +1380,19 @@ $scope.reloadProjectsGlobal();
                  window.plugins.socialsharing.share('Właśnie pracuję nad przydzielonym mi zadaniem: '+nazwa, null, 'http://pointeam.com/pointeamshare.jpg', 'http://www.pointeam.com');
             }
         }
+        $("#spinner").fadeOut(1000);
         
         
         $scope.item.candone=true;
-        var connectTaskDetails=$scope.item.polaczone;
+        var connectTaskDetails=parseInt($scope.item.polaczone);
+         window.console && console.log('poloczone z: '+connectTaskDetails);
+        
         if(connectTaskDetails!=1&&connectTaskDetails!=0){
          connectTaskDetails = $filter('filter')($scope.projekt.zadania, {
                 idZadania: connectTaskDetails
             }, true);
         window.console && console.log('polaczone: '+connectTaskDetails[0].nazwa);
+            $scope.item.nazwapolaczonego=connectTaskDetails[0].nazwa;
         if(connectTaskDetails[0].ukonczoneDisplay=="none") {
             $scope.item.candone=false;
         }
@@ -1462,7 +1473,7 @@ $scope.reloadProjectsGlobal();
                 }
                 foundUser[0].czasUzytkownika = minutes;
                 foundUser[0].kasaUzytkownika = kasagr;
-            }, 60000);
+            }, 600);
 
 
 
@@ -1475,14 +1486,19 @@ $scope.reloadProjectsGlobal();
                 foundTask[0].budzetPienieznyWykorzystanie += (kasagr - kasaStartu);
                 foundUserProject[0].czasUzytkownika += (minutes - czasStartu);
                 foundUserProject[0].kasaUzytkownika += (kasagr - kasaStartu);
-
+                
+                window.console && console.log('czas:'+foundUser[0].czasUzytkownika+ 'kasa: '+foundUser[0].kasaUzytkownika);
+                window.console && console.log('zadanie:'+zadanie+ 'projekt: '+projekt);
+                window.console && console.log('user:'+userGlobalId+ 'projekt: '+projekt);
+                
+                
                 $.ajax({
                     type: "POST",
                     url: url,
                     data: {
                         idZadania: zadanie,
                         idProjekt: projekt,
-                        idUser: user,
+                        idUser: userGlobalId,
                         czasZadanie: foundUser[0].czasUzytkownika,
                         kasaZadanie: foundUser[0].kasaUzytkownika,
                         czasProjekt: foundUserProject[0].czasUzytkownika,
@@ -2164,6 +2180,14 @@ $scope.reloadProjectsGlobal();
 
     module.controller('DetailController', function ($scope, $projekty, $filter, $bazauzytkownikow, $currentUser) {
         $scope.item = $projekty.selectedItem;
+        
+        $scope.updateItem=function(){
+            $scope.item = $projekty.selectedItem;
+        }
+        $scope.$on('updateItemEvent', function() { 
+          $scope.updateItem();
+        });
+        
         $scope.baza = $bazauzytkownikow.items;
         $scope.rezerwacja = "";
         var rezerwacja = 0;
@@ -2368,6 +2392,7 @@ $scope.reloadProjectsGlobal();
 
         $scope.showTask = function (index) {
             //NOTE: now point]
+            $("#spinner").css('display', 'block');
             var found = $filter('filter')($scope.item.zadania, {
                 idZadania: index
             }, true);
@@ -2716,6 +2741,7 @@ $scope.reloadProjectsGlobal();
                         if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
                             $scope.$apply();
                         }
+                        $scope.$emit('updateItemEvent');
                         $scope.RebuildTerms();
                         navi.popPage();
 

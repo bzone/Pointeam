@@ -86,8 +86,6 @@
         <ons-page style="background:#31198B !Important;" ng-init="checkLogin()">
             <div class="bigLogo"></div>
             <form class="loginStyle">
-
-
                 <input type="email" id="loginEmail" class="loginInputStyle" placeholder="e-mail" />
                 <input type="password" id="loginPassword" class="loginInputStyle" placeholder="{{lang.password}}" />
                 <a class="submitButton" ng-click="loginUser()">{{lang.sign_in}}</a>
@@ -225,8 +223,8 @@
                         <div class="projectFooter">
                             <div class="infoElements">
                                 <div class='icon {{item.statusClass}}'>{{item.statusUzytkownika}}</div>
-                                <div class='icon time'>{{item.czasUzytkownika}}</div>
-                                <div class='icon cost'>{{item.kasaUzytkownika}}</div>
+                                <div class='icon time'>{{item.czasUzytkownika/60 | number:2}}</div>
+                                <div class='icon cost'>{{item.kasaUzytkownika/100 | number:2}}</div>
                                 <div class='icon promo'>{{item.punktyUzytkownika}}</div>
                             </div>
                             <div class="clear"></div>
@@ -288,8 +286,8 @@
                                 <div class="taskTitle">{{item.tytul}}</div>
                                 <div class="infoElements">
                                     <div class='icon {{item.statusClass}}'>{{item.statusUzytkownika}}</div>
-                                    <div class='icon time'>{{item.czasUzytkownika}}</div>
-                                    <div class='icon cost'>{{item.kasaUzytkownika}}</div>
+                                    <div class='icon time'>{{item.czasUzytkownika/60 | number:2}}</div>
+                                    <div class='icon cost'>{{item.kasaUzytkownika/100 | number:2}}</div>
                                     <div class='icon promo'>{{item.punktyUzytkownika}}</div>
                                 </div>
                                 <div class="normalStats">
@@ -449,7 +447,7 @@
                                 <span class="priorytet normal" ng-if="item.priorytet=='prioNormal'">{{lang.priority_medium}}</span>
                                 <span class="priorytet important" ng-if="item.priorytet=='prioImportant'">{{lang.priority_high}}</span>
                                 <div ng-if="item.polaczone!=0&&item.polaczone!=1&&!item.candone">
-                                    <p class="infoBox">Aby wykonać to zadanie muszisz najpierw ukończyć inne zadanie</p>
+                                    <p class="infoBox">Aby wykonać to zadanie musisz najpierw ukończyć: {{item.nazwapolaczonego}}</p>
                                 
                             </div>
                             </div>
@@ -685,9 +683,9 @@
                                 <div class="infoElements" ng-if="isAdmin(item.idProjekt)">
                                     <div class='icon {{zadanie.statusClass}}' ng-if="zadanie.priorytet!='prioFinished'">{{zadanie.statusUzytkownika}}</div>
                                     <div class='icon {{zadanie.statusClass}}' ng-if="zadanie.priorytet=='prioFinished'">{{lang.finished}}</div>
-                                    <div class='icon time'>{{zadanie.budzetGodzinowyWykorzystanie}}</div>
+                                    <div class='icon time'>{{zadanie.budzetGodzinowyWykorzystanie/60 | number:2}}</div>
                                     <div class="clear" style="margin-bottom:5px;"></div>
-                                    <div class='icon cost'>{{zadanie.budzetPienieznyWykorzystanie}}</div>
+                                    <div class='icon cost'>{{zadanie.budzetPienieznyWykorzystanie/100 | number:2}}</div>
                                     <div class='icon promo'>{{zadanie.punktyPremioweWartosc}}</div>
                                 </div>
                                 <div class="infoElements" ng-if="!isAdmin(item.idProjekt)">
@@ -1368,7 +1366,7 @@
                 </li>
                 <li class="list__item" id="wybranyPolaczony">
                     <ons-row align="center" class="row ons-row-inner row-center">
-                        <ons-col class="col ons-col-inner">Zadanie powiązane</ons-col>
+                        <ons-col class="col ons-col-inner" style="line-height: 19px; margin-top: 10px; margin-bottom: 10px;">Zadanie powiązane</ons-col>
                         <ons-col class="col ons-col-inner flex2">
                             <select class="inputClear">
                                 <option value="0">brak</option>
