@@ -8,6 +8,7 @@
     var commentRefresh;
     var globalZadanieUpload = 0;
     var currentproject=0;
+    var selectedItem="";
 
     module.directive('fileModel', ['$parse', function ($parse) {
         return {
@@ -783,6 +784,7 @@ console.log(project.tytul);
                                 success: function (data) {
                                     
                                     project.log = angular.fromJson(data).log;
+                                    project.log = angular.fromJson(data).log;
                                     project.przypisaneOsoby = angular.fromJson(data).osoby;
                                     project.zadania = angular.fromJson(data).zadania;
                                     project.terminy = angular.fromJson(data).terminy;
@@ -827,6 +829,12 @@ console.log(project.tytul);
                             navi.popPage();
                             $scope.reloadProjectsGlobal();
                         }
+                        if (go==3) {
+                            $scope.reloadProjectsGlobal();
+                            $scope.navi.replacePage('procjectview.html', {
+                                                title: selectedItem.tytul
+                            });
+                        }
 $scope.reloadProjectsGlobal();
                         next();
                     });
@@ -838,6 +846,11 @@ $scope.reloadProjectsGlobal();
         $scope.reloadUserData = function() {
             var email = localStorage.email;
             $scope.getUserData(email,2);
+        }
+        
+        $scope.reloadUserDataGoToProject = function() {
+            var email = localStorage.email;
+            $scope.getUserData(email,3);
         }
         
          $scope.reloadProjectsGlobal = function () {
@@ -931,7 +944,7 @@ $scope.reloadProjectsGlobal();
                     cache: false,
                     beforeSend: function () {},
                     success: function (data) {
-                        alert(data);
+                        //alert(data);
                         if(parseInt(data)==1){
                             //alert('dobry projekt');
                             $scope.addUserToTaskGlobal($scope.user.idUser,task);
@@ -981,14 +994,40 @@ $scope.reloadProjectsGlobal();
         }
 
         $scope.isAdmin = function (projekt) {
-            var found = $filter('filter')($projekty.items, {
-                idProjekt: projekt
-            }, true);
-            if (found[0].idUser == $scope.user.idUser) {
-                return true;
-            } else {
-                return false;
-            }
+            
+            var isadmin=false;
+            $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: {
+                        idProjekt: projekt,
+                        idUser:$scope.user.idUser,
+                        isProjectAdmin: ''
+                    },
+                    async: false,
+                    crossDomain: true,
+                    cache: false,
+                    beforeSend: function () {},
+                    success: function (data) {
+                        //alert(data);
+                        if(parseInt(data)==1){
+                            isadmin=true;
+                        } else {
+                            isadmin=false;
+                        }
+                    }
+                });
+        return isadmin;
+            
+            
+            //var found = $filter('filter')($projekty.items, {
+              //  idProjekt: projekt
+            //}, true);
+            //if (found[0].idUser == $scope.user.idUser) {
+            //    return true;
+            //} else {
+           //     return false;
+            //}
         }
 
         $scope.goToDashboard = function () {
@@ -1013,12 +1052,22 @@ $scope.reloadProjectsGlobal();
         }
 
         $scope.addProject = function () {
+             var iteratorTerminow=0;
+            var terminyIlosc=$('.pojedynczyTermin').length;
+            window.console && console.log('ilosc terminow:' +terminyIlosc);
             var nazwa = $('#nazwaProjektu').val();
             if (nazwa == '') {
                 ons.notification.alert({
                     message: 'Musisz podać nazwę projektu'
                 });
-            } else {
+            } 
+            else if(terminyIlosc==0) {
+                ons.notification.alert({
+                    message: 'Musisz dodać minimum jeden termin'
+                });
+            }
+           
+            else {
                 $scope.items = $projekty.items;
                 var today = new Date();
                 var dd = today.getDate();
@@ -1027,6 +1076,7 @@ $scope.reloadProjectsGlobal();
                 var gg = today.getHours();
                 var min = today.getMinutes();
                 var orderKey = orderKeyGen(dd, mm, yyyy, gg, min, 0);
+                window.console && console.log('orderKeyToday:'+orderKey);
                 if (dd < 10) {
                     dd = '0' + dd
                 }
@@ -1085,6 +1135,7 @@ $scope.reloadProjectsGlobal();
                     cache: false,
                     beforeSend: function () {},
                     success: function (data) {
+                        window.console && console.log('dodano zadanie');
                         var projektID = data;
 
                         $scope.addLogElement(projektID, $scope.user.idUser, 'rozpoczecieProjektu', '', $scope.user.imienazwisko, $scope.user.avatar, today, 0);
@@ -1149,7 +1200,7 @@ $scope.reloadProjectsGlobal();
                             $scope.$apply();
                         }
                         var index = $scope.items.length;
-                        var selectedItem = $projekty.items[index - 1];
+                        selectedItem = $projekty.items[index - 1];
 
                         $('.pojedynczyTermin').each(function (x) {
 
@@ -1157,13 +1208,14 @@ $scope.reloadProjectsGlobal();
 
 
                             var dataTermin = $(this).find('input[type="datetime-local"]').val();
+                            console.log(dataTermin);
                             dd = dataTermin.substring(8, 10);
                             mm = dataTermin.substring(5, 7);
                             yyyy = dataTermin.substring(0, 4);
                             gg = dataTermin.substring(11, 13);
                             min = dataTermin.substring(14, 16);
                             dataTermin = dd + '.' + mm + '.' + yyyy + ' ' + gg + ':' + min;
-                            orderKey = orderKeyGen(dd, mm, yyyy, gg, min, 9);
+                            var orderKey2 = orderKeyGen(dd, mm, yyyy, gg, min, 9);
                             var nazwaTermin = $(this).find('input[type="text"]').val();
 
 
@@ -1173,7 +1225,7 @@ $scope.reloadProjectsGlobal();
                                 url: url,
                                 data: {
                                     idProjekt: projektID,
-                                    orderKey: orderKey,
+                                    orderKey: orderKey2,
                                     mileStoneNaglowek: 'Milestone ' + (x + 1),
                                     data: dataTermin,
                                     nazwa: nazwaTermin,
@@ -1198,7 +1250,7 @@ $scope.reloadProjectsGlobal();
                                             dataDzien: dd,
                                             dataMiesiac: mm,
                                             dataGodzina: gg + ':' + min,
-                                            orderKey: orderKey,
+                                            orderKey: orderKey2,
                                             basicItem: 'none',
                                             milestone: 'block',
                                             mileStoneNaglowek: 'Milestone ' + (x + 1),
@@ -1234,7 +1286,7 @@ $scope.reloadProjectsGlobal();
                                             var zadanie = {
                                                 idZadania: idZadania,
                                                 idTerminu: idTerminu,
-                                                orderKey: orderKey,
+                                                orderKey: orderKey2,
                                                 basicItem: 'none',
                                                 milestone: 'block',
                                                 mileStoneNaglowek: 'Milestone ' + (x + 1),
@@ -1246,7 +1298,7 @@ $scope.reloadProjectsGlobal();
                                             }
                                             var termin = {
                                                 idTerminu: idTerminu,
-                                                orderKey: orderKey,
+                                                orderKey: orderKey2,
                                                 mileStoneNaglowek: 'Milestone ' + (x + 1),
                                                 data: dataTermin,
                                                 nazwa: nazwaTermin
@@ -1254,11 +1306,13 @@ $scope.reloadProjectsGlobal();
                                             $projekty.items[index - 1].zadania.push(zadanie);
                                             $projekty.items[index - 1].terminy.push(termin);
 
+                                            
+                                            iteratorTerminow++;
+                                            if(iteratorTerminow==terminyIlosc){
                                             $projekty.selectedItem = selectedItem;
-
-                                            $scope.navi.pushPage('procjectview.html', {
-                                                title: selectedItem.tytul
-                                            });
+                                            $scope.reloadUserDataGoToProject();
+                                            }
+                                            
                                         }
                                     });
                                 }
