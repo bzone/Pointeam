@@ -8,7 +8,7 @@
     <preference name="orientation" value="portrait" />
     <preference name="target-device" value="handset" />
     <preference name="deployment-target" value="9.0" />
-    <preference name="fullscreen" value="true" />
+    <preference name="fullscreen" value="false" />
     <preference name="webviewbounce" value="true" />
     <preference name="prerendered-icon" value="true" />
     <preference name="stay-in-webview" value="false" />
@@ -63,6 +63,7 @@
     <gap:splash gap:platform="android" gap:qualifier="port-xhdpi" src="www/res/screen/android/screen-xhdpi-portrait.png" />
     <gap:splash gap:platform="blackberry" src="www/res/screen/blackberry/screen-225.png" />
     <gap:splash gap:platform="winphone" src="www/res/screen/windows-phone/screen-portrait.jpg" />
+    <gap:splash src="splash.png" />
     <icon gap:platform="ios" height="60" src="www/res/icon/ios/icon-60.png" width="60" />
     <icon gap:platform="ios" height="120" src="www/res/icon/ios/icon-60@2x.png" width="120" />
     <icon gap:platform="ios" height="180" src="www/res/icon/ios/icon-60@3x.png" width="180" />
@@ -75,7 +76,7 @@
     <splash height="1136" platform="ios" src="www/res/screen/ios/Default-568h-2x.png" width="640" />
     <splash height="1334" platform="ios" src="www/res/screen/ios/Default-667h@2x.png" width="750" />
     <splash height="2208" platform="ios" src="www/res/screen/ios/Default-Portrait-736h@3x.png" width="1242" />
-<!--    <gap:config-file overwrite="true" parent="UILaunchImages" platform="ios">
+    <gap:config-file overwrite="true" parent="UILaunchImages" platform="ios">
         <array>
             <dict>
                 <key>UILaunchImageMinimumOSVersion</key>
@@ -118,7 +119,7 @@
                 <string>{414, 736}</string>
             </dict>
         </array>
-    </gap:config-file> -->
+    </gap:config-file> 
     <access origin="*" />
     <plugin name="cordova-plugin-whitelist" version="1" />
     <allow-navigation href="http://*/*" />
