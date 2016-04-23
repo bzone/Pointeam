@@ -1261,7 +1261,8 @@
                     budzetPieniezny = 'tak';
                     budzetPienieznyWartosc = $('#wartoscBudzetPieniadze select').val();
                 }
-
+window.console && console.log('budzetPienieznyWartosc: '+budzetPienieznyWartosc);
+                window.console && console.log('budzetGodzinowyWartosc: '+budzetGodzinowyWartosc);
                 var krotki = nazwa.substring(0, 15) + '...';
                 $.ajax({
                     type: "POST",

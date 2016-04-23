@@ -141,6 +141,8 @@ span.logo {
     display: block;
     float: left;
     background-color: rgba(0, 0, 0, 0.2);
+    background-size: cover;
+    background-position: center center;
 }
 
 .relativeBox .ownerInfo {
@@ -197,6 +199,7 @@ span.logo {
     display: inline-block;
     background-color: rgba(0, 0, 0, 0.2);
     background-size: cover;
+    background-position: center center;
 }
 
 .projectFooter .projectPeople .person .badge {

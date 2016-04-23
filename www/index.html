@@ -204,7 +204,7 @@
                     </ons-toolbar-button>
                 </div>
             </ons-toolbar>
-            <ons-carousel swipeable overscrollable auto-scroll auto-refresh fullscreen var="carousel"  class="tabDashboard" style="overflow:hidden; height:0px;">
+            <ons-carousel swipeable overscrollable auto-scroll auto-refresh fullscreen var="carousel"  class="tabDashboard" style="overflow:hidden; height:0px;"  ng-controller="MasterController">
                 <ons-carousel-item style="background-color: #32188f;" class="item" ng-repeat="item in items" ng-click="showDetail($index)">
                     <div class="relativeBox">
                         <div class="ownerInfo">
