@@ -1710,7 +1710,7 @@ window.console && console.log('budzetPienieznyWartosc: '+budzetPienieznyWartosc)
                 var distance = getDistanceFromLatLonInKm(currentLocationLat, currentLocationLong, tmpLat, tmpLong);
                 //alert(distance);
 
-                if (distance < 0.3) {
+                if (distance < 0.5) {
 
                     var today = new Date();
                     var dd = today.getDate();
@@ -1857,7 +1857,16 @@ window.console && console.log('budzetPienieznyWartosc: '+budzetPienieznyWartosc)
                 });
                 $scope.$root.$broadcast("updateTerms");
             } else {
-                alert($scope.lang.location_check);
+             
+                
+                ons.notification.alert({
+                                message: $scope.lang.location_check,
+                                title: 'GPS',
+                                buttonLabel: 'OK',
+                                animation: 'default',
+                                callback: function () {}
+                            });
+                
                 var options = {};
                 tmpLocation = $scope.item.latLngPosition;
                 navigator.geolocation.getCurrentPosition(onSuccess, null, options);
@@ -2259,7 +2268,7 @@ window.console && console.log('budzetPienieznyWartosc: '+budzetPienieznyWartosc)
                         var error = false;
                         angular.forEach($scope.item.rezerwacje, function (rezerwacja, index) {
                             0
-                            alert(rezerwacja.idRezerwacji);
+                            //alert(rezerwacja.idRezerwacji);
                             if (orderKey >= rezerwacja.odOrder && orderKey <= rezerwacja.doOrder) {
                                 error = true;
                             }
